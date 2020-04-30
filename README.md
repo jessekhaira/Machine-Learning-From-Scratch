@@ -14,7 +14,7 @@ $ python setup.py install
 ## Implementations 
 ### Supervised Learning 
 Base Classes:
-1. K-NN (../blob/master/LICENSE)
+1. [K-NN](../blob/master/LICENSE)
 2. Neural Net Base (../blob/master/LICENSE)
 3. Decision Tree
 4. Bagged Forest
