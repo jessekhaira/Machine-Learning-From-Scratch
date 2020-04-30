@@ -30,6 +30,7 @@ Supervised ML:
 - Ridge Regression
 - Lasso Regression
 2. [Logistic Regression & One V All Logistic Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/Logistic_Regression.py)
+
 3. kNN
 - [k-NN classifier](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/kNN_classifier.py)
 
