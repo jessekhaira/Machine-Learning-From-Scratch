@@ -5,7 +5,9 @@ This project implements a variety of machine learning algorithms in both classic
 and deep learning in python using only the NumPy framework. 
 
 ## Installation 
-
+$ git clone https://github.com/eriklindernoren/ML-From-Scratch
+$ cd ML-From-Scratch
+$ python setup.py install
 
 ## Implementations 
 ### Supervised Learning 
