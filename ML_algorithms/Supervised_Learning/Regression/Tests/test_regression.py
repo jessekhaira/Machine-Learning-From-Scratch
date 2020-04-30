@@ -1,23 +1,16 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Regression")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from Linear_Regression import LinearRegression
-from Linear_Regression import LassoRegression
-from Linear_Regression import RidgeRegression
+from ML_algorithms.Supervised_Learning.Regression.Linear_Regression import LinearRegression
+from ML_algorithms.Supervised_Learning.Regression.Linear_Regression import LassoRegression
+from ML_algorithms.Supervised_Learning.Regression.Linear_Regression import RidgeRegression
 import unittest
 import numpy as np 
 import sklearn.datasets
-from ScoreFunctions import MSE
-from ScoreFunctions import MAE
-from ScoreFunctions import RMSE 
-from ScoreFunctions import R_squared
-from ScoreFunctions import R_SquaredAdj
+from ML_algorithms.Utility.ScoreFunctions import MSE, MAE, RMSE, R_squared, R_SquaredAdj
 import sklearn.metrics
 import sklearn.model_selection
 import sklearn.linear_model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from k_Fold_CV import k_fold_CV
+from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 
 
 ### ---  MANUAL TESTING W/ Step through Debugging --- ### 
@@ -38,9 +31,8 @@ y_valid = y_valid.T.reshape(1, -1)
 
 
 """
-The implementation seems to be fine. To sanity check the implementations, the regularization parameter
-was cranked up to 1000. With this level for the regularization parameter, we should
-see a couple things:
+To sanity check the implementations, the regularization parameter was cranked up to 1000. With this level for the 
+regularization parameter, we should see a couple things:
 
 - L1 regularization sets the weights for some features really low, other really high. This is why L1 regularization
 is said to be good for feature selection. The model can learn which features should be heavily weighted, and which

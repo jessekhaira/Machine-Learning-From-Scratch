@@ -1,8 +1,6 @@
 import numpy as np 
 import random
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from ScoreFunctions import MSE
+from ML_algorithms.Utility.ScoreFunctions import MSE
 from sklearn.metrics import log_loss
 
 def regularization_loss(layersOfWeights, typeReg):

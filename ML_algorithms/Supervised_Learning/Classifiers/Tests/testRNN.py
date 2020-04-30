@@ -1,20 +1,7 @@
-import sys
-import os 
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers/Tests")
-from RecurrentNet_languageModel import ReccurentNet_languageModelChar
-from misc import getUniqueChars
-from misc import mapidxToChar
-from misc import mapcharToIdx
-from ActivationFunctions import ReLU
-from ActivationFunctions import TanH
-from ActivationFunctions import Sigmoid
-from Optimizers import gradientDescentMomentum
-from Optimizers import Adam
-from Optimizers import RMSProp 
-from Optimizers import AdaGrad
+from ML_algorithms.Supervised_Learning.Classifiers.RecurrentNet_languageModel import ReccurentNet_languageModelChar
+from ML_algorithms.Utility.misc import getUniqueChars, mapcharToIdx, mapidxToChar
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU,TanH, Sigmoid
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, Adam, RMSProp, AdaGrad
 import unittest
 import numpy as np 
 

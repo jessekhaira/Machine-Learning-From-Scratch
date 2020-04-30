@@ -1,7 +1,4 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from Logistic_Regression import LogisticRegression
+from ML_algorithms.Supervised_Learning.Classifiers.Logistic_Regression import LogisticRegression
 import unittest
 import numpy as np 
 import sklearn
@@ -9,7 +6,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
-from ScoreFunctions import accuracy
+from ML_algorithms.Utility.ScoreFunctions import accuracy
 
 
 """

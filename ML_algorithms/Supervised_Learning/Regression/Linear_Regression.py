@@ -1,13 +1,12 @@
 import numpy as np 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-import numpy as np
-from NeuralNetwork_Base import NeuralNetwork_Base
-from LossFunctions import mean_squared_error
-from ActivationFunctions import IdentityActivation
+from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import IdentityActivation
 from itertools import combinations_with_replacement
-from Optimizers import gradientDescent
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
 from sklearn import preprocessing
+
+
 
 
 

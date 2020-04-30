@@ -1,21 +1,14 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from MultiLayerPerceptron import MultiLayerPerceptron
-from SoftmaxRegression import softmax_regression
-from ActivationFunctions import ReLU
-from ActivationFunctions import TanH
-from ActivationFunctions import Sigmoid
-from ActivationFunctions import Softmax
+from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import MultiLayerPerceptron
+from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, TanH, Sigmoid, Softmax
 import unittest
 import numpy as np 
 import sklearn
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer
-from ScoreFunctions import accuracy
-from misc import oneHotEncode
+from ML_algorithms.Utility.ScoreFunctions import accuracy
+from ML_algorithms.Utility.misc import oneHotEncode
 
 # Binary Classif Data that is easily linearaly separable - should expect some overfitting 
 # since the capacity of our model is much higher than needed 

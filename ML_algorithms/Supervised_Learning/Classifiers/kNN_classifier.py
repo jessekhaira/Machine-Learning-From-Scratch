@@ -1,7 +1,6 @@
 import numpy as np 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Base_Classes")
-from kNearestNeighbours_baseClass import kNearestNeighbours_base
+from  ML_algorithms.Supervised_Learning.Base_Classes.kNearestNeighbours_baseClass import kNearestNeighbours_base
+
 
 class k_Nearest_Neighbours(kNearestNeighbours_base):
     """

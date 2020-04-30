@@ -1,19 +1,14 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-from SoftmaxRegression import softmax_regression
-from Optimizers import Adam
-from Optimizers import RMSProp
+from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
+from ML_algorithms.Neural_Net_Util.Optimizers import Adam, RMSProp
 import unittest
 import numpy as np 
 import sklearn
-from ScoreFunctions import accuracy
+from ML_algorithms.Utility.ScoreFunctions import accuracy
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from misc import oneHotEncode
-from k_Fold_CV import k_fold_CV
+from ML_algorithms.Utility.misc import oneHotEncode
+from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 
 
 """

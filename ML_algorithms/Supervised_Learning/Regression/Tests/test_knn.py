@@ -1,13 +1,8 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Regression")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from kNN_regressor import k_Nearest_Neighbours
+from ML_algorithms.Supervised_Learning.Regression.kNN_regressor import k_Nearest_Neighbours
 import unittest
 import numpy as np 
 import sklearn.datasets
-from ScoreFunctions import MSE
-from ScoreFunctions import MAE
-from ScoreFunctions import RMSE 
+from ML_algorithms.Utility.ScoreFunctions import MSE, MAE, RMSE
 import sklearn.metrics
 import sklearn.model_selection
 

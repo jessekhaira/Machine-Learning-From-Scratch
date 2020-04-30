@@ -1,13 +1,9 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Regression")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from BaggedForestRegression import BaggedForestRegression
-from RandomForestRegressor import RandomForestRegressor
+from ML_algorithms.Supervised_Learning.Regression.BaggedForestRegression import BaggedForestRegression
+from ML_algorithms.Supervised_Learning.Regression.RandomForestRegressor import RandomForestRegressor
 import unittest
 import numpy as np 
 import sklearn
 from sklearn.datasets import load_boston
-
 
 X1, Y1 = load_boston(return_X_y=True)
 X1 = X1.T

@@ -1,15 +1,13 @@
 import numpy as np
-from NeuralNet_Layers import DenseLayer
-from NeuralNet_Layers import BatchNormLayer_Dense
-from ConvolutionalLayers import Conv2D
-from ConvolutionalLayers import Pool 
-from Optimizers import gradientDescent
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import BatchNormLayer_Dense
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool 
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
 import random 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from misc import convertToHighestPred
+from ML_algorithms.Utility.misc import convertToHighestPred
 import copy 
-from ScoreFunctions import accuracy
+from ML_algorithms.Utility.ScoreFunctions import accuracy
 
 class NeuralNetwork_Base(object):
     """

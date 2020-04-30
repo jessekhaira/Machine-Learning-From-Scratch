@@ -1,14 +1,8 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
 import numpy as np
-from NeuralNetwork_Base import NeuralNetwork_Base
-from LossFunctions import negative_log_loss
-from ActivationFunctions import Sigmoid
-from LossFunctions import negative_log_loss
-from LossFunctions import cross_entropy
-from LossFunctions import mean_squared_error
-from ConvolutionalLayers import Conv2D
-from ConvolutionalLayers import Pool
+from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
+from ML_algorithms.Neural_Net_Util.LossFunctions import negative_log_loss, cross_entropy, mean_squared_error
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D, Pool
 import copy 
 
 class ConvolutionalNeuralNetwork(NeuralNetwork_Base):

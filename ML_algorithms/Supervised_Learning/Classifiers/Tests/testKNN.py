@@ -1,11 +1,8 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from kNN_classifier import k_Nearest_Neighbours
+from ML_algorithms.Supervised_Learning.Classifiers.kNN_classifier import k_Nearest_Neighbours
 import unittest
 import numpy as np 
 import tensorflow as tf
-from ScoreFunctions import accuracy
+from ML_algorithms.Utility.ScoreFunctions import accuracy
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 def reshapeX(x_train, x_test):

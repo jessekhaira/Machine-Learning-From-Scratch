@@ -1,13 +1,10 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
 import unittest
 import numpy as np 
-from DecisionTreeFunctions import entropy
-from DecisionTreeFunctions import entropyGain
-from DecisionTreeFunctions import TSS
-from DecisionTreeFunctions import varianceReduction 
-from DecisionTreeFunctions import giniIndex
+from ML_algorithms.Utility.DecisionTreeFunctions import entropy
+from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain
+from ML_algorithms.Utility.DecisionTreeFunctions import TSS
+from ML_algorithms.Utility.DecisionTreeFunctions import varianceReduction 
+from ML_algorithms.Utility.DecisionTreeFunctions import giniIndex
 
 class tests(unittest.TestCase):
     """

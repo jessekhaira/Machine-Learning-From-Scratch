@@ -1,24 +1,15 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from MultiLayerPerceptron import MultiLayerPerceptron
-from NeuralNet_Layers import DenseLayer
-from SoftmaxRegression import softmax_regression
-from ConvolutionalLayers import Conv2D 
-from ConvolutionalLayers import Pool
-from ConvolutionalNeuralNet import ConvolutionalNeuralNetwork
-from ActivationFunctions import ReLU
-from ActivationFunctions import TanH
-from ActivationFunctions import Sigmoid
-from ActivationFunctions import Softmax
-from Optimizers import gradientDescentMomentum
-from Optimizers import Adam
-from Optimizers import RMSProp 
+from ML_algorithms.Supervised_Learning.Classifiers import MultiLayerPerceptron
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
+from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D 
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool
+from ML_algorithms.Supervised_Learning.Classifiers.ConvolutionalNeuralNet import ConvolutionalNeuralNetwork
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, TanH, Sigmoid, Softmax
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, Adam, RMSProp, AdaGrad
 import unittest
 import numpy as np 
-from ScoreFunctions import accuracy
-from misc import oneHotEncode
+from ML_algorithms.Utility.ScoreFunctions import accuracy
+from ML_algorithms.Utility.misc import oneHotEncode
 import tensorflow as tf 
 
 
@@ -33,13 +24,13 @@ saved_y = y_train.reshape(1,-1)
 y_train = oneHotEncode(y_train.reshape(1,-1))
 y_test = oneHotEncode(y_test.reshape(1,-1))
 
-
 x_miniTrain = x_train[:1000,:,:].reshape(1000,1,28,28)
 y_miniTrain = y_train[:,:1000]
 x_miniValid = x_train[:1000,:,:].reshape(1000,1,28,28)
 y_miniValid =  y_train[:,1000:2000]
 
-print(type(Conv2D))
+x_train = x_train.reshape(60000,1,28,28)
+x_test = x_test.reshape(10000,1,28,28)
 
 obj1 = ConvolutionalNeuralNetwork(typeSupervised="multiclass", inputDepth=1)
 
@@ -117,13 +108,10 @@ class testConvNet_Mnist(unittest.TestCase):
         # versus every single neuron. Doesn't make a huge difference, just need to train for way longer. 
 
     def testFullNet(self):
-        # train the full net - achieves great performance when allowed to train for a large number of epochs with a small learning rate
-        # downside - takes an exceptionally long time to finish training, which is why its worth it to verify that conv layer + softmax layer and then
-        # a conv layer + avg pool/max pool + softmax classifier can overfit to a small batch first which ensures that the forward prop and back prop equations are
-        # wired properly. Deeper nets are then just stacks of these layers one after the other like obj1 is. 
-        train_loss, train_acc = obj1.fit(x_train, y_train, num_epochs=40000, ret_train_loss= True, verbose=True, learn_rate=0.1, batch_size=128, optim=gradientDescentMomentum())
+        # train the full net on 60k images - takes a long time to train but gets great performance! 
+        train_loss, train_acc = obj1.fit(x_train, y_train, xvalid=x_test, yvalid=y_test, num_epochs=150, ret_train_loss= True, verbose=True, learn_rate=0.01, batch_size=128, optim=AdaGrad())
 
- 
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,15 +1,9 @@
 import numpy as np 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Regression")
-from RegressionTree import RegressionTree
-from ClassificationTree import ClassificationTree
-from DecisionTreeFunctions import predictionClassification
-from DecisionTreeFunctions import predictionRegression
-from ScoreFunctions import MSE
-from ScoreFunctions import RMSE
-from ScoreFunctions import accuracy
+from ML_algorithms.Supervised_Learning.Regression.RegressionTree import RegressionTree
+from ML_algorithms.Supervised_Learning.Classifiers.ClassificationTree import ClassificationTree
+from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification
+from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
+from ML_algorithms.Utility.ScoreFunctions import MSE, RMSE,  accuracy
 
 class BaggedForest(object):
     """

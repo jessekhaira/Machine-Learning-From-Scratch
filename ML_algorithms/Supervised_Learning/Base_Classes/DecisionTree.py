@@ -189,7 +189,7 @@ class BaseDecisionTree(object):
             return xtrainL, ytrainL, xtrainR, ytrainR 
 
 
-    def _findBestFeature(self, features, ytrain, featuresChosen):
+    def _findBestFeature(self, features, ytrain, featuresChosen = None):
         """
         This method finds the feature + split pt pair that produces the overall highest gain at the current node in the
         decision tree. 

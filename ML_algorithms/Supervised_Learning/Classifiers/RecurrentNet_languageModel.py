@@ -1,16 +1,13 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
 import numpy as np
-from RecurrentNetLayers import RNN_cell_languageModel
-from NeuralNetwork_Base import NeuralNetwork_Base
-from ActivationFunctions import TanH
-from LossFunctions import cross_entropy
-from ConvolutionalLayers import Conv2D
-from ConvolutionalLayers import Pool
-from Optimizers import gradientDescent
-from Optimizers import AdaGrad
-from misc import oneHotEncodeFeature
+from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
+from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import TanH
+from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
+from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
+from ML_algorithms.Utility.misc import oneHotEncodeFeature
 import copy 
 
 class ReccurentNet_languageModelChar(object):

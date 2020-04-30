@@ -1,15 +1,13 @@
 import numpy as np 
 import random 
-from NeuralNet_Layers import _BaseLayer
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import _BaseLayer
 import math 
-import sys 
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from misc import gradientClipping
-from misc import oneHotEncodeFeature
-from misc import convertToHighestPred
-from ActivationFunctions import Softmax
-from LossFunctions import cross_entropy
-from Optimizers import AdaGrad
+from ML_algorithms.Utility.misc import gradientClipping
+from ML_algorithms.Utility.misc import oneHotEncodeFeature
+from ML_algorithms.Utility.misc import convertToHighestPred
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax
+from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
+from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
 
 class RNN_cell_languageModel(_BaseLayer):
     """

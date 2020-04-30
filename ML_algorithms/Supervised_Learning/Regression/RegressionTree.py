@@ -1,10 +1,7 @@
 import numpy as np 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Base_Classes")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from DecisionTree import BaseDecisionTree
-from DecisionTreeFunctions import predictionRegression
-from DecisionTreeFunctions import varianceReduction
+from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
+from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
+from ML_algorithms.Utility.DecisionTreeFunctions import varianceReduction
 
 class RegressionTree(BaseDecisionTree):
     """

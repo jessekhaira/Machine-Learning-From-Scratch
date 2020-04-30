@@ -1,11 +1,7 @@
 import numpy as np
 import unittest 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-from ConvolutionalLayers import Conv2D
-from ConvolutionalLayers import Pool
-from ActivationFunctions import ReLU
-from ActivationFunctions import IdentityActivation
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D, Pool
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, IdentityActivation
 
 
 

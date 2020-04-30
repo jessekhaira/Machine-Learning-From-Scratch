@@ -1,8 +1,6 @@
 import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from BaggedForestClassifier import BaggedForestClassifier
-from RandomForestClassifier import RandomForestClassifier
+from ML_algorithms.Supervised_Learning.Classifiers.BaggedForestClassifier import BaggedForestClassifier
+from ML_algorithms.Supervised_Learning.Classifiers.RandomForestClassifier import RandomForestClassifier
 import unittest
 import numpy as np 
 import sklearn

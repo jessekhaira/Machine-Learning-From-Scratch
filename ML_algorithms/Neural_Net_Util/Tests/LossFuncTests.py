@@ -1,8 +1,6 @@
 import numpy as np
 import unittest 
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-from LossFunctions import cross_entropy
+from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
 
 class testLossFunc(unittest.TestCase):
     def testCrossEntropy(self):

@@ -1,9 +1,7 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
 import numpy as np
-from NeuralNetwork_Base import NeuralNetwork_Base
-from LossFunctions import cross_entropy
-from ActivationFunctions import Softmax
+from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax
 import copy 
 
 

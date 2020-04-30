@@ -1,6 +1,5 @@
 import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Base_Classes")
-from BaggedForest import BaggedForest
+from ML_algorithms.Supervised_Learning.Base_Classes.BaggedForest import BaggedForest
 
 class BaggedForestClassifier(BaggedForest):
     """

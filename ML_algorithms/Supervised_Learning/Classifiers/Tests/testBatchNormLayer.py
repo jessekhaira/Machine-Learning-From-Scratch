@@ -1,21 +1,12 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Neural_Net_Util")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from MultiLayerPerceptron import MultiLayerPerceptron
-from NeuralNet_Layers import BatchNormLayer_Dense
-from SoftmaxRegression import softmax_regression
-from ActivationFunctions import ReLU
-from ActivationFunctions import TanH
-from ActivationFunctions import Sigmoid
-from ActivationFunctions import Softmax
-from Optimizers import gradientDescentMomentum
-from Optimizers import Adam
-from Optimizers import RMSProp 
+from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import MultiLayerPerceptron
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import BatchNormLayer_Dense
+from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import TanH,Sigmoid,Softmax,ReLU
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, Adam, RMSProp
 import unittest
 import numpy as np 
-from ScoreFunctions import accuracy
-from misc import oneHotEncode
+from ML_algorithms.Utility.ScoreFunctions import accuracy
+from ML_algorithms.Utility.misc import oneHotEncode
 import tensorflow as tf 
 import unittest
 

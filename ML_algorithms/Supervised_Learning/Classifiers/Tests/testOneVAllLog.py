@@ -1,7 +1,4 @@
-import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
-from Logistic_Regression import OneVsAllLogisticRegression
+from ML_algorithms.Supervised_Learning.Classifiers.Logistic_Regression import OneVsAllLogisticRegression
 import unittest
 import numpy as np 
 import sklearn
@@ -9,8 +6,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
-from ScoreFunctions import accuracy
-from k_Fold_CV import k_fold_CV
+from ML_algorithms.Utility.ScoreFunctions import accuracy
+from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 from sklearn.model_selection import cross_val_score
 
 ##-- MANUAL TEST W/ Step through debugging----
