@@ -31,7 +31,7 @@ Supervised ML:
 8. Recurrent Neural Net
 9. MultiLayer Perceptron
 
-Unsupervised ML:
+###Unsupervised ML:
 1. k-Means
 2. Prinicpal Component Analysis
 3. Autoencoder 
