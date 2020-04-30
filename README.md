@@ -2,7 +2,7 @@
 
 ## Description
 This project implements a variety of machine learning algorithms in both classic statistical machine learning
-and deep learning in python and NumPy.
+and deep learning in python using only the NumPy framework. 
 
 ## Installation 
 
