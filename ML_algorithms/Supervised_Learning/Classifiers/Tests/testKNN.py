@@ -1,9 +1,11 @@
 import sys
 sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers")
-from kNN import k_Nearest_Neighbours
+sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Utility")
+from kNN_classifier import k_Nearest_Neighbours
 import unittest
 import numpy as np 
 import tensorflow as tf
+from ScoreFunctions import accuracy
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 def reshapeX(x_train, x_test):
@@ -34,9 +36,9 @@ class tests(unittest.TestCase):
         #object should be able to get >= 20% percent accuracy on CIFAR-10 with k = 10 
         test_obj = k_Nearest_Neighbours()
         test_obj.fit(x1_train, y_train)
-        prediction_test = test_obj.predict(x1_test[:500])
-        self.assertEqual(prediction_test.shape, y_test.shape)
-        acc = np.mean(y_test == prediction_test)*100
+        prediction_test = test_obj.predict(x1_test[:200])
+        acc = accuracy(y_test, prediction_test)
+        self.assertEqual(prediction_test.shape, y_test[:200].shape)
         self.assertGreaterEqual(acc, 20)
 
 

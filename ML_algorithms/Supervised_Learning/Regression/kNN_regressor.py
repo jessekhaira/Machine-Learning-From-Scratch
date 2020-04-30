@@ -1,13 +1,12 @@
-from collections import Counter
 import numpy as np 
 import sys
-sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Utils")
+sys.path.append("/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Base_Classes")
 from kNearestNeighbours_baseClass import kNearestNeighbours_base
 
 class k_Nearest_Neighbours(kNearestNeighbours_base):
     """
     This is a minimal implementation of the nonparametric supervised
-    machine learning algorithm called kNN, used for classification. 
+    machine learning algorithm called kNN, for regression. 
 
     Params:
 
@@ -16,6 +15,9 @@ class k_Nearest_Neighbours(kNearestNeighbours_base):
 
     similarity_metric -> Metric to use to determine the similarity between 
     different vectors. Default is euclidean distance (L2 distance).
+
+    verbose -> Boolean value that determines whether or not to provide updates
+    when the model is predicting on new examples.   
     """
     def __init__(self, k = 10, similarity_metric = "L2", verbose = True):
         #Allow either L2 distance or L1 distance to be used
@@ -23,13 +25,12 @@ class k_Nearest_Neighbours(kNearestNeighbours_base):
 
     def _getPrediction(self, k_closest):
         """
-        This method returns an integer describing the label of the current vector.
+        This method returns a float for the numeric label of the current vector.
 
         Input:
         k_closest (NumPy matrix) -> Matrix of shape (K, 2) containing the K closest vectors
         with their corresponding labels 
 
-        Output (int) -> label of the vector 
+        Output (float) -> label of the vector 
         """
-        unique, counts = np.unique(k_closest, return_counts=True)
-        return unique[np.argmax(counts)]
+        return np.mean(k_closest)

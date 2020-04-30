@@ -11,6 +11,9 @@ class kNearestNeighbours_base(object):
 
     similarity_metric -> Metric to use to determine the similarity between 
     different vectors. Default is euclidean distance (L2 distance).
+
+    verbose -> Boolean value that determines whether or not to provide updates
+    when the model is predicting on new examples.   
     """
     def __init__(self, k=10, similarity_metric="L2", verbose = True):
         #Allow either L2 distance or L1 distance to be used
@@ -36,7 +39,7 @@ class kNearestNeighbours_base(object):
         """
         # kNN just memorizes the data - the model we are "learning" is the data.
         # no need to train parameters. This is called lazy learning. 
-        assert x_train.shape[0] == y_train.shape[0]
+        assert x_train.shape[0] == y_train.shape[0], print("x shape is (%s,%s) and y shape is (%s, %s)" %(x_train.shape[0], x_train.shape[1], y_train.shape[0], y_train.shape[1]))
         self.modelX = x_train
         self.modelY = y_train
 
