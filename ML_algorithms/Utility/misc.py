@@ -19,6 +19,9 @@ def convertToHighestPred(arr):
     arr = np.argmax(arr, axis=0)
     return arr
 
+def euclideanDistance(x, y):
+    # euclidean distance is the l2 norm of the vector x- y 
+    return np.linalg.norm(x-y, ord=2)
 
 def findRowColMaxElem(tensor):
     idxs = np.unravel_index(np.nanargmax(tensor), tensor.shape)
@@ -28,7 +31,6 @@ def findRowColMaxElem(tensor):
 def gradientClipping(dparams):
     for gradient_tensor in dparams:
         np.clip(gradient_tensor, -5,5, out = gradient_tensor)
-    
 
 def getUniqueChars(txtFile):
     return list(set(txtFile))
@@ -38,4 +40,12 @@ def mapidxToChar(chars):
 
 def mapcharToIdx(chars):
     return {char:idx for idx,char in enumerate(chars)}
+
+def getCovarianceMatrix(matrix):
+    mean_features = np.mean(matrix, axis=1, keepdims=True)
+    # vectorize operation to get covariance matrix - don't want to do an expensive python for loop
+    num_examples = matrix.shape[1]
+    return 1/(num_examples-1) * (matrix-mean_features).dot((matrix-mean_features).T)
+
+
 
