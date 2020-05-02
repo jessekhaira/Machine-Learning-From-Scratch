@@ -9,6 +9,7 @@ from ML_algorithms.Utility.misc import convertToHighestPred
 import copy 
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 
+    
 class NeuralNetwork_Base(object):
     """
     This is a fully-connected Neural Network class, which can be used
@@ -147,7 +148,8 @@ class NeuralNetwork_Base(object):
         elif ret_train_loss:
             return train_loss, train_acc
     
-    def predict(self, X):
+
+    def predict(self, X, supervised = True):
         """
         This method is used to use the neural network to predict on instances it has not trained on.
 
@@ -159,7 +161,7 @@ class NeuralNetwork_Base(object):
         """
         output = self._forward_propagate(X, train = False)
         # if more than one class, then compute the highest value as the prediction 
-        if output.shape[0] > 1:
+        if output.shape[0] > 1 and supervised:
             output = convertToHighestPred(output)
         return output 
 

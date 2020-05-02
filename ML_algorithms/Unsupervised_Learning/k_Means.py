@@ -86,18 +86,3 @@ class k_Means(object):
         for i in range(num_clusters):
             idx_vector = np.random.choice(data.shape[1])
             self.clusterCentroids[:,i] = data[:,idx_vector]
-        
-        
-
-
-
-
-
-
-
-
-
-        
-
-
-        

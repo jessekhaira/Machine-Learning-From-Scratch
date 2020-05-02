@@ -46,7 +46,7 @@ class DenseLayer(_BaseLayer):
     - Ain (NumPy matrix) -> A (num_layer-1, M) NumPy matrix of activated neurons coming as input to 
     this layer
     """
-    def __init__(self, num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax = 0, keepProb = None):
+    def __init__(self, num_in, num_layer, activationFunction, regularization = None, regParameter = None, isSoftmax = 0, keepProb = None):
         self.num_in = num_in
         self.num_layer = num_layer
         self.W, self.b = self._initializeWeights(self.num_layer, self.num_in)
@@ -233,7 +233,7 @@ def dLdZ_sm(Z, A, dLdA, activFunc, efficient = 0):
         
 
 class BatchNormLayer_Dense(DenseLayer):
-    def __init__(self, num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax = 0, p = None):
+    def __init__(self, num_in, num_layer, activationFunction, regularization = None, regParameter = None, isSoftmax = 0, p = None):
         super(BatchNormLayer_Dense, self).__init__(num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax)
         # these are learnable parameters 
         self.gamma, self.beta = self._initializeGammaBeta()
@@ -300,7 +300,7 @@ class BatchNormLayer_Dense(DenseLayer):
         Z = np.dot(self.W, prevlayer_activations) + self.b
         # Vectorize operation - elementwise subtraction, then elementwise division
         # where Z is a (N,M) matrix and running mean and running variance are (N,1) vectors
-        normalized_Z = (Z-self.runningMean)/(self.runningVar)
+        normalized_Z = (Z-self.runningMean)/(np.sqrt(self.runningVar+self.eps))
         # multiply by learnable parameter gamma and add beta
         z_final = self.gamma*normalized_Z + self.beta 
         return self.activationFunction.compute_output(z_final)
@@ -387,7 +387,7 @@ class BatchNormLayer_Dense(DenseLayer):
     
 
 class DropOutLayer_Dense(DenseLayer):
-    def __init__(self, num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax = 0, keepProb = 0.5):
+    def __init__(self, num_in, num_layer, activationFunction, regularization = None, regParameter = None, isSoftmax = 0, keepProb = 0.5):
         super(DropOutLayer_Dense, self).__init__(num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax)
         self.keepProb = keepProb
         # if keep prob is 1, then every value in matrix will be less than 1, and thus be True and so every

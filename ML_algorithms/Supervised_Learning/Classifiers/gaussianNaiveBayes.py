@@ -1,0 +1,2 @@
+class gaussianNaiveBayes(object):
+    pass 
