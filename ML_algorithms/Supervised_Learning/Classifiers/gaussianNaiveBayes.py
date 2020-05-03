@@ -42,9 +42,20 @@ class gaussianNaiveBayes(baseNaiveBayes):
         self.PX_Y_std = None 
 
     def fit(self, xtrain, ytrain):
-        # fitting is fast - no need to carry out expensive optimization
-        # because we aren't trying to find coefficients. Just calculate
-        # the probabilities and store them to the disk 
+        """
+        This method trains the classifier on the dataset. Fitting is fast fitting is fast -  as there is no need 
+        to carry out expensive optimization because we aren't trying to find coefficients.
+
+        The fitting procedure is just computing P(Y) for the class labels, and then P(X|Y) for all the class labels,
+        and storing them.
+
+        Parameters:
+        -> xtrain (NumPy matrix): Matrix of shape (features, examples)
+        -> ytrain (NumPy vector): Vector of shape (1, examples)
+
+        Returns:
+        -> None 
+        """
         self.Y, self.classProbabilites = self._getProbClasses(ytrain)
         self._getProbPX_Y(xtrain, ytrain)
 
