@@ -19,6 +19,7 @@ class Deep_Autoencoder(NeuralNetwork_Base):
     inputs from the low dimensional encoding.
 
     Parameters:
+    -> size_encoding (int): Integer representing the size of the encoding the autoencoder will encode to. 
     """
     def __init__(self, size_encoding):
         self.size_encoding = size_encoding
@@ -87,6 +88,18 @@ class Deep_Autoencoder(NeuralNetwork_Base):
 
 
     def imgs_checkpoints(self, epoch, X):
+        """
+        This method generates a batch of images from the autoencoder, plots them,
+        and saves the figure produced at various training checkpoints to assess how well 
+        the autoencoder is doing at reconstructing the inputs.
+        
+        Parameters:
+        -> epoch (int): The epoch at which the imgs are generated
+        -> X (NumPy matrix): Matrix of training examples
+        
+        Returns:
+        None
+        """
         # we are going to generate 9 images
         # and then plot 9 images on subplots 
         num_rows, num_cols = 3 ,3 
