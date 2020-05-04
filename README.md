@@ -1,4 +1,4 @@
-# MachineLearning_Scratch
+# Machine Learning with NumPy
 
 ## Description
 This project implements a variety of machine learning algorithms in both classic statistical machine learning
