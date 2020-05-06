@@ -2,3 +2,4 @@ venv/
 Jupyter_Prototyping/
 gradientCheck_logLoss.xlsx
 vscode/
+.ipynb_checkpoints
