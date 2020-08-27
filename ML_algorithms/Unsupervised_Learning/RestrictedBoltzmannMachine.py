@@ -1,0 +1,171 @@
+import numpy as np 
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
+import matplotlib.pyplot as plt 
+sigmoid = Sigmoid() 
+class RBM(object):
+    """
+    This class represents a bernoulli Restricted Boltzmann Machine (RBM). A RBM is a generative neural network
+    used to learn a probability distribution over its set of inputs. An RBM is restricted, meaning that
+    no nodes within the same layer are connected, but a node in a given layer is fully connected to every
+    node in an adjacent layer. These connections are symmetric between the hidden nodes and visible nodes. 
+    
+    RBMs have found applications in dimensionality reduction, collaborative filtering, classification, and many
+    other areas. 
+
+    Defaults are set as reccomended by: http://www.cs.toronto.edu/~hinton/absps/guideTR.pdf
+
+    Inputs:
+        -> n_visible (int): The number of features in a single example being fed into the net
+        -> n_hidden (int): The number of features being learned during training 
+        -> batch_size (int): The size of a mini-batch during training
+        -> n_epochs (int): Number of epochs to train for
+        -> ret_train (boolean): Return the errors while training and return images sampled during training 
+        -> seed (int): Random seed
+        -> is_img(bool): Boolean value indicating whether the RBM is being used for images for visualization purposes during training 
+        -> img_h (int): Int indicating height of image input, if image
+        -> img_w (int): Int indicating width of image input, if image
+        -> img_d (int): Int indicating depth of image input, if image
+    """
+
+    def __init__(self, n_visible, n_hidden = 128, learning_rate = 0.1, batch_size=100, n_epochs =100, ret_train = True, is_img= False, img_h = -1, img_w = -1, img_d = -1, seed = 9):
+        self.seed = seed 
+        self.w, self.b_v, self.b_h = self._initWeights(n_visible, n_hidden)
+        self.learning_rate = learning_rate
+        self.batch_size = batch_size
+        self.n_epochs = n_epochs
+        # optional but useful when inputs are images 
+        self.img_h = img_h
+        self.img_w = img_w
+        self.img_d = img_d
+        self.is_img = is_img 
+        self.ret_train = ret_train
+
+    def _initWeights(self, n_visible, n_hidden):
+        # initialize weights to small random values chosen from a zero-mean
+        # Gaussian distribution w/ std dev of 0.01 
+        np.random.seed(self.seed)
+        w = np.random.normal(0, 0.01, (n_visible, n_hidden))
+        # init biases to zeros 
+        b_v = np.zeros((1, n_visible))
+        b_h = np.zeros((1, n_hidden))
+        return w, b_v, b_h 
+
+    def _getReconstructError(self, real, reconstruct):
+        # avg squared error of real x and reconstructed x from the hidden units 
+        return np.mean((real-reconstruct)**2)
+
+    
+    def train(self, data, verbose = True, sampling_epochs=10):
+        """
+        This method is used to train the RBM on data of shape (M, n_visible), where
+        M is the number of examples in the dataset and n_visible is the number of features.
+
+        As this is a bernoulli RBM, the input values should be preprocessed to be between
+        0 and 1. 
+
+        Inputs:
+            -> data (NumPy Matrix): Matrix of shape (M,N) where M is the number of examples and N
+            is the number of features
+            -> verbose (boolean): Boolean indicating whether or not to provide updates during training
+            -> sampling_epochs (int): If verbose, the number of epochs to wait before producing 
+            sampled images and reconstruction errors
+        """
+        reconstruction_error = []
+        reconstructed_vectors = [] 
+
+        learn_rate = self.learning_rate
+        
+        # normal neural net training boilerplate code
+        
+        for epoch in range(self.n_epochs):
+            num_batches = data.shape[0]//self.n_epochs
+            batch_iterator = 0 
+            epoch_errors = [] 
+            for batch in range(num_batches):
+                x_orig = data[batch_iterator: batch_iterator+self.batch_size,:]
+                batch_iterator += self.batch_size
+
+                # Forward step
+                # hidden probabilities will be a (m, n_hid) matrix, where any value n_i,j
+                # describes the probability that this specific hidden neuron for this specific
+                # input will be activated and go towards 1 in the sampling step
+                hidden_probabilities = sigmoid.compute_output(x_orig.dot(self.w) + self.b_h)
+
+                # In the training guide, turning the hidden unit activations to either 0 or 1
+                # (IE: 1 bit) is described as a strong regularizer as the hidden units will be
+                # unable to communicate a real value to the visible units during reconstruction
+                sampled_h = self._sample(hidden_probabilities)
+
+                # but we use the real probabilites for the positive gradient 
+                pos_gradient = x_orig.T.dot(hidden_probabilities)
+
+                # Reconstruction -> using the same weight values, which is why this forms an undirected
+                # bipartite graph
+                x_reconstruct = sigmoid.compute_output(sampled_h.dot(self.w.T) + self.b_v) 
+                # sample binary values again -> this time for both gradient and for forward reconstruction
+                # said you don't need to do this at all - you can keep the probability instead of sampling
+                # a binary value 
+                x_reconstruct = self._sample(x_reconstruct)
+                h_reconstruct = sigmoid.compute_output(x_reconstruct.dot(self.w) + self.b_h)
+
+                # get negative gradient
+                neg_gradient = x_reconstruct.T.dot(h_reconstruct)
+
+                #update parameters for mini batch using stochastic gradient asccent 
+                self.w += self.learning_rate * (pos_gradient-neg_gradient)
+                self.b_h += self.learning_rate * (hidden_probabilities.sum(axis=0).reshape(1,-1) - h_reconstruct.sum(axis=0).reshape(1,-1))
+                self.b_v += self.learning_rate * (x_orig.sum(axis=0).reshape(1,-1) - x_reconstruct.sum(axis=0).reshape(1,-1))
+
+                # reconstruction error
+                epoch_errors.append(self._getReconstructError(x_orig, x_reconstruct))
+
+            # add avg epoch error
+            reconstruction_error.append(np.mean(epoch_errors))
+
+            # reconstruct a random vector  
+            # don't want the same idx every time so we change the seed and then sample
+            # then change it to default 
+            np.random.seed(epoch*150)
+            random_idx = np.random.randint(0, x_orig.shape[0])
+            np.random.seed(self.seed)
+            random_vector = data[random_idx,:]
+            reconstructed_vectors.append(self.reconstruct(random_vector))
+
+            if verbose and epoch % sampling_epochs == 0:
+                print('Reconstruction error at epoch %s is %s'%(epoch, reconstruction_error[-1]))
+                if self.is_img:
+                    self._showImgs(epoch, random_vector, reconstructed_vectors[-1])
+
+        if self.ret_train:
+            return reconstruction_error, reconstructed_vectors
+
+
+    def _showImgs(self, epoch, *args):
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 6))
+        for img, ax in zip(args, [ax1,ax2]):
+            img = img.reshape(self.img_h, self.img_w, self.img_d) if self.img_d != 1 else img.reshape(self.img_h, self.img_w)
+            ax.imshow(img)
+            ax.axis('off')
+
+        fig.savefig("Restricted Boltzmann Machine Imgs Epoch Num %s"%epoch)
+        plt.close()
+
+
+
+
+    def _sample(self, prob_matrix):
+        # from training guide - we want to make the hidden states binary 0 or 1
+        # So a hidden unit turns on if the probability is greater than a random number uniformly
+        # distributed between 0 and 1 
+        np.random.seed(self.seed)
+        return (prob_matrix > np.random.rand(*prob_matrix.shape)).astype(np.float64)
+
+    def reconstruct(self, x_orig):
+        hidden_probabilities = sigmoid.compute_output(x_orig.dot(self.w) + self.b_h)
+        sampled_h = self._sample(hidden_probabilities)
+        return sigmoid.compute_output(sampled_h.dot(self.w.T) + self.b_v) 
+
+
+
+
+        
