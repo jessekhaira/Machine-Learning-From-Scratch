@@ -11,7 +11,6 @@ x_train = np.array(x_train, dtype = float)
 # value in between 0 and 1 
 
 x_train /= 255 
-print(x_train.shape)
 # reshape to (m,n) -> RBMS accept batches of vectors w/ n_vis features, not images 
 # so we flatten each image to a vector and feed it into the RBM 
 x_train = x_train.reshape(60000, 784)
