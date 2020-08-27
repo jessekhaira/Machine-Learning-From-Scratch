@@ -1,7 +1,8 @@
 import numpy as np 
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
 import matplotlib.pyplot as plt 
-sigmoid = Sigmoid() 
+
+
 class RBM(object):
     """
     This class represents a bernoulli Restricted Boltzmann Machine (RBM). A RBM is a generative neural network
@@ -21,18 +22,23 @@ class RBM(object):
         -> n_epochs (int): Number of epochs to train for
         -> ret_train (boolean): Return the errors while training and return images sampled during training 
         -> seed (int): Random seed
+        -> k (int): Number of iterations to perform 
         -> is_img(bool): Boolean value indicating whether the RBM is being used for images for visualization purposes during training 
         -> img_h (int): Int indicating height of image input, if image
         -> img_w (int): Int indicating width of image input, if image
         -> img_d (int): Int indicating depth of image input, if image
     """
 
-    def __init__(self, n_visible, n_hidden = 128, learning_rate = 0.1, batch_size=100, n_epochs =100, ret_train = True, is_img= False, img_h = -1, img_w = -1, img_d = -1, seed = 9):
-        self.seed = seed 
+    def __init__(self, n_visible, n_hidden = 128, learning_rate = 0.1, batch_size=100, n_epochs =100, ret_train = True, k =1, weight_decay =0, is_img= False, img_h = -1, img_w = -1, img_d = -1, seed = 9):
+        np.random.seed(seed)
+        self.seed=seed 
         self.w, self.b_v, self.b_h = self._initWeights(n_visible, n_hidden)
         self.learning_rate = learning_rate
         self.batch_size = batch_size
         self.n_epochs = n_epochs
+        self.sigmoid = Sigmoid() 
+        self.weight_decay = weight_decay
+        self.k = k
         # optional but useful when inputs are images 
         self.img_h = img_h
         self.img_w = img_w
@@ -43,7 +49,6 @@ class RBM(object):
     def _initWeights(self, n_visible, n_hidden):
         # initialize weights to small random values chosen from a zero-mean
         # Gaussian distribution w/ std dev of 0.01 
-        np.random.seed(self.seed)
         w = np.random.normal(0, 0.01, (n_visible, n_hidden))
         # init biases to zeros 
         b_v = np.zeros((1, n_visible))
@@ -54,6 +59,21 @@ class RBM(object):
         # avg squared error of real x and reconstructed x from the hidden units 
         return np.mean((real-reconstruct)**2)
 
+    def v_to_h(self, vis):
+        hidden_probabilities = self.sigmoid.compute_output(vis.dot(self.w) + self.b_h)
+
+        # In the training guide, turning the hidden unit activations to either 0 or 1
+        # (IE: 1 bit) is described as a strong regularizer as the hidden units will be
+        # unable to communicate a real value to the visible units during reconstruction
+        sampled_h = self._sample(hidden_probabilities)
+
+        return hidden_probabilities, sampled_h
+
+    def h_to_v(self, sampled_h):
+        # assuming the visible units use the logistic function - use real-valued probabilities
+        # for both the data and the reconstructions 
+        x_reconstruct = self.sigmoid.compute_output(sampled_h.dot(self.w.T) + self.b_v) 
+        return x_reconstruct
     
     def train(self, data, verbose = True, sampling_epochs=10):
         """
@@ -85,36 +105,33 @@ class RBM(object):
                 x_orig = data[batch_iterator: batch_iterator+self.batch_size,:]
                 batch_iterator += self.batch_size
 
-                # Forward step
-                # hidden probabilities will be a (m, n_hid) matrix, where any value n_i,j
-                # describes the probability that this specific hidden neuron for this specific
-                # input will be activated and go towards 1 in the sampling step
-                hidden_probabilities = sigmoid.compute_output(x_orig.dot(self.w) + self.b_h)
-
-                # In the training guide, turning the hidden unit activations to either 0 or 1
-                # (IE: 1 bit) is described as a strong regularizer as the hidden units will be
-                # unable to communicate a real value to the visible units during reconstruction
-                sampled_h = self._sample(hidden_probabilities)
-
-                # but we use the real probabilites for the positive gradient 
+                hidden_probabilities, sampled_h = self.v_to_h(x_orig)
+                # use the real probabilites for the positive gradient 
                 pos_gradient = x_orig.T.dot(hidden_probabilities)
 
                 # Reconstruction -> using the same weight values, which is why this forms an undirected
-                # bipartite graph
-                x_reconstruct = sigmoid.compute_output(sampled_h.dot(self.w.T) + self.b_v) 
-                # sample binary values again -> this time for both gradient and for forward reconstruction
-                # said you don't need to do this at all - you can keep the probability instead of sampling
-                # a binary value 
-                x_reconstruct = self._sample(x_reconstruct)
-                h_reconstruct = sigmoid.compute_output(x_reconstruct.dot(self.w) + self.b_h)
+                # graph
 
+                # we do k steps of alternating gibbs sampling in order to get second term for weight update
+                # makes the RBM learn better
+                for i in range(self.k):
+                    # use sampled h with some activations turned to 0, others turned to 1 -> hidden neurons only communicating
+                    # one bit to visible neurons 
+                    x_reconstruct = self.h_to_v(sampled_h)
+                    h_reconstruct_prob, sampled_h = self.v_to_h(x_reconstruct)
+                
                 # get negative gradient
-                neg_gradient = x_reconstruct.T.dot(h_reconstruct)
+                neg_gradient = x_reconstruct.T.dot(h_reconstruct_prob)
 
-                #update parameters for mini batch using stochastic gradient asccent 
-                self.w += self.learning_rate * (pos_gradient-neg_gradient)
-                self.b_h += self.learning_rate * (hidden_probabilities.sum(axis=0).reshape(1,-1) - h_reconstruct.sum(axis=0).reshape(1,-1))
-                self.b_v += self.learning_rate * (x_orig.sum(axis=0).reshape(1,-1) - x_reconstruct.sum(axis=0).reshape(1,-1))
+                # update parameters for mini batch using stochastic gradient asccent 
+                # Paper says its helpful to divide total gradient computed on a mini-batch by the size
+                # of the mini-batch
+
+                #regularization term included in the gradient for the function, if reg penalty specified 
+                self.w += self.learning_rate/self.batch_size * (pos_gradient-neg_gradient-(2* self.weight_decay * self.w))
+                self.b_h += self.learning_rate/self.batch_size * (hidden_probabilities.sum(axis=0).reshape(1,-1) - h_reconstruct_prob.sum(axis=0).reshape(1,-1))
+                self.b_v += self.learning_rate/self.batch_size * (x_orig.sum(axis=0).reshape(1,-1) - x_reconstruct.sum(axis=0).reshape(1,-1))
+
 
                 # reconstruction error
                 epoch_errors.append(self._getReconstructError(x_orig, x_reconstruct))
@@ -157,13 +174,12 @@ class RBM(object):
         # from training guide - we want to make the hidden states binary 0 or 1
         # So a hidden unit turns on if the probability is greater than a random number uniformly
         # distributed between 0 and 1 
-        np.random.seed(self.seed)
         return (prob_matrix > np.random.rand(*prob_matrix.shape)).astype(np.float64)
 
     def reconstruct(self, x_orig):
-        hidden_probabilities = sigmoid.compute_output(x_orig.dot(self.w) + self.b_h)
+        hidden_probabilities = self.sigmoid.compute_output(x_orig.dot(self.w) + self.b_h)
         sampled_h = self._sample(hidden_probabilities)
-        return sigmoid.compute_output(sampled_h.dot(self.w.T) + self.b_v) 
+        return self.sigmoid.compute_output(sampled_h.dot(self.w.T) + self.b_v) 
 
 
 
