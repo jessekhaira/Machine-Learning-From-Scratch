@@ -8,7 +8,7 @@ and deep learning in python using only the NumPy framework.
 ```
 $ git clone https://github.com/13jk59/MachineLearning_Scratch.git
 $ cd MachineLearning_Scratch
-$ python setup.py install
+$ pip3 install . 
 ```
 
 ## Implementations 
