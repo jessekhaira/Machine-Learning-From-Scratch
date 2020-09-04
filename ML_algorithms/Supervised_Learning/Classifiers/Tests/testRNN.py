@@ -4,9 +4,10 @@ from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU,TanH, Sigmoid
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, Adam, RMSProp, AdaGrad
 import unittest
 import numpy as np 
+import sys
+import os 
 
-
-data = open('/Users/jessek/Documents/MachineLearning_Numpy/ML_algorithms/Supervised_Learning/Classifiers/Tests/shake.txt', 'r').read()
+data = open(os.path.join(sys.path[0], 'shake.txt'), "r").read()
 chars = getUniqueChars(data)
 idxCharMap = mapidxToChar(chars)
 charIdxMap = mapcharToIdx(chars)
