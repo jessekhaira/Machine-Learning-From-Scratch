@@ -1,18 +1,10 @@
 import numpy as np
 from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
-from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import TanH
-from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
-from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
-from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
 from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
-from ML_algorithms.Utility.misc import oneHotEncodeFeature
-import copy 
 
 class ReccurentNet_languageModelChar(object):
     """
-    This class represents Recurrent language modelling at the character level Networks.
+    This class represents a Recurrent Neural Network with a many-to-many architecture used for the task of language modelling. 
 
     Parameters:
     -> idxToChar (HashTable<Integer, Char>): HashTable mapping integer keys to characters
@@ -61,7 +53,6 @@ class ReccurentNet_languageModelChar(object):
         """
         train_loss = []
         valid_loss = [] 
-        print(len(xtrain))
         for epoch in range(num_epochs):
             currSampleStartTrain = 0
             # cycle through the entire training set 
