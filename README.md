@@ -31,6 +31,7 @@ Deep Learning:
 
 Models:
 - [Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Regression/Linear_Regression.py)
+
 Encompasses Polynomial Regression, Ridge Regression and Lasso Regression
 
 - [Logistic Regression & One V All Logistic Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/Logistic_Regression.py)
