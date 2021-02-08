@@ -1,9 +1,11 @@
 # Machine Learning with NumPy
 
 ## Description
-This project implements a variety of fundamental machine learning algorithms in Python using only NumPy. 
+This project implements a variety of fundamental machine learning algorithms in Python only using NumPy. The goal of the project was to provide clear, concise and understandable implementations of the algorithms.  
 
-Every algorithm that I coded out was tested
+After implementing the supervised models, I tested them on simple datasets (datasets obtained from sklearn, tensorflow, etc) using the python framework unittest and expected the algorithms to perform up to par. When available, I compared the performance of my implementation of an algorithm to the standard implementation of that algorithm to ensure the performances were comparable. The directory containing the tests for all the classifiers is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/Supervised_Learning/Classifiers). The directory containing tests for the regressors is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/Supervised_Learning/Regression). 
+
+For testing the unsupervised models, I visually examined the output of the models and ensured they were feasible. For k-means clustering, this involved using the classic Iris Setosa dataset and assessing the output clusters that were produced by the model when k=3. For the other graphical models, model outputs were produced during training which were verified. The directory containing the tests for the unsupervised models is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/Unsupervised_Learning/Tests). 
 
 ## Installation 
 ```
@@ -15,7 +17,7 @@ $ pip3 install .
 ## Implementations 
 ### Supervised Learning 
 Base Classes (abstract classes which concrete classes implement to keep code DRY): 
-- [K-Nearest Neighbours (kNN)](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/kNearestNeighbours_baseClass.py)
+- [k-Nearest Neighbours (kNN)](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/kNearestNeighbours_baseClass.py)
 - [Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/NeuralNetwork_Base.py)
 - [Decision Tree](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/DecisionTree.py)
 - [Bagged Forest](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/BaggedForest.py)
