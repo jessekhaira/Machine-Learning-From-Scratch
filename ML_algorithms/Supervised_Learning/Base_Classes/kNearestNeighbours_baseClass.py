@@ -2,7 +2,7 @@ import numpy as np
 class kNearestNeighbours_base(object):
     """
     This is a minimal implementation of the nonparametric supervised
-    machine learning algorithm called kNN, used for classification. 
+    machine learning algorithm called k-Nearest-Neighbours (kNN). 
 
     Params:
 
