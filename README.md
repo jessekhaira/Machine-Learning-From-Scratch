@@ -3,6 +3,8 @@
 ## Description
 This project implements a variety of fundamental machine learning algorithms in Python using only NumPy. 
 
+Every algorithm that I coded out was tested
+
 ## Installation 
 ```
 $ git clone https://github.com/13jk59/MachineLearning_Scratch.git
@@ -27,7 +29,7 @@ Deep Learning:
 - Neural Network Layers:
   - [Convolutional Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/ConvolutionalLayers.py) (includes Conv2D, max pooling and average pooling layers) 
   - [Fully Connected Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/NeuralNet_Layers.py) (includes Dense, BatchNorm, Dropout layers)
-  - [Recurrent Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/RecurrentNetLayers.py)
+  - [Recurrent Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/RecurrentNetLayers.py) (includes vanilla RNN cell) 
 
 Models:
 - [Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Regression/Linear_Regression.py)
