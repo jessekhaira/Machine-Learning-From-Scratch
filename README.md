@@ -1,7 +1,7 @@
 # Machine Learning with NumPy
 
 ## Description
-This project implements a variety of fundamental machine learning algorithms using only the NumPy framework in Python. 
+This project implements a variety of fundamental machine learning algorithms in Python using only NumPy. 
 
 ## Installation 
 ```
@@ -12,8 +12,8 @@ $ pip3 install .
 
 ## Implementations 
 ### Supervised Learning 
-Base Classes: 
-- [K-Nearest Neighbours](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/kNearestNeighbours_baseClass.py)
+Base Classes (abstract classes which concrete classes implement): 
+- [K-Nearest Neighbours (kNN)](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/kNearestNeighbours_baseClass.py)
 - [Base Class for Neural Networks](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/NeuralNetwork_Base.py)
 - [Decision Tree](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/DecisionTree.py)
 - [Bagged Forest](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Base_Classes/BaggedForest.py)
@@ -54,6 +54,6 @@ Models:
 
 ### Unsupervised Learning:
 - [k-Means Clustering](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/k_Means.py)
-- [Prinicpal Component Analysis](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/PCA.py)
+- [Principal Component Analysis](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/PCA.py)
 - [Deep Autoencoder](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/AutoEncoder.py)
 - [Restricted Boltzmann Machine](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/RestrictedBoltzmannMachine.py)
