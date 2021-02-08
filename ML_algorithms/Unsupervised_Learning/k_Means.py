@@ -4,7 +4,7 @@ import copy
 
 class k_Means(object):
     """
-    This class represents the base K-Means clustering algorithm used for unsupervised learning.
+    This class represents the K-Means clustering algorithm used for unsupervised learning.
 
     Parameters:
     -> maxNumLoops (int): The maximum number of times the algorithm should run if it does not converge on its own
