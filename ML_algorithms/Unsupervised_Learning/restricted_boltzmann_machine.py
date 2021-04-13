@@ -1,5 +1,5 @@
-"""This module represents the Restricted Boltzmann Machine machine learning
-algorithm."""
+""" This module contains code for the restricted boltzmann 
+machine learning algorithm. """
 import numpy as np
 import numpy.typing as npt
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
