@@ -3,3 +3,6 @@ Jupyter_Prototyping/
 gradientCheck_logLoss.xlsx
 vscode/
 .ipynb_checkpoints/
+.DS_Store
+*.pyc
+*.egg-info/
