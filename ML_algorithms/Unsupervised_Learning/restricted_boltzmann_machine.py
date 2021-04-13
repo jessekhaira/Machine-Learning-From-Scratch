@@ -1,50 +1,66 @@
-""" This module represents the Restricted Boltzmann Machine machine learning
-algorithm """
+"""This module represents the Restricted Boltzmann Machine machine learning
+algorithm."""
 import numpy as np
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
 import matplotlib.pyplot as plt
 
 
 class RBM(object):
-    """
-    This class represents a bernoulli Restricted Boltzmann Machine (RBM). A RBM is a generative neural network
-    used to learn a probability distribution over its set of inputs. An RBM is restricted, meaning that
-    no nodes within the same layer are connected, but a node in a given layer is fully connected to every
-    node in an adjacent layer. These connections are symmetric between the hidden nodes and visible nodes. 
-    
-    RBMs have found applications in dimensionality reduction, collaborative filtering, classification, and many
-    other areas. 
+    """This class represents a bernoulli Restricted Boltzmann Machine (RBM). A
+    RBM is a generative neural network used to learn a probability distribution
+    over its set of inputs. An RBM is restricted, meaning that no nodes within
+    the same layer are connected, but a node in a given layer is fully connected
+    connected to every node in an adjacent layer. These connections are
+    symmetric between the hidden nodes and visible nodes.
 
-    Defaults are set as reccomended by: http://www.cs.toronto.edu/~hinton/absps/guideTR.pdf
+    RBMs have found applications in dimensionality reduction, collaborative
+    filtering, classification, and many other areas.
 
-    Inputs:
-        -> n_visible (int): The number of features in a single example being fed into the net
-        -> n_hidden (int): The number of features being learned during training 
-        -> batch_size (int): The size of a mini-batch during training
-        -> n_epochs (int): Number of epochs to train for
-        -> ret_train (boolean): Return the errors while training and return images sampled during training 
-        -> seed (int): Random seed
-        -> k (int): Number of iterations to perform 
-        -> is_img(bool): Boolean value indicating whether the RBM is being used for images for visualization purposes during training 
-        -> img_h (int): Int indicating height of image input, if image
-        -> img_w (int): Int indicating width of image input, if image
-        -> img_d (int): Int indicating depth of image input, if image
+    Defaults are set as reccomended by:
+        http://www.cs.toronto.edu/~hinton/absps/guideTR.pdf
+
+    Attributes:
+        n_visible:
+            The number of features in a single example being fed into the net
+        n_hidden:
+            The number of features being learned during training
+        batch_size:
+            The size of a mini-batch during training
+        n_epochs:
+            Number of epochs to train for
+        ret_train:
+            Boolean indicating whether to return the errors while training and
+            return images sampled during training
+        seed:
+            Integer representing random seed to use
+        k:
+            Integer representing number of iterations to perform with gibbs
+            sampling
+        is_img:
+            Boolean value indicating whether the RBM is being used for images
+            for visualization purposes during training
+        img_h:
+            Integer indicating height of image input, if image
+        img_w:
+            Integer indicating width of image input, if image
+        img_d:
+            Int indicating depth of image input, if image
     """
 
     def __init__(self,
-                 n_visible,
-                 n_hidden=128,
-                 learning_rate=0.1,
-                 batch_size=100,
-                 n_epochs=100,
-                 ret_train=True,
-                 k=1,
-                 weight_decay=0,
-                 is_img=False,
-                 img_h=-1,
-                 img_w=-1,
-                 img_d=-1,
-                 seed=9):
+                 n_visible: int,
+                 n_hidden: int = 128,
+                 learning_rate: int = 0.1,
+                 batch_size: int = 100,
+                 n_epochs: int = 100,
+                 ret_train: int = True,
+                 k: int = 1,
+                 weight_decay: int = 0,
+                 is_img: bool = False,
+                 img_h: int = -1,
+                 img_w: int = -1,
+                 img_d: int = -1,
+                 seed: int = 9):
         np.random.seed(seed)
         self.seed = seed
         self.w, self.b_v, self.b_h = self._initWeights(n_visible, n_hidden)
@@ -93,18 +109,18 @@ class RBM(object):
         return x_reconstruct
 
     def train(self, data, verbose=True, sampling_epochs=10):
-        """
-        This method is used to train the RBM on data of shape (M, n_visible), where
-        M is the number of examples in the dataset and n_visible is the number of features.
+        """This method is used to train the RBM on data of shape (M, n_visible),
+        where M is the number of examples in the dataset and n_visible is the
+        number of features.
 
         As this is a bernoulli RBM, the input values should be preprocessed to be between
-        0 and 1. 
+        0 and 1.
 
         Inputs:
             -> data (NumPy Matrix): Matrix of shape (M,N) where M is the number of examples and N
             is the number of features
             -> verbose (boolean): Boolean indicating whether or not to provide updates during training
-            -> sampling_epochs (int): If verbose, the number of epochs to wait before producing 
+            -> sampling_epochs (int): If verbose, the number of epochs to wait before producing
             sampled images and reconstruction errors
         """
         reconstruction_error = []
