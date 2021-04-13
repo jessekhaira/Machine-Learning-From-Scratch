@@ -2,7 +2,7 @@
 machines """
 import tensorflow as tf
 import numpy as np
-from ML_algorithms.Unsupervised_Learning.RestrictedBoltzmannMachine import RBM
+from ML_algorithms.Unsupervised_Learning.restricted_boltzmann_machine import RBM
 import unittest
 import matplotlib.pyplot as plt
 

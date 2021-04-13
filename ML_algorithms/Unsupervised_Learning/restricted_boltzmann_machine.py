@@ -1,6 +1,7 @@
 """This module represents the Restricted Boltzmann Machine machine learning
 algorithm."""
 import numpy as np
+import numpy.typing as npt
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
 import matplotlib.pyplot as plt
 
@@ -109,20 +110,27 @@ class RBM(object):
             sampled_h.dot(self.w.T) + self.b_v)
         return x_reconstruct
 
-    def train(self, data, verbose=True, sampling_epochs=10):
+    def train(self,
+              data: npt.ArrayLike,
+              verbose: bool = True,
+              sampling_epochs: int = 10):
         """This method is used to train the RBM on data of shape (M, n_visible),
         where M is the number of examples in the dataset and n_visible is the
         number of features.
 
-        As this is a bernoulli RBM, the input values should be preprocessed to be between
-        0 and 1.
+        As this is a bernoulli RBM, the input values should be preprocessed to
+        be between 0 and 1.
 
-        Inputs:
-            -> data (NumPy Matrix): Matrix of shape (M,N) where M is the number of examples and N
-            is the number of features
-            -> verbose (boolean): Boolean indicating whether or not to provide updates during training
-            -> sampling_epochs (int): If verbose, the number of epochs to wait before producing
-            sampled images and reconstruction errors
+        Args:
+            data:
+                Numpy Matrix of shape (M,N) where M is the number of examples
+                and N is the number of features
+            verbose:
+                Boolean indicating whether or not to provide updates during
+                training
+            sampling_epochs:
+                If verbose, the number of epochs to wait before producing
+                sampled images and reconstruction errors
         """
         reconstruction_error = []
         reconstructed_vectors = []
