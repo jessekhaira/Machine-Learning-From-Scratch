@@ -21,10 +21,10 @@ class KNearestNeighboursRegressor(KNearestNeighboursBase):
 
     def __init__(self, k=10, similarity_metric="L2", verbose=True):
         #Allow either L2 distance or L1 distance to be used
-        super(k_Nearest_Neighbours, self).__init__(k, similarity_metric,
-                                                   verbose)
+        super(KNearestNeighboursRegressor,
+              self).__init__(k, similarity_metric, verbose)
 
-    def _getPrediction(self, k_closest):
+    def _get_prediction(self, k_closest):
         """
         This method returns a float for the numeric label of the current vector.
 
