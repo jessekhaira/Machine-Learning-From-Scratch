@@ -1,7 +1,8 @@
-import numpy as np 
-from ML_algorithms.Supervised_Learning.Base_Classes.kNearestNeighbours_baseClass import kNearestNeighbours_base
+import numpy as np
+from ML_algorithms.Supervised_Learning.Base_Classes.k_nearest_neighbours_base import KNearestNeighboursBase
 
-class k_Nearest_Neighbours(kNearestNeighbours_base):
+
+class KNearestNeighboursRegressor(KNearestNeighboursBase):
     """
     This is a minimal implementation of the nonparametric supervised
     machine learning algorithm called kNN, for regression. 
@@ -17,9 +18,11 @@ class k_Nearest_Neighbours(kNearestNeighbours_base):
     verbose -> Boolean value that determines whether or not to provide updates
     when the model is predicting on new examples.   
     """
-    def __init__(self, k = 10, similarity_metric = "L2", verbose = True):
+
+    def __init__(self, k=10, similarity_metric="L2", verbose=True):
         #Allow either L2 distance or L1 distance to be used
-        super(k_Nearest_Neighbours, self).__init__(k, similarity_metric, verbose)
+        super(k_Nearest_Neighbours, self).__init__(k, similarity_metric,
+                                                   verbose)
 
     def _getPrediction(self, k_closest):
         """

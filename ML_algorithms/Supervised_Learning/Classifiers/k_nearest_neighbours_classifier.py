@@ -1,26 +1,30 @@
-import numpy as np 
-from  ML_algorithms.Supervised_Learning.Base_Classes.kNearestNeighbours_baseClass import kNearestNeighbours_base
+""" This module contains code representing the k nearest neighbours algorithm
+for classification """
+import numpy as np
+from ML_algorithms.Supervised_Learning.Base_Classes.k_nearest_neighbours_base import KNearestNeighboursBase
 
 
-class k_Nearest_Neighbours(kNearestNeighbours_base):
+class KNearestNeighboursClassifier(KNearestNeighboursBase):
     """
     This is a minimal implementation of the nonparametric supervised
-    machine learning algorithm called kNN, used for classification. 
+    machine learning algorithm called kNN, used for classification.
 
     Params:
 
-    k -> Number of neighbours to consider when making a prediction. 
+    k -> Number of neighbours to consider when making a prediction.
     Default to consider is 10.
 
-    similarity_metric -> Metric to use to determine the similarity between 
+    similarity_metric -> Metric to use to determine the similarity between
     different vectors. Default is euclidean distance (L2 distance).
 
     verbose -> Boolean value that determines whether or not to provide updates
-    when the model is predicting on new examples.   
+    when the model is predicting on new examples.
     """
-    def __init__(self, k = 10, similarity_metric = "L2", verbose = True):
+
+    def __init__(self, k=10, similarity_metric="L2", verbose=True):
         #Allow either L2 distance or L1 distance to be used
-        super(k_Nearest_Neighbours, self).__init__(k, similarity_metric, verbose)
+        super(KNearestNeighboursClassifier,
+              self).__init__(k, similarity_metric, verbose)
 
     def _getPrediction(self, k_closest):
         """
