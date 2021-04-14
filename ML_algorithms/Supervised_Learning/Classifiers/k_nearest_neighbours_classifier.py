@@ -26,7 +26,7 @@ class KNearestNeighboursClassifier(KNearestNeighboursBase):
         super(KNearestNeighboursClassifier,
               self).__init__(k, similarity_metric, verbose)
 
-    def _getPrediction(self, k_closest):
+    def _get_prediction(self, k_closest):
         """
         This method returns an integer describing the label of the current vector.
 

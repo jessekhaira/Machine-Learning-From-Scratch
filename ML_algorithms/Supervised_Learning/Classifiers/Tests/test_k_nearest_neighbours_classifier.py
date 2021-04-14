@@ -17,7 +17,7 @@ def reshapeX(x_train, x_test):
 x1_train, x1_test = reshapeX(x_train, x_test)
 
 
-class tests(unittest.TestCase):
+class KNNClassifierTests(unittest.TestCase):
     """
     This class contains unit tests for each of the methods
     defined for the kNN class.
@@ -34,8 +34,8 @@ class tests(unittest.TestCase):
         y_train = np.random.randn(10, 1)
         obj2 = KNearestNeighboursClassifier()
         obj2.fit(x_train, y_train)
-        self.assertEqual(np.sum(obj2.modelX - x_train), 0)
-        self.assertEqual(np.sum(obj2.modelY - y_train), 0)
+        self.assertEqual(np.sum(obj2.model_x - x_train), 0)
+        self.assertEqual(np.sum(obj2.model_y - y_train), 0)
 
     def test_overall_model(self):
         #object should be able to get >= 20% percent accuracy on CIFAR-10 with k = 10

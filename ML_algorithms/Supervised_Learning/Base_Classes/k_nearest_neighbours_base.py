@@ -1,7 +1,6 @@
 """ This module contains code for the k nearest neighbours supervised
 machine learning algorithm """
 import numpy as np
-import numpy.typing as npt
 
 
 class KNearestNeighboursBase(object):
@@ -35,7 +34,7 @@ class KNearestNeighboursBase(object):
         self.similarity_metric = similarity_metric
         self.verbosity = verbose
 
-    def fit(self, x_train: npt.ArrayLike, y_train: npt.ArrayLike) -> None:
+    def fit(self, x_train: np.ndarray, y_train: np.ndarray) -> None:
         """
         This method trains the object on the feature vectors (x_train),
         and the vectors corresponding labels (y_train).
@@ -56,10 +55,10 @@ class KNearestNeighboursBase(object):
             'x shape is (%s,%s) and y shape is (%s, %s)' %
             (x_train.shape[0], x_train.shape[1], y_train.shape[0],
              y_train.shape[1]))
-        self.modelX = x_train
-        self.modelY = y_train
+        self.model_x = x_train
+        self.model_y = y_train
 
-    def predict(self, x_predict: npt.ArrayLike) -> npt.ArrayLike:
+    def predict(self, x_predict: np.ndarray) -> np.ndarray:
         """
         This method takes in a matrix of unlabelled vectors, and uses the
         trained kNN model to get predictions for all the vectors.
@@ -73,7 +72,7 @@ class KNearestNeighboursBase(object):
             NumPy vector of shape (M,1) containing the labels for all the M
             examples.
         """
-        assert x_predict.shape[1] == self.modelX.shape[1], (
+        assert x_predict.shape[1] == self.model_x.shape[1], (
             'The input should have the same number of features as what you \
                 trained on!')
         y_pred = np.empty((x_predict.shape[0], 1))
@@ -81,12 +80,11 @@ class KNearestNeighboursBase(object):
         # and assign the prediction for this example
         for i, example in enumerate(x_predict):
             print(f'Predicting on the {i}th example, {i}/{len(x_predict)}')
-            k_closest = self._getKClosest(example, self.similarity_metric)
-            y_pred[i] = self._getPrediction(k_closest)
+            k_closest = self._get_k_closest(example, self.similarity_metric)
+            y_pred[i] = self._get_prediction(k_closest)
         return y_pred
 
-    def _getKClosest(self, ex_x: npt.ArrayLike,
-                     similarity: str) -> npt.ArrayLike:
+    def _get_k_closest(self, ex_x: np.ndarray, similarity: str) -> np.ndarray:
         """
         This method returns the k closest vectors to the current vector ex_x
         in the training set.
@@ -103,16 +101,16 @@ class KNearestNeighboursBase(object):
             their corresponding labels
         """
         similarity = 2 if similarity == 'L2' else 1
-        distance_to_all = np.linalg.norm(self.modelX - ex_x,
+        distance_to_all = np.linalg.norm(self.model_x - ex_x,
                                          ord=similarity,
                                          axis=1,
                                          keepdims=True)
-        assert distance_to_all.shape == (self.modelX.shape[0], 1), (
+        assert distance_to_all.shape == (self.model_x.shape[0], 1), (
             'You should have a distance vector of shape (m,1)!')
-        return self.modelY[np.argpartition(distance_to_all, self.k,
-                                           axis=0)][:self.k]
+        return self.model_y[np.argpartition(distance_to_all, self.k,
+                                            axis=0)][:self.k]
 
-    def _getPrediction(self, k_closest):
+    def _get_prediction(self, k_closest: np.ndarray):
         """
         This method is the only place where the kNN regressor and classifier
         differ.
