@@ -4,8 +4,7 @@ import numpy as np
 
 
 class KNearestNeighboursBase(object):
-    """
-    This is a minimal implementation of the nonparametric supervised
+    """This is a minimal implementation of the nonparametric supervised
     machine learning algorithm called k-Nearest-Neighbours (kNN).
 
     Attributes:
@@ -35,8 +34,7 @@ class KNearestNeighboursBase(object):
         self.verbosity = verbose
 
     def fit(self, x_train: np.ndarray, y_train: np.ndarray) -> None:
-        """
-        This method trains the object on the feature vectors (x_train),
+        """This method trains the object on the feature vectors (x_train),
         and the vectors corresponding labels (y_train).
 
         Args:
@@ -59,8 +57,7 @@ class KNearestNeighboursBase(object):
         self.model_y = y_train
 
     def predict(self, x_predict: np.ndarray) -> np.ndarray:
-        """
-        This method takes in a matrix of unlabelled vectors, and uses the
+        """This method takes in a matrix of unlabelled vectors, and uses the
         trained kNN model to get predictions for all the vectors.
 
         Args:
@@ -85,8 +82,7 @@ class KNearestNeighboursBase(object):
         return y_pred
 
     def _get_k_closest(self, ex_x: np.ndarray, similarity: str) -> np.ndarray:
-        """
-        This method returns the k closest vectors to the current vector ex_x
+        """This method returns the k closest vectors to the current vector ex_x
         in the training set.
 
         Args:
@@ -111,8 +107,7 @@ class KNearestNeighboursBase(object):
                                             axis=0)][:self.k]
 
     def _get_prediction(self, k_closest: np.ndarray):
-        """
-        This method is the only place where the kNN regressor and classifier
+        """This method is the only place where the kNN regressor and classifier
         differ.
 
         Classifier -> take the most common class among the neighbours.
