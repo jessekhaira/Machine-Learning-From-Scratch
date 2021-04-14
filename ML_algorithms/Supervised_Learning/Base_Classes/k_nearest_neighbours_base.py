@@ -59,18 +59,19 @@ class KNearestNeighboursBase(object):
         self.modelX = x_train
         self.modelY = y_train
 
-    def predict(self, x_predict):
+    def predict(self, x_predict: npt.ArrayLike) -> npt.ArrayLike:
         """
         This method takes in a matrix of unlabelled vectors, and uses the
         trained kNN model to get predictions for all the vectors.
 
-        Input:
-        x_predict (NumPy matrix) -> NumPy matrix of shape (M,Nx) where Nx
-        is the number of features in one example, and M is the number of
-        examples.
+        Args:
+            x_predict:
+                NumPy matrix of shape (M,N) where N is the number of features
+                in one example, and M is the number of examples.
 
-        Output(NumPy vector) -> Column vector of shape (M,1) containing the
-        labels for all the M examples.
+        Returns:
+            NumPy vector of shape (M,1) containing the labels for all the M
+            examples.
         """
         assert x_predict.shape[1] == self.modelX.shape[1], (
             'The input should have the same number of features as what you \
@@ -79,23 +80,27 @@ class KNearestNeighboursBase(object):
         # Loop over every example in x_predict, get k_closest neighbours
         # and assign the prediction for this example
         for i, example in enumerate(x_predict):
-            print('Predicting on the %sth example, %s/%s' %
-                  (i, i, len(x_predict)))
+            print(f'Predicting on the {i}th example, {i}/{len(x_predict)}')
             k_closest = self._getKClosest(example, self.similarity_metric)
             y_pred[i] = self._getPrediction(k_closest)
         return y_pred
 
-    def _getKClosest(self, ex_x, similarity):
+    def _getKClosest(self, ex_x: npt.ArrayLike,
+                     similarity: str) -> npt.ArrayLike:
         """
         This method returns the k closest vectors to the current vector ex_x
         in the training set.
 
-        Input:
-        ex_x (NumPy vector) -> (1,N) vector
-        similarity -> "L2" or "L1" indicating the type of similarity metric being used
+        Args:
+            ex_x:
+                NumPy vector of shape (1,N)
+            similarity:
+                String that is either "L2" or "L1" indicating the type of
+                similarity metric being used
 
-        Output (NumPy matrix) -> Matrix of shape (K, 1) containing the K closest vectors
-        with their corresponding labels 
+        Returns:
+            NumPy Matrix of shape (K, 1) containing the K closest vector with
+            their corresponding labels
         """
         similarity = 2 if similarity == 'L2' else 1
         distance_to_all = np.linalg.norm(self.modelX - ex_x,
@@ -109,11 +114,14 @@ class KNearestNeighboursBase(object):
 
     def _getPrediction(self, k_closest):
         """
-        This method is the only place where the kNN regressor and classifier differ.
-        Classifier -> take the most common class among the neighbours.
-        Regressor -> take the average among the neighbours. 
+        This method is the only place where the kNN regressor and classifier
+        differ.
 
-        Thus, this method will be left as an abstract method, to be inherited by 
-        both the kNN classifier and regressor and overriden with their own specific implementations.
+        Classifier -> take the most common class among the neighbours.
+        Regressor -> take the average among the neighbours.
+
+        Thus, this method will be left as an abstract method, to be inherited by
+        both the kNN classifier and regressor and overriden with their own
+        specific implementations.
         """
         raise NotImplementedError
