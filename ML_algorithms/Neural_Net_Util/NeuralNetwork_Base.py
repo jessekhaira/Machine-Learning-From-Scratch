@@ -7,6 +7,8 @@ from ML_algorithms.Utility.misc import convertToHighestPred
 import copy
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import _BaseLayer
 
 
 class NeuralNetwork_Base(object):
@@ -33,21 +35,31 @@ class NeuralNetwork_Base(object):
         self.num_input = input_features
 
     def add_layer(self,
-                  num_neurons,
-                  activationFunction,
-                  isSoftmax=0,
-                  layer=None,
-                  keep_prob=1):
+                  num_neurons: int,
+                  activationFunction: Base_ActivationFunction,
+                  isSoftmax: int = 0,
+                  layer: _BaseLayer = None,
+                  keep_prob: int = 1) -> None:
         """
         This method adds a dense layer to your neural network.
 
-        Parameters:
-        -> num_neurons (int) -> int representing the number of neurons you would like in this dense layer of the neural network. 
-        -> activationFunction (object) -> Object which will be used to introduce non-linearity into your neural net
-        -> isSoftmax (0 or 1): 0 or 1 indicating whether the activation function is softmax or not
-        -> layer (object): type of layer being added to the neural network. Default layer is a Dense layer.
+        Args:
+            num_neurons:
+                Integer representing the number of neurons you would like in
+                this dense layer of the neural network.
 
-        Returns: None
+            activationFunction:
+                Object of type Base_ActivationFunctionm which will be used to
+                introduce non-linearity into your neural net
+
+            isSoftmax:
+                Integer that should be either 0 or 1 indicating whether the
+                activation function is softmax or not
+
+            layer:
+                Object of type _BaseLayer, indicating the current layer being
+                added to the neural network. Default layer is a Dense layer.
+
         """
         if not self.layers:
             layer_x = DenseLayer(
