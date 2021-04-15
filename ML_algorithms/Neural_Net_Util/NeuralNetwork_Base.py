@@ -2,12 +2,11 @@ import numpy as np
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import BatchNormLayer_Dense
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
-from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
-import random
 from ML_algorithms.Utility.misc import convertToHighestPred
 import copy
 from ML_algorithms.Utility.ScoreFunctions import accuracy
+from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
 
 
 class NeuralNetwork_Base(object):
@@ -15,15 +14,20 @@ class NeuralNetwork_Base(object):
     This is a fully-connected Neural Network class, which can be used
     for supervised learning and unsupervised learning (autoencoders).
 
-    Parameters:
-    -> lossFunction (object) -> The lossFunction you want to use to train your network
-    -> input_features (int) -> The number of input features a single example has in your 
-    dataset. Fully connected nets are quite inflexible about this specification. 
-    -> layers (python list) -> List object containing all the layers present in the neural
-    network
+    Attributes:
+        lossFunction:
+            The objective to optimize during training
+
+        input_features:
+            Integer representing the number of input features a single
+            example has in your dataset.
+
+        layers (python list):
+            List object containing all the layers present in the neural
+            network
     """
 
-    def __init__(self, lossFunction, input_features):
+    def __init__(self, lossFunction: LossFunction, input_features: int):
         self.layers = []
         self.lossFunction = lossFunction
         self.num_input = input_features
@@ -35,7 +39,7 @@ class NeuralNetwork_Base(object):
                   layer=None,
                   keep_prob=1):
         """
-        This method adds a dense layer to your neural network. 
+        This method adds a dense layer to your neural network.
 
         Parameters:
         -> num_neurons (int) -> int representing the number of neurons you would like in this dense layer of the neural network. 
