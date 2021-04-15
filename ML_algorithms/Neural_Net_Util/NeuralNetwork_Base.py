@@ -1,3 +1,5 @@
+""" This module contains code representing the base class for Neural Networks
+"""
 import numpy as np
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import BatchNormLayer_Dense
