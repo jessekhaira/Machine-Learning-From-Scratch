@@ -2,14 +2,14 @@ import numpy as np
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import BatchNormLayer_Dense
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
-from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool 
+from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
-import random 
+import random
 from ML_algorithms.Utility.misc import convertToHighestPred
-import copy 
+import copy
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 
-    
+
 class NeuralNetwork_Base(object):
     """
     This is a fully-connected Neural Network class, which can be used
@@ -22,12 +22,18 @@ class NeuralNetwork_Base(object):
     -> layers (python list) -> List object containing all the layers present in the neural
     network
     """
+
     def __init__(self, lossFunction, input_features):
-        self.layers = [] 
-        self.lossFunction = lossFunction 
+        self.layers = []
+        self.lossFunction = lossFunction
         self.num_input = input_features
-        
-    def add_layer(self, num_neurons, activationFunction, isSoftmax = 0, layer = None, keep_prob=1):
+
+    def add_layer(self,
+                  num_neurons,
+                  activationFunction,
+                  isSoftmax=0,
+                  layer=None,
+                  keep_prob=1):
         """
         This method adds a dense layer to your neural network. 
 
@@ -40,19 +46,43 @@ class NeuralNetwork_Base(object):
         Returns: None
         """
         if not self.layers:
-            layer_x = DenseLayer(self.num_input, num_neurons, activationFunction, self.lossFunction.regularization, self.lossFunction.regParameter, isSoftmax) if layer is None else layer(self.num_input, num_neurons, activationFunction, self.lossFunction.regularization, self.lossFunction.regParameter, isSoftmax, keep_prob)
+            layer_x = DenseLayer(
+                self.num_input, num_neurons, activationFunction,
+                self.lossFunction.regularization,
+                self.lossFunction.regParameter,
+                isSoftmax) if layer is None else layer(
+                    self.num_input, num_neurons, activationFunction,
+                    self.lossFunction.regularization,
+                    self.lossFunction.regParameter, isSoftmax, keep_prob)
             self.layers.append(layer_x)
         else:
             # if the layeer beforee this is a dense layer, then get its weight shape
             # otherwise if its a conv layer/ pool layer, we have no idea how many neurons are going to be passed
-            # to this layer so set it to None 
-            shape_1 = self.layers[-1].W.shape[0] if (isinstance(self.layers[-1], DenseLayer) and self.layers[-1].W is not None) else None 
-            layer_x = DenseLayer(shape_1, num_neurons, activationFunction, self.lossFunction.regularization, self.lossFunction.regParameter, isSoftmax) if layer is None else layer(shape_1, num_neurons, activationFunction, self.lossFunction.regularization, self.lossFunction.regParameter, isSoftmax, keep_prob)
+            # to this layer so set it to None
+            shape_1 = self.layers[-1].W.shape[0] if (
+                isinstance(self.layers[-1], DenseLayer)
+                and self.layers[-1].W is not None) else None
+            layer_x = DenseLayer(shape_1, num_neurons, activationFunction,
+                                 self.lossFunction.regularization,
+                                 self.lossFunction.regParameter,
+                                 isSoftmax) if layer is None else layer(
+                                     shape_1, num_neurons, activationFunction,
+                                     self.lossFunction.regularization,
+                                     self.lossFunction.regParameter, isSoftmax,
+                                     keep_prob)
             self.layers.append(layer_x)
 
-
-
-    def fit(self, xtrain, ytrain, xvalid = None, yvalid = None, num_epochs =10, batch_size = 32, ret_train_loss = False, learn_rate = 0.1, optim = gradientDescent(), verbose = False):
+    def fit(self,
+            xtrain,
+            ytrain,
+            xvalid=None,
+            yvalid=None,
+            num_epochs=10,
+            batch_size=32,
+            ret_train_loss=False,
+            learn_rate=0.1,
+            optim=gradientDescent(),
+            verbose=False):
         """
         This method trains the neural network on the training set.
 
@@ -84,72 +114,78 @@ class NeuralNetwork_Base(object):
         Returns: None
         """
         # Dealing with edge case where you have less than 32 examples, which can happen maybe for k-fold cv
-        # Just do batch gradient descent if the number of examples is super small 
-        if xtrain.shape[1] <= 1000 and len(xtrain.shape)==2:
+        # Just do batch gradient descent if the number of examples is super small
+        if xtrain.shape[1] <= 1000 and len(xtrain.shape) == 2:
             batch_size = xtrain.shape[1]
-            num_batches = 1 
+            num_batches = 1
         # otherwise do mini batch gradient descent
-        elif xtrain.shape[1] <= 1000 and len(xtrain.shape)==2:
-            num_batches = xtrain.shape[1]//batch_size
+        elif xtrain.shape[1] <= 1000 and len(xtrain.shape) == 2:
+            num_batches = xtrain.shape[1] // batch_size
         else:
-            num_batches = xtrain.shape[0]//batch_size
-        train_loss = [] 
-        train_acc = [] 
-        validation_loss = [] 
-        val_acc = [] 
+            num_batches = xtrain.shape[0] // batch_size
+        train_loss = []
+        train_acc = []
+        validation_loss = []
+        val_acc = []
         for epoch in range(num_epochs):
             currStart = 0
             currEnd = batch_size
-            lossEpoch = [] 
+            lossEpoch = []
             for i in range(num_batches):
-                curr_y = ytrain[:,currStart:currEnd]
+                curr_y = ytrain[:, currStart:currEnd]
                 if len(xtrain.shape) == 2:
-                    curr_x = xtrain[:,currStart:currEnd]
+                    curr_x = xtrain[:, currStart:currEnd]
                 else:
-                    # 3D pictures 
-                    curr_x = xtrain[currStart:currEnd,:, :,:]                
+                    # 3D pictures
+                    curr_x = xtrain[currStart:currEnd, :, :, :]
                 currStart = currEnd
-                currEnd += batch_size 
+                currEnd += batch_size
                 pred_miniBatch = self._forward_propagate(curr_x)
                 loss = self._calculateLoss(curr_y, pred_miniBatch, self.layers)
                 lossEpoch.append(loss)
-                backpropInit = self.lossFunction.derivativeLoss_wrtPrediction(curr_y, pred_miniBatch)
-                self._backward_propagate(backpropInit, learn_rate, optim, epoch, curr_x, curr_y)
-            
+                backpropInit = self.lossFunction.derivativeLoss_wrtPrediction(
+                    curr_y, pred_miniBatch)
+                self._backward_propagate(backpropInit, learn_rate, optim, epoch,
+                                         curr_x, curr_y)
+
             train_loss.append(np.mean(lossEpoch))
 
             if ytrain.shape[0] > 1:
-                acc_trainSet = accuracy(convertToHighestPred(ytrain), self.predict(xtrain))
+                acc_trainSet = accuracy(convertToHighestPred(ytrain),
+                                        self.predict(xtrain))
             else:
                 acc_trainSet = accuracy(ytrain, self.predict(xtrain))
             train_acc.append(acc_trainSet)
 
             if xvalid is not None:
                 if ytrain.shape[0] > 1:
-                    acc_valSet = accuracy(convertToHighestPred(yvalid), self.predict(xvalid))
-                    val_loss = self._calculateLoss(yvalid, self._forward_propagate(xvalid), self.layers)
+                    acc_valSet = accuracy(convertToHighestPred(yvalid),
+                                          self.predict(xvalid))
+                    val_loss = self._calculateLoss(
+                        yvalid, self._forward_propagate(xvalid), self.layers)
                 else:
                     acc_valSet = accuracy(yvalid, self.predict(xvalid))
-                    val_loss = self._calculateLoss(yvalid, self.predict(xvalid), self.layers)
-                
+                    val_loss = self._calculateLoss(yvalid, self.predict(xvalid),
+                                                   self.layers)
+
                 val_acc.append(acc_valSet)
                 validation_loss.append(val_loss)
-            
+
             # provide updates during training for sanitys sake
             if verbose:
-                print("Finished epoch %s"%(epoch))
-                print("Train loss: %s, Train acc: %s"%(train_loss[-1], train_acc[-1]))
+                print("Finished epoch %s" % (epoch))
+                print("Train loss: %s, Train acc: %s" %
+                      (train_loss[-1], train_acc[-1]))
                 if xvalid is not None:
-                    print("Valid loss: %s, Valid acc: %s"%(validation_loss[-1], val_acc[-1]))
-                
+                    print("Valid loss: %s, Valid acc: %s" %
+                          (validation_loss[-1], val_acc[-1]))
 
         if ret_train_loss and xvalid is not None:
-            return train_loss, validation_loss, train_acc, val_acc 
+            return train_loss, validation_loss, train_acc, val_acc
         elif ret_train_loss:
             return train_loss, train_acc
-    
 
-    def predict(self, X, supervised = True):
+    def predict(self, X, supervised=True):
         """
         This method is used to use the neural network to predict on instances it has not trained on.
 
@@ -159,11 +195,11 @@ class NeuralNetwork_Base(object):
 
         Returns: None
         """
-        output = self._forward_propagate(X, train = False)
-        # if more than one class, then compute the highest value as the prediction 
+        output = self._forward_propagate(X, train=False)
+        # if more than one class, then compute the highest value as the prediction
         if output.shape[0] > 1 and supervised:
             output = convertToHighestPred(output)
-        return output 
+        return output
 
     def _convertToHighestPred(self, predictions):
         predictions = np.argmax(predictions, axis=0)
@@ -185,8 +221,8 @@ class NeuralNetwork_Base(object):
         Returns: None
         """
         return self.lossFunction.get_loss(curr_y, pred_minibatch, layersNet)
-    
-    def _forward_propagate(self, X, train = True):
+
+    def _forward_propagate(self, X, train=True):
         """
         This method implements the forward propagation step for a neural network. 
         Each layer is fed in the activations from the previous layer a[L-1], a matrix that
@@ -207,19 +243,22 @@ class NeuralNetwork_Base(object):
             # we don't know before how many activated neurons are going to be passed into
             # this dense layer, so we can't pre-initialize the weights for each layer.
             if isinstance(layer, DenseLayer) and layer.W is None:
-                # conv layer will have flattened its output to matrix shape 
-                layer.W, layer.b = layer._initializeWeights(layer.num_layer, prev_activations.shape[0])
+                # conv layer will have flattened its output to matrix shape
+                layer.W, layer.b = layer._initializeWeights(
+                    layer.num_layer, prev_activations.shape[0])
                 if isinstance(layer, BatchNormLayer_Dense):
                     layer.gamma, layer.beta = layer._initializeGammaBeta()
-                    layer.runningMean, layer.runningVar = layer._initializeRunningMeanVar()
+                    layer.runningMean, layer.runningVar = layer._initializeRunningMeanVar(
+                    )
             elif (isinstance(layer, Conv2D)) and layer.filters is None:
                 layer.inputDepth = prev_activations.shape[1]
                 layer.filters, layer.b = layer._initializeWeights()
             activations = layer.compute_forward(prev_activations, train)
             prev_activations = activations
         return activations
-    
-    def _backward_propagate(self, initalGradient, learn_rate, optim, epoch, curr_x, curr_y):
+
+    def _backward_propagate(self, initalGradient, learn_rate, optim, epoch,
+                            curr_x, curr_y):
         """
         This method implements the backward propagation step for a neural network. 
         The backpropagation is initialized by the gradient produced from the cost function
@@ -240,9 +279,6 @@ class NeuralNetwork_Base(object):
             layer = self.layers[i]
             if not layer.optim:
                 layer.optim = copy.deepcopy(optim)
-            dLdA_prev = layer._updateWeights(dLdA, learn_rate, epoch, self, curr_x, curr_y, i)
+            dLdA_prev = layer._updateWeights(dLdA, learn_rate, epoch, self,
+                                             curr_x, curr_y, i)
             dLdA = dLdA_prev
-        
-        
-
-        
