@@ -120,11 +120,11 @@ class NeuralNetwork_Base(object):
             xvalid:
                 None or a numpy matrix of shape (M,N) containing the feature
                 vectors used to validate the algorithm
-            
+
             yvalid:
                 None or a numpy vector of shape (M,1) containing the labels for
                 xvalid
-            
+
             num_epochs:
                 Integer representing the number of epochs to train the model
 
@@ -133,21 +133,35 @@ class NeuralNetwork_Base(object):
                 performing a parameter update
 
             ret_train_loss:
-                Boolean value indicating whether to return train loss and valid loss
-                if validation set provided
+                Boolean value indicating whether to return train loss and valid
+                loss if validation set provided
 
             learn_rate:
-                Floating point value indicating the learning rate to be used when
-                optimizing the loss function
+                Floating point value indicating the learning rate to be used
+                when optimizing the loss function
 
             optim:
                 Object of type optimizer. Used to optimize the loss function
 
             verbose:
-                Boolean value indicating whether to provide updates when training
+                Boolean value indicating whether to provide updates when
+                training
+
+        Returns:
+            If ret_train_loss is set to True and xvalid is not None,
+            4 integers will be returned indicating the training loss,
+            validation loss, training accuracy, and validation accuracy
+            respectively.
+
+            If ret_train_loss is True and xvalid is None, then two integers
+            will be returned indicating the training loss and training accuracy
+            respectively.
+
+            Otherwise, None will be returned.
         """
-        # Dealing with edge case where you have less than 32 examples, which can happen maybe for k-fold cv
-        # Just do batch gradient descent if the number of examples is super small
+        # Dealing with edge case where you have less than 32 examples, which
+        # can happen maybe for k-fold cv. Just do batch gradient descent if
+        # the number of examples is super small
         if xtrain.shape[1] <= 1000 and len(xtrain.shape) == 2:
             batch_size = xtrain.shape[1]
             num_batches = 1
