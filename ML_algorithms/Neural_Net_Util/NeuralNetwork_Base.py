@@ -250,7 +250,8 @@ class NeuralNetwork_Base(object):
             A numpy matrix containing the output of the neural network.
         """
         output = self._forward_propagate(X, train=False)
-        # if more than one class, then compute the highest value as the prediction
+        # if more than one class, then compute the highest value as the
+        # prediction
         if output.shape[0] > 1 and supervised:
             output = convertToHighestPred(output)
         return output
