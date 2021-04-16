@@ -11,6 +11,8 @@ from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import _BaseLayer
+from ML_algorithms.Neural_Net_Util.Optimizers import optimizer
+from typing import Union
 
 
 class NeuralNetwork_Base(object):
@@ -74,9 +76,10 @@ class NeuralNetwork_Base(object):
                     self.lossFunction.regParameter, isSoftmax, keep_prob)
             self.layers.append(layer_x)
         else:
-            # if the layeer beforee this is a dense layer, then get its weight shape
-            # otherwise if its a conv layer/ pool layer, we have no idea how many neurons are going to be passed
-            # to this layer so set it to None
+            # if the layeer beforee this is a dense layer, then get its weight
+            # shape otherwise if its a conv layer/ pool layer, we have no idea
+            # how many neurons are going to be passed to this layer so set it
+            # to None
             shape_1 = self.layers[-1].W.shape[0] if (
                 isinstance(self.layers[-1], DenseLayer)
                 and self.layers[-1].W is not None) else None
@@ -91,45 +94,57 @@ class NeuralNetwork_Base(object):
             self.layers.append(layer_x)
 
     def fit(self,
-            xtrain,
-            ytrain,
-            xvalid=None,
-            yvalid=None,
-            num_epochs=10,
-            batch_size=32,
-            ret_train_loss=False,
-            learn_rate=0.1,
-            optim=gradientDescent(),
-            verbose=False):
-        """
-        This method trains the neural network on the training set.
+            xtrain: np.ndarray,
+            ytrain: np.ndarray,
+            xvalid: Union[np.ndarray, None] = None,
+            yvalid: Union[np.ndarray, None] = None,
+            num_epochs: int = 10,
+            batch_size: int = 32,
+            ret_train_loss: bool = False,
+            learn_rate: float = 0.1,
+            optim: optimizer = gradientDescent(),
+            verbose: bool = False):
+        """This method trains the neural network on the training set.
 
         M: number of training examples
         N: number of features in a single example
 
-        Parameters:
-        -> xtrain (NumPy Matrix): Feature vectors of shape (M, N) 
+        Args:
+            xtrain:
+                Numpy matrix of shape (M, N) containing feature vectors
 
-        -> ytrain (NumPy Vector): Labels for the feature vectors of shape (M,1)
+            ytrain:
+                Numpy matrix of shape (M,1) containing the labels for the
+                feature vectors
 
-        -> xvalid (NumPy Matrix): Validation feature vectors of shape (M, N) 
+            xvalid:
+                None or a numpy matrix of shape (M,N) containing the feature
+                vectors used to validate the algorithm
+            
+            yvalid:
+                None or a numpy vector of shape (M,1) containing the labels for
+                xvalid
+            
+            num_epochs:
+                Integer representing the number of epochs to train the model
 
-        -> yvalid (NumPy Vector): Labels for the validation feature vectors of shape (M,1)
+            batch_size:
+                Integer representing the number of examples to go through before
+                performing a parameter update
 
-        -> num_epochs (int): Number of epochs to train the model
+            ret_train_loss:
+                Boolean value indicating whether to return train loss and valid loss
+                if validation set provided
 
-        -> batch_size (int): Number of examples to go through before performing a parameter update
+            learn_rate:
+                Floating point value indicating the learning rate to be used when
+                optimizing the loss function
 
-        -> ret_train_loss (Boolean): Boolean value indicating whether to return train loss and valid loss
-        if validation set provided 
+            optim:
+                Object of type optimizer. Used to optimize the loss function
 
-        -> learn_rate (float): learning rate to be used when optimizing the loss function
-
-        -> optim (function): optimizer to use to minimize the loss function 
-
-        -> verbose (boolean): boolean value indicating whether to provide updates when training 
-
-        Returns: None
+            verbose:
+                Boolean value indicating whether to provide updates when training
         """
         # Dealing with edge case where you have less than 32 examples, which can happen maybe for k-fold cv
         # Just do batch gradient descent if the number of examples is super small
