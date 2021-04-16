@@ -1,18 +1,15 @@
 """ This module contains code representing the base class for Neural Networks
 """
 import numpy as np
-from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
-from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import BatchNormLayer_Dense
+from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer, BatchNormLayer_Dense, _BaseLayer
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
-from ML_algorithms.Utility.misc import convertToHighestPred
-import copy
-from ML_algorithms.Utility.ScoreFunctions import accuracy
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
 from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
-from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import _BaseLayer
-from ML_algorithms.Neural_Net_Util.Optimizers import optimizer
-from typing import Union
+from ML_algorithms.Utility.misc import convertToHighestPred
+from ML_algorithms.Utility.ScoreFunctions import accuracy
+from typing import Union, Tuple
+import copy
 
 
 class NeuralNetwork_Base(object):
@@ -93,17 +90,19 @@ class NeuralNetwork_Base(object):
                                      keep_prob)
             self.layers.append(layer_x)
 
-    def fit(self,
-            xtrain: np.ndarray,
-            ytrain: np.ndarray,
-            xvalid: Union[np.ndarray, None] = None,
-            yvalid: Union[np.ndarray, None] = None,
-            num_epochs: int = 10,
-            batch_size: int = 32,
-            ret_train_loss: bool = False,
-            learn_rate: float = 0.1,
-            optim: optimizer = gradientDescent(),
-            verbose: bool = False):
+    def fit(
+        self,
+        xtrain: np.ndarray,
+        ytrain: np.ndarray,
+        xvalid: Union[np.ndarray, None] = None,
+        yvalid: Union[np.ndarray, None] = None,
+        num_epochs: int = 10,
+        batch_size: int = 32,
+        ret_train_loss: bool = False,
+        learn_rate: float = 0.1,
+        optim: optimizer = gradientDescent(),
+        verbose: bool = False
+    ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
         """This method trains the neural network on the training set.
 
         M: number of training examples
@@ -149,13 +148,13 @@ class NeuralNetwork_Base(object):
 
         Returns:
             If ret_train_loss is set to True and xvalid is not None,
-            4 integers will be returned indicating the training loss,
-            validation loss, training accuracy, and validation accuracy
+            4 integers will be returned in a tuple, indicating the training
+            loss, validation loss, training accuracy, and validation accuracy
             respectively.
 
             If ret_train_loss is True and xvalid is None, then two integers
-            will be returned indicating the training loss and training accuracy
-            respectively.
+            will be returned in a tuple, indicating the training loss and
+            training accuracy respectively.
 
             Otherwise, None will be returned.
         """
