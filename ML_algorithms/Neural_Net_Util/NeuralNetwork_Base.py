@@ -260,20 +260,26 @@ class NeuralNetwork_Base(object):
         predictions = np.argmax(predictions, axis=0)
         return predictions
 
-    def _calculateLoss(self, curr_y, pred_minibatch, layersNet):
+    def _calculateLoss(self, curr_y: np.ndarray, pred_minibatch: np.ndarray,
+                       layersNet: list[_BaseLayer]) -> float:
         """
-        This method is used to calculate the loss of the neural network on a batch of
-        examples that have been predicted on.
+        This method is used to calculate the loss of the neural network
+        on a batch of examples.
 
         M: Number of examples
 
-        Parameters:
-        -> curr_y (NumPy vector): NumPy vector of shape (M,1) consisting of the real answers for the 
-        M examples
-        -> pred_minibatch (NumPy vector): NumPy vector of shape (M,1) consisting of the predicted answers for 
-        the M examples
+        Args:
+            curr_y:
+                Numpy vector of shape (M,1) consisting of the labels for the
+                M examples
 
-        Returns: None
+            pred_minibatch:
+                NumPy vector of shape (M,1) consisting of the predicted answers
+                for the M examples
+
+        Returns:
+            Floating point value indicating the loss of the neural network on
+            the given batch of examples
         """
         return self.lossFunction.get_loss(curr_y, pred_minibatch, layersNet)
 
