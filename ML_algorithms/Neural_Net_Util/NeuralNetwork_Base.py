@@ -262,8 +262,7 @@ class NeuralNetwork_Base(object):
 
     def _calculateLoss(self, curr_y: np.ndarray, pred_minibatch: np.ndarray,
                        layersNet: list[_BaseLayer]) -> float:
-        """
-        This method is used to calculate the loss of the neural network
+        """ This method is used to calculate the loss of the neural network
         on a batch of examples.
 
         M: Number of examples
@@ -283,26 +282,36 @@ class NeuralNetwork_Base(object):
         """
         return self.lossFunction.get_loss(curr_y, pred_minibatch, layersNet)
 
-    def _forward_propagate(self, X, train=True):
-        """
-        This method implements the forward propagation step for a neural network. 
-        Each layer is fed in the activations from the previous layer a[L-1], a matrix that
-        will be of shape (M, Nx) where M is the number of training examples and Nx is the 
-        number of features, and computesits own activations a[L]. 
-        These activations are fed to the next layer and so on.
+    def _forward_propagate(self,
+                           X: np.ndarray,
+                           train: bool = True) -> np.ndarray:
+        """ This method implements the forward propagation step for a neural
+        network.
 
-        Parameters:
-        - X (NumPy Matrix) -> A NumPy matrix of shape (M,Nx) where M is the number of outputs and
-        Nx is the number of features.
+        Each layer is fed in the activations from the previous layer. a[L-1],
+        is a matrix that will be of shape (M, N) where M is the number of
+        training examples and N is the number of features, and computes its
+        own activations a[L]. These activations are fed to the next layer
+        and so on.
 
-        Returns: Output (NumPy Matrix) -> A NumPy matrix produced as output
-        from the last hidden layer.
+        Args:
+            X:
+                A NumPy matrix of shape (M,N) where M is the number of outputs
+                and N is the number of features.
+
+            train:
+                A boolean indicating whether the algorithm is currently training
+                or not
+
+        Returns:
+            A numpy matrix produced as output from the last hidden layer.
         """
         prev_activations = X
         for layer in self.layers:
             # if we are feeding in input from a Conv layer or pool layer
-            # we don't know before how many activated neurons are going to be passed into
-            # this dense layer, so we can't pre-initialize the weights for each layer.
+            # we don't know before how many activated neurons are going to
+            # be passed into this dense layer, so we can't pre-initialize
+            # the weights for each layer.
             if isinstance(layer, DenseLayer) and layer.W is None:
                 # conv layer will have flattened its output to matrix shape
                 layer.W, layer.b = layer._initializeWeights(
