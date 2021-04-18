@@ -1,5 +1,6 @@
-import numpy as np 
+import numpy as np
 import sys
+
 
 class BaseDecisionTree(object):
     """
@@ -21,10 +22,18 @@ class BaseDecisionTree(object):
 
     -> min_impurity_decrease (int): The minimum decrease in impurity to justify splitting the node 
     """
-    def __init__(self, trainingFunction, predictionFunc, minSamplesSplit = 2, maxDepth = None, maxFeatures = None, min_impurity_decrease =0):
+
+    def __init__(self,
+                 trainingFunction,
+                 predictionFunc,
+                 minSamplesSplit=2,
+                 maxDepth=None,
+                 maxFeatures=None,
+                 min_impurity_decrease=0):
+
         self.root = self._DecisionTreeNode()
         self.trainFunc = trainingFunction
-        self.predictionFunc = predictionFunc 
+        self.predictionFunc = predictionFunc
         self.minSamplesSplit = minSamplesSplit
         self.maxDepth = maxDepth
         self.maxFeatures = maxFeatures
@@ -45,17 +54,17 @@ class BaseDecisionTree(object):
         -> x (NumPy matrix): A (N,M) matrix where N is features and M is examples 
         -> y (NumPy vector): A (1,M) vector where M is the number of examples 
         """
-        def __init__(self):
-            # Left and Right Branch connecting to this node 
-            self.left = None
-            self.right = None 
-            # Feature + splitPt on feature used to split here if split 
-            self.feature_row = None
-            self.splitPtFeature = None  
-            self.gain = None
-            # If leaf node (no left child or right child), we will store the prediction here 
-            self.prediction = None
 
+        def __init__(self):
+            # Left and Right Branch connecting to this node
+            self.left = None
+            self.right = None
+            # Feature + splitPt on feature used to split here if split
+            self.feature_row = None
+            self.splitPtFeature = None
+            self.gain = None
+            # If leaf node (no left child or right child), we will store the prediction here
+            self.prediction = None
 
     def fit(self, xtrain, ytrain):
         """
@@ -75,8 +84,7 @@ class BaseDecisionTree(object):
         """
         node = self.root
         self._recursiveTreeConstruction(node, xtrain, ytrain, 0)
-    
-    
+
     def _recursiveTreeConstruction(self, node, xtrain, ytrain, depth):
         """
         This method recursively builds the tree out, building each branch out in a depth first manner.
@@ -89,51 +97,59 @@ class BaseDecisionTree(object):
 
         Returns: None 
         """
-        # Deal with base cases first - cases to stop building the tree out 
+        # Deal with base cases first - cases to stop building the tree out
         # If your depth is equal to the maximum depth allowed, just get the prediction for this node and return
         if self.maxDepth is not None and depth == self.maxDepth:
             node.prediction = self.predictionFunc(ytrain)
-            return 
-        
-        # If the number of labels at this node is <= to the minimum number of samples needed to justify a split
-        # then we set this node as a leaf node and leave it with a prediction 
-        if ytrain.shape[1] <= self.minSamplesSplit:
-            node.prediction = self.predictionFunc(ytrain) 
             return
-        
+
+        # If the number of labels at this node is <= to the minimum number of samples needed to justify a split
+        # then we set this node as a leaf node and leave it with a prediction
+        if ytrain.shape[1] <= self.minSamplesSplit:
+            node.prediction = self.predictionFunc(ytrain)
+            return
+
         # If there is only one unique label in this node, then we just predict that label. No need to keep splitting further
         if len(np.unique(ytrain)) == 1:
             node.prediction = self.predictionFunc(ytrain)
-            return 
-        
-        # If we are doing feature bagging, then maxFeatures will not be None and therefore we must slice out 
-        # a random subsection of the features and only use them to build the node 
+            return
 
-        # Sample without replacement! 
+        # If we are doing feature bagging, then maxFeatures will not be None and therefore we must slice out
+        # a random subsection of the features and only use them to build the node
+
+        # Sample without replacement!
         randomFeaturesChosen = None
         if self.maxFeatures:
-            randomFeaturesChosen = np.random.choice(xtrain.shape[0], self.maxFeatures, replace=False)
-            features = xtrain[randomFeaturesChosen, :] 
-            assert features.shape == (self.maxFeatures, xtrain.shape[1]), "Your sliced out features are shape (%s, %s) and xtrain is shape (%s, %s)"%(features.shape[0], features.shape[1], xtrain.shape[0], xtrain.shape[1])
+            randomFeaturesChosen = np.random.choice(xtrain.shape[0],
+                                                    self.maxFeatures,
+                                                    replace=False)
+            features = xtrain[randomFeaturesChosen, :]
+            assert features.shape == (
+                self.maxFeatures, xtrain.shape[1]
+            ), "Your sliced out features are shape (%s, %s) and xtrain is shape (%s, %s)" % (
+                features.shape[0], features.shape[1], xtrain.shape[0],
+                xtrain.shape[1])
         else:
             features = xtrain
-        
-        # Find the feature that best splits the labels and how well it does at this task 
-        feature_row, splitPt, decreaseImpurity = self._findBestFeature(features, ytrain, randomFeaturesChosen)
+
+        # Find the feature that best splits the labels and how well it does at this task
+        feature_row, splitPt, decreaseImpurity = self._findBestFeature(
+            features, ytrain, randomFeaturesChosen)
         # if the decrease in impurity doesn't justify a split at this node, then we set this node as a leaf
-        # node and return. 
+        # node and return.
         if decreaseImpurity <= self.min_impurity_decrease:
             node.prediction = self.predictionFunc(ytrain)
-            return 
-        # Otherwise assign this node the feature col and split pt and continue on 
-        node.feature_row = feature_row 
+            return
+        # Otherwise assign this node the feature col and split pt and continue on
+        node.feature_row = feature_row
         node.splitPtFeature = splitPt
         node.gain = decreaseImpurity
-        xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(xtrain, ytrain, feature_row, splitPt)
+        xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(
+            xtrain, ytrain, feature_row, splitPt)
         node.left = self._DecisionTreeNode()
         node.right = self._DecisionTreeNode()
-        self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth+1)
-        self._recursiveTreeConstruction(node.right, xtrainR, ytrainR, depth+1)
+        self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth + 1)
+        self._recursiveTreeConstruction(node.right, xtrainR, ytrainR, depth + 1)
 
     def _splitData(self, xtrain, ytrain, feature_row, splitPt):
         """
@@ -166,30 +182,31 @@ class BaseDecisionTree(object):
         # IE so the labels stay attached to the correct feature vectors
         matrix = np.hstack((xtrain, ytrain))
         # Have to use isinstance here instead of checking type(x) is int or float
-        # because we have np.float64 or np.int64 not base python ints 
+        # because we have np.float64 or np.int64 not base python ints
         # but those objects inherited from the base python ints so they will be instances of it
-        if isinstance(splitPt, (int, np.integer)) or isinstance(splitPt, (float, np.float)):
+        if isinstance(splitPt,
+                      (int, np.integer)) or isinstance(splitPt,
+                                                       (float, np.float)):
             matrixTrue = matrix[matrix[:, feature_row] >= splitPt]
             xtrainR = matrixTrue[:, :-1].T
             ytrainR = matrixTrue[:, -1].T.reshape(1, -1)
 
-            matrixFalse = matrix[matrix[:,feature_row] < splitPt]
-            xtrainL = matrixFalse[:,:-1].T
-            ytrainL = matrixFalse[:,-1].T.reshape(1,-1)
-            return xtrainL, ytrainL, xtrainR, ytrainR 
+            matrixFalse = matrix[matrix[:, feature_row] < splitPt]
+            xtrainL = matrixFalse[:, :-1].T
+            ytrainL = matrixFalse[:, -1].T.reshape(1, -1)
+            return xtrainL, ytrainL, xtrainR, ytrainR
         else:
             matrixTrue = matrix[matrix[:, feature_row] == splitPt]
             xtrainR = matrixTrue[:, :-1].T
-            ytrainR = matrixTrue[:, -1].T.reshape(1,-1)
+            ytrainR = matrixTrue[:, -1].T.reshape(1, -1)
 
             matrixFalse = matrix[matrix[:, feature_row] != splitPt]
             xtrainL = matrixFalse[:, :-1].T
-            ytrainL = matrixFalse[:, -1].T.reshape(1,-1)
-            
-            return xtrainL, ytrainL, xtrainR, ytrainR 
+            ytrainL = matrixFalse[:, -1].T.reshape(1, -1)
 
+            return xtrainL, ytrainL, xtrainR, ytrainR
 
-    def _findBestFeature(self, features, ytrain, featuresChosen = None):
+    def _findBestFeature(self, features, ytrain, featuresChosen=None):
         """
         This method finds the feature + split pt pair that produces the overall highest gain at the current node in the
         decision tree. 
@@ -205,36 +222,37 @@ class BaseDecisionTree(object):
         we will return -1's and make the current node a leaf node. 
         """
 
-        bestFeature_ProducedGain = -1 
-        bestSplit_ptFeature = -1 
-        highestGain = -1   
-        # Loop over every single feature to try out all its split pts   
+        bestFeature_ProducedGain = -1
+        bestSplit_ptFeature = -1
+        highestGain = -1
+        # Loop over every single feature to try out all its split pts
         for feature_row in range(features.shape[0]):
             # extract the current feature out of the feature matrix, and then find all of its unique values
-            # each unique value is a possible split point 
+            # each unique value is a possible split point
             currFeature = features[feature_row, :].reshape(1, -1)
             possibleSplitPts = np.unique(currFeature)
             currGain = 0
-            split_pt = -1 
+            split_pt = -1
             for thresholdVal in possibleSplitPts:
-                xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(features, ytrain, feature_row, thresholdVal)
+                xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(
+                    features, ytrain, feature_row, thresholdVal)
                 # If the split produces zero examples for the left or the right node, then we cannot consider this split
-                # pt as valid 
+                # pt as valid
                 if ytrainL.shape[1] == 0 or ytrainR.shape[1] == 0:
-                    continue 
-                gain = self.trainFunc(ytrain, ytrainL, ytrainR) 
+                    continue
+                gain = self.trainFunc(ytrain, ytrainL, ytrainR)
                 if gain > currGain:
                     currGain = gain
                     split_pt = thresholdVal
 
             if currGain >= highestGain:
                 highestGain = currGain
-                bestFeature_ProducedGain = feature_row if featuresChosen is None else featuresChosen[feature_row]
-                bestSplit_ptFeature = split_pt 
-    
-        return (bestFeature_ProducedGain, bestSplit_ptFeature, highestGain) 
+                bestFeature_ProducedGain = feature_row if featuresChosen is None else featuresChosen[
+                    feature_row]
+                bestSplit_ptFeature = split_pt
 
-    
+        return (bestFeature_ProducedGain, bestSplit_ptFeature, highestGain)
+
     def predict(self, x):
         """
         This function implements the predict function for decision trees. 
@@ -247,28 +265,32 @@ class BaseDecisionTree(object):
         node = self.root
         # handle easy case when there's just a single vector to predict on
         if x.shape[1] == 1:
-            return self._DFS(x.reshape(-1,1), node)
+            return self._DFS(x.reshape(-1, 1), node)
         node = self.root
         output = np.zeros((1, x.shape[1]))
         for i in range(x.shape[1]):
-            output[0, i] = self._DFS(x[:,i].reshape(-1,1), node)
+            output[0, i] = self._DFS(x[:, i].reshape(-1, 1), node)
         return output
 
     def _DFS(self, feature_vector, node):
         if not node:
-            raise("You reached a null node before reaching a prediction, there is an error somewhere")
-        # We have reached a leaf node - get the prediction 
+            raise (
+                "You reached a null node before reaching a prediction, there is an error somewhere"
+            )
+        # We have reached a leaf node - get the prediction
         if not node.left and not node.right:
             return node.prediction
         # If its not a leaf node, we decide whether we want to traverse down the left branch or right branch
         # which depends on the leafs feature +split point
-        
-        # As decision trees don't need categoric features to be encoded, we will have different behaviour depending on the 
-        # type of the feature we used to split the tree at this node 
+
+        # As decision trees don't need categoric features to be encoded, we will have different behaviour depending on the
+        # type of the feature we used to split the tree at this node
 
         # being >= to feature val means you 'passed' test so you go to right branch
-        # else you failed test and go to left branch 
-        if isinstance(node.splitPtFeature, (int, np.integer)) or isinstance(node.splitPtFeature, (float, np.float)):
+        # else you failed test and go to left branch
+        if isinstance(node.splitPtFeature,
+                      (int, np.integer)) or isinstance(node.splitPtFeature,
+                                                       (float, np.float)):
             # feature vector will be a 1D column vector of shape (N,1) so we just acccess the feature row and compare the value
             if feature_vector[node.feature_row] >= node.splitPtFeature:
                 return self._DFS(feature_vector, node.right)
@@ -279,7 +301,6 @@ class BaseDecisionTree(object):
                 return self._DFS(feature_vector, node.right)
             else:
                 return self._DFS(feature_vector, node.left)
-        
 
     def printTree(self):
         """
@@ -295,17 +316,16 @@ class BaseDecisionTree(object):
         if not node:
             return
         elif node.prediction is not None:
-            print("We've arrived at a leaf node and prediction! Prediction: %s"%(node.prediction))
+            print(
+                "We've arrived at a leaf node and prediction! Prediction: %s" %
+                (node.prediction))
             print('\n')
         else:
-            print("Comparison test: feature at row: %s at split pt: %s"%(node.feature_row, node.splitPtFeature))
+            print("Comparison test: feature at row: %s at split pt: %s" %
+                  (node.feature_row, node.splitPtFeature))
             print('\n')
             print("If test passed, going to right branch")
             self._printHelper(node.right)
             print('\n')
             print("If test failed, going to left branch")
             self._printHelper(node.left)
-        
-    
-
-
