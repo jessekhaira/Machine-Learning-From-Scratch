@@ -327,22 +327,40 @@ class NeuralNetwork_Base(object):
             prev_activations = activations
         return activations
 
-    def _backward_propagate(self, initalGradient, learn_rate, optim, epoch,
-                            curr_x, curr_y):
-        """
-        This method implements the backward propagation step for a neural network. 
-        The backpropagation is initialized by the gradient produced from the cost function
-        dL/da. From there, we simply pass back through each of the layers in the neural network,
-        with each layer computing dL/dZ, then from there getting dL/dW and dL/dB for this layer.
-        The output from each layer will be dL/da[L-1], which is passed down further back in the circuit.
+    def _backward_propagate(self, initalGradient: np.ndarray, learn_rate: float,
+                            optim: optimizer, epoch: int, curr_x: np.ndarray,
+                            curr_y: np.ndarray):
+        """This method implements the backward propagation step
+        for a neural network.
 
-        Parameters:
-        - initialGradient (NumPy matrix) -> This will represent the starting gradient dL/da.
+        The backpropagation is initialized by the gradient produced
+        from the cost function dL/da. From there, we simply pass back
+        through each of the layers in the neural network, with each
+        layer computing dL/dZ, then from there getting dL/dW and dL/dB
+        for this layer. The output from each layer will be dL/da[L-1],
+        which is passed down further back in the circuit.
 
-        - learn_rate (float) -> learning rate to be used when optimizing the cost function
-        Returns: None
+        Args:
+            initialGradient:
+                Numpy matrix representing starting gradient dL/da.
 
-        - optim (function) -> optimizer to use to minimize the loss function 
+            learn_rate:
+                Floating point value indicating the learning rate to
+                be used when optimizing the cost function
+
+            optim:
+                Object of type optimizer to use to minimize the loss function
+
+            epoch:
+                Integer representing the epoch which we are training the network
+                in currently
+
+            curr_x:
+                Numpy matrix representing the feature vectors currently being
+                trained on
+
+            curr_y:
+                Numpy vector representing the labels for the feature vectors
         """
         dLdA = initalGradient
         for i in reversed(range(len(self.layers))):
