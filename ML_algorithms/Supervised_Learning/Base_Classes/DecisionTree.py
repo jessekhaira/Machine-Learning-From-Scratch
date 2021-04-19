@@ -1,35 +1,49 @@
 import numpy as np
 import sys
+from typing import Callable
 
 
 class BaseDecisionTree(object):
     """
-    This class is a template for CART, from whsich you can instantiate classification trees 
-    for binary and multiclasss classification, and regression trees. 
+    This class is a template for classification and regression trees (CART),
+    from which you can instantiate classification trees for binary and
+    multiclasss classification, and regression trees.
 
-    Parameters:
-    -> trainingFunction (function): For classification, can either be giniGain or entropyGain, for regression should be
-    variance reduction. This function will be used to construct the tree.
+    Attributes:
+        trainingFunction:
+            For classification, can either be giniGain or entropyGain,
+            for regression should be variance reduction. This function
+            will be used to construct the tree.
 
-    -> predictionFunc (function): Function used to get predictions. For classification, will be the mode of the labels that 
-    lie in a given node. For regression, will be the average of the labels that lie in a given node. 
+        predictionFunc:
+            Function used to get predictions. For classification, will
+            be the mode of the labels that lie in a given node. For
+            regression, will be the average of the labels that lie in
+            a given node.
 
-    -> minSamplesSplit (int): Integer indicating the minimum number of examples that have to fall in this node to justify splitting further
+        minSamplesSplit:
+            Integer indicating the minimum number of examples that have
+            to fall in this node to justify splitting further
 
-    -> maxDepth (int): Integer representing the maximum depth to grow this tree 
-    
-    -> maxFeatures (int): Integer representing the maximum number of features to use to determine the split
+        maxDepth:
+            Integer representing the maximum depth to grow this tree
 
-    -> min_impurity_decrease (int): The minimum decrease in impurity to justify splitting the node 
+        maxFeatures:
+            Integer representing the maximum number of features to use to
+            determine the split
+
+        min_impurity_decrease:
+            Floating point value representing the minimum decrease in impurity
+            to justify splitting a node and continuing training
     """
 
     def __init__(self,
                  trainingFunction,
                  predictionFunc,
-                 minSamplesSplit=2,
-                 maxDepth=None,
-                 maxFeatures=None,
-                 min_impurity_decrease=0):
+                 minSamplesSplit: int = 2,
+                 maxDepth: int = None,
+                 maxFeatures: int = None,
+                 min_impurity_decrease: float = 0):
 
         self.root = self._DecisionTreeNode()
         self.trainFunc = trainingFunction
