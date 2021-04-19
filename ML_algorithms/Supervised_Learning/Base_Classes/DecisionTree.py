@@ -38,8 +38,8 @@ class BaseDecisionTree(object):
     """
 
     def __init__(self,
-                 trainingFunction: Callable,
-                 predictionFunc: Callable,
+                 trainingFunction,
+                 predictionFunc,
                  minSamplesSplit: int = 2,
                  maxDepth: int = None,
                  maxFeatures: int = None,
