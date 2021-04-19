@@ -1,3 +1,4 @@
+""" This module contains code representing a generic decision tree """
 import numpy as np
 import sys
 from typing import Callable
