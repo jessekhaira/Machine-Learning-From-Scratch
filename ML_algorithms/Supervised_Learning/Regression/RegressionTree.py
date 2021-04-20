@@ -1,7 +1,8 @@
-import numpy as np 
+import numpy as np
 from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
 from ML_algorithms.Utility.DecisionTreeFunctions import varianceReduction
+
 
 class RegressionTree(BaseDecisionTree):
     """
@@ -16,7 +17,16 @@ class RegressionTree(BaseDecisionTree):
 
     -> min_impurity_decrease (int): The minimum decrease in impurity to justify splitting a node 
     """
-    def __init__(self, minSamplesSplit = 2, maxDepth = None, maxFeatures = None, min_impurity_decrease =0):
-        super(RegressionTree, self).__init__(trainingFunction = varianceReduction, predictionFunc = predictionRegression, minSamplesSplit=minSamplesSplit, maxDepth = maxDepth, maxFeatures = maxFeatures, min_impurity_decrease = min_impurity_decrease)
 
-
+    def __init__(self,
+                 minSamplesSplit=2,
+                 maxDepth=None,
+                 maxFeatures=None,
+                 min_impurity_decrease=0):
+        super(RegressionTree,
+              self).__init__(trainingFunction=varianceReduction,
+                             predictionFunc=predictionRegression,
+                             minSamplesSplit=minSamplesSplit,
+                             maxDepth=maxDepth,
+                             maxFeatures=maxFeatures,
+                             min_impurity_decrease=min_impurity_decrease)
