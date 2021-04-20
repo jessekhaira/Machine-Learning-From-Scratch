@@ -4,9 +4,45 @@ import sys
 from typing import Callable
 
 
-class BaseDecisionTree(object):
+class DecisionTreeNode(object):
+    """ This class represents a node inside of a decision tree.
+
+    Every node inside of a decision tree has three things:
+        - A portion of data indicating the region of the data that
+        fell into this node
+        - A pointer to a left child
+        - A pointer to a right child
+
+    At inference time, we DFS the binary decision tree, compare our
+    input vectors values based on the value of the feature + split
+    point chosen at this node.
+
+    N - number of features
+    M - number of examples
+
+    Attributes:
+        x:
+            A (N,M) numpy matrix containing feature vectors
+
+        y:
+            A (1,M) numpy vector containing label vectors for the feature
+            vectors
     """
-    This class is a template for classification and regression trees (CART),
+
+    def __init__(self):
+        # Left and Right Branch connecting to this node
+        self.left = None
+        self.right = None
+        # Feature + splitPt on feature used to split here if split
+        self.feature_row = None
+        self.splitPtFeature = None
+        self.gain = None
+        # If leaf node (no left child or right child), we will store the prediction here
+        self.prediction = None
+
+
+class BaseDecisionTree(object):
+    """ This class is a template for classification and regression trees (CART),
     from which you can instantiate classification trees for binary and
     multiclasss classification, and regression trees.
 
@@ -39,47 +75,22 @@ class BaseDecisionTree(object):
     """
 
     def __init__(self,
-                 trainingFunction,
-                 predictionFunc,
+                 trainingFunction: Callable[
+                     [DecisionTreeNode, DecisionTreeNode, DecisionTreeNode],
+                     float],
+                 predictionFunc: Callable[[np.ndarray], float],
                  minSamplesSplit: int = 2,
                  maxDepth: int = None,
                  maxFeatures: int = None,
                  min_impurity_decrease: float = 0):
 
-        self.root = self._DecisionTreeNode()
+        self.root = DecisionTreeNode()
         self.trainFunc = trainingFunction
         self.predictionFunc = predictionFunc
         self.minSamplesSplit = minSamplesSplit
         self.maxDepth = maxDepth
         self.maxFeatures = maxFeatures
         self.min_impurity_decrease = min_impurity_decrease
-
-    class _DecisionTreeNode(object):
-        """
-        This class represents a single node inside of a decision tree, and is encapsulated inside of the BaseDecisionTree class.
-        Every node inside of a decision tree has three things:
-        - A portion of data indicating the region of the data that fell into this node
-        - A pointer to a left child
-        - A pointer to a right child 
-
-        When predicting, we will DFS the binary decision tree, comparing our input vectors values based on the value of the feature
-        + split point chosen at this node. 
-
-        Parameters:
-        -> x (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> y (NumPy vector): A (1,M) vector where M is the number of examples 
-        """
-
-        def __init__(self):
-            # Left and Right Branch connecting to this node
-            self.left = None
-            self.right = None
-            # Feature + splitPt on feature used to split here if split
-            self.feature_row = None
-            self.splitPtFeature = None
-            self.gain = None
-            # If leaf node (no left child or right child), we will store the prediction here
-            self.prediction = None
 
     def fit(self, xtrain, ytrain):
         """
@@ -105,7 +116,7 @@ class BaseDecisionTree(object):
         This method recursively builds the tree out, building each branch out in a depth first manner.
 
         Parameters:
-        -> node (_DecisionTreeNode): Current node in the binary decision tree
+        -> node (DecisionTreeNode): Current node in the binary decision tree
         -> xtrain (NumPy matrix): A (N,M) matrix where N is features and M is examples 
         -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
         -> depth (int): Integer representing how deep in the tree the algorithm currently is 
@@ -161,8 +172,8 @@ class BaseDecisionTree(object):
         node.gain = decreaseImpurity
         xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(
             xtrain, ytrain, feature_row, splitPt)
-        node.left = self._DecisionTreeNode()
-        node.right = self._DecisionTreeNode()
+        node.left = DecisionTreeNode()
+        node.right = DecisionTreeNode()
         self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth + 1)
         self._recursiveTreeConstruction(node.right, xtrainR, ytrainR, depth + 1)
 
