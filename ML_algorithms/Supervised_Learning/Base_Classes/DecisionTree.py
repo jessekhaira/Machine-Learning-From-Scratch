@@ -92,7 +92,7 @@ class BaseDecisionTree(object):
         self.maxFeatures = maxFeatures
         self.min_impurity_decrease = min_impurity_decrease
 
-    def fit(self, xtrain, ytrain):
+    def fit(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
         """This method implements the .fit() method for decision trees, where we
         build the decision tree on the training set xtrain and ytrain.
 
