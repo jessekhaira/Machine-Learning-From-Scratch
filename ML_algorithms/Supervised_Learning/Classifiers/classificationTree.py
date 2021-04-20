@@ -1,8 +1,9 @@
-import numpy as np 
+import numpy as np
 from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
 from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain
-from ML_algorithms.Utility.DecisionTreeFunctions  import giniGain 
-from ML_algorithms.Utility.DecisionTreeFunctions  import predictionClassification
+from ML_algorithms.Utility.DecisionTreeFunctions import giniGain
+from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification
+
 
 class ClassificationTree(BaseDecisionTree):
     """
@@ -23,14 +24,21 @@ class ClassificationTree(BaseDecisionTree):
     -> min_impurity_decrease (int): The minimum decrease in impurity to justify splitting a node 
     """
 
-    def __init__(self, entropy = True, minSamplesSplit = 2, maxDepth = None, maxFeatures = None, min_impurity_decrease =0):
+    def __init__(self,
+                 entropy=True,
+                 minSamplesSplit=2,
+                 maxDepth=None,
+                 maxFeatures=None,
+                 min_impurity_decrease=0):
         if entropy:
             trainFunction = entropyGain
         else:
             trainFunction = giniGain
-        predictionFunc = predictionClassification 
-        super(ClassificationTree, self).__init__(trainingFunction = trainFunction, predictionFunc = predictionFunc, minSamplesSplit=minSamplesSplit, maxDepth = maxDepth, maxFeatures = maxFeatures, min_impurity_decrease = min_impurity_decrease)
-
-
-
-    
+        predictionFunc = predictionClassification
+        super(ClassificationTree,
+              self).__init__(trainingFunction=trainFunction,
+                             predictionFunc=predictionFunc,
+                             minSamplesSplit=minSamplesSplit,
+                             maxDepth=maxDepth,
+                             maxFeatures=maxFeatures,
+                             min_impurity_decrease=min_impurity_decrease)
