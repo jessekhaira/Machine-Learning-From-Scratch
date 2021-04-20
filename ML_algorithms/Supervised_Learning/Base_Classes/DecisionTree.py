@@ -93,20 +93,28 @@ class BaseDecisionTree(object):
         self.min_impurity_decrease = min_impurity_decrease
 
     def fit(self, xtrain, ytrain):
-        """
-        This method implements the .fit() method for decision trees, where we build the decision tree on the training set:
-        xtrain and ytrain. 
+        """This method implements the .fit() method for decision trees, where we
+        build the decision tree on the training set xtrain and ytrain.
 
-        Decision trees train in a greedy manner as we are not globally optimizing the cost function. To do that, we would have to exhaustively
-        build every single possible decision tree and evaluate each of them, and then choose the best out of that, which is an NP-Complete problem.
+        Decision trees train in a greedy manner as we are not globally
+        optimizing the cost function. To do that, we would have to
+        exhaustively build every single possible decision tree and
+        evaluate each of them, and then choose the best out of that,
+        which is very expensive to do.
 
-        Here we simply just choose the best decision at each node and don't backtrack to change it. 
+        Here we simply just choose the best decision at each node and don't
+        backtrack to change it.
 
-        Parameters:
-        -> xtrain (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
+        N - number of features
+        M - number of examples
 
-        Returns: None 
+        Args:
+            xtrain:
+                A (N,M) numpy matrix consisting of feature vectors
+
+            ytrain:
+                A (1,M) numpy vector consisting of labels for the feature
+                vectors
         """
         node = self.root
         self._recursiveTreeConstruction(node, xtrain, ytrain, 0)
