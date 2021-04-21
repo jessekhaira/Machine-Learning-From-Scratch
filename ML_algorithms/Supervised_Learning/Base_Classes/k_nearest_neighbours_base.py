@@ -116,5 +116,9 @@ class KNearestNeighboursBase(object):
         Thus, this method will be left as an abstract method, to be inherited by
         both the kNN classifier and regressor and overriden with their own
         specific implementations.
+        
+        k_closest:
+            A numpy array which represents the k closest neigbours to the current
+            vector 
         """
         raise NotImplementedError
