@@ -120,36 +120,49 @@ class BaseDecisionTree(object):
         self._recursiveTreeConstruction(node, xtrain, ytrain, 0)
 
     def _recursiveTreeConstruction(self, node, xtrain, ytrain, depth):
-        """
-        This method recursively builds the tree out, building each branch out in a depth first manner.
+        """ This method recursively builds the tree out in a depth first manner.
 
-        Parameters:
-        -> node (DecisionTreeNode): Current node in the binary decision tree
-        -> xtrain (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
-        -> depth (int): Integer representing how deep in the tree the algorithm currently is 
+        N - number of features
+        M - number of examples
 
-        Returns: None 
+        Args:
+            node:
+                Object of type DecisionTreeNode, representing the current node
+                we are on
+            xtrain:
+                A (N,M) numpy matrix representing the training vectors for the
+                algorithm
+
+            ytrain:
+                A (1,M) numpy vector where M is the number of examples
+
+            depth:
+                Integer representing how deep in the tree the algorithm
+                currently is
         """
         # Deal with base cases first - cases to stop building the tree out
-        # If your depth is equal to the maximum depth allowed, just get the prediction for this node and return
+        # If your depth is equal to the maximum depth allowed, just get the
+        # prediction for this node and return
         if self.maxDepth is not None and depth == self.maxDepth:
             node.prediction = self.predictionFunc(ytrain)
             return
 
-        # If the number of labels at this node is <= to the minimum number of samples needed to justify a split
-        # then we set this node as a leaf node and leave it with a prediction
+        # If the number of labels at this node is <= to the minimum number of
+        # samples needed to justify a split then we set this node as a leaf
+        # node and leave it with a prediction
         if ytrain.shape[1] <= self.minSamplesSplit:
             node.prediction = self.predictionFunc(ytrain)
             return
 
-        # If there is only one unique label in this node, then we just predict that label. No need to keep splitting further
+        # If there is only one unique label in this node, then we just predict
+        # that label. No need to keep splitting further
         if len(np.unique(ytrain)) == 1:
             node.prediction = self.predictionFunc(ytrain)
             return
 
-        # If we are doing feature bagging, then maxFeatures will not be None and therefore we must slice out
-        # a random subsection of the features and only use them to build the node
+        # If we are doing feature bagging, then maxFeatures will not be None
+        # and therefore we must slice out a random subsection of the features
+        # and only use them to build the node
 
         # Sample without replacement!
         randomFeaturesChosen = None
@@ -166,15 +179,17 @@ class BaseDecisionTree(object):
         else:
             features = xtrain
 
-        # Find the feature that best splits the labels and how well it does at this task
+        # Find the feature that best splits the labels and how well it does
+        # at this task
         feature_row, splitPt, decreaseImpurity = self._findBestFeature(
             features, ytrain, randomFeaturesChosen)
-        # if the decrease in impurity doesn't justify a split at this node, then we set this node as a leaf
-        # node and return.
+        # if the decrease in impurity doesn't justify a split at this node,
+        # then we set this node as a leaf node and return.
         if decreaseImpurity <= self.min_impurity_decrease:
             node.prediction = self.predictionFunc(ytrain)
             return
-        # Otherwise assign this node the feature col and split pt and continue on
+        # Otherwise assign this node the feature col and split pt and
+        # continue on
         node.feature_row = feature_row
         node.splitPtFeature = splitPt
         node.gain = decreaseImpurity
