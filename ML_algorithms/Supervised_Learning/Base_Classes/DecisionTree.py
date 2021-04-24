@@ -131,6 +131,7 @@ class BaseDecisionTree(object):
             node:
                 Object of type DecisionTreeNode, representing the current node
                 we are on
+
             xtrain:
                 A (N,M) numpy matrix representing the training vectors for the
                 algorithm
