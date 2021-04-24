@@ -119,7 +119,9 @@ class BaseDecisionTree(object):
         node = self.root
         self._recursiveTreeConstruction(node, xtrain, ytrain, 0)
 
-    def _recursiveTreeConstruction(self, node, xtrain, ytrain, depth):
+    def _recursiveTreeConstruction(self, node: DecisionTreeNode,
+                                   xtrain: np.ndarray, ytrain: np.ndarray,
+                                   depth: int) -> None:
         """ This method recursively builds the tree out in a depth first manner.
 
         N - number of features
