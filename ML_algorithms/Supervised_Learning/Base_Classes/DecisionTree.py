@@ -1,7 +1,7 @@
 """ This module contains code representing a generic decision tree """
 import numpy as np
 import sys
-from typing import Callable
+from typing import Callable, Union, Tuple
 
 
 class DecisionTreeNode(object):
@@ -258,16 +258,18 @@ class BaseDecisionTree(object):
 
             return xtrainL, ytrainL, xtrainR, ytrainR
 
-    def _findBestFeature(self,
-                         features: np.ndarray,
-                         ytrain: np.ndarray,
-                         featuresChosen=None):
+    def _findBestFeature(
+            self,
+            features: np.ndarray,
+            ytrain: np.ndarray,
+            featuresChosen=None) -> Tuple[int, Union[int, str], int]:
         """ This method finds the feature + split pt pair that produces
         the overall highest gain at the current node in the decision tree.
 
         Args:
             features:
                 A (N,M) numpy matrix where N is features and M is examples
+
             ytrain:
                 A (1,M) numpy vector where M is the number of examples
 
