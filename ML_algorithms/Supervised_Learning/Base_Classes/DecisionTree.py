@@ -258,20 +258,24 @@ class BaseDecisionTree(object):
 
             return xtrainL, ytrainL, xtrainR, ytrainR
 
-    def _findBestFeature(self, features, ytrain, featuresChosen=None):
-        """
-        This method finds the feature + split pt pair that produces the overall highest gain at the current node in the
-        decision tree. 
+    def _findBestFeature(self,
+                         features: np.ndarray,
+                         ytrain: np.ndarray,
+                         featuresChosen=None):
+        """ This method finds the feature + split pt pair that produces
+        the overall highest gain at the current node in the decision tree.
 
-        Parameters:
-        -> features (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
+        Args:
+            features:
+                A (N,M) numpy matrix where N is features and M is examples
+            ytrain:
+                A (1,M) numpy vector where M is the number of examples
 
         Returns:
-        -> bestFeature_ProducedGain (int): Row of the feature that produced the highest gain 
-        -> bestSplit_ptFeature (int or str, depends on the type of the feature): Split pt of the feature that produced the highest gain 
-        -> highestGain (int): Integer representing the highest gain obtained at the node. HAS to be higher than min_impurity_decrease, otherwise
-        we will return -1's and make the current node a leaf node. 
+            Tuple containing an integer representing the row of the feature that
+            produced the highest gain, an integer or string representing the
+            split pt of the feature that produced the highest gain, and an
+            integer representing the highest gain obtained at the node.
         """
 
         bestFeature_ProducedGain = -1
