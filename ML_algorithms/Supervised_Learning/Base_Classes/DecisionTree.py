@@ -263,7 +263,7 @@ class BaseDecisionTree(object):
             self,
             features: np.ndarray,
             ytrain: np.ndarray,
-            featuresChosen=None) -> Tuple[int, Union[int, str], int]:
+            features_chosen=None) -> Tuple[int, Union[int, str], int]:
         """ This method finds the feature + split pt pair that produces
         the overall highest gain at the current node in the decision tree.
 
@@ -277,40 +277,43 @@ class BaseDecisionTree(object):
         Returns:
             Tuple containing an integer representing the row of the feature that
             produced the highest gain, an integer or string representing the
-            split pt of the feature that produced the highest gain, and an
-            integer representing the highest gain obtained at the node.
+            split pt of the feature that produced the highest gain (as we can
+            split on continuous feature or discrete feature), and an integer
+            representing the highest gain obtained at the node.
         """
 
-        bestFeature_ProducedGain = -1
-        bestSplit_ptFeature = -1
-        highestGain = -1
+        best_feature_produced_gain = -1
+        best_split_pt_feature = -1
+        highest_gain = -1
         # Loop over every single feature to try out all its split pts
         for feature_row in range(features.shape[0]):
-            # extract the current feature out of the feature matrix, and then find all of its unique values
-            # each unique value is a possible split point
-            currFeature = features[feature_row, :].reshape(1, -1)
-            possibleSplitPts = np.unique(currFeature)
-            currGain = 0
+            # extract the current feature out of the feature matrix, and
+            # then find all of its unique values each unique value is a
+            # possible split point
+            curr_feature = features[feature_row, :].reshape(1, -1)
+            possible_split_pts = np.unique(curr_feature)
+            curr_gain = 0
             split_pt = -1
-            for thresholdVal in possibleSplitPts:
-                xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(
-                    features, ytrain, feature_row, thresholdVal)
-                # If the split produces zero examples for the left or the right node, then we cannot consider this split
+            for threshold_val in possible_split_pts:
+                _, ytrain_l, _, ytrain_r = self._splitData(
+                    features, ytrain, feature_row, threshold_val)
+                # If the split produces zero examples for the left or
+                # the right node, then we cannot consider this split
                 # pt as valid
-                if ytrainL.shape[1] == 0 or ytrainR.shape[1] == 0:
+                if ytrain_l.shape[1] == 0 or ytrain_r.shape[1] == 0:
                     continue
-                gain = self.trainFunc(ytrain, ytrainL, ytrainR)
-                if gain > currGain:
-                    currGain = gain
-                    split_pt = thresholdVal
+                gain = self.trainFunc(ytrain, ytrain_l, ytrain_r)
+                if gain > curr_gain:
+                    curr_gain = gain
+                    split_pt = threshold_val
 
-            if currGain >= highestGain:
-                highestGain = currGain
-                bestFeature_ProducedGain = feature_row if featuresChosen is None else featuresChosen[
+            if curr_gain >= highest_gain:
+                highest_gain = curr_gain
+                best_feature_produced_gain = feature_row if features_chosen is None else features_chosen[
                     feature_row]
-                bestSplit_ptFeature = split_pt
+                best_split_pt_feature = split_pt
 
-        return (bestFeature_ProducedGain, bestSplit_ptFeature, highestGain)
+        return (best_feature_produced_gain, best_split_pt_feature, highest_gain)
 
     def predict(self, x):
         """

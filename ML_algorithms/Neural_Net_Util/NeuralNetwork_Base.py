@@ -8,7 +8,7 @@ from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 from ML_algorithms.Utility.misc import convertToHighestPred
 from ML_algorithms.Utility.ScoreFunctions import accuracy
-from typing import Union, Tuple
+from typing import Union, Tuple, List
 import copy
 
 
@@ -261,7 +261,7 @@ class NeuralNetwork_Base(object):
         return predictions
 
     def _calculateLoss(self, curr_y: np.ndarray, pred_minibatch: np.ndarray,
-                       layersNet: list[_BaseLayer]) -> float:
+                       layersNet: List[_BaseLayer]) -> float:
         """ This method is used to calculate the loss of the neural network
         on a batch of examples.
 
