@@ -37,7 +37,8 @@ class DecisionTreeNode(object):
         self.feature_row = None
         self.splitPtFeature = None
         self.gain = None
-        # If leaf node (no left child or right child), we will store the prediction here
+        # If leaf node (no left child or right child), we will store the
+        # prediction here
         self.prediction = None
 
 
@@ -184,7 +185,7 @@ class BaseDecisionTree(object):
 
         # Find the feature that best splits the labels and how well it does
         # at this task
-        feature_row, splitPt, decreaseImpurity = self._findBestFeature(
+        feature_row, splitPt, decreaseImpurity = self._find_best_feature(
             features, ytrain, randomFeaturesChosen)
         # if the decrease in impurity doesn't justify a split at this node,
         # then we set this node as a leaf node and return.
@@ -258,7 +259,7 @@ class BaseDecisionTree(object):
 
             return xtrainL, ytrainL, xtrainR, ytrainR
 
-    def _findBestFeature(
+    def _find_best_feature(
             self,
             features: np.ndarray,
             ytrain: np.ndarray,
