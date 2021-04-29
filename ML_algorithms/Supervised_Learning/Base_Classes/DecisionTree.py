@@ -48,6 +48,10 @@ class BaseDecisionTree(object):
     multiclasss classification, and regression trees.
 
     Attributes:
+        root:
+            An object of type DecisionTreeNode representing the root of the
+            decision tree
+
         trainingFunction:
             For classification, can either be giniGain or entropyGain,
             for regression should be variance reduction. This function
