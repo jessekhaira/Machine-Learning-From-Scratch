@@ -94,8 +94,8 @@ class BaseDecisionTree(object):
         self.min_impurity_decrease = min_impurity_decrease
 
     def fit(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
-        """This method implements the .fit() method for decision trees, where we
-        build the decision tree on the training set xtrain and ytrain.
+        """ This method implements the .fit() method for decision trees, where
+        we build the decision tree on the training set xtrain and ytrain.
 
         Decision trees train in a greedy manner as we are not globally
         optimizing the cost function. To do that, we would have to
@@ -204,30 +204,43 @@ class BaseDecisionTree(object):
         self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth + 1)
         self._recursiveTreeConstruction(node.right, xtrainR, ytrainR, depth + 1)
 
-    def _splitData(self, xtrain, ytrain, feature_row, splitPt):
-        """
-        This method splits the feature vectors and labels into two portions based
-        on the split pt. These are used to construct the left branch and right branch of the
-        current node.
+    def _splitData(
+            self, xtrain: np.ndarray, ytrain: np.ndarray, feature_row: int,
+            splitPt: int
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        """ This method splits the feature vectors and labels into
+        two portions based on the split pt. These are used to construct
+        the left branch and right branch of the current node.
 
-        Parameters:
-        -> xtrain (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
-        -> feature_row (int): Integer value indicating the row the feature is on that we are splitting with
-        -> splitPt (int): Integer value indicating the value we are splitting the feature at
+        N - number of features
+        M - number of examples
+
+        Args:
+            xtrain:
+                A (N,M) numpy matrix containing feature vectors
+
+            ytrain:
+                A (1,M) numpy vector containing the labels for xtrain
+
+            feature_row:
+                Integer value indicating the row the feature is on that we are
+                splitting with
+
+            splitPt:
+                Integer value indicating the value we are splitting the feature
+                at
 
         Returns:
-        -> xtrainL (NumPy matrix): A (N,M) matrix where N is features and M is examples where the feature_row
-        is < than (if numeric) or != the splitPt (if categoric)
+            A tuple containg 4 elements.
 
-        -> ytrainL (NumPy vector): A (1,M) vector where M is the number of examples where the feature_row
-        is < than (if numeric) or != the splitPt (if categoric)
+            The first element is a numpy matrix containing the feature vectors
+            for the left node and the second element is a numpy vector
+            containing the labels for the feature vectors sent to the left node.
 
-        -> xtrainR (NumPy matrix): A (N,M) matrix where N is features and M is examples where the feature_row is
-        >= than (if numeric) or == splitPt (if categoric)
-
-        -> ytrainR (NumPy vector):  A (1,M) vector where M is the number of examples where the feature_row is
-        >= than (if numeric) or == splitPt (if categoric) 
+            The third element is a numpy matrix containing the feature vectors
+            for the right node and the fourth element is a numpy vector
+            containing the labels for the feature vectors sent to the right
+            node.
         """
         xtrain = xtrain.T
         ytrain = ytrain.T
