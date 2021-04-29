@@ -361,7 +361,8 @@ class BaseDecisionTree(object):
         if isinstance(node.splitPtFeature,
                       (int, np.integer)) or isinstance(node.splitPtFeature,
                                                        (float, np.float)):
-            # feature vector will be a 1D column vector of shape (N,1) so we just acccess the feature row and compare the value
+            # feature vector will be a 1D column vector of shape (N,1)
+            # so we just acccess the feature row and compare the value
             if feature_vector[node.feature_row] >= node.splitPtFeature:
                 return self._depth_first_search(feature_vector, node.right)
             else:
