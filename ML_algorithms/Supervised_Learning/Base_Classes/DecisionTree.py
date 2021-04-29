@@ -315,14 +315,19 @@ class BaseDecisionTree(object):
 
         return (best_feature_produced_gain, best_split_pt_feature, highest_gain)
 
-    def predict(self, x):
+    def predict(self, x: np.ndarray) -> np.ndarray:
         """
-        This function implements the predict function for decision trees. 
+        This function implements the predict function for decision trees
+        using the depth first search traversal algorithm.
 
-        Parameters:
-        -> x (vector or matrix): A single vector, or a matrix of vectors that need to be assigned labels.
+        Args:
+            x:
+                A numpy vector or matrix that contains the same features as the
+                decision tree was trained on
 
-        Returns: Output(NumPy vector) containing the predictions from the tree for every single example. 
+        Returns:
+            A numpy vector containing the predictions of the decision tree on
+            the input x
         """
         node = self.root
         # handle easy case when there's just a single vector to predict on
