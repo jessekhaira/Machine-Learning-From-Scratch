@@ -332,42 +332,45 @@ class BaseDecisionTree(object):
         node = self.root
         # handle easy case when there's just a single vector to predict on
         if x.shape[1] == 1:
-            return self._DFS(x.reshape(-1, 1), node)
+            return self._depth_first_search(x.reshape(-1, 1), node)
         node = self.root
         output = np.zeros((1, x.shape[1]))
         for i in range(x.shape[1]):
-            output[0, i] = self._DFS(x[:, i].reshape(-1, 1), node)
+            output[0, i] = self._depth_first_search(x[:, i].reshape(-1, 1),
+                                                    node)
         return output
 
-    def _DFS(self, feature_vector, node):
+    def _depth_first_search(self, feature_vector, node):
         if not node:
-            raise (
-                "You reached a null node before reaching a prediction, there is an error somewhere"
-            )
+            raise "You reached a null node before reaching a prediction\
+                ,there is an error somewhere"
+
         # We have reached a leaf node - get the prediction
         if not node.left and not node.right:
             return node.prediction
-        # If its not a leaf node, we decide whether we want to traverse down the left branch or right branch
-        # which depends on the leafs feature +split point
+        # If its not a leaf node, we decide whether we want to traverse
+        # down the left branch or right branch which depends on the
+        # leafs feature +split point
 
-        # As decision trees don't need categoric features to be encoded, we will have different behaviour depending on the
-        # type of the feature we used to split the tree at this node
+        # As decision trees don't need categoric features to be encoded,
+        # we will have different behaviour depending on the type of the
+        # feature we used to split the tree at this node
 
-        # being >= to feature val means you 'passed' test so you go to right branch
-        # else you failed test and go to left branch
+        # being >= to feature val means you 'passed' test so you go to
+        # right branch else you failed test and go to left branch
         if isinstance(node.splitPtFeature,
                       (int, np.integer)) or isinstance(node.splitPtFeature,
                                                        (float, np.float)):
             # feature vector will be a 1D column vector of shape (N,1) so we just acccess the feature row and compare the value
             if feature_vector[node.feature_row] >= node.splitPtFeature:
-                return self._DFS(feature_vector, node.right)
+                return self._depth_first_search(feature_vector, node.right)
             else:
-                return self._DFS(feature_vector, node.left)
+                return self._depth_first_search(feature_vector, node.left)
         else:
             if feature_vector[node.feature_row] == node.splitPtFeature:
-                return self._DFS(feature_vector, node.right)
+                return self._depth_first_search(feature_vector, node.right)
             else:
-                return self._DFS(feature_vector, node.left)
+                return self._depth_first_search(feature_vector, node.left)
 
     def printTree(self):
         """
