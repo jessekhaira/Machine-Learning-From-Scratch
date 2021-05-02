@@ -284,12 +284,15 @@ class BaseDecisionTree(object):
         """ This method finds the feature + split pt pair that produces
         the overall highest gain at the current node in the decision tree.
 
+        N - number of features
+        M - number of examples
+
         Args:
             features:
-                A (N,M) numpy matrix where N is features and M is examples
+                A (N,M) numpy matrix representing feature vectors
 
             ytrain:
-                A (1,M) numpy vector where M is the number of examples
+                A (1,M) numpy vector representing labels for the feature vectors
 
         Returns:
             Tuple containing an integer representing the row of the feature that
