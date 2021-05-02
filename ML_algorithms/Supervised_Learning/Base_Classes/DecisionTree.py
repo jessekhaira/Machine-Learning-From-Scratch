@@ -394,11 +394,8 @@ class BaseDecisionTree(object):
                 return self._depth_first_search(feature_vector, node.left)
 
     def printTree(self):
-        """
-        This method recursively prints out the tree built, starting from the root node.
-
-        Input: None
-        Returns: None 
+        """ This method recursively prints out the tree built, starting
+        from the root node.
         """
         node = self.root
         self._printHelper(node)
