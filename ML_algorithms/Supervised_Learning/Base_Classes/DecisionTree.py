@@ -393,27 +393,27 @@ class BaseDecisionTree(object):
             else:
                 return self._depth_first_search(feature_vector, node.left)
 
-    def printTree(self):
+    def print_tree(self):
         """ This method recursively prints out the tree built, starting
         from the root node.
         """
         node = self.root
-        self._printHelper(node)
+        self._print_helper(node)
 
-    def _printHelper(self, node):
+    def _print_helper(self, node):
         if not node:
             return
         elif node.prediction is not None:
             print(
                 "We've arrived at a leaf node and prediction! Prediction: %s" %
                 (node.prediction))
-            print('\n')
+            print("\n")
         else:
             print("Comparison test: feature at row: %s at split pt: %s" %
                   (node.feature_row, node.split_pt_feature))
-            print('\n')
+            print("\n")
             print("If test passed, going to right branch")
-            self._printHelper(node.right)
-            print('\n')
+            self._print_helper(node.right)
+            print("\n")
             print("If test failed, going to left branch")
-            self._printHelper(node.left)
+            self._print_helper(node.left)

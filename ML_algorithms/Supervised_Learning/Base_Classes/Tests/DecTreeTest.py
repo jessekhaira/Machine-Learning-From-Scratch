@@ -79,7 +79,7 @@ class tests(unittest.TestCase):
         ytr = np.array([0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0,
                         0]).reshape(1, -1)
         obj1.fit(xtr, ytr)
-        obj1.printTree()
+        obj1.print_tree()
 
 
 if __name__ == "__main__":
