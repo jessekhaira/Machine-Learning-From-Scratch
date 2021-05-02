@@ -35,7 +35,7 @@ class DecisionTreeNode(object):
         self.right = None
         # Feature + splitPt on feature used to split here if split
         self.feature_row = None
-        self.splitPtFeature = None
+        self.split_pt_feature = None
         self.gain = None
         # If leaf node (no left child or right child), we will store the
         # prediction here
@@ -173,12 +173,12 @@ class BaseDecisionTree(object):
         # and only use them to build the node
 
         # Sample without replacement!
-        randomFeaturesChosen = None
+        random_features_chosen = None
         if self.maxFeatures:
-            randomFeaturesChosen = np.random.choice(xtrain.shape[0],
-                                                    self.maxFeatures,
-                                                    replace=False)
-            features = xtrain[randomFeaturesChosen, :]
+            random_features_chosen = np.random.choice(xtrain.shape[0],
+                                                      self.maxFeatures,
+                                                      replace=False)
+            features = xtrain[random_features_chosen, :]
             assert features.shape == (
                 self.maxFeatures, xtrain.shape[1]
             ), "Your sliced out features are shape (%s, %s) and xtrain is shape (%s, %s)" % (
@@ -189,20 +189,20 @@ class BaseDecisionTree(object):
 
         # Find the feature that best splits the labels and how well it does
         # at this task
-        feature_row, splitPt, decreaseImpurity = self._find_best_feature(
-            features, ytrain, randomFeaturesChosen)
+        feature_row, split_pt, decrease_impurity = self._find_best_feature(
+            features, ytrain, random_features_chosen)
         # if the decrease in impurity doesn't justify a split at this node,
         # then we set this node as a leaf node and return.
-        if decreaseImpurity <= self.min_impurity_decrease:
+        if decrease_impurity <= self.min_impurity_decrease:
             node.prediction = self.predictionFunc(ytrain)
             return
         # Otherwise assign this node the feature col and split pt and
         # continue on
         node.feature_row = feature_row
-        node.splitPtFeature = splitPt
-        node.gain = decreaseImpurity
+        node.split_pt_feature = split_pt
+        node.gain = decrease_impurity
         xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(
-            xtrain, ytrain, feature_row, splitPt)
+            xtrain, ytrain, feature_row, split_pt)
         node.left = DecisionTreeNode()
         node.right = DecisionTreeNode()
         self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth + 1)
@@ -210,7 +210,7 @@ class BaseDecisionTree(object):
 
     def _splitData(
             self, xtrain: np.ndarray, ytrain: np.ndarray, feature_row: int,
-            splitPt: int
+            split_pt: int
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """ This method splits the feature vectors and labels into
         two portions based on the split pt. These are used to construct
@@ -230,7 +230,7 @@ class BaseDecisionTree(object):
                 Integer value indicating the row the feature is on that we are
                 splitting with
 
-            splitPt:
+            split_pt:
                 Integer value indicating the value we are splitting the feature
                 at
 
@@ -254,23 +254,23 @@ class BaseDecisionTree(object):
         # Have to use isinstance here instead of checking type(x) is int or float
         # because we have np.float64 or np.int64 not base python ints
         # but those objects inherited from the base python ints so they will be instances of it
-        if isinstance(splitPt,
-                      (int, np.integer)) or isinstance(splitPt,
+        if isinstance(split_pt,
+                      (int, np.integer)) or isinstance(split_pt,
                                                        (float, np.float)):
-            matrixTrue = matrix[matrix[:, feature_row] >= splitPt]
+            matrixTrue = matrix[matrix[:, feature_row] >= split_pt]
             xtrainR = matrixTrue[:, :-1].T
             ytrainR = matrixTrue[:, -1].T.reshape(1, -1)
 
-            matrixFalse = matrix[matrix[:, feature_row] < splitPt]
+            matrixFalse = matrix[matrix[:, feature_row] < split_pt]
             xtrainL = matrixFalse[:, :-1].T
             ytrainL = matrixFalse[:, -1].T.reshape(1, -1)
             return xtrainL, ytrainL, xtrainR, ytrainR
         else:
-            matrixTrue = matrix[matrix[:, feature_row] == splitPt]
+            matrixTrue = matrix[matrix[:, feature_row] == split_pt]
             xtrainR = matrixTrue[:, :-1].T
             ytrainR = matrixTrue[:, -1].T.reshape(1, -1)
 
-            matrixFalse = matrix[matrix[:, feature_row] != splitPt]
+            matrixFalse = matrix[matrix[:, feature_row] != split_pt]
             xtrainL = matrixFalse[:, :-1].T
             ytrainL = matrixFalse[:, -1].T.reshape(1, -1)
 
@@ -375,17 +375,17 @@ class BaseDecisionTree(object):
 
         # being >= to feature val means you 'passed' test so you go to
         # right branch else you failed test and go to left branch
-        if isinstance(node.splitPtFeature,
-                      (int, np.integer)) or isinstance(node.splitPtFeature,
+        if isinstance(node.split_pt_feature,
+                      (int, np.integer)) or isinstance(node.split_pt_feature,
                                                        (float, np.float)):
             # feature vector will be a 1D column vector of shape (N,1)
             # so we just acccess the feature row and compare the value
-            if feature_vector[node.feature_row] >= node.splitPtFeature:
+            if feature_vector[node.feature_row] >= node.split_pt_feature:
                 return self._depth_first_search(feature_vector, node.right)
             else:
                 return self._depth_first_search(feature_vector, node.left)
         else:
-            if feature_vector[node.feature_row] == node.splitPtFeature:
+            if feature_vector[node.feature_row] == node.split_pt_feature:
                 return self._depth_first_search(feature_vector, node.right)
             else:
                 return self._depth_first_search(feature_vector, node.left)
@@ -410,7 +410,7 @@ class BaseDecisionTree(object):
             print('\n')
         else:
             print("Comparison test: feature at row: %s at split pt: %s" %
-                  (node.feature_row, node.splitPtFeature))
+                  (node.feature_row, node.split_pt_feature))
             print('\n')
             print("If test passed, going to right branch")
             self._printHelper(node.right)
