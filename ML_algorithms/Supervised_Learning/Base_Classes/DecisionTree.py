@@ -1,6 +1,6 @@
-""" This module contains code representing a generic decision tree """
+""" This module contains code representing the base class for CART
+trees """
 import numpy as np
-import sys
 from typing import Callable, Union, Tuple
 
 
@@ -336,8 +336,7 @@ class BaseDecisionTree(object):
         return (best_feature_produced_gain, best_split_pt_feature, highest_gain)
 
     def predict(self, x: np.ndarray) -> np.ndarray:
-        """
-        This function implements the predict function for decision trees
+        """ This function implements the predict function for decision trees
         using the depth first search traversal algorithm.
 
         Args:
