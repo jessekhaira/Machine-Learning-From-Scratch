@@ -1,3 +1,5 @@
+""" This module contains code representing the general
+bagged forest supervised machine learning algorithm """
 import numpy as np
 from ML_algorithms.Supervised_Learning.Regression.RegressionTree import RegressionTree
 from ML_algorithms.Supervised_Learning.Classifiers.classificationTree import ClassificationTree
@@ -78,8 +80,8 @@ class BaggedForest(object):
         self.maxFeatures = maxFeatures
         self.min_impurity_decrease = min_impurity_decrease
         self.verbose = verbose
-        # variable that keeps track of the examples used to train every tree in the ensemble
-        # so we can get OOB accuracy and error
+        # variable that keeps track of the examples used to train
+        # every tree in the ensemble so we can get OOB accuracy and error
         self.examplesUsedInBootstrap = []
 
         # variable indicating if this bagged forest is a random forest
