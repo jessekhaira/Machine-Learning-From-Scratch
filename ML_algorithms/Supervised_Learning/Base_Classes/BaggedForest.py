@@ -4,6 +4,7 @@ from ML_algorithms.Supervised_Learning.Classifiers.classificationTree import Cla
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
 from ML_algorithms.Utility.ScoreFunctions import MSE, RMSE, accuracy
+from typing import Literal, Union
 
 
 class BaggedForest(object):
@@ -16,8 +17,8 @@ class BaggedForest(object):
             models. If 1, train regression models.
 
         criterion:
-            String representing the type of loss function to use for,
-            classification that can either be "gini" or "entropy". If
+            String representing the type of loss function to use. If
+            classification, input should either be "gini" or "entropy". If
             regression, can be None.
 
         num_estimators:
@@ -57,16 +58,16 @@ class BaggedForest(object):
     """
 
     def __init__(self,
-                 typeSupervised,
-                 criterion,
-                 num_estimators=100,
-                 max_samples=None,
-                 bootstrap=False,
-                 minSamplesSplit=2,
-                 maxDepth=None,
-                 maxFeatures=None,
-                 min_impurity_decrease=0,
-                 verbose=False):
+                 typeSupervised: Literal[0, 1],
+                 criterion: Literal["gini", "entropy", None],
+                 num_estimators: int = 100,
+                 max_samples: Union[None, int, float] = None,
+                 bootstrap: bool = False,
+                 minSamplesSplit: int = 2,
+                 maxDepth: int = None,
+                 maxFeatures: int = None,
+                 min_impurity_decrease: int = 0,
+                 verbose: bool = False):
         self.typeSupervised = typeSupervised
         self.criterion = criterion
         self.num_estimators = num_estimators
