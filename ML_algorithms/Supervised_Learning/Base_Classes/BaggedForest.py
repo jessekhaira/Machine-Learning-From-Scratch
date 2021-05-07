@@ -86,17 +86,17 @@ class BaggedForest(object):
 
         # variable indicating if this bagged forest is a random forest
         # ensemble holder
-        self.forest = self._buildForest()
+        self.forest = self._build_forest()
 
-    def _buildForest(self):
-        """
-        This method builds the forest of trees out using the specifications given in the constructor.
+    def _build_forest(self):
+        """ This method builds the forest of trees out using the specifications
+        given in the constructor.
 
-        The individual trees will be trained when the .fit() method is called. 
+        The individual trees will be trained when the .fit() method is called.
         """
         forest = []
-        # If classification, fit classification trees with the appropriate criterion
-        # otherwise, fit regression trees
+        # If classification, fit classification trees with the appropriate
+        # criterion otherwise, fit regression trees
         if self.typeSupervised == 0:
             criterion = True if self.criterion == "entropy" else False
             for i in range(self.num_estimators):
@@ -118,15 +118,20 @@ class BaggedForest(object):
                         min_impurity_decrease=self.min_impurity_decrease))
             return forest
 
-    def fit(self, xtrain, ytrain):
-        """
-        This method implements the .fit() method for bagged forests, where we build the forest on xtrain and ytrain. 
+    def fit(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
+        """ This method implements the .fit() method for bagged forests,
+        where we build the forest on xtrain and ytrain.
 
-        Parameters:
-        -> xtrain (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
+        N - number of features
+        M - number of examples
 
-        Returns: None 
+        Args:
+            xtrain:
+                A (N,M) matrix containing feature vectors for the ensemble
+                to train on
+
+            ytrain:
+                A (1,M) vector containing labels for the feature vectors
         """
         # Determine the size of each sample with which to train every tree
         if type(self.max_samples) is int:
