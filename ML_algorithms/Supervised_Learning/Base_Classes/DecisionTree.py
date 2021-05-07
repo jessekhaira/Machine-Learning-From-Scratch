@@ -201,14 +201,14 @@ class BaseDecisionTree(object):
         node.feature_row = feature_row
         node.split_pt_feature = split_pt
         node.gain = decrease_impurity
-        xtrainL, ytrainL, xtrainR, ytrainR = self._splitData(
+        xtrainL, ytrainL, xtrainR, ytrainR = self._split_data(
             xtrain, ytrain, feature_row, split_pt)
         node.left = DecisionTreeNode()
         node.right = DecisionTreeNode()
         self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth + 1)
         self._recursiveTreeConstruction(node.right, xtrainR, ytrainR, depth + 1)
 
-    def _splitData(
+    def _split_data(
             self, xtrain: np.ndarray, ytrain: np.ndarray, feature_row: int,
             split_pt: int
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
@@ -315,7 +315,7 @@ class BaseDecisionTree(object):
             curr_gain = 0
             split_pt = -1
             for threshold_val in possible_split_pts:
-                _, ytrain_l, _, ytrain_r = self._splitData(
+                _, ytrain_l, _, ytrain_r = self._split_data(
                     features, ytrain, feature_row, threshold_val)
                 # If the split produces zero examples for the left or
                 # the right node, then we cannot consider this split

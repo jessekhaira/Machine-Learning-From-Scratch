@@ -19,8 +19,8 @@ class tests(unittest.TestCase):
         feature_row = 4
         split_pt = 4
         print(xtr)
-        xtrL, ytrL, xtrR, ytrR = obj1._splitData(xtr, ytr, feature_row,
-                                                 split_pt)
+        xtrL, ytrL, xtrR, ytrR = obj1._split_data(xtr, ytr, feature_row,
+                                                  split_pt)
         self.assertEqual((xtrL[4] < 4).all(), True)
         self.assertEqual((xtrR[4] >= 4).all(), True)
 
