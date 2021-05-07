@@ -134,45 +134,49 @@ class BaggedForest(object):
                 A (1,M) vector containing labels for the feature vectors
         """
         # Determine the size of each sample with which to train every tree
-        if type(self.max_samples) is int:
-            bootstrapSize = self.max_samples
-        elif type(self.max_samples) is float:
-            bootstrapSize = int(self.max_samples * xtrain.shape[1])
+        if isinstance(self.max_samples, int):
+            boot_strap_size = self.max_samples
+        elif isinstance(self.max_samples, float):
+            boot_strap_size = int(self.max_samples * xtrain.shape[1])
         else:
-            bootstrapSize = xtrain.shape[1]
+            boot_strap_size = xtrain.shape[1]
 
         for i in range(len(self.forest)):
-            # If we are bootstrapping, then we need to generate a bootstrap sample, record the examples used to train the
-            # tree, and fit the tree on the boostrapped samples with the boostrapSize examples
+            # If we are bootstrapping, then we need to generate a bootstrap
+            # sample, record the examples used to train the tree, and fit
+            # the tree on the boostrapped samples with the boostrapSize examples
 
-            # If we aren't boostrapping, just fit every tree on the entire training set
+            # If we aren't boostrapping, just fit every tree on the entire
+            # training set
             if self.bootstrap:
-                # sample with replacement when we decide which examples to use to train the ith tree
-                examplesInBootstrappedSample = np.random.choice(
-                    xtrain.shape[1], size=bootstrapSize, replace=True)
-                xBootstrapped = xtrain[:, examplesInBootstrappedSample]
-                yBootStrapped = ytrain[:, examplesInBootstrappedSample]
+                # sample with replacement when we decide which examples to use
+                # to train the ith tree
+                examples_in_boot_strapped_sample = np.random.choice(
+                    xtrain.shape[1], size=boot_strap_size, replace=True)
+                x_boot_strapped = xtrain[:, examples_in_boot_strapped_sample]
+                y_boot_strapped = ytrain[:, examples_in_boot_strapped_sample]
                 self.examplesUsedInBootstrap.append(
-                    set(examplesInBootstrappedSample))
-                self.forest[i].fit(xBootstrapped, yBootStrapped)
+                    set(examples_in_boot_strapped_sample))
+                self.forest[i].fit(x_boot_strapped, y_boot_strapped)
             else:
                 self.forest[i].fit(xtrain, ytrain)
 
             if self.verbose:
-                print(
-                    "Finished fitting the %sst tree in the ensemble, %s/%s of the way there!"
-                    % (i, i, len(self.forest)))
-                print('\n')
+                print(f"Finished fitting the {i}st tree in the ensemble,\
+                    {i}/{len(self.forest)} of the way there!")
+                print("\n")
 
-    def predict(self, x):
-        """
-        This method implements the .predict() method for bagged forests. In the .predict() method, we simply
-        aggregate the predictions from each individual tree in the forest. 
+    def predict(self, x: np.ndarray):
+        """ This method implements the .predict() method for bagged forests.
+        In the .predict() method, we simply aggregate the predictions
+        from each individual tree in the forest.
 
-        Parameters:
-        -> x (NumPy matrix): A (N,M) matrix where N is features and M is examples 
+        N - number of features
+        M - number of examples
 
-        Returns: None 
+        Args:
+            x:
+                A (N,M) matrix containing feature vectors to predict on 
         """
 
         predictions = np.zeros((1, x.shape[1]))
