@@ -166,7 +166,7 @@ class BaggedForest(object):
                     {i}/{len(self.forest)} of the way there!")
                 print("\n")
 
-    def predict(self, x: np.ndarray):
+    def predict(self, x: np.ndarray) -> np.ndarray:
         """ This method implements the .predict() method for bagged forests.
         In the .predict() method, we simply aggregate the predictions
         from each individual tree in the forest.
@@ -176,26 +176,31 @@ class BaggedForest(object):
 
         Args:
             x:
-                A (N,M) matrix containing feature vectors to predict on 
+                A (N,M) matrix containing feature vectors to predict on
+
+        Returns:
+            A (1,M) numpy vector containing the predictions of the ensemble on
+            the input vectors
         """
 
         predictions = np.zeros((1, x.shape[1]))
         for i in range(x.shape[1]):
             feature_vector = x[:, i].reshape(-1, 1)
-            feature_vectorPreds = np.zeros((1, x.shape[1]))
+            feature_vector_predictions = np.zeros((1, x.shape[1]))
             for j in range(len(self.forest)):
-                predictionIthTree = self.forest[i].predict(feature_vector)
-                feature_vectorPreds[:, i] = predictionIthTree
+                prediction_ith_tree = self.forest[i].predict(feature_vector)
+                feature_vector_predictions[:, i] = prediction_ith_tree
             if self.typeSupervised == 0:
-                singlePrediction = predictionClassification(feature_vectorPreds)
+                single_prediction = predictionClassification(
+                    feature_vector_predictions)
             else:
-                singlePrediction = predictionRegression(feature_vectorPreds)
-            predictions[:, i] = singlePrediction
+                single_prediction = predictionRegression(
+                    feature_vector_predictions)
+            predictions[:, i] = single_prediction
             if self.verbose:
-                print(
-                    "Finished predicting on the %sst example, %s/%s of the way there!"
-                    % (i, i, len(self.forest)))
-                print('\n')
+                print(f"Finished predicting on the {i}st example,\
+                    {i}/{len(self.forest)} of the way there!")
+                print("\n")
         return predictions
 
     def getOOBScore(self, xtrain, ytrain):
