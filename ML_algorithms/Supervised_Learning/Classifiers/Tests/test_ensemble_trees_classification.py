@@ -1,9 +1,8 @@
-import sys
+""" This module contains code for testing the ensemble tree models
+for the supervised machine learning task of classification """
 from ML_algorithms.Supervised_Learning.Classifiers.BaggedForestClassifier import BaggedForestClassifier
 from ML_algorithms.Supervised_Learning.Classifiers.RandomForestClassifier import RandomForestClassifier
 import unittest
-import numpy as np
-import sklearn
 from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
 
@@ -17,7 +16,9 @@ X2 = X2.T
 Y2 = Y2.T.reshape(1, -1)
 
 
-class tests(unittest.TestCase):
+class TestEnsembleTreesClassification(unittest.TestCase):
+    """ This class contains unit tests for ensemble tree models
+    performing classification """
 
     def testBinaryRF(self):
         # Use 5 random bootstrapped samples to train each tree and then get OOB acc and error

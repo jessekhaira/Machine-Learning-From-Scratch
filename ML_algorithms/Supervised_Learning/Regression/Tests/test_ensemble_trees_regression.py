@@ -1,8 +1,8 @@
+""" This module contains code for testing the ensemble tree models
+for the supervised machine learning task of regression """
 from ML_algorithms.Supervised_Learning.Regression.BaggedForestRegression import BaggedForestRegression
 from ML_algorithms.Supervised_Learning.Regression.RandomForestRegressor import RandomForestRegressor
 import unittest
-import numpy as np
-import sklearn
 from sklearn.datasets import load_boston
 
 X1, Y1 = load_boston(return_X_y=True)
@@ -10,7 +10,9 @@ X1 = X1.T
 Y1 = Y1.T.reshape(1, -1)
 
 
-class tests(unittest.TestCase):
+class TestEnsembleTreesRegression(unittest.TestCase):
+    """ This class contains unit tests for ensemble tree models 
+    performing regression """
 
     def testRF_Regressor(self):
         # Use 5 random bootstrapped samples to train each tree and then get OOB mse and rmse
