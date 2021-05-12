@@ -21,7 +21,7 @@ class tests(unittest.TestCase):
                                      minSamplesSplit=1,
                                      maxFeatures=int(X1.shape[0]**0.5))
         mod2.fit(X1, Y1)
-        mse2, rmse2 = mod2.getOOBScore(X1, Y1)
+        mse2, rmse2 = mod2.get_oob_score(X1, Y1)
         print(mse2, rmse2)
         self.assertGreaterEqual(mse2, 20)
         self.assertLessEqual(rmse2, 10)
@@ -33,7 +33,7 @@ class tests(unittest.TestCase):
                                      minSamplesSplit=3,
                                      maxFeatures=int(X1.shape[0]**0.5))
         mod4.fit(X1, Y1)
-        mse4, rmse4 = mod4.getOOBScore(X1, Y1)
+        mse4, rmse4 = mod4.get_oob_score(X1, Y1)
         print(mse4, rmse4)
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
@@ -49,7 +49,7 @@ class tests(unittest.TestCase):
                                      maxDepth=4,
                                      min_impurity_decrease=0.25)
         mod5.fit(X1, Y1)
-        mse5, rmse5 = mod5.getOOBScore(X1, Y1)
+        mse5, rmse5 = mod5.get_oob_score(X1, Y1)
         print(mse5, rmse5)
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)
@@ -63,7 +63,7 @@ class tests(unittest.TestCase):
                                       max_samples=5,
                                       minSamplesSplit=1)
         mod2.fit(X1, Y1)
-        mse2, rmse2 = mod2.getOOBScore(X1, Y1)
+        mse2, rmse2 = mod2.get_oob_score(X1, Y1)
         print(mse2, rmse2)
         self.assertGreaterEqual(mse2, 0.90)
         self.assertGreaterEqual(rmse2, 0.05)
@@ -74,7 +74,7 @@ class tests(unittest.TestCase):
                                       max_samples=15,
                                       minSamplesSplit=3)
         mod4.fit(X1, Y1)
-        mse4, rmse4 = mod4.getOOBScore(X1, Y1)
+        mse4, rmse4 = mod4.get_oob_score(X1, Y1)
         print(mse4, rmse4)
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
@@ -87,7 +87,7 @@ class tests(unittest.TestCase):
                                       max_samples=150,
                                       minSamplesSplit=20)
         mod5.fit(X1, Y1)
-        mse5, rmse5 = mod5.getOOBScore(X1, Y1)
+        mse5, rmse5 = mod5.get_oob_score(X1, Y1)
         print(mse5, rmse5)
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)

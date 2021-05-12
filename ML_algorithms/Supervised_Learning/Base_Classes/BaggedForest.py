@@ -6,7 +6,7 @@ from ML_algorithms.Supervised_Learning.Classifiers.classificationTree import Cla
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
 from ML_algorithms.Utility.ScoreFunctions import MSE, RMSE, accuracy
-from typing import Literal, Union
+from typing import Literal, Union, Tuple
 
 
 class BaggedForest(object):
@@ -203,40 +203,55 @@ class BaggedForest(object):
                 print("\n")
         return predictions
 
-    def getOOBScore(self, xtrain, ytrain):
+    def get_oob_score(self, xtrain: np.ndarray,
+                      ytrain: np.ndarray) -> Tuple[int, int]:
         """
-        This method gets the out of bag score for the model. The method loops over every single example 
-        in the training set, and for every example, if the current tree did NOT fit on it, then the tree will
-        predict on it. The predictions for every tree will be amalgamated into one prediction. 
+        This method gets the out of bag score for the model. The method
+        loops over every single example in the training set, and for every
+        example, if the current tree did NOT fit on it, then the tree will
+        predict on it. The predictions for every tree will be amalgamated
+        into one prediction.
 
-        For classification, we will return the accuracy and the error on the out of bag sample.
-        For regression, we will return the mean squared error(mse) and the root mean squared error (rmse)
-        on the out of bag sample.
+        For classification, we will return the accuracy and the error on the
+        out of bag sample. For regression, we will return the mean squared
+        error(mse) and the root mean squared error (rmse) on the out of bag
+        sample.
 
-        Parameters:
-        -> xtrain (NumPy matrix): A (N,M) matrix where N is features and M is examples 
-        -> ytrain (NumPy vector): A (1,M) vector where M is the number of examples 
+        N - number of features
+        M - number of examples
+
+        Args:
+            xtrain:
+                A (N,M) matrix containing the feature vectors to predict on
+
+            ytrain:
+                A (1,M) vector containing the labels for each feature vector
 
         Returns:
-        -> If self.typeSupervised == 0, accuracy (int) and error (int)
-        -> If self.typeSupervised == 1, mse (int) and rmse (int)
+            If self.typeSupervised == 0, indicating this ensemble is performing
+            classification, an integer representing accuracy and an integer
+            representing error will be returned.
+
+            Otherwise, if self.typeSupervised == 1, indicating the ensemble is
+            performing regression, an integer represnting mean squared error and
+            an integer representing root mean squared error will be returned.
         """
         predictions = np.zeros((1, xtrain.shape[1]))
         for i in range(xtrain.shape[1]):
             feature_vector = xtrain[:, i].reshape(-1, 1)
-            preds_currVector = []
+            preds_curr_vector = []
             for j in range(len(self.forest)):
                 # if this tree trained on this example, then skip it
                 if i in self.examplesUsedInBootstrap[j]:
                     continue
                 # otherwise predict on it
                 prediction = self.forest[j].predict(feature_vector)
-                preds_currVector.append(prediction)
+                preds_curr_vector.append(prediction)
             if self.typeSupervised == 0:
-                overallPrediction = predictionClassification(preds_currVector)
+                overall_prediction = predictionClassification(preds_curr_vector)
             else:
-                overallPrediction = predictionRegression(preds_currVector)
-            predictions[:, i] = overallPrediction
+                overall_prediction = predictionRegression(preds_curr_vector)
+            predictions[:, i] = overall_prediction
         if self.typeSupervised == 0:
             acc = accuracy(ytrain, predictions)
             error = 1 - acc
