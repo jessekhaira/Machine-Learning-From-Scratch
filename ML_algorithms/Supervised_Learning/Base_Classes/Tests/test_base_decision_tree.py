@@ -1,14 +1,15 @@
+""" This module contains code for testing the base decision tree class """
 import numpy as np
-from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain, predictionClassification, varianceReduction, predictionRegression
+from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain, predictionClassification, predictionRegression
 from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
 
 import unittest
 
 
-class tests(unittest.TestCase):
+class TestBaseDecisionTree(unittest.TestCase):
     """
     This class contains unit tests for each of the methods
-    defined for the kNN class.
+    defined for the base decision tree class.
     """
 
     def testSplit(self):
@@ -19,10 +20,9 @@ class tests(unittest.TestCase):
         feature_row = 4
         split_pt = 4
         print(xtr)
-        xtrL, ytrL, xtrR, ytrR = obj1._split_data(xtr, ytr, feature_row,
-                                                  split_pt)
-        self.assertEqual((xtrL[4] < 4).all(), True)
-        self.assertEqual((xtrR[4] >= 4).all(), True)
+        xtr_l, _, xtr_r, _ = obj1._split_data(xtr, ytr, feature_row, split_pt)
+        self.assertEqual((xtr_l[4] < 4).all(), True)
+        self.assertEqual((xtr_r[4] >= 4).all(), True)
 
     def testFindingFeature_SplitPtPairOneFeature(self):
         np.random.seed(21)
@@ -44,8 +44,8 @@ class tests(unittest.TestCase):
         obj1 = BaseDecisionTree(entropyGain, predictionRegression)
         # Double feature test
         # With a string feature and a numeric feature
-        # the second featuree split with cloudy and the first feature split with == 3 produce best vals
-        # take cloudy tho
+        # the second featuree split with cloudy and the first feature split
+        # with == 3 produce best vals take cloudy tho
         f1 = np.array(
             [2, 3, 3.5, 3, 1, 2, 1, 5, 8, 3, 2, 4, 5, 3, 1, 3.2, 2.8, 2.5],
             dtype=object).reshape(1, -1)
