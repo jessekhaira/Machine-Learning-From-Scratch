@@ -99,7 +99,7 @@ class BaggedForest(object):
         # criterion otherwise, fit regression trees
         if self.typeSupervised == 0:
             criterion = True if self.criterion == "entropy" else False
-            for i in range(self.num_estimators):
+            for _ in range(self.num_estimators):
                 forest.append(
                     ClassificationTree(
                         entropy=criterion,
@@ -109,7 +109,7 @@ class BaggedForest(object):
                         min_impurity_decrease=self.min_impurity_decrease))
             return forest
         else:
-            for i in range(self.num_estimators):
+            for _ in range(self.num_estimators):
                 forest.append(
                     RegressionTree(
                         minSamplesSplit=self.minSamplesSplit,
