@@ -1,6 +1,6 @@
 """ This module contains code for testing the ensemble tree models
 for the supervised machine learning task of classification """
-from ML_algorithms.Supervised_Learning.Classifiers.BaggedForestClassifier import BaggedForestClassifier
+from ML_algorithms.Supervised_Learning.Classifiers.bagged_forest_classifier import BaggedForestClassifier
 from ML_algorithms.Supervised_Learning.Classifiers.RandomForestClassifier import RandomForestClassifier
 import unittest
 from sklearn.datasets import load_breast_cancer
