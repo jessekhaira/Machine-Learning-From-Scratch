@@ -44,15 +44,17 @@ class BaggedForest(object):
             in this node to justify splitting further
 
         maxDepth:
-            Integer representing the maximum depth to grow this tree
+            Integer representing the maximum depth to grow this tree, or None
+            if this hyperparameter isn't used.
 
         maxFeatures:
             Integer representing the maximum number of features to use to
-            determine the split
+            determine the split, or None if this hyperparameter isn't
+            used.
 
         min_impurity_decrease:
-            Integer representing the minimum decrease in impurity to justify
-            splitting the node
+            Floating point value representing the minimum decrease in impurity
+            to justify splitting the node
 
         verbose:
             Boolean indicating whether to give updates when fitting and
@@ -66,9 +68,9 @@ class BaggedForest(object):
                  max_samples: Union[None, int, float] = None,
                  bootstrap: bool = False,
                  minSamplesSplit: int = 2,
-                 maxDepth: int = None,
-                 maxFeatures: int = None,
-                 min_impurity_decrease: int = 0,
+                 maxDepth: Union[int, None] = None,
+                 maxFeatures: Union[int, None] = None,
+                 min_impurity_decrease: float = 0,
                  verbose: bool = False):
         self.typeSupervised = typeSupervised
         self.criterion = criterion
