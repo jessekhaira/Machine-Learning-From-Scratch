@@ -21,6 +21,7 @@ class TestRecurrentNetwork(unittest.TestCase):
                                               550,
                                               len(chars),
                                               temperature=0.3)
+        print(data)
         RNN_model.fit(data[:100],
                       25,
                       verbose=True,

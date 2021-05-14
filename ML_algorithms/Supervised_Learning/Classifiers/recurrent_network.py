@@ -2,7 +2,7 @@
 the natural language processing task of language modelling."""
 import numpy as np
 from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
-from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
+from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad, optimizer
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 from typing import Dict
 
@@ -54,37 +54,50 @@ class ReccurentNetLanguageModel:
         self.temperature = temperature
 
     def fit(self,
-            xtrain,
-            timeStepsUnroll,
-            xvalid=None,
-            num_epochs=10,
-            ret_train_loss=False,
-            learn_rate=0.01,
-            optim=AdaGrad(),
-            verbose=False):
-        """
-        This method trains the reccurrent net language model on the given dataset. 
+            xtrain: str,
+            timeStepsUnroll: int,
+            xvalid: str = None,
+            num_epochs: int = 10,
+            ret_train_loss: bool = False,
+            learn_rate: float = 0.01,
+            optim: optimizer = AdaGrad(),
+            verbose: bool = False) -> None:
+        """ This method trains the reccurrent net language model on the given
+        dataset.
 
-        Parameters:
-        -> xtrain (txt file): Text file containing the data the RNN should emulate
+        Args:
+            xtrain:
+                String representing a text file containing the data the network
+                should emulate
 
-        -> xvalid (txt file): Text file containing the data the RNN should emulate
+            xvalid:
+                String representing a text file containing the data the network
+                will be validated on
 
-        -> timeStepsUnroll(int): The length of a sequence from the text file that will be used 
+            timeStepsUnroll:
+                Integer representing the length of a sequence from the text
+                file that will be used during training
 
-        -> num_epochs (int): Number of epochs to train the model
+            num_epochs:
+                Integer representing the number of epochs to train the model
 
-        -> ret_train_loss (Boolean): Boolean value indicating whether an array of the expected values
-        of the loss per epoch should be returned 
+            ret_train_loss:
+                Boolean value indicating whether an array of the expected values
+                of the loss per epoch should be returned
 
-        -> learn_rate (float): learning rate to be used when optimizing the loss function
+            learn_rate:
+                Floating point value representing the learning rate to be
+                used when optimizing the loss function
 
-        -> optim (function): optimizer to use to minimize the loss function 
+            optim:
+                Object of type optimizer representing the optimization algorithm
+                to use to minimize the loss function. Default optimizer to use
+                is AdaGrad.
 
-        -> verbose (boolean): boolean value indicating whether to provide updates when training. If True, 
-        will get indications when each epoch is done training along with a sample generated sentence. 
-
-        Returns: None
+            verbose:
+                Boolean value indicating whether to provide updates when
+                training. If True, will get indications when each epoch is
+                is done training along with a sample generated sentence.
         """
         train_loss = []
         valid_loss = []
