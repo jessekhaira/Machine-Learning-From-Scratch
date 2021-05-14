@@ -1,32 +1,62 @@
+""" This module contains code representing a reccurrent neural network used for
+the natural language processing task of language modelling."""
 import numpy as np
 from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
 from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
 
+
 class ReccurentNet_languageModelChar(object):
     """
-    This class represents a Recurrent Neural Network with a many-to-many architecture used for the task of language modelling. 
+    This class represents a Recurrent Neural Network(RNN) with a many-to-many
+    architecture used for the natural language processing task of
+    language modelling.
 
-    Parameters:
-    -> idxToChar (HashTable<Integer, Char>): HashTable mapping integer keys to characters
+    Attributes:
+        idxToChar:
+            Dictionary containing a mapping between integer keys to characters
 
-    -> charToIdx (HashTable<Char, Integer>): HashTable mapping chars to integers
+        charToIdx:
+            Dictionary containing a mapping between strings to integers
 
-    -> activationFunction (obj): Object representing the activation function used in the net
+        activationFunction:
+            Object of type ___ representing the activation function used in the
+            net
 
-    -> numberNeurons (int): Integer representing the total number of neurons in the RNN
+        numberNeurons:
+            Integer representing the total number of neurons in the RNN
 
-    -> numberFeatures (int): The total number of features being input to the network 
+        numberFeatures:
+            Integer representing the total number of features being input to the
+            network
 
     """
-    def __init__(self, idxToChar, charToIdx, activationFunction, numberNeurons, numberFeatures, temperature = 1):
+
+    def __init__(self,
+                 idxToChar,
+                 charToIdx,
+                 activationFunction,
+                 numberNeurons,
+                 numberFeatures,
+                 temperature=1):
         self.numberFeatures = numberFeatures
         self.numberNeurons = numberNeurons
-        self.model = RNN_cell_languageModel(numNeurons = numberNeurons, activationFunctionLayer = activationFunction, numInputFeatures = numberFeatures)
-        self.idxToChar  = idxToChar
-        self.charToIdx = charToIdx 
+        self.model = RNN_cell_languageModel(
+            numNeurons=numberNeurons,
+            activationFunctionLayer=activationFunction,
+            numInputFeatures=numberFeatures)
+        self.idxToChar = idxToChar
+        self.charToIdx = charToIdx
         self.temperature = temperature
 
-    def fit(self, xtrain, timeStepsUnroll, xvalid = None, num_epochs=10, ret_train_loss = False, learn_rate = 0.01, optim = AdaGrad(), verbose = False):
+    def fit(self,
+            xtrain,
+            timeStepsUnroll,
+            xvalid=None,
+            num_epochs=10,
+            ret_train_loss=False,
+            learn_rate=0.01,
+            optim=AdaGrad(),
+            verbose=False):
         """
         This method trains the reccurrent net language model on the given dataset. 
 
@@ -52,32 +82,38 @@ class ReccurentNet_languageModelChar(object):
         Returns: None
         """
         train_loss = []
-        valid_loss = [] 
+        valid_loss = []
         for epoch in range(num_epochs):
             currSampleStartTrain = 0
-            # cycle through the entire training set 
-            loss_epoch = [] 
+            # cycle through the entire training set
+            loss_epoch = []
             while currSampleStartTrain + timeStepsUnroll < len(xtrain):
                 # the label for a given char is the char right after it
-                slice_x = xtrain[currSampleStartTrain:currSampleStartTrain+timeStepsUnroll]
-                slice_y = xtrain[currSampleStartTrain+1: currSampleStartTrain+timeStepsUnroll+1]
+                slice_x = xtrain[currSampleStartTrain:currSampleStartTrain +
+                                 timeStepsUnroll]
+                slice_y = xtrain[currSampleStartTrain + 1:currSampleStartTrain +
+                                 timeStepsUnroll + 1]
                 # new batch
                 currSampleStartTrain += timeStepsUnroll
-                activations_prev = np.zeros((self.numberNeurons,1))
-                # forward pass 
-                loss_epoch.append(self.model._train_forward(slice_x, slice_y, activations_prev, self.charToIdx))
-                # backward pass 
-                self.model._updateWeights(learn_rate, timeStepsUnroll, slice_y, self.charToIdx, epoch, optim)
+                activations_prev = np.zeros((self.numberNeurons, 1))
+                # forward pass
+                loss_epoch.append(
+                    self.model._train_forward(slice_x, slice_y,
+                                              activations_prev, self.charToIdx))
+                # backward pass
+                self.model._updateWeights(learn_rate, timeStepsUnroll, slice_y,
+                                          self.charToIdx, epoch, optim)
                 if verbose:
                     print(loss_epoch[-1])
 
             train_loss.append(np.mean(loss_epoch))
             if xvalid:
                 valid_loss.append(self._getValidLoss(xvalid, timeStepsUnroll))
-            if verbose and epoch%10 == 0:
-                print("Finish epoch %s, train loss: %s"%(epoch, train_loss[-1]))
+            if verbose and epoch % 10 == 0:
+                print("Finish epoch %s, train loss: %s" %
+                      (epoch, train_loss[-1]))
                 if xvalid:
-                    print("valid loss: %s"%(valid_loss[-1]))
+                    print("valid loss: %s" % (valid_loss[-1]))
 
                 print("Generating sentences:")
                 print(self.generate())
@@ -86,38 +122,36 @@ class ReccurentNet_languageModelChar(object):
             return train_loss, valid_loss
         elif ret_train_loss:
             return train_loss
-            
 
-    def generate(self, totalGeneratingSteps = 200):
+    def generate(self, totalGeneratingSteps=200):
         """
         This method generates text from the RNN.
 
         Parameters:
         -> totalGeneratingSteps (int): Integer representing the length of the sequence that should be generated
         """
-        seedIdx = np.random.randint(0, high = self.numberFeatures)
+        seedIdx = np.random.randint(0, high=self.numberFeatures)
         seedVector = oneHotEncodeFeature(self.numberFeatures, seedIdx)
         a_prev = np.zeros((self.numberNeurons, 1))
-        return self.model.generate(seedVector, a_prev, totalGeneratingSteps, self.idxToChar, self.temperature)
-
+        return self.model.generate(seedVector, a_prev, totalGeneratingSteps,
+                                   self.idxToChar, self.temperature)
 
     def _getValidLoss(self, xvalid, timeStepsUnroll):
-        loss = [] 
-        currSampleStartValid = 0 
+        loss = []
+        currSampleStartValid = 0
         while currSampleStartValid + timeStepsUnroll < len(xvalid):
             # the label for a given char is the char right after it
-            slice_x = xvalid[currSampleStartValid:currSampleStartValid+timeStepsUnroll]
-            slice_y = xvalid[currSampleStartValid+1: currSampleStartValid+timeStepsUnroll+1]
+            slice_x = xvalid[currSampleStartValid:currSampleStartValid +
+                             timeStepsUnroll]
+            slice_y = xvalid[currSampleStartValid + 1:currSampleStartValid +
+                             timeStepsUnroll + 1]
             # new batch
             currSampleStartValid += timeStepsUnroll
-            activations_prev = np.zeros((self.numberNeurons,1))
-            loss.append(self.model._train_forward(slice_x, slice_y, activations_prev, self.charToIdx, cache=False))
-        return np.mean(loss) 
-
-
-
-
-            
-
-
-
+            activations_prev = np.zeros((self.numberNeurons, 1))
+            loss.append(
+                self.model._train_forward(slice_x,
+                                          slice_y,
+                                          activations_prev,
+                                          self.charToIdx,
+                                          cache=False))
+        return np.mean(loss)
