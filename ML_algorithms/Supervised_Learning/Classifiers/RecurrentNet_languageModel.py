@@ -3,13 +3,14 @@ the natural language processing task of language modelling."""
 import numpy as np
 from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
 from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
+from typing import Dict
 
 
-class ReccurentNet_languageModelChar(object):
-    """
-    This class represents a Recurrent Neural Network(RNN) with a many-to-many
-    architecture used for the natural language processing task of
-    language modelling.
+class ReccurentNet_languageModelChar:
+    """ This class represents a Recurrent Neural Network(RNN) with a
+    many-to-many architecture used for the natural language processing
+    task of language modelling.
 
     Attributes:
         idxToChar:
@@ -29,15 +30,19 @@ class ReccurentNet_languageModelChar(object):
             Integer representing the total number of features being input to the
             network
 
+        temperature:
+            Floating point value indicating how much randomness to inject
+            into the networks predictions
+
     """
 
     def __init__(self,
-                 idxToChar,
-                 charToIdx,
-                 activationFunction,
-                 numberNeurons,
-                 numberFeatures,
-                 temperature=1):
+                 idxToChar: Dict[int, str],
+                 charToIdx: Dict[str, int],
+                 activationFunction: Base_ActivationFunction,
+                 numberNeurons: int,
+                 numberFeatures: int,
+                 temperature: int = 1):
         self.numberFeatures = numberFeatures
         self.numberNeurons = numberNeurons
         self.model = RNN_cell_languageModel(
