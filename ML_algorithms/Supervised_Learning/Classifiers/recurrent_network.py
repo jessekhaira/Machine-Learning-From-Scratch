@@ -20,8 +20,8 @@ class ReccurentNetLanguageModel:
             Dictionary containing a mapping between strings to integers
 
         activationFunction:
-            Object of type ___ representing the activation function used in the
-            net
+            Object of type Base_ActivationFunction representing the activation
+            function to be used in the net
 
         numberNeurons:
             Integer representing the total number of neurons in the RNN
