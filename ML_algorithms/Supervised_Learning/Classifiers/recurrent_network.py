@@ -7,7 +7,7 @@ from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFun
 from typing import Dict
 
 
-class ReccurentNet_languageModelChar:
+class ReccurentNetLanguageModel:
     """ This class represents a Recurrent Neural Network(RNN) with a
     many-to-many architecture used for the natural language processing
     task of language modelling.

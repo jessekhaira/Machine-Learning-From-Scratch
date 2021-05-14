@@ -30,7 +30,7 @@ Base Classes (abstract classes which concrete classes implement, keeps code DRY)
 Deep Learning:
 
 - [Convolutional Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/ConvolutionalNeuralNet.py)
-- [Recurrent Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/RecurrentNet_languageModel.py)
+- [Recurrent Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/recurrent_network.py)
 - [MultiLayer Perceptron](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/MultiLayerPerceptron.py)
 
 - Neural Network Layers:
