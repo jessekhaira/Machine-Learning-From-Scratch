@@ -1,3 +1,5 @@
+""" This module contains tests for the recurrent neural network defined
+in the package """
 from ML_algorithms.Supervised_Learning.Classifiers.recurrent_network import ReccurentNetLanguageModel
 from ML_algorithms.Utility.misc import getUniqueChars, mapcharToIdx, mapidxToChar
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import TanH
@@ -12,6 +14,8 @@ charIdxMap = mapcharToIdx(chars)
 
 
 class TestRecurrentNetwork(unittest.TestCase):
+    """ This class contains unit tests for the recurrent neural network defined
+    in the package """
 
     def testOverfitSmallBatch(self):
         # this makes sure the forward pass and the backward pass are working correctly before doing expensive optimization
