@@ -164,8 +164,10 @@ class BaggedForest(object):
                 self.forest[i].fit(xtrain, ytrain)
 
             if self.verbose:
-                print(f"Finished fitting the {i}st tree in the ensemble,\
-                    {i}/{len(self.forest)} of the way there!")
+                message_to_print = (
+                    f"Finished fitting the {i}st tree in the ensemble. "
+                    f"{i}/{len(self.forest)} of the way there")
+                print(message_to_print)
                 print("\n")
 
     def predict(self, x: np.ndarray) -> np.ndarray:
@@ -200,8 +202,10 @@ class BaggedForest(object):
                     feature_vector_predictions)
             predictions[:, i] = single_prediction
             if self.verbose:
-                print(f"Finished predicting on the {i}st example,\
-                    {i}/{len(self.forest)} of the way there!")
+                message_to_print = (
+                    f"Finished predicting on the {i}st example. "
+                    f"{i}/{len(self.forest)} of the way there!")
+                print(message_to_print)
                 print("\n")
         return predictions
 
