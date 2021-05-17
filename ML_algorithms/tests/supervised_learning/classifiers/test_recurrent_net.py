@@ -18,14 +18,14 @@ class TestRecurrentNetwork(unittest.TestCase):
     in the package """
 
     def testOverfitSmallBatch(self):
-        # this makes sure the forward pass and the backward pass are working correctly before doing expensive optimization
+        # this makes sure the forward pass and the backward pass are
+        # working correctly before doing expensive optimization
         RNN_model = ReccurentNetLanguageModel(idxCharMap,
                                               charIdxMap,
                                               TanH(),
                                               550,
                                               len(chars),
                                               temperature=0.3)
-        print(data)
         RNN_model.fit(data[:100],
                       25,
                       verbose=True,
@@ -33,7 +33,7 @@ class TestRecurrentNetwork(unittest.TestCase):
                       learn_rate=0.1)
 
     def testFitData(self):
-        # takes a very long time to fit but achieves okay performance
+        # takes a long time to fit but achieves okay performance
         RNN_model = ReccurentNetLanguageModel(idxCharMap,
                                               charIdxMap,
                                               TanH(),

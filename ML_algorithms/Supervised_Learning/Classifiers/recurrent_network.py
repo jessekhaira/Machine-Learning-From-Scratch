@@ -1,6 +1,7 @@
 """ This module contains code representing a reccurrent neural network used for
 the natural language processing task of language modelling."""
 import numpy as np
+from ML_algorithms.Utility.misc import oneHotEncodeFeature
 from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
 from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad, optimizer
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
@@ -102,17 +103,19 @@ class ReccurentNetLanguageModel:
         train_loss = []
         valid_loss = []
         for epoch in range(num_epochs):
-            currSampleStartTrain = 0
+            curr_sample_start_train = 0
             # cycle through the entire training set
             loss_epoch = []
-            while currSampleStartTrain + timeStepsUnroll < len(xtrain):
+            while curr_sample_start_train + timeStepsUnroll < len(xtrain):
                 # the label for a given char is the char right after it
-                slice_x = xtrain[currSampleStartTrain:currSampleStartTrain +
-                                 timeStepsUnroll]
-                slice_y = xtrain[currSampleStartTrain + 1:currSampleStartTrain +
-                                 timeStepsUnroll + 1]
+                slice_x = xtrain[
+                    curr_sample_start_train:curr_sample_start_train +
+                    timeStepsUnroll]
+                slice_y = xtrain[curr_sample_start_train +
+                                 1:curr_sample_start_train + timeStepsUnroll +
+                                 1]
                 # new batch
-                currSampleStartTrain += timeStepsUnroll
+                curr_sample_start_train += timeStepsUnroll
                 activations_prev = np.zeros((self.numberNeurons, 1))
                 # forward pass
                 loss_epoch.append(
@@ -126,7 +129,7 @@ class ReccurentNetLanguageModel:
 
             train_loss.append(np.mean(loss_epoch))
             if xvalid:
-                valid_loss.append(self._getValidLoss(xvalid, timeStepsUnroll))
+                valid_loss.append(self._get_valid_loss(xvalid, timeStepsUnroll))
             if verbose and epoch % 10 == 0:
                 print("Finish epoch %s, train loss: %s" %
                       (epoch, train_loss[-1]))
@@ -141,30 +144,35 @@ class ReccurentNetLanguageModel:
         elif ret_train_loss:
             return train_loss
 
-    def generate(self, totalGeneratingSteps=200):
-        """
-        This method generates text from the RNN.
+    def generate(self, total_generating_steps: int = 200) -> str:
+        """ This method generates text from the RNN.
 
-        Parameters:
-        -> totalGeneratingSteps (int): Integer representing the length of the sequence that should be generated
+        Args:
+            total_generating_steps:
+                Integer representing the length of the sequence that
+                should be generated
+
+        Returns:
+            A string of length total_generating_steps that represents
+            text generated from the RNN.
         """
-        seedIdx = np.random.randint(0, high=self.numberFeatures)
-        seedVector = oneHotEncodeFeature(self.numberFeatures, seedIdx)
+        seed_idx = np.random.randint(0, high=self.numberFeatures)
+        seed_vector = oneHotEncodeFeature(self.numberFeatures, seed_idx)
         a_prev = np.zeros((self.numberNeurons, 1))
-        return self.model.generate(seedVector, a_prev, totalGeneratingSteps,
+        return self.model.generate(seed_vector, a_prev, total_generating_steps,
                                    self.idxToChar, self.temperature)
 
-    def _getValidLoss(self, xvalid, timeStepsUnroll):
+    def _get_valid_loss(self, xvalid, time_steps_unroll):
         loss = []
-        currSampleStartValid = 0
-        while currSampleStartValid + timeStepsUnroll < len(xvalid):
+        curr_sample_start_valid = 0
+        while curr_sample_start_valid + time_steps_unroll < len(xvalid):
             # the label for a given char is the char right after it
-            slice_x = xvalid[currSampleStartValid:currSampleStartValid +
-                             timeStepsUnroll]
-            slice_y = xvalid[currSampleStartValid + 1:currSampleStartValid +
-                             timeStepsUnroll + 1]
+            slice_x = xvalid[curr_sample_start_valid:curr_sample_start_valid +
+                             time_steps_unroll]
+            slice_y = xvalid[curr_sample_start_valid +
+                             1:curr_sample_start_valid + time_steps_unroll + 1]
             # new batch
-            currSampleStartValid += timeStepsUnroll
+            curr_sample_start_valid += time_steps_unroll
             activations_prev = np.zeros((self.numberNeurons, 1))
             loss.append(
                 self.model._train_forward(slice_x,
