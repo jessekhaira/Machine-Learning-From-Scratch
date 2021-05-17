@@ -20,27 +20,23 @@ class TestRecurrentNetwork(unittest.TestCase):
     def testOverfitSmallBatch(self):
         # this makes sure the forward pass and the backward pass are
         # working correctly before doing expensive optimization
-        RNN_model = ReccurentNetLanguageModel(idxCharMap,
-                                              charIdxMap,
-                                              TanH(),
-                                              550,
-                                              len(chars),
-                                              temperature=0.3)
-        RNN_model.fit(data[:100],
-                      25,
-                      verbose=True,
-                      num_epochs=5000,
-                      learn_rate=0.1)
+        rnn = ReccurentNetLanguageModel(idxCharMap,
+                                        charIdxMap,
+                                        TanH(),
+                                        550,
+                                        len(chars),
+                                        temperature=0.3)
+        rnn.fit(data[:100], 25, verbose=True, num_epochs=5000, learn_rate=0.1)
 
     def testFitData(self):
         # takes a long time to fit but achieves okay performance
-        RNN_model = ReccurentNetLanguageModel(idxCharMap,
-                                              charIdxMap,
-                                              TanH(),
-                                              550,
-                                              len(chars),
-                                              temperature=0.3)
-        RNN_model.fit(data, 25, verbose=True, num_epochs=5000, learn_rate=0.1)
+        rnn = ReccurentNetLanguageModel(idxCharMap,
+                                        charIdxMap,
+                                        TanH(),
+                                        550,
+                                        len(chars),
+                                        temperature=0.3)
+        rnn.fit(data, 25, verbose=True, num_epochs=5000, learn_rate=0.1)
 
 
 if __name__ == "__main__":
