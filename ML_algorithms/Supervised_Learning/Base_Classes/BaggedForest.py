@@ -10,8 +10,7 @@ from typing import Literal, Union, Tuple
 
 
 class BaggedForest(object):
-    """
-    This class represents bootstrap aggregated (bagged) decision trees.
+    """ This class represents bootstrap aggregated (bagged) decision trees.
 
     Attributes:
         typeSupervised:
@@ -191,7 +190,7 @@ class BaggedForest(object):
         for i in range(x.shape[1]):
             feature_vector = x[:, i].reshape(-1, 1)
             feature_vector_predictions = np.zeros((1, x.shape[1]))
-            for j in range(len(self.forest)):
+            for _ in range(len(self.forest)):
                 prediction_ith_tree = self.forest[i].predict(feature_vector)
                 feature_vector_predictions[:, i] = prediction_ith_tree
             if self.typeSupervised == 0:
@@ -211,8 +210,7 @@ class BaggedForest(object):
 
     def get_oob_score(self, xtrain: np.ndarray,
                       ytrain: np.ndarray) -> Tuple[int, int]:
-        """
-        This method gets the out of bag score for the model. The method
+        """ This method gets the out of bag score for the model. The method
         loops over every single example in the training set, and for every
         example, if the current tree did NOT fit on it, then the tree will
         predict on it. The predictions for every tree will be amalgamated
