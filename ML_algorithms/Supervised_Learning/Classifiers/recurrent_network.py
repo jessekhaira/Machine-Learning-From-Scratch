@@ -14,10 +14,10 @@ class ReccurentNetLanguageModel:
     task of language modelling.
 
     Attributes:
-        idxToChar:
+        idx_to_char:
             Dictionary containing a mapping between integer keys to characters
 
-        charToIdx:
+        char_to_idx:
             Dictionary containing a mapping between strings to integers
 
         activationFunction:
@@ -38,8 +38,8 @@ class ReccurentNetLanguageModel:
     """
 
     def __init__(self,
-                 idxToChar: Dict[int, str],
-                 charToIdx: Dict[str, int],
+                 idx_to_char: Dict[int, str],
+                 char_to_idx: Dict[str, int],
                  activationFunction: Base_ActivationFunction,
                  numberNeurons: int,
                  numberFeatures: int,
@@ -50,8 +50,8 @@ class ReccurentNetLanguageModel:
             numNeurons=numberNeurons,
             activationFunctionLayer=activationFunction,
             numInputFeatures=numberFeatures)
-        self.idxToChar = idxToChar
-        self.charToIdx = charToIdx
+        self.idx_to_char = idx_to_char
+        self.char_to_idx = char_to_idx
         self.temperature = temperature
 
     def fit(self,
@@ -120,10 +120,11 @@ class ReccurentNetLanguageModel:
                 # forward pass
                 loss_epoch.append(
                     self.model._train_forward(slice_x, slice_y,
-                                              activations_prev, self.charToIdx))
+                                              activations_prev,
+                                              self.char_to_idx))
                 # backward pass
                 self.model._updateWeights(learn_rate, timeStepsUnroll, slice_y,
-                                          self.charToIdx, epoch, optim)
+                                          self.char_to_idx, epoch, optim)
                 if verbose:
                     print(loss_epoch[-1])
 
@@ -160,7 +161,7 @@ class ReccurentNetLanguageModel:
         seed_vector = oneHotEncodeFeature(self.numberFeatures, seed_idx)
         a_prev = np.zeros((self.numberNeurons, 1))
         return self.model.generate(seed_vector, a_prev, total_generating_steps,
-                                   self.idxToChar, self.temperature)
+                                   self.idx_to_char, self.temperature)
 
     def _get_valid_loss(self, xvalid, time_steps_unroll):
         loss = []
@@ -178,6 +179,6 @@ class ReccurentNetLanguageModel:
                 self.model._train_forward(slice_x,
                                           slice_y,
                                           activations_prev,
-                                          self.charToIdx,
+                                          self.char_to_idx,
                                           cache=False))
         return np.mean(loss)
