@@ -1,15 +1,12 @@
-from ML_algorithms.Supervised_Learning.Classifiers import MultiLayerPerceptron
 from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer
-from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Pool
 from ML_algorithms.Supervised_Learning.Classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, TanH, Sigmoid, Softmax
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, Adam, RMSProp, AdaGrad
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, Softmax
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, AdaGrad
+from ML_algorithms.Utility.misc import oneHotEncode
 import unittest
 import numpy as np
-from ML_algorithms.Utility.ScoreFunctions import accuracy
-from ML_algorithms.Utility.misc import oneHotEncode
 import tensorflow as tf
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
