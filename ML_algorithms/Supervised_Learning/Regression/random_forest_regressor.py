@@ -1,11 +1,11 @@
-""" This module contains code representing an implementation of the
-bagged forest algorithm for regression """
+""" This module contains code for the supervised ensemble machine learning
+algorithm random forests, implemented specifically for regression """
 from ML_algorithms.Supervised_Learning.Base_Classes.BaggedForest import BaggedForest
 
 
-class BaggedForestRegression(BaggedForest):
-    """ This class represents bootstrap aggregated (bagged) decision trees
-   performing the task of regression.
+class RandomForestRegressor(BaggedForest):
+    """ This class represents the random forest algorithm for the task
+    of regression.
 
     Attributes:
         num_estimators:
@@ -55,8 +55,7 @@ class BaggedForestRegression(BaggedForest):
                  maxFeatures=None,
                  min_impurity_decrease=0,
                  verbose=False):
-
-        super(BaggedForestRegression,
+        super(RandomForestRegressor,
               self).__init__(typeSupervised=1,
                              criterion=None,
                              num_estimators=num_estimators,
