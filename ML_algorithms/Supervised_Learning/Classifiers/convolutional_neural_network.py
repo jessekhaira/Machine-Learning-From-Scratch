@@ -5,13 +5,18 @@ from ML_algorithms.Neural_Net_Util.LossFunctions import negative_log_loss, cross
 
 class ConvolutionalNeuralNetwork(NeuralNetwork_Base):
     """
-    This class represents a convolutional neural network used for supervised learning. The user will have
-    to add the number of layers desired to this layer accordingly. 
+    This class represents a convolutional neural network used for supervised
+    learning. The user will have to add the number of layers desired to this
+    network.
 
-    Parameters:
-    -> typeSupervised(str): binary, multiclass, or regression
-    -> inputDepth (int): Integer representing the depth of the input volume
-    
+    Attributes:
+        typeSupervised:
+            String indicating what kind of classification the network will
+            carry out. Should be either "binary", "multiclass" or "regression".
+
+        inputDepth:
+            Integer representing the depth of the input volume
+
     """
 
     def __init__(self, typeSupervised, inputDepth):
