@@ -20,7 +20,8 @@ class ConvolutionalNeuralNetwork(NeuralNetwork_Base):
 
     """
 
-    def __init__(self, typeSupervised, inputDepth):
+    def __init__(self, typeSupervised: Literal["binary", "multiclass",
+                                               "regression"], inputDepth: int):
         if typeSupervised == "binary":
             loss_obj = negative_log_loss()
         elif typeSupervised == "multiclass":
