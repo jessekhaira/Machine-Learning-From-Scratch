@@ -1,6 +1,7 @@
 """ This module contains code representing an implementation of the
 random forest algorithm for classification """
 from ML_algorithms.Supervised_Learning.Base_Classes.BaggedForest import BaggedForest
+from typing import Literal, Union
 
 
 class RandomForestClassifier(BaggedForest):
@@ -9,7 +10,7 @@ class RandomForestClassifier(BaggedForest):
     Attributes:
         criterion:
             String representing the objective function to use. Should be either
-            "gini" or "entropy.
+            "gini" or "entropy".
 
         num_estimators:
             Integer representing the number of estimators to include in the
@@ -50,15 +51,15 @@ class RandomForestClassifier(BaggedForest):
     """
 
     def __init__(self,
-                 criterion,
-                 num_estimators=100,
-                 max_samples=None,
-                 bootstrap=False,
-                 minSamplesSplit=2,
-                 maxDepth=None,
-                 maxFeatures=None,
-                 min_impurity_decrease=0,
-                 verbose=False):
+                 criterion: Literal["gini", "entropy"],
+                 num_estimators: int = 100,
+                 max_samples: Union[None, int] = None,
+                 bootstrap: bool = False,
+                 minSamplesSplit: int = 2,
+                 maxDepth: Union[int, None] = None,
+                 maxFeatures: Union[int, None] = None,
+                 min_impurity_decrease: float = 0,
+                 verbose: bool = False):
         super(RandomForestClassifier,
               self).__init__(typeSupervised=0,
                              criterion=criterion,
