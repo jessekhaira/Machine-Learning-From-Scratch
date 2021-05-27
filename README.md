@@ -59,7 +59,7 @@ Models:
 - Tree Ensembles
 
   - Random Forests
-    - [Classifier](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/RandomForestClassifier.py)
+    - [Classifier](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/random_forest_classifier.py)
     - [Regressor](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Regression/random_forest_regressor.py)
   - Bagged Forests
     - [Classifier](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/bagged_forest_classifier.py)
