@@ -5,8 +5,7 @@ from typing import Literal
 
 
 class ConvolutionalNeuralNetwork(NeuralNetwork_Base):
-    """
-    This class represents a convolutional neural network used for supervised
+    """ This class represents a convolutional neural network used for supervised
     learning. The user will have to add the number of layers desired to this
     network.
 
@@ -33,16 +32,15 @@ class ConvolutionalNeuralNetwork(NeuralNetwork_Base):
         self.inputDepth = inputDepth
 
     def addConvNetLayer(self, layer, **kwargs):
-        """
-        This method adds a layer to a Convolutional Neural network object. 
+        """ This method adds a layer to a Convolutional Neural network object.
 
-        Parameters:
-        -> layer (obj): A layer object that the user wants to add to the network
-        -> **kwargs: Key-worded arguments passing in values for all of the layers parameters
+        Args:
+            layer:
+                A layer object that the user wants to add to the network
         """
-        # We have no idea how many activated neurons we have in a conv layer because that depends on
-        # what our input is, therefore we have to wait to initialize the filters for every layer except
-        # the first layer
+        # We have no idea how many activated neurons we have in a conv layer
+        # because that depends on what our input is, therefore we have to wait
+        # to initialize the filters for every layer except the first layer
         inputDepth = self.inputDepth if not self.layers else None
         if "filterSize" in kwargs and "poolType" not in kwargs:
             self.layers.append(
