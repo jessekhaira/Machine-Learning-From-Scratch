@@ -1,8 +1,6 @@
-import numpy as np
 from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
 from ML_algorithms.Neural_Net_Util.LossFunctions import negative_log_loss, cross_entropy, mean_squared_error
-import copy 
+
 
 class MultiLayerPerceptron(NeuralNetwork_Base):
     """
@@ -17,20 +15,27 @@ class MultiLayerPerceptron(NeuralNetwork_Base):
     or not
     -> regParameter (int): Integer representing the strength of the regularization
     """
-    def __init__(self, typeSupervised, numberInputFeatures, regularization=None, regParameter= None):
+
+    def __init__(self,
+                 typeSupervised,
+                 numberInputFeatures,
+                 regularization=None,
+                 regParameter=None):
         if typeSupervised == "binary":
-            loss_obj = negative_log_loss(regularization=regularization, regParameter=regParameter)
+            loss_obj = negative_log_loss(regularization=regularization,
+                                         regParameter=regParameter)
         elif typeSupervised == "multiclass":
-            loss_obj = cross_entropy(regularization=regularization, regParameter=regParameter)
+            loss_obj = cross_entropy(regularization=regularization,
+                                     regParameter=regParameter)
         else:
-            loss_obj = mean_squared_error(regularization=regularization, regParameter=regParameter)
-        super(MultiLayerPerceptron,self).__init__(loss_obj, input_features = numberInputFeatures)
+            loss_obj = mean_squared_error(regularization=regularization,
+                                          regParameter=regParameter)
+        super(MultiLayerPerceptron,
+              self).__init__(loss_obj, input_features=numberInputFeatures)
 
-
-
-    def predictMLP(self, X, classificationThreshold = None):
-        # For binary classification, we need a classification threshold to seperate out the 
-        # pos class from the neg class 
+    def predictMLP(self, X, classificationThreshold=None):
+        # For binary classification, we need a classification threshold to seperate out the
+        # pos class from the neg class
         if classificationThreshold:
             predictions = self._forward_propagate(X)
             return (predictions >= classificationThreshold).astype(int)
