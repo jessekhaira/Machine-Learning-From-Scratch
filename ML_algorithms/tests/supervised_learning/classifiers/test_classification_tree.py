@@ -1,3 +1,4 @@
+""" This module contains tests for the classification tree algorithm """
 import unittest
 from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
