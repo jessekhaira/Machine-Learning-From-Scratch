@@ -163,7 +163,7 @@ class ReccurentNetLanguageModel:
         return self.model.generate(seed_vector, a_prev, total_generating_steps,
                                    self.idx_to_char, self.temperature)
 
-    def _get_valid_loss(self, xvalid, time_steps_unroll):
+    def _get_valid_loss(self, xvalid: str, time_steps_unroll: int):
         loss = []
         curr_sample_start_valid = 0
         while curr_sample_start_valid + time_steps_unroll < len(xvalid):
