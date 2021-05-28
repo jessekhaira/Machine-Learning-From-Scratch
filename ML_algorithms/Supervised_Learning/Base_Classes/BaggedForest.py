@@ -2,7 +2,7 @@
 bagged forest supervised machine learning algorithm """
 import numpy as np
 from ML_algorithms.Supervised_Learning.Regression.RegressionTree import RegressionTree
-from ML_algorithms.Supervised_Learning.Classifiers.classificationTree import ClassificationTree
+from ML_algorithms.Supervised_Learning.Classifiers.classification_tree import ClassificationTree
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
 from ML_algorithms.Utility.ScoreFunctions import MSE, RMSE, accuracy

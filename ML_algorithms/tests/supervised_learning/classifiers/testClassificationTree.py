@@ -1,4 +1,4 @@
-from ML_algorithms.Supervised_Learning.Classifiers.classificationTree import ClassificationTree
+from ML_algorithms.Supervised_Learning.Classifiers.classification_tree import ClassificationTree
 import unittest
 import numpy as np
 import sklearn

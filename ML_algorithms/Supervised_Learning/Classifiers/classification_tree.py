@@ -1,4 +1,3 @@
-import numpy as np
 from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
 from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain
 from ML_algorithms.Utility.DecisionTreeFunctions import giniGain
