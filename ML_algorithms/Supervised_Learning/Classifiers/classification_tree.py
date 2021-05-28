@@ -39,14 +39,11 @@ class ClassificationTree(BaseDecisionTree):
                  maxDepth: Union[None, int] = None,
                  maxFeatures: Union[None, int] = None,
                  min_impurity_decrease: int = 0):
-        if entropy:
-            trainFunction = entropyGain
-        else:
-            trainFunction = giniGain
-        predictionFunc = predictionClassification
+        train_function = entropyGain if entropy else giniGain
+        prediction_func = predictionClassification
         super(ClassificationTree,
-              self).__init__(trainingFunction=trainFunction,
-                             predictionFunc=predictionFunc,
+              self).__init__(trainingFunction=train_function,
+                             predictionFunc=prediction_func,
                              minSamplesSplit=minSamplesSplit,
                              maxDepth=maxDepth,
                              maxFeatures=maxFeatures,
