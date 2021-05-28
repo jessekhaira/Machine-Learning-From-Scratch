@@ -1,15 +1,9 @@
-from ML_algorithms.Supervised_Learning.Classifiers.classification_tree import ClassificationTree
 import unittest
-import numpy as np
-import sklearn
 from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn import preprocessing
-from sklearn.linear_model import LogisticRegression as LR
+from ML_algorithms.Supervised_Learning.Classifiers.classification_tree import ClassificationTree
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
-import unittest
 
 X1, Y1 = load_breast_cancer(return_X_y=True)
 X1 = X1.T
