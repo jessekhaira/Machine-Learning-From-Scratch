@@ -16,7 +16,8 @@ Y2 = Y2.T.reshape(1, -1)
 kCV = k_fold_CV()
 
 
-class tests(unittest.TestCase):
+class TestsClassificationTree(unittest.TestCase):
+    """ This class contains unit tests for the classification tree algorithm """
 
     def testMultiClass(self):
         # Should be able to overfit multiiclasses easy
