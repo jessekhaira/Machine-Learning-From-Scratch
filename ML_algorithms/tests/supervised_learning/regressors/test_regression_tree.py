@@ -1,3 +1,5 @@
+""" This module contains tests for the regression decision tree
+algorithm """
 import unittest
 from sklearn.datasets import load_boston
 from ML_algorithms.Supervised_Learning.Regression.regression_tree import RegressionTree
