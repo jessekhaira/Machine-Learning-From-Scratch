@@ -6,17 +6,25 @@ from ML_algorithms.Utility.DecisionTreeFunctions import varianceReduction
 
 
 class RegressionTree(BaseDecisionTree):
-    """
-    This class represents a regression decision tree trained using variance reduction. 
+    """ This class represents the regression decision tree algorithm,
+    using the variance reduction cost function.
 
-    Parameters:
-    -> minSamplesSplit (int): Integer indicating the minimum number of examples that have to fall in this node to justify splitting further
+    Attributes:
+        minSamplesSplit:
+            Integer indicating the minimum number of examples that have
+            to fall in this node to justify splitting further
 
-    -> maxDepth (int): Integer representing the maximum depth to grow this tree 
-    
-    -> maxFeatures (int): Integer representing the maximum number of features to use to determine the split
+        maxDepth:
+            Integer representing the maximum depth to grow this tree,
+            or None if not wanted
 
-    -> min_impurity_decrease (int): The minimum decrease in impurity to justify splitting a node 
+        maxFeatures:
+            Integer representing the maximum number of features to use
+            to determine the split, or None if not wanted
+
+        min_impurity_decrease:
+            Integer representing the minimum decrease in impurity to justify
+            splitting a node
     """
 
     def __init__(self,
