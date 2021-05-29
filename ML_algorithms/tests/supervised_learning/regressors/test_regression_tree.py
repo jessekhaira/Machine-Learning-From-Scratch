@@ -1,4 +1,4 @@
-from ML_algorithms.Supervised_Learning.Regression.RegressionTree import RegressionTree
+from ML_algorithms.Supervised_Learning.Regression.regression_tree import RegressionTree
 import unittest
 import numpy as np
 import sklearn
