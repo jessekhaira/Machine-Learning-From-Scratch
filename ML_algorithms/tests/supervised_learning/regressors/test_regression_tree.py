@@ -12,7 +12,9 @@ Y1 = Y1.T.reshape(1, -1)
 kCV = k_fold_CV()
 
 
-class tests(unittest.TestCase):
+class RegressionTreeTests(unittest.TestCase):
+    """ This class contains test for the regression decision tree
+    algorithm """
 
     def testFit(self):
         # The tree is not being constrained when it is fitting
