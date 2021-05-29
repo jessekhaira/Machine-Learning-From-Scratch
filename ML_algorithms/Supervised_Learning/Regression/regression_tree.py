@@ -1,4 +1,5 @@
-import numpy as np
+""" This module contains code representing the regression decision
+tree algorithm """
 from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
 from ML_algorithms.Utility.DecisionTreeFunctions import varianceReduction
