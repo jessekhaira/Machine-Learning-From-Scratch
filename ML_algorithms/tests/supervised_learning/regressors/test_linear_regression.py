@@ -1,16 +1,15 @@
 from ML_algorithms.Supervised_Learning.Regression.linear_regression import LinearRegression
 from ML_algorithms.Supervised_Learning.Regression.linear_regression import LassoRegression
 from ML_algorithms.Supervised_Learning.Regression.linear_regression import RidgeRegression
+from ML_algorithms.Utility.ScoreFunctions import RMSE, R_squared
 import unittest
 import numpy as np
 import sklearn.datasets
-from ML_algorithms.Utility.ScoreFunctions import MSE, MAE, RMSE, R_squared, R_SquaredAdj
 import sklearn.metrics
 import sklearn.model_selection
 import sklearn.linear_model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 
 ### ---  MANUAL TESTING W/ Step through Debugging --- ###
 X, Y = sklearn.datasets.load_boston(return_X_y=True)
