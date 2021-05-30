@@ -40,7 +40,7 @@ Deep Learning:
 
 Models:
 
-- [Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Regression/Linear_Regression.py)
+- [Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Regression/linear_regression.py)
 
   - Encompasses Polynomial Regression, Ridge Regression and Lasso Regression
 
