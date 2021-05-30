@@ -12,8 +12,7 @@ from typing import Union
 
 
 class BaseLinearRegression(NeuralNetwork_Base):
-    """
-    This class represents the base class for linear regression, which all
+    """ This class represents the base class for linear regression, which all
     linear regression classes will inherit.
     """
 
@@ -38,6 +37,11 @@ class BaseLinearRegression(NeuralNetwork_Base):
               ret_train_loss: bool = False,
               learn_rate: float = 0.01,
               optim: optimizer = gradientDescent()):
+        """ This method learns the parameters of the algorithm by minimizing the
+        residual sum of squares cost function using the gradient descent (gd)
+        optimization algorithm on the provided training set. Validation is
+        done using xvalid and yvalid, if provided.
+        """
         # the fit method is basically the same as the neural net base, other
         # than the transformation of the features that needs to take place
         # before fitting
