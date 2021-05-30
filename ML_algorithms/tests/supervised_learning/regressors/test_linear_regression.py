@@ -70,7 +70,7 @@ train_loss1, valid_loss1, train_acc1, valid_acc1 = lr_obj.fit_gradient_descent_o
     learn_rate=0.1)
 print(train_loss1, valid_loss1)
 print(lr_obj.layers[0].W.T)
-preds = lr_obj.predictLR(X_test)
+preds = lr_obj.predict_linear_regression(X_test)
 print(R_squared(y_test, preds))
 print(np.linalg.norm(lr_obj.layers[0].W)**2)
 print('\n')
@@ -85,7 +85,7 @@ train_loss2, valid_loss2, train_acc2, valid_acc2 = lasso_obj.fit_gradient_descen
     learn_rate=0.1)
 print(train_loss2, valid_loss2)
 print(lasso_obj.layers[0].W.T)
-preds1 = lasso_obj.predictLR(X_test)
+preds1 = lasso_obj.predict_linear_regression(X_test)
 print(R_squared(y_test, preds1))
 print(np.linalg.norm(lasso_obj.layers[0].W, ord=1))
 print(np.linalg.norm(lasso_obj.layers[0].W)**2)
@@ -101,7 +101,7 @@ train_loss3, valid_loss3, train_acc3, valid_acc3 = ridge_obj.fit_gradient_descen
     learn_rate=0.1)
 print(train_loss3, valid_loss3)
 print(ridge_obj.layers[0].W.T)
-preds2 = ridge_obj.predictLR(X_test)
+preds2 = ridge_obj.predict_linear_regression(X_test)
 print(R_squared(y_test, preds2))
 print(np.linalg.norm(ridge_obj.layers[0].W, ord=1))
 print(np.linalg.norm(ridge_obj.layers[0].W, ord=2)**2)
@@ -123,7 +123,7 @@ lin_regOwn.fit_gradient_descent_optimization(xtrain=X_train,
                                              ytrain=y_train,
                                              num_epochs=50,
                                              learn_rate=0.15)
-preds_lrOwn = lin_regOwn.predictLR(X_test)
+preds_lrOwn = lin_regOwn.predict_linear_regression(X_test)
 print(R_squared(y_test, preds_lrOwn))
 
 print('\n')
@@ -141,7 +141,7 @@ lasso_obj2.fit_gradient_descent_optimization(xtrain=X_train,
                                              ytrain=y_train,
                                              num_epochs=15,
                                              learn_rate=0.15)
-preds_lasso = lasso_obj2.predictLR(X_test)
+preds_lasso = lasso_obj2.predict_linear_regression(X_test)
 print(R_squared(y_test, preds_lasso))
 
 print('\n')
@@ -159,7 +159,7 @@ ridge_obj2.fit_gradient_descent_optimization(xtrain=X_train,
                                              ytrain=y_train,
                                              num_epochs=200,
                                              learn_rate=0.1)
-preds_ridge = ridge_obj2.predictLR(X_test)
+preds_ridge = ridge_obj2.predict_linear_regression(X_test)
 print(R_squared(y_test, preds_ridge))
 
 ## Polynomial Regression ##
@@ -175,7 +175,7 @@ train_loss = degree_2.fit_gradient_descent_optimization(xtrain=X_train,
                                                         learn_rate=0.01,
                                                         ret_train_loss=True)
 print(train_loss)
-deg_2 = degree_2.predictLR(X_test)
+deg_2 = degree_2.predict_linear_regression(X_test)
 print(R_squared(y_test, deg_2))
 
 print(RMSE(y_test, deg_2))
@@ -186,7 +186,7 @@ lasso_objd2.fit_gradient_descent_optimization(xtrain=X_train,
                                               ytrain=y_train,
                                               num_epochs=275,
                                               learn_rate=0.01)
-preds_lassod2 = lasso_objd2.predictLR(X_test)
+preds_lassod2 = lasso_objd2.predict_linear_regression(X_test)
 print(R_squared(y_test, preds_lassod2))
 print(RMSE(y_test, preds_lassod2))
 
@@ -196,6 +196,6 @@ ridge_objd2.fit_gradient_descent_optimization(xtrain=X_train,
                                               ytrain=y_train,
                                               num_epochs=275,
                                               learn_rate=0.01)
-preds_ridged2 = ridge_objd2.predictLR(X_test)
+preds_ridged2 = ridge_objd2.predict_linear_regression(X_test)
 print(R_squared(y_test, preds_ridged2))
 print(RMSE(y_test, preds_ridged2))

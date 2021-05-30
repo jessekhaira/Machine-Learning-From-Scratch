@@ -70,7 +70,7 @@ class BaseLinearRegression(NeuralNetwork_Base):
                         learn_rate=learn_rate,
                         optim=optim)
 
-    def predictLR(self, X):
+    def predict_linear_regression(self, X):
         # the predict method is basically the same as the neural net base,
         # other than the transformation of the features to the polynomial
         # features that needs to take place before fitting
