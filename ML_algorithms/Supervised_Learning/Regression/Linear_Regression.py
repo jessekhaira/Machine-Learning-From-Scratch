@@ -27,16 +27,18 @@ class BaseLinearRegression(NeuralNetwork_Base):
         super(BaseLinearRegression, self).__init__(lossFunction=loss_function,
                                                    input_features=None)
 
-    def fitGD(self,
-              xtrain: np.ndarray,
-              ytrain: np.ndarray,
-              xvalid: Union[np.ndarray, None] = None,
-              yvalid: Union[np.ndarray, None] = None,
-              num_epochs: int = 10,
-              batch_size: int = 32,
-              ret_train_loss: bool = False,
-              learn_rate: float = 0.01,
-              optim: optimizer = gradientDescent()):
+    def fit_gradient_descent_optimization(self,
+                                          xtrain: np.ndarray,
+                                          ytrain: np.ndarray,
+                                          xvalid: Union[np.ndarray,
+                                                        None] = None,
+                                          yvalid: Union[np.ndarray,
+                                                        None] = None,
+                                          num_epochs: int = 10,
+                                          batch_size: int = 32,
+                                          ret_train_loss: bool = False,
+                                          learn_rate: float = 0.01,
+                                          optim: optimizer = gradientDescent()):
         """ This method learns the parameters of the algorithm by minimizing the
         residual sum of squares cost function using the gradient descent (gd)
         optimization algorithm on the provided training set. Validation is
