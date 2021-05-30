@@ -6,8 +6,9 @@ from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
 from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import IdentityActivation
 from itertools import combinations_with_replacement
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
+from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
 from sklearn import preprocessing
+from typing import Union
 
 
 class BaseLinearRegression(NeuralNetwork_Base):
@@ -28,15 +29,15 @@ class BaseLinearRegression(NeuralNetwork_Base):
                                                    input_features=None)
 
     def fitGD(self,
-              xtrain,
-              ytrain,
-              xvalid=None,
-              yvalid=None,
-              num_epochs=10,
-              batch_size=32,
-              ret_train_loss=False,
-              learn_rate=0.01,
-              optim=gradientDescent()):
+              xtrain: np.ndarray,
+              ytrain: np.ndarray,
+              xvalid: Union[np.ndarray, None] = None,
+              yvalid: Union[np.ndarray, None] = None,
+              num_epochs: int = 10,
+              batch_size: int = 32,
+              ret_train_loss: bool = False,
+              learn_rate: float = 0.01,
+              optim: optimizer = gradientDescent()):
         # the fit method is basically the same as the neural net base, other
         # than the transformation of the features that needs to take place
         # before fitting
