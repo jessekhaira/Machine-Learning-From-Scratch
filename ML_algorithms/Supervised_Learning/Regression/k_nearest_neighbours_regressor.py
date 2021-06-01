@@ -33,13 +33,16 @@ class KNearestNeighboursRegressor(KNearestNeighboursBase):
               self).__init__(k, similarity_metric, verbose)
 
     def _get_prediction(self, k_closest):
-        """
-        This method returns a float for the numeric label of the current vector.
+        """ This method carries out prediction on a feature vector
+        using the algorithm after it has been trained, returning a
+        floating point value.
 
-        Input:
-        k_closest (NumPy matrix) -> Matrix of shape (K, 2) containing the K closest vectors
-        with their corresponding labels 
+        Args:
+            k_closest:
+                Numpy matrix of shape (K, 2) containing the K closest
+                vectors with their corresponding labels
 
-        Output (float) -> label of the vector 
+        Returns:
+            Floating point value representing the label of the vector
         """
         return np.mean(k_closest)
