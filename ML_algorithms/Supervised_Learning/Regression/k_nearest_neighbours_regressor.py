@@ -1,22 +1,27 @@
+""" This module contains code representing the k nearest neighbours
+algorithm implemented to perform regression """
 import numpy as np
 from ML_algorithms.Supervised_Learning.Base_Classes.k_nearest_neighbours_base import KNearestNeighboursBase
 
 
 class KNearestNeighboursRegressor(KNearestNeighboursBase):
-    """
-    This is a minimal implementation of the nonparametric supervised
-    machine learning algorithm called kNN, for regression. 
+    """ This is a minimal implementation of the nonparametric supervised
+    machine learning algorithm called k nearest neighbours(kNN) for
+    regression.
 
-    Params:
+    Attributes:
+        k:
+            Integer representing the number of neighbours to consider
+            when making a prediction. Default to consider is 10.
 
-    k -> Number of neighbours to consider when making a prediction. 
-    Default to consider is 10.
+        similarity_metric:
+            String representing the metric to use to determine the
+            similarity between vectors. Default is euclidean
+            distance (L2 distance).
 
-    similarity_metric -> Metric to use to determine the similarity between 
-    different vectors. Default is euclidean distance (L2 distance).
-
-    verbose -> Boolean value that determines whether or not to provide updates
-    when the model is predicting on new examples.   
+        verbose:
+            Boolean value that determines whether or not to provide updates
+            when the model is predicting on new examples.
     """
 
     def __init__(self, k=10, similarity_metric="L2", verbose=True):
