@@ -17,7 +17,7 @@ setuptools.setup(
     name="MachineLearning_Scratch",
     version=__version__,
     author="Jesse Khaira",
-    author_email="jesse.khaira15@gmail.com",
+    author_email="jesse.khaira10@gmail.com",
     license="MIT",
     description=
     "Python implementations using only NumPy of some foundational ML algorithms",
