@@ -24,7 +24,10 @@ class KNearestNeighboursRegressor(KNearestNeighboursBase):
             when the model is predicting on new examples.
     """
 
-    def __init__(self, k=10, similarity_metric="L2", verbose=True):
+    def __init__(self,
+                 k: int = 10,
+                 similarity_metric: str = "L2",
+                 verbose: bool = True):
         #Allow either L2 distance or L1 distance to be used
         super(KNearestNeighboursRegressor,
               self).__init__(k, similarity_metric, verbose)
