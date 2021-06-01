@@ -8,7 +8,7 @@ from ML_algorithms.Neural_Net_Util.ActivationFunctions import IdentityActivation
 from itertools import combinations_with_replacement
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
 from sklearn import preprocessing
-from typing import Union
+from typing import Union, Tuple
 
 
 class BaseLinearRegression(NeuralNetwork_Base):
@@ -27,22 +27,70 @@ class BaseLinearRegression(NeuralNetwork_Base):
         super(BaseLinearRegression, self).__init__(lossFunction=loss_function,
                                                    input_features=None)
 
-    def fit_gradient_descent_optimization(self,
-                                          xtrain: np.ndarray,
-                                          ytrain: np.ndarray,
-                                          xvalid: Union[np.ndarray,
-                                                        None] = None,
-                                          yvalid: Union[np.ndarray,
-                                                        None] = None,
-                                          num_epochs: int = 10,
-                                          batch_size: int = 32,
-                                          ret_train_loss: bool = False,
-                                          learn_rate: float = 0.01,
-                                          optim: optimizer = gradientDescent()):
+    def fit_iterative_optimizer(
+        self,
+        xtrain: np.ndarray,
+        ytrain: np.ndarray,
+        xvalid: Union[np.ndarray, None] = None,
+        yvalid: Union[np.ndarray, None] = None,
+        num_epochs: int = 10,
+        batch_size: int = 32,
+        ret_train_loss: bool = False,
+        learn_rate: float = 0.01,
+        optim: optimizer = gradientDescent()
+    ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
         """ This method learns the parameters of the algorithm by minimizing the
-        residual sum of squares cost function using the gradient descent (gd)
-        optimization algorithm on the provided training set. Validation is
-        done using xvalid and yvalid, if provided.
+        residual sum of squares cost function using iterative optimizers,
+        which by default is set to gradient descent. Validation is done using
+        xvalid and yvalid, if provided.
+
+        Args:
+            xtrain:
+                Numpy array representing the feature vectors the algorithm will
+                be training on
+
+            ytrain:
+                Numpy array representing the labels for xtrain
+
+            xvalid:
+                Numpy array representing the feature vectors the algorithm
+                will be validated on, or None if not wanted
+
+            yvalid:
+                Numpy array representing the labels for xvalid, or None
+                if not wanted. Should be None if xvalid is not specified.
+
+            num_epochs:
+                Integer representing the number of epochs to train the algorithm
+                for
+
+            batch_size:
+                Integer representing the size of the minibatch to use when
+                running the gradient descent optimization algorithm
+
+            ret_train_loss:
+                Boolean value representing whether or not to return the
+                training loss
+
+            learn_rate:
+                Floating point value indicating the learning rate to use
+                when running the gradient descent optimization algorithm
+
+            optim:
+                Object of type optimizer, which is by default set to vanilla
+                gradient descent.
+
+        Returns:
+            If ret_train_loss is set to True and xvalid is not None,
+            4 integers will be returned in a tuple, indicating the training
+            loss, validation loss, training accuracy, and validation accuracy
+            respectively.
+
+            If ret_train_loss is True and xvalid is None, then two integers
+            will be returned in a tuple, indicating the training loss and
+            training accuracy respectively.
+
+            Otherwise, None will be returned.
         """
         # the fit method is basically the same as the neural net base, other
         # than the transformation of the features that needs to take place
