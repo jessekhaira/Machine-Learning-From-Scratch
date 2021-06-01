@@ -32,7 +32,7 @@ class KNearestNeighboursRegressor(KNearestNeighboursBase):
         super(KNearestNeighboursRegressor,
               self).__init__(k, similarity_metric, verbose)
 
-    def _get_prediction(self, k_closest):
+    def _get_prediction(self, k_closest: np.ndarray) -> float:
         """ This method carries out prediction on a feature vector
         using the algorithm after it has been trained, returning a
         floating point value.
