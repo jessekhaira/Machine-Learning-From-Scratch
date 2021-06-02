@@ -44,6 +44,6 @@ termcolor==1.1.0
 torch==1.4.0
 torchvision==0.5.0
 typed-ast==1.4.1
-urllib3==1.25.8
+urllib3==1.26.5
 Werkzeug==1.0.1
 wrapt==1.11.2
