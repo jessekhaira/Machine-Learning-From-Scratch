@@ -125,7 +125,7 @@ class BaseLinearRegression(NeuralNetwork_Base):
         x_poly = self._get_polynomial_features(x)
         return self.predict(x_poly)
 
-    def _get_polynomial_features(self, dataset):
+    def _get_polynomial_features(self, dataset: np.ndarray) -> np.ndarray:
         # Features on rows, examples on columns
         if self.degree == 1:
             return dataset
@@ -149,9 +149,9 @@ class BaseLinearRegression(NeuralNetwork_Base):
         new_x = preprocessing.scale(new_x.T)
         return new_x.T
 
-    def _get_combos(self, numFeatures, degree):
+    def _get_combos(self, num_features: int, degree: int):
         all_combos = [
-            combinations_with_replacement(range(numFeatures), i)
+            combinations_with_replacement(range(num_features), i)
             for i in range(1, degree + 1)
         ]
         unrolled = [item for sublist in all_combos for item in sublist]
