@@ -118,7 +118,7 @@ class BaseLinearRegression(NeuralNetwork_Base):
                         learn_rate=learn_rate,
                         optim=optim)
 
-    def predict_linear_regression(self, x):
+    def predict_linear_regression(self, x: np.ndarray) -> float:
         # the predict method is basically the same as the neural net base,
         # other than the transformation of the features to the polynomial
         # features that needs to take place before fitting
