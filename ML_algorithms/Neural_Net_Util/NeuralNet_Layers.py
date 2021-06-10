@@ -1,24 +1,29 @@
-import numpy as np 
-import random 
+import numpy as np
+import random
+
+
 class _BaseLayer(object):
+
     def compute_forward(self):
         raise NotImplementedError
 
     def updateWeights(self, dLdA):
         raise NotImplementedError
-    
-    def _getRegularizationLoss(self, regularizationType, regParameter, numExamples, W):
+
+    def _getRegularizationLoss(self, regularizationType, regParameter,
+                               numExamples, W):
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
         # So each of dldW circuit and dldW regularization need to include the 1/m term
-        # since it is included in the function we want to find the derivative of 
+        # since it is included in the function we want to find the derivative of
         if regularizationType == "L2":
-            dregdW = (1/numExamples)*regParameter * W
+            dregdW = (1 / numExamples) * regParameter * W
         else:
             signOfWeights = np.sign(W)
-            dregdW = (1/numExamples)*regParameter * signOfWeights
+            dregdW = (1 / numExamples) * regParameter * signOfWeights
         return dregdW
+
 
 class DenseLayer(_BaseLayer):
     """
@@ -46,7 +51,15 @@ class DenseLayer(_BaseLayer):
     - Ain (NumPy matrix) -> A (num_layer-1, M) NumPy matrix of activated neurons coming as input to 
     this layer
     """
-    def __init__(self, num_in, num_layer, activationFunction, regularization = None, regParameter = None, isSoftmax = 0, keepProb = None):
+
+    def __init__(self,
+                 num_in,
+                 num_layer,
+                 activationFunction,
+                 regularization=None,
+                 regParameter=None,
+                 isSoftmax=0,
+                 keepProb=None):
         self.num_in = num_in
         self.num_layer = num_layer
         self.W, self.b = self._initializeWeights(self.num_layer, self.num_in)
@@ -57,7 +70,7 @@ class DenseLayer(_BaseLayer):
         self.regularization = regularization
         self.regParameter = regParameter
         self.isSoftmax = isSoftmax
-        self.optim = None 
+        self.optim = None
 
     def _initializeWeights(self, num_layer, num_prevLayer):
         """
@@ -73,13 +86,13 @@ class DenseLayer(_BaseLayer):
         Returns: None
         """
         if num_prevLayer is None:
-            return None, None 
+            return None, None
         else:
-            W = np.random.randn(num_layer, num_prevLayer)*0.01
+            W = np.random.randn(num_layer, num_prevLayer) * 0.01
             b = np.zeros((num_layer, 1))
-            return W, b 
-    
-    def compute_forward(self, prevlayer_activations, train = True):
+            return W, b
+
+    def compute_forward(self, prevlayer_activations, train=True):
         """
         This method computes the forward pass through this layer. 
 
@@ -89,13 +102,22 @@ class DenseLayer(_BaseLayer):
 
         Returns: None
         """
-        assert self.W.shape[1] == prevlayer_activations.shape[0], "Your weights and inputs shapes are mismatched!"
+        assert self.W.shape[1] == prevlayer_activations.shape[
+            0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
         self.Z = np.dot(self.W, prevlayer_activations) + self.b
         self.A = self.activationFunction.compute_output(self.Z)
         return self.A
-        
-    def _updateWeights(self, dLdA, learn_rate, epoch, prediction_obj, curr_x, curr_y, layer, gradCheck = False):
+
+    def _updateWeights(self,
+                       dLdA,
+                       learn_rate,
+                       epoch,
+                       prediction_obj,
+                       curr_x,
+                       curr_y,
+                       layer,
+                       gradCheck=False):
         """
         This method computes the backward pass through this layer. In the gradient circuit,
         this layers job is to recieve the Jacobian matrix of the loss function with respect
@@ -135,32 +157,38 @@ class DenseLayer(_BaseLayer):
             # Therefore you have to loop through every example, get the Jacobian matrix for that example
             # and dot product it with the dL/da for this example
             # You can combine the gradients of the softmax and the cross entropy and simplify to make more efficient
-            # But this is more explicit of what is actually happening for learning purposes 
+            # But this is more explicit of what is actually happening for learning purposes
             dLdZ = dLdZ_sm(self.Z, self.A, dLdA, self.activationFunction)
-        
+
         dLdW = np.dot(dLdZ, self.Ain.T)
-        dLdB = np.sum(dLdZ, axis=1, keepdims = True)
+        dLdB = np.sum(dLdZ, axis=1, keepdims=True)
         dLdA_prevLayer = np.dot(self.W.T, dLdZ)
 
         assert dLdW.shape == self.W.shape, "Your W[L] shape is not the same as dW/dW[L] shape"
         assert dLdB.shape == self.b.shape, "Your B[L] shape is not the same as dW/dB[L] shape"
         assert dLdA_prevLayer.shape == self.Ain.shape, "Your dL/dA[L-1] shapes are incomptabile"
 
-        # Epoch zero and you want to gradient check, do some gradient checks for params W and b 
+        # Epoch zero and you want to gradient check, do some gradient checks for params W and b
         if epoch == 0 and gradCheck:
-            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj, layer)
-            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj, layer)
-        
+            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
+                                layer)
+            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj,
+                                layer)
+
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
-        
-        dregdW = 0 
+
+        dregdW = 0
         if self.regularization != None:
-            dregdW = self._getRegularizationLoss(self.regularization, self.regParameter, self.Ain.shape[1], self.W)
+            dregdW = self._getRegularizationLoss(self.regularization,
+                                                 self.regParameter,
+                                                 self.Ain.shape[1], self.W)
         dLdW = dLdW + dregdW
-        self.W, self.b = self.optim.updateParams([self.W, self.b], [dLdW, dLdB], learn_rate, epochNum = epoch+1)
+        self.W, self.b = self.optim.updateParams([self.W, self.b], [dLdW, dLdB],
+                                                 learn_rate,
+                                                 epochNum=epoch + 1)
         return dLdA_prevLayer
 
-    def _gradientCheck(self, param, dparam, x, y,obj, layer, num_checks = 10):
+    def _gradientCheck(self, param, dparam, x, y, obj, layer, num_checks=10):
         """
         This method checks the gradient we are using to update the params of this
         dense layer. This check is quite expensive, so its only done on the first 
@@ -187,22 +215,23 @@ class DenseLayer(_BaseLayer):
 
             # Update the param by eps, then decrease param by eps, then
             # calculate the new loss in both cases so we can get dL/dparam and compare to
-            # analytical gradient 
-            obj_attr[:, changeIdx] += eps 
+            # analytical gradient
+            obj_attr[:, changeIdx] += eps
             preds1 = obj._forward_propagate(x)
             loss_higher = obj._calculateLoss(y, preds1)
 
-            obj_attr[:, changeIdx] = savedParam - eps 
+            obj_attr[:, changeIdx] = savedParam - eps
             preds2 = obj._forward_propagate(x)
             loss_lower = obj._calculateLoss(y, preds2)
 
             obj_attr[:, changeIdx] = savedParam
             grad_analytic = dparam[:, changeIdx]
-            grad_numeric = (loss_higher-loss_lower)/(2*eps)
-            rel_error = abs(grad_analytic-grad_numeric)/abs(grad_analytic+grad_numeric)
+            grad_numeric = (loss_higher - loss_lower) / (2 * eps)
+            rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
+                                                                grad_numeric)
 
 
-def dLdZ_sm(Z, A, dLdA, activFunc, efficient = 0):
+def dLdZ_sm(Z, A, dLdA, activFunc, efficient=0):
     """
     This function hooks up dL/dA with dA/dZ to produce the dL/dZ through the softmax layer.
     
@@ -222,90 +251,114 @@ def dLdZ_sm(Z, A, dLdA, activFunc, efficient = 0):
     if not efficient:
         dLdZ = np.zeros((Z.shape[0], Z.shape[1]))
         for i in range(A.shape[1]):
-            column_vecActiv = A[:, i].reshape(-1,1)
-            derivsLoss_ithEx = dLdA[:, i].reshape(-1,1)
+            column_vecActiv = A[:, i].reshape(-1, 1)
+            derivsLoss_ithEx = dLdA[:, i].reshape(-1, 1)
             jacobianActiv = activFunc.getDerivative_wrtInput(column_vecActiv)
-            assert jacobianActiv.shape[1] == derivsLoss_ithEx.shape[0] 
+            assert jacobianActiv.shape[1] == derivsLoss_ithEx.shape[0]
             dLdZ_ithEx = np.dot(jacobianActiv, derivsLoss_ithEx)
             assert dLdZ_ithEx.shape == (Z.shape[0], 1)
             dLdZ[:, i] = dLdZ_ithEx.reshape(-1)
         return dLdZ
-        
+
 
 class BatchNormLayer_Dense(DenseLayer):
-    def __init__(self, num_in, num_layer, activationFunction, regularization = None, regParameter = None, isSoftmax = 0, p = None):
-        super(BatchNormLayer_Dense, self).__init__(num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax)
-        # these are learnable parameters 
+
+    def __init__(self,
+                 num_in,
+                 num_layer,
+                 activationFunction,
+                 regularization=None,
+                 regParameter=None,
+                 isSoftmax=0,
+                 p=None):
+        super(BatchNormLayer_Dense,
+              self).__init__(num_in, num_layer, activationFunction,
+                             regularization, regParameter, isSoftmax)
+        # these are learnable parameters
         self.gamma, self.beta = self._initializeGammaBeta()
-        # We need to keep an exponentially weighted average of the mean and variance 
-        # for this layer when we train, so we can use this to normalize test time predictions 
-        # init to a vector of zeros - one mean and one variance for every neuron in this layer 
+        # We need to keep an exponentially weighted average of the mean and variance
+        # for this layer when we train, so we can use this to normalize test time predictions
+        # init to a vector of zeros - one mean and one variance for every neuron in this layer
         self.runningMean, self.runningVar = self._initializeRunningMeanVar()
         self.Z_in = None
-        self.Z_centered = None 
+        self.Z_centered = None
         self.Z_norm = None
-        self.Z_final = None 
-        # for backprop you have to cache stuff for the current pass 
-        self.variance = None 
-        self.inv_stdDev = None 
-        self.mean_miniBatch = None 
+        self.Z_final = None
+        # for backprop you have to cache stuff for the current pass
+        self.variance = None
+        self.inv_stdDev = None
+        self.mean_miniBatch = None
         self.eps = 1e-7
 
     def _initializeGammaBeta(self):
         # initialize gamma to be a vector of 1's for every neuron in this layer
-        # and beta to be 0 for every neuron in this layer 
+        # and beta to be 0 for every neuron in this layer
         if self.W is None:
             return None, None
         else:
-            return np.ones((self.W.shape[0],1)), np.zeros((self.W.shape[0], 1))
-    
+            return np.ones((self.W.shape[0], 1)), np.zeros((self.W.shape[0], 1))
+
     def _initializeRunningMeanVar(self):
         if self.W is None:
-            return None, None 
+            return None, None
         else:
-            return np.zeros((self.W.shape[0],1)), np.zeros((self.W.shape[0], 1))
+            return np.zeros((self.W.shape[0], 1)), np.zeros(
+                (self.W.shape[0], 1))
 
-    def compute_forward(self, x, train = True):
+    def compute_forward(self, x, train=True):
         if train:
             return self._trainForward(x)
         return self._testForward(x)
 
     def _trainForward(self, prevlayer_activations):
-        assert self.W.shape[1] == prevlayer_activations.shape[0], "Your weights and inputs shapes are mismatched!"
+        assert self.W.shape[1] == prevlayer_activations.shape[
+            0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
-        self.Z_in = np.dot(self.W, prevlayer_activations) + self.b 
+        self.Z_in = np.dot(self.W, prevlayer_activations) + self.b
         # Z is a (features, examples) matrix so for every feature, we want the mean and std dev
         # of every row meaning we get a (N,1) vector of means
         self.mean_miniBatch = np.mean(self.Z_in, axis=1, keepdims=True)
-        self.variance = np.var(self.Z_in, axis=1, keepdims = True) 
+        self.variance = np.var(self.Z_in, axis=1, keepdims=True)
         # update running mean and std dev of every feature
         self._updateRunningAvg()
-        # normalize feature means to 0 and std dev to 1 
+        # normalize feature means to 0 and std dev to 1
         self.Z_centered = self.Z_in - self.mean_miniBatch
-        self.inv_stdDev = 1/np.sqrt(self.variance+self.eps)
-        self.Z_norm = self.Z_centered*self.inv_stdDev
+        self.inv_stdDev = 1 / np.sqrt(self.variance + self.eps)
+        self.Z_norm = self.Z_centered * self.inv_stdDev
         # Multiply by learnable parameters to avoid the network from losing expressivity
-        self.Z_final = self.gamma*self.Z_norm + self.beta
+        self.Z_final = self.gamma * self.Z_norm + self.beta
         # Finally, feed into activation function to activate.
         self.A = self.activationFunction.compute_output(self.Z_final)
-        return self.A 
+        return self.A
 
-    def _updateRunningAvg(self, beta = 0.9):
-        self.runningMean = (beta)*(self.runningMean) + (1-beta)*self.mean_miniBatch
-        self.runningVar = (beta)*(self.runningVar) + (1-beta)*self.variance
+    def _updateRunningAvg(self, beta=0.9):
+        self.runningMean = (beta) * (self.runningMean) + (
+            1 - beta) * self.mean_miniBatch
+        self.runningVar = (beta) * (self.runningVar) + (1 -
+                                                        beta) * self.variance
 
     def _testForward(self, prevlayer_activations):
-        # BatchNorm has diff behaviour at test time and train time 
-        assert self.W.shape[1] == prevlayer_activations.shape[0], "Your weights and inputs shapes are mismatched!"
+        # BatchNorm has diff behaviour at test time and train time
+        assert self.W.shape[1] == prevlayer_activations.shape[
+            0], "Your weights and inputs shapes are mismatched!"
         Z = np.dot(self.W, prevlayer_activations) + self.b
         # Vectorize operation - elementwise subtraction, then elementwise division
         # where Z is a (N,M) matrix and running mean and running variance are (N,1) vectors
-        normalized_Z = (Z-self.runningMean)/(np.sqrt(self.runningVar+self.eps))
+        normalized_Z = (Z - self.runningMean) / (np.sqrt(self.runningVar +
+                                                         self.eps))
         # multiply by learnable parameter gamma and add beta
-        z_final = self.gamma*normalized_Z + self.beta 
+        z_final = self.gamma * normalized_Z + self.beta
         return self.activationFunction.compute_output(z_final)
-    
-    def _updateWeights(self, dLdA, learn_rate, epoch, prediction_obj, curr_x, curr_y, layer, gradCheck = False):
+
+    def _updateWeights(self,
+                       dLdA,
+                       learn_rate,
+                       epoch,
+                       prediction_obj,
+                       curr_x,
+                       curr_y,
+                       layer,
+                       gradCheck=False):
         """
         This method computes the backward pass through this layer. In the gradient circuit,
         this layers job is to recieve the Jacobian matrix of the loss function with respect
@@ -334,92 +387,129 @@ class BatchNormLayer_Dense(DenseLayer):
         Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the Jacobian Matrix
         of the loss function with respect to the activations in the previous layer.
         """
-        ## GRADIENT GOING BACKWARDS IN CIRCUIT 
+        ## GRADIENT GOING BACKWARDS IN CIRCUIT
         if self.isSoftmax == 0:
-            dadz_final = self.activationFunction.getDerivative_wrtInput(self.Z_final)
+            dadz_final = self.activationFunction.getDerivative_wrtInput(
+                self.Z_final)
             dLdZ_final = dLdA * dadz_final
         else:
-            dLdZ_final = dLdZ_sm(self.Z_final, self.A, dLdA, self.activationFunction)
-        
-        # gradients for learnable parameters - computation step for z_final layer
-        dLdGamma = np.sum(np.dot(dLdZ_final, self.Z_norm.T), axis=1, keepdims=True)
-        dLdBeta = np.sum(dLdZ_final, axis=1, keepdims=True)
-        dLdZnorm = dLdZ_final * self.gamma 
+            dLdZ_final = dLdZ_sm(self.Z_final, self.A, dLdA,
+                                 self.activationFunction)
 
-        # first branch dLdZ 
-        dLdZin_firstBranch = dLdZnorm*self.inv_stdDev
-        ## variance portion of dLdZ 
+        # gradients for learnable parameters - computation step for z_final layer
+        dLdGamma = np.sum(np.dot(dLdZ_final, self.Z_norm.T),
+                          axis=1,
+                          keepdims=True)
+        dLdBeta = np.sum(dLdZ_final, axis=1, keepdims=True)
+        dLdZnorm = dLdZ_final * self.gamma
+
+        # first branch dLdZ
+        dLdZin_firstBranch = dLdZnorm * self.inv_stdDev
+        ## variance portion of dLdZ
         dZnormdInv = self.Z_centered
-        dInvdVar = -(0.5)*np.power(self.variance+self.eps, -3/2)
-        dLdVar = np.sum(dLdZnorm*dZnormdInv*dInvdVar, axis=1, keepdims= True)
-        dLdZin_secondBranch = dLdVar*(2/self.Z_in.shape[1])*(self.Z_centered)
+        dInvdVar = -(0.5) * np.power(self.variance + self.eps, -3 / 2)
+        dLdVar = np.sum(dLdZnorm * dZnormdInv * dInvdVar, axis=1, keepdims=True)
+        dLdZin_secondBranch = dLdVar * (2 /
+                                        self.Z_in.shape[1]) * (self.Z_centered)
         ## mean portion of dLdZ
-        dLdMu1 = np.sum(dLdZnorm*(-1)*(self.inv_stdDev), axis=1, keepdims=True)
-        dLdMu2 = np.sum(dLdVar * (-2/self.Z_in.shape[1])*(self.Z_centered), axis=1, keepdims=True)
-        dLdZin_thirdBranch = (1/self.Z_in.shape[1]) * (dLdMu1 + dLdMu2)
-        # total dLdZ is sum of all three branches 
-        dLdZ_in = dLdZin_firstBranch + dLdZin_secondBranch + dLdZin_thirdBranch 
+        dLdMu1 = np.sum(dLdZnorm * (-1) * (self.inv_stdDev),
+                        axis=1,
+                        keepdims=True)
+        dLdMu2 = np.sum(dLdVar * (-2 / self.Z_in.shape[1]) * (self.Z_centered),
+                        axis=1,
+                        keepdims=True)
+        dLdZin_thirdBranch = (1 / self.Z_in.shape[1]) * (dLdMu1 + dLdMu2)
+        # total dLdZ is sum of all three branches
+        dLdZ_in = dLdZin_firstBranch + dLdZin_secondBranch + dLdZin_thirdBranch
 
         # finally get back to the un-normalized activations where we can get what we
-        # wanted from the beginning 
+        # wanted from the beginning
         dLdW = np.dot(dLdZ_in, self.Ain.T)
-        dLdB = np.sum(dLdZ_in, axis=1, keepdims = True)
+        dLdB = np.sum(dLdZ_in, axis=1, keepdims=True)
         dLdA_prevLayer = np.dot(self.W.T, dLdZ_in)
 
         assert dLdW.shape == self.W.shape, "Your W[L] shape is not the same as dW/dW[L] shape"
         assert dLdB.shape == self.b.shape, "Your B[L] shape is not the same as dW/dB[L] shape"
         assert dLdA_prevLayer.shape == self.Ain.shape, "Your dL/dA[L-1] shapes are incomptabile"
         assert dLdGamma.shape == self.gamma.shape, "Your dL/dGamma shape is not the same as gammas shape"
-        assert dLdBeta.shape == self.beta.shape, "Your dL/dBeta shape is not the same as betas shape" 
-        
-        # Epoch zero and you want to gradient check, do some gradient checks for params W and b 
+        assert dLdBeta.shape == self.beta.shape, "Your dL/dBeta shape is not the same as betas shape"
+
+        # Epoch zero and you want to gradient check, do some gradient checks for params W and b
         if epoch == 0 and gradCheck:
-            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj, layer)
-            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj, layer)
-        
+            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
+                                layer)
+            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj,
+                                layer)
+
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
         dregdW = 0
         if self.regularization != None:
-            dregdW = self._getRegularizationLoss(self.regularization, self.regParameter, self.Ain.shape[1], self.W)
+            dregdW = self._getRegularizationLoss(self.regularization,
+                                                 self.regParameter,
+                                                 self.Ain.shape[1], self.W)
         dLdW = dLdW + dregdW
-        self.W, self.b, self.gamma, self.beta = self.optim.updateParams([self.W, self.b, self.gamma, self.beta], [dLdW, dLdB, dLdGamma, dLdBeta], learn_rate, epochNum = epoch+1)
+        self.W, self.b, self.gamma, self.beta = self.optim.updateParams(
+            [self.W, self.b, self.gamma, self.beta],
+            [dLdW, dLdB, dLdGamma, dLdBeta],
+            learn_rate,
+            epochNum=epoch + 1)
         return dLdA_prevLayer
-    
+
 
 class DropOutLayer_Dense(DenseLayer):
-    def __init__(self, num_in, num_layer, activationFunction, regularization = None, regParameter = None, isSoftmax = 0, keepProb = 0.5):
-        super(DropOutLayer_Dense, self).__init__(num_in, num_layer, activationFunction, regularization, regParameter, isSoftmax)
+
+    def __init__(self,
+                 num_in,
+                 num_layer,
+                 activationFunction,
+                 regularization=None,
+                 regParameter=None,
+                 isSoftmax=0,
+                 keepProb=0.5):
+        super(DropOutLayer_Dense,
+              self).__init__(num_in, num_layer, activationFunction,
+                             regularization, regParameter, isSoftmax)
         self.keepProb = keepProb
         # if keep prob is 1, then every value in matrix will be less than 1, and thus be True and so every
-        # activated neuron is kept in. If keepProb is 0, then every neuron is dropped. 
+        # activated neuron is kept in. If keepProb is 0, then every neuron is dropped.
 
-    def compute_forward(self, x, train = True):
+    def compute_forward(self, x, train=True):
         if train:
             return self._trainForward(x)
         return self._testForward(x)
 
     def _trainForward(self, prevlayer_activations):
-        assert self.W.shape[1] == prevlayer_activations.shape[0], "Your weights and inputs shapes are mismatched!"
+        assert self.W.shape[1] == prevlayer_activations.shape[
+            0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
         self.Z = np.dot(self.W, prevlayer_activations) + self.b
         self.mask = (np.random.rand(*self.Z.shape) < self.keepProb).astype(int)
         A_undropped = self.activationFunction.compute_output(self.Z)
-        A_dropped =  A_undropped * self.mask 
+        A_dropped = A_undropped * self.mask
         # have to divide by keepProb because we don't want the activations of the next layer
-        # to have lower values just cause we're feeding in so many values that are zero 
-        self.A = A_dropped/self.keepProb
+        # to have lower values just cause we're feeding in so many values that are zero
+        self.A = A_dropped / self.keepProb
         return self.A
 
     def _testForward(self, prevlayer_activations):
         # testing forward has no dropout - we use our full architecture
         # so its just the same as forward prop through a dense layer
-        assert self.W.shape[1] == prevlayer_activations.shape[0], "Your weights and inputs shapes are mismatched!"
+        assert self.W.shape[1] == prevlayer_activations.shape[
+            0], "Your weights and inputs shapes are mismatched!"
         Ain = prevlayer_activations
         Z = np.dot(self.W, prevlayer_activations) + self.b
         A = self.activationFunction.compute_output(self.Z)
         return A
-    
-    def _updateWeights(self, dLdA, learn_rate, epoch, prediction_obj, curr_x, curr_y, layer, gradCheck = False):
+
+    def _updateWeights(self,
+                       dLdA,
+                       learn_rate,
+                       epoch,
+                       prediction_obj,
+                       curr_x,
+                       curr_y,
+                       layer,
+                       gradCheck=False):
         """
         This method computes the backward pass through this layer. In the gradient circuit,
         this layers job is to recieve the Jacobian matrix of the loss function with respect
@@ -451,30 +541,37 @@ class DropOutLayer_Dense(DenseLayer):
         """
 
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
-        # you dont use a dropout layer w/ a softmax activation 
+        # you dont use a dropout layer w/ a softmax activation
 
         # only change between dropout and normal dense layer - you have the boolean mask and /p term
-        # when getting dadz 
-        dadz = (self.activationFunction.getDerivative_wrtInput(self.Z)*self.mask)/(self.keepProb)
+        # when getting dadz
+        dadz = (self.activationFunction.getDerivative_wrtInput(self.Z) *
+                self.mask) / (self.keepProb)
         dLdZ = dLdA * dadz
-        
+
         dLdW = np.dot(dLdZ, self.Ain.T)
-        dLdB = np.sum(dLdZ, axis=1, keepdims = True)
+        dLdB = np.sum(dLdZ, axis=1, keepdims=True)
         dLdA_prevLayer = np.dot(self.W.T, dLdZ)
 
         assert dLdW.shape == self.W.shape, "Your W[L] shape is not the same as dW/dW[L] shape"
         assert dLdB.shape == self.b.shape, "Your B[L] shape is not the same as dW/dB[L] shape"
         assert dLdA_prevLayer.shape == self.Ain.shape, "Your dL/dA[L-1] shapes are incomptabile"
 
-        # Epoch zero and you want to gradient check, do some gradient checks for params W and b 
+        # Epoch zero and you want to gradient check, do some gradient checks for params W and b
         if epoch == 0 and gradCheck:
-            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj, layer)
-            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj, layer)
-        
+            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
+                                layer)
+            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj,
+                                layer)
+
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
         dregdW = 0
         if self.regularization != None:
-            dregdW = self._getRegularizationLoss(self.regularization, self.regParameter, self.Ain.shape[1], self.W)        
+            dregdW = self._getRegularizationLoss(self.regularization,
+                                                 self.regParameter,
+                                                 self.Ain.shape[1], self.W)
         dLdW = dLdW + dregdW
-        self.W, self.b = self.optim.updateParams([self.W, self.b], [dLdW, dLdB], learn_rate, epochNum = epoch+1)
-        return dLdA_prevLayer        
+        self.W, self.b = self.optim.updateParams([self.W, self.b], [dLdW, dLdB],
+                                                 learn_rate,
+                                                 epochNum=epoch + 1)
+        return dLdA_prevLayer
