@@ -132,7 +132,7 @@ class BaseLinearRegression(NeuralNetwork_Base):
         original_num_features = len(dataset)
         # Get combinations of indices of features ex: (0,), (1,), (2,),
         # (0,0), (0,1), (0,2), (1,2), etc
-        all_combos = self._getCombos(original_num_features, self.degree)
+        all_combos = self._get_combos(original_num_features, self.degree)
         num_polynomial_features = len(all_combos)
         # Make a empty new data matrix of the appropriate shape
         # We will fill in the rows of this matriix with the appropriate
@@ -149,7 +149,7 @@ class BaseLinearRegression(NeuralNetwork_Base):
         new_x = preprocessing.scale(new_x.T)
         return new_x.T
 
-    def _getCombos(self, numFeatures, degree):
+    def _get_combos(self, numFeatures, degree):
         all_combos = [
             combinations_with_replacement(range(numFeatures), i)
             for i in range(1, degree + 1)
