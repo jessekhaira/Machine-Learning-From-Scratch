@@ -118,12 +118,12 @@ class BaseLinearRegression(NeuralNetwork_Base):
                         learn_rate=learn_rate,
                         optim=optim)
 
-    def predict_linear_regression(self, X):
+    def predict_linear_regression(self, x):
         # the predict method is basically the same as the neural net base,
         # other than the transformation of the features to the polynomial
         # features that needs to take place before fitting
-        X_poly = self._get_polynomial_features(X)
-        return self.predict(X_poly)
+        x_poly = self._get_polynomial_features(x)
+        return self.predict(x_poly)
 
     def _get_polynomial_features(self, dataset):
         # Features on rows, examples on columns
