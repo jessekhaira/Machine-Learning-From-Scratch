@@ -1,5 +1,6 @@
-import numpy as np 
+import numpy as np
 import random
+
 
 class Base_ActivationFunction(object):
     """
@@ -12,11 +13,14 @@ class Base_ActivationFunction(object):
 
     Thus, it made sense to make an abstract class which all the related classes will inherit from.
     """
-    def compute_output(self,x):
+
+    def compute_output(self, x):
         raise NotImplementedError
+
     def getDerivative_wrtInput(self, x):
         raise NotImplementedError
-    def _gradCheck(self, input, num_checks = 10):
+
+    def _gradCheck(self, input, num_checks=10):
         """
         This method does a quick gradient check to ensure the
         da/dz is indeed correct. 
@@ -33,15 +37,17 @@ class Base_ActivationFunction(object):
         random.seed(21)
         for i in range(num_checks):
             changeIdx = random.randrange(0, len(input))
-            x = input[changeIdx,changeIdx]
-            x_upeps = x+eps
+            x = input[changeIdx, changeIdx]
+            x_upeps = x + eps
             activ_higher = self.compute_output(x_upeps)
-            x_downeps = x-eps
+            x_downeps = x - eps
             activ_lower = self.compute_output(x_downeps)
             grad_analytic = self.getDerivative_wrtInput(x)
-            grad_numeric = (activ_higher-activ_lower)/(2*eps)
-            rel_error = abs(grad_analytic-grad_numeric)/abs(grad_analytic+grad_numeric)
-            print('rel error is %s'%(rel_error))
+            grad_numeric = (activ_higher - activ_lower) / (2 * eps)
+            rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
+                                                                grad_numeric)
+            print('rel error is %s' % (rel_error))
+
 
 class Sigmoid(Base_ActivationFunction):
     """
@@ -55,8 +61,9 @@ class Sigmoid(Base_ActivationFunction):
     Returns: Output (int, vector, or matrix) -> function will apply the transformation
     elementwise and return the same form that was input. 
     """
+
     def compute_output(self, x):
-        return 1/(1+np.exp(-x))
+        return 1 / (1 + np.exp(-x))
 
     def getDerivative_wrtInput(self, x):
         """
@@ -70,7 +77,7 @@ class Sigmoid(Base_ActivationFunction):
         the output accordingly
         """
         output = self.compute_output(x)
-        return output*(1-output)
+        return output * (1 - output)
 
 
 class IdentityActivation(Base_ActivationFunction):
@@ -82,12 +89,14 @@ class IdentityActivation(Base_ActivationFunction):
     -> x (can be int, matrix, tensor): We just apply the identity function elementwise to this
     input
     """
-    def compute_output(self,x):
-        return x 
+
+    def compute_output(self, x):
+        return x
+
     def getDerivative_wrtInput(self, x):
         return 1
 
-    
+
 class Softmax(Base_ActivationFunction):
     """
     This class implements the softmax function. The methods are self explanatory. This function is 
@@ -101,11 +110,12 @@ class Softmax(Base_ActivationFunction):
     In addition, the gradient of the softmax cannot just be applied elementwise either, as the softmax is 
     a vector valued function. That means its gradient is a matrix called a Jacobian matrix.
     """
-    def compute_output(self,x):
+
+    def compute_output(self, x):
         # Numerically stable softmax - subtract max(x) input vector x before computing softmax
         max_predictionPerExample = np.amax(x, axis=0)
         x -= max_predictionPerExample
-        return np.exp(x)/np.sum(np.exp(x), axis=0)
+        return np.exp(x) / np.sum(np.exp(x), axis=0)
 
     def getDerivative_wrtInput(self, a):
         """ 
@@ -118,16 +128,17 @@ class Softmax(Base_ActivationFunction):
 
         Returns: Output (NumPy matrix) -> Matrix of shape (C,C) representing the Jacobian matrix. 
         """
-        # Gradient softmax == Jacobian matrix (IE d(output_1)/d(input_1), 
+        # Gradient softmax == Jacobian matrix (IE d(output_1)/d(input_1),
         # d(output_1)/d(input_2), d(output_1)/d(input_3)..)
         jacobian_mat = np.diagflat(a)
-        # Jacobian matrix will have activations on diagonal where i == j and zeros 
+        # Jacobian matrix will have activations on diagonal where i == j and zeros
         # everywhere else the dot product will return a CxC matrix, which we can then use
-        # to do an element by element subtraction 
-        return jacobian_mat - np.dot(a,a.T)
-        
-    def _gradCheck(self, input, num_checks = 10):
+        # to do an element by element subtraction
+        return jacobian_mat - np.dot(a, a.T)
+
+    def _gradCheck(self, input, num_checks=10):
         raise NotImplementedError
+
 
 class ReLU(Base_ActivationFunction):
     """
@@ -140,8 +151,9 @@ class ReLU(Base_ActivationFunction):
     Returns: Output (int, vector, or matrix) -> function will apply the transformation
     elementwise and return the same form that was input. 
     """
+
     def compute_output(self, x):
-        return np.maximum(0,x)
+        return np.maximum(0, x)
 
     def getDerivative_wrtInput(self, x):
         """
@@ -154,8 +166,8 @@ class ReLU(Base_ActivationFunction):
         Returns: da/dz (int, NumPy vector, or NumPy matrix) -> function will get da/dz elementwise and return
         the output accordingly
         """
-        return (x>0)*1
-        
+        return (x > 0) * 1
+
 
 class TanH(Base_ActivationFunction):
     """
@@ -168,6 +180,7 @@ class TanH(Base_ActivationFunction):
     Returns: Output (int, vector, or matrix) -> function will apply the transformation
     elementwise and return the same form that was input. 
     """
+
     def compute_output(self, x):
         return np.tanh(x)
 
@@ -182,5 +195,4 @@ class TanH(Base_ActivationFunction):
         Returns: da/dz (int, NumPy vector, or NumPy matrix) -> function will get da/dz elementwise and return
         the output accordingly
         """
-        return 1-np.square(self.compute_output(x))
-
+        return 1 - np.square(self.compute_output(x))

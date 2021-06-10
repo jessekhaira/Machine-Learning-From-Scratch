@@ -15,8 +15,9 @@ class _BaseLayer(object):
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        # So each of dldW circuit and dldW regularization need to include the 1/m term
-        # since it is included in the function we want to find the derivative of
+        # So each of dldW circuit and dldW regularization need to include the
+        # 1/m term since it is included in the function we want to find the
+        # derivative of
         if regularizationType == "L2":
             dregdW = (1 / numExamples) * regParameter * W
         else:
@@ -26,30 +27,42 @@ class _BaseLayer(object):
 
 
 class DenseLayer(_BaseLayer):
-    """
-    This class represent a fully connected layer used in many machine learning algorithms (linear regression, logistic regression
-    , SVMS, MLPs) where every neuron has a connection to every neuron in the previous
-    layer.
+    """ This class represent a fully connected layer used in many machine
+    learning algorithms, where every neuron has a connection to every neuron
+    in the previous layer.
 
-    Parameters:
-    - num_in (int) -> integer representing the number of neurons that are expected
-    as input to this layer
+    M: The number of rows inside of a matrix, representing feature vectors
 
-    - num_layer (int) -> integer representing the number of neurons in this layer
+    Attributes:
+        num_in:
+            Integer representing the number of neurons that are expected
+            as input to this layer
 
-    - activationFunction (object) -> activation function object
+        num_layer:
+            Integer representing the number of neurons in this layer
 
-    - W (NumPy matrix) -> A (num_layer, num_in) NumPy matrix of weights for this layer
+        activationFunction:
+            Object of type Base_ActivationFunction representing the activation
+            function to use within this layer
 
-    - b (NumPy vector) -> A (num_layer, 1) NumPy vector of bias 
+        W:
+            Numpy array of shape (num_layer, num_in) of weights for this layer
 
-    - Z (NumPy matrix) -> A (num_layer, M) NumPy matrix consisting of linear sums for all M 
-    examples
+        b:
+            Numpy array of shape (num_layer, 1) representing the bias values
+            for the neurons in this layer
 
-    - A (NumPy matrix) -> A (num_layer, M) NumPy matrix of activated neurons for all M examples
+        Z:
+            Numpy array of shape (num_layer, M) consisting of linear sums for
+            all input examples
 
-    - Ain (NumPy matrix) -> A (num_layer-1, M) NumPy matrix of activated neurons coming as input to 
-    this layer
+        A:
+            Numpy array of shape (num_layer, M) representing the matrix Z after
+            it has been fed into an activation function
+
+        Ain:
+            Numpy array of shape (num_layer-1, M) representing the input to this
+            layer
     """
 
     def __init__(self,
