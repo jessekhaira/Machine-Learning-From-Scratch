@@ -1,5 +1,9 @@
+""" This module contains code for functionality related to fully connected
+neural network layers """
 import numpy as np
 import random
+from typing import Literal
+from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 
 
 class _BaseLayer(object):
@@ -63,16 +67,19 @@ class DenseLayer(_BaseLayer):
         Ain:
             Numpy array of shape (num_layer-1, M) representing the input to this
             layer
+
+        regParameter:
+            Floating point value representing the strength of the regularization
     """
 
     def __init__(self,
-                 num_in,
-                 num_layer,
-                 activationFunction,
+                 num_in: int,
+                 num_layer: int,
+                 activationFunction: Base_ActivationFunction,
                  regularization=None,
-                 regParameter=None,
-                 isSoftmax=0,
-                 keepProb=None):
+                 regParameter: float = None,
+                 isSoftmax: Literal[0, 1] = 0,
+                 keepProb: float = None):
         self.num_in = num_in
         self.num_layer = num_layer
         self.W, self.b = self._initializeWeights(self.num_layer, self.num_in)
