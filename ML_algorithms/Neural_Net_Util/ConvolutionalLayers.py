@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import _BaseLayer
+from ML_algorithms.Neural_Net_Util.neural_net_layers import _BaseLayer
 import math
 from ML_algorithms.Utility.misc import findRowColMaxElem
 

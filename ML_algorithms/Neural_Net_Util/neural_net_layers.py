@@ -117,15 +117,24 @@ class DenseLayer(_BaseLayer):
             b = np.zeros((num_layer, 1))
             return W, b
 
-    def compute_forward(self, prevlayer_activations, train=True):
-        """
-        This method computes the forward pass through this layer. 
+    def compute_forward(self,
+                        prevlayer_activations: np.ndarray,
+                        train: bool = True) -> np.ndarray:
+        """ This method computes the forward pass through this layer.
 
-        Parameters:
-        - prevlayer_activations (NumPy matrix) -> A (nl_prev, M) NumPy matrix containing the 
-        activations for all M examples for every neuron in the previous layer
+        Args:
+            prevlayer_activations:
+                A (nl_prev, M) numpy array containing the activations for all M
+                examples for every neuron in the previous layer, where nl_prev
+                is the number of neurons in the previous layer.
 
-        Returns: None
+            train:
+                Boolean value indicating whether the layer is currently training
+
+        Returns:
+            A numpy matrix of shape (self.num_layer, M) where self.num_layer
+            is the number of neurons inside of this layer, and M is the number
+            of examples in the input matrix
         """
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"

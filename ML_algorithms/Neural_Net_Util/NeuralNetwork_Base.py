@@ -1,7 +1,7 @@
 """ This module contains code representing the base class for Neural Networks
 """
 import numpy as np
-from ML_algorithms.Neural_Net_Util.NeuralNet_Layers import DenseLayer, BatchNormLayer_Dense, _BaseLayer
+from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense, _BaseLayer
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
 from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
