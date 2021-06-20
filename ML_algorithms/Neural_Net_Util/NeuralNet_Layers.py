@@ -2,7 +2,7 @@
 neural network layers """
 import numpy as np
 import random
-from typing import Literal
+from typing import Literal, Union, Tuple
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 
 
@@ -92,23 +92,28 @@ class DenseLayer(_BaseLayer):
         self.isSoftmax = isSoftmax
         self.optim = None
 
-    def _initializeWeights(self, num_layer, num_prevLayer):
-        """
-        This method will initialize the weights used in this layer. For the bias 
-        vector, a simple zeros initialization will be used. For the weight matrix,
-        the values will be sampled from a standard normal distribution and then 
-        multiplied by 0.01 to prevent the issue of exploding and vanishing gradients.
+    def _initializeWeights(
+        self, num_layer: int, num_prev_layer: int
+    ) -> Union[Tuple[None, None], Tuple[np.ndarray, np.ndarray]]:
+        """ This method will initialize the weights used in this layer. For the
+        bias vector, a simple zeros initialization will be used. For the weight
+        matrix, the values will be sampled from a standard normal distribution
+        and then multiplied by 0.01 to prevent the issue of exploding and
+        vanishing gradients.
 
-        Parameters:
-        - num_layer (int) -> the number of neurons present in the current dense layer
-        - num_prevLayer (int) ->the number of neurons present in the previous dense layer
+        Args:
+            num_layer:
+                Integer representing the number of neurons present in the
+                current dense layer
 
-        Returns: None
+            num_prev_layer:
+                Integer representing the number of neurons present in the
+                previous dense layer
         """
-        if num_prevLayer is None:
+        if num_prev_layer is None:
             return None, None
         else:
-            W = np.random.randn(num_layer, num_prevLayer) * 0.01
+            W = np.random.randn(num_layer, num_prev_layer) * 0.01
             b = np.zeros((num_layer, 1))
             return W, b
 
