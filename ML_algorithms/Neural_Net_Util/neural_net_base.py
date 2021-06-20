@@ -1,7 +1,7 @@
 """ This module contains code representing the base class for Neural Networks
 """
 import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense, _BaseLayer
+from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense, BaseNeuralNetworkLayer
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
 from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
@@ -12,7 +12,7 @@ from typing import Union, Tuple, List
 import copy
 
 
-class NeuralNetwork_Base(object):
+class NeuralNetworkBase(object):
     """
     This is a fully-connected Neural Network class, which can be used
     for supervised learning and unsupervised learning (autoencoders).
@@ -39,7 +39,7 @@ class NeuralNetwork_Base(object):
                   num_neurons: int,
                   activationFunction: Base_ActivationFunction,
                   isSoftmax: int = 0,
-                  layer: _BaseLayer = None,
+                  layer: BaseNeuralNetworkLayer = None,
                   keep_prob: int = 1) -> None:
         """
         This method adds a dense layer to your neural network.
@@ -58,7 +58,7 @@ class NeuralNetwork_Base(object):
                 activation function is softmax or not
 
             layer:
-                Object of type _BaseLayer, indicating the current layer being
+                Object of type BaseNeuralNetworkLayer, indicating the current layer being
                 added to the neural network. Default layer is a Dense layer.
 
         """
@@ -261,7 +261,7 @@ class NeuralNetwork_Base(object):
         return predictions
 
     def _calculateLoss(self, curr_y: np.ndarray, pred_minibatch: np.ndarray,
-                       layersNet: List[_BaseLayer]) -> float:
+                       layersNet: List[BaseNeuralNetworkLayer]) -> float:
         """ This method is used to calculate the loss of the neural network
         on a batch of examples.
 

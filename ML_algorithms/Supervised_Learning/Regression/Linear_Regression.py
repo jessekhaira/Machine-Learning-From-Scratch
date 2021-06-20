@@ -2,7 +2,7 @@
 algorithms, like lasso regression, ridge regression, and a base
 class which they all inherit from """
 import numpy as np
-from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
 from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import IdentityActivation
 from itertools import combinations_with_replacement
@@ -11,7 +11,7 @@ from sklearn import preprocessing
 from typing import Union, Tuple
 
 
-class BaseLinearRegression(NeuralNetwork_Base):
+class BaseLinearRegression(NeuralNetworkBase):
     """ This class represents the base class for linear regression, which all
     linear regression classes will inherit.
     """

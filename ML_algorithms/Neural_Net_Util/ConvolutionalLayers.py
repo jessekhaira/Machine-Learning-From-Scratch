@@ -1,11 +1,11 @@
 import numpy as np
 import random
-from ML_algorithms.Neural_Net_Util.neural_net_layers import _BaseLayer
+from ML_algorithms.Neural_Net_Util.neural_net_layers import BaseNeuralNetworkLayer
 import math
 from ML_algorithms.Utility.misc import findRowColMaxElem
 
 
-class convBase(_BaseLayer):
+class convBase(BaseNeuralNetworkLayer):
 
     def _padInput(self, x, filterSize, padding):
         pad_h, pad_w = self._get_padding(filterSize, padding)

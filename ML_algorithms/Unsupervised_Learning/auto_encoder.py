@@ -2,12 +2,12 @@ import numpy as np
 from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, IdentityActivation, TanH, Sigmoid
 from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
-from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
 from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, gradientDescentMomentum, RMSProp, Adam
 import matplotlib.pyplot as plt
 
 
-class Deep_Autoencoder(NeuralNetwork_Base):
+class Deep_Autoencoder(NeuralNetworkBase):
     """
     This class represents a Deep Autoencoder made for MNIST. An autoencoder is a type of neural network used in unsupervised learning,
     typically to learn data codings for dimensionality reduction. 

@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from ML_algorithms.Neural_Net_Util.neural_net_layers import _BaseLayer
+from ML_algorithms.Neural_Net_Util.neural_net_layers import BaseNeuralNetworkLayer
 import math
 from ML_algorithms.Utility.misc import gradientClipping
 from ML_algorithms.Utility.misc import oneHotEncodeFeature
@@ -10,7 +10,7 @@ from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
 from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
 
 
-class RNN_cell_languageModel(_BaseLayer):
+class RNN_cell_languageModel(BaseNeuralNetworkLayer):
     """
     This class represents a single RNN cell performing language generation. This RNN forms a 
     many-to-many architecture, as the cell will predict a letter at every single time step.

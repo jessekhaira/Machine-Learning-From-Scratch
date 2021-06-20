@@ -6,7 +6,7 @@ from typing import Literal, Union, Tuple
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 
 
-class _BaseLayer(object):
+class BaseNeuralNetworkLayer(object):
 
     def compute_forward(self):
         raise NotImplementedError
@@ -30,7 +30,7 @@ class _BaseLayer(object):
         return dregdW
 
 
-class DenseLayer(_BaseLayer):
+class DenseLayer(BaseNeuralNetworkLayer):
     """ This class represent a fully connected layer used in many machine
     learning algorithms, where every neuron has a connection to every neuron
     in the previous layer.

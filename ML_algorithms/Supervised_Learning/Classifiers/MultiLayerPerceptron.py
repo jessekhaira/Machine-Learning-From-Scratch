@@ -1,8 +1,8 @@
-from ML_algorithms.Neural_Net_Util.NeuralNetwork_Base import NeuralNetwork_Base
+from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
 from ML_algorithms.Neural_Net_Util.LossFunctions import negative_log_loss, cross_entropy, mean_squared_error
 
 
-class MultiLayerPerceptron(NeuralNetwork_Base):
+class MultiLayerPerceptron(NeuralNetworkBase):
     """
     This class represents a multi-layer perceptron used for supervised learning. The user will have
     to add the number of layers desired to this layer accordingly. 
