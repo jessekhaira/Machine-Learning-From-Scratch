@@ -1,7 +1,7 @@
 """ This module contains code for testing the base decision tree class """
 import numpy as np
 from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain, predictionClassification, predictionRegression
-from ML_algorithms.Supervised_Learning.Base_Classes.DecisionTree import BaseDecisionTree
+from ML_algorithms.Supervised_Learning.base_classes.DecisionTree import BaseDecisionTree
 
 import unittest
 

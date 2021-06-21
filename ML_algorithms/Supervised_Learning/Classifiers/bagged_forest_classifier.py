@@ -1,4 +1,4 @@
-from ML_algorithms.Supervised_Learning.Base_Classes.BaggedForest import BaggedForest
+from ML_algorithms.Supervised_Learning.base_classes.BaggedForest import BaggedForest
 from typing import Literal, Union
 
 

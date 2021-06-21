@@ -1,6 +1,6 @@
 """ This module contains code representing an implementation of the
 bagged forest algorithm for regression """
-from ML_algorithms.Supervised_Learning.Base_Classes.BaggedForest import BaggedForest
+from ML_algorithms.Supervised_Learning.base_classes.BaggedForest import BaggedForest
 from typing import Union
 
 
