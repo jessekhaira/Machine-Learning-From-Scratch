@@ -169,7 +169,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                 function with respect to the activations in this layer.
 
             optim:
-                An object of type optimizer, used to minimize the loss function
+                An object of type Optimizer, used to minimize the loss function
 
             learn_rate:
                 A floating point value representing the learning rate to be used
@@ -430,7 +430,7 @@ class BatchNormLayer_Dense(DenseLayer):
         Jacobian matrix of the loss function with respect to the activations 
         in this layer.
 
-        -> optim (function) -> optimizer to use to minimize the loss function 
+        -> optim (function) -> Optimizer to use to minimize the loss function 
 
         -> learn_rate (float) -> learning rate to be used when optimizing the cost function
 
@@ -582,7 +582,7 @@ class DropOutLayer_Dense(DenseLayer):
         Jacobian matrix of the loss function with respect to the activations 
         in this layer.
 
-        -> optim (function) -> optimizer to use to minimize the loss function 
+        -> optim (function) -> Optimizer to use to minimize the loss function 
 
         -> learn_rate (float) -> learning rate to be used when optimizing the cost function
 

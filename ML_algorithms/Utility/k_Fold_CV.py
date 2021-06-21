@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 from ML_algorithms.Utility.misc import convertToHighestPred
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent
+from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent
 
 
 class k_fold_CV(object):

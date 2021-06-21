@@ -3,7 +3,7 @@ the natural language processing task of language modelling."""
 import numpy as np
 from ML_algorithms.Utility.misc import oneHotEncodeFeature
 from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
-from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad, optimizer
+from ML_algorithms.Neural_Net_Util.optimizer import AdaGrad, Optimizer
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 from typing import Dict
 
@@ -61,7 +61,7 @@ class ReccurentNetLanguageModel:
             num_epochs: int = 10,
             ret_train_loss: bool = False,
             learn_rate: float = 0.01,
-            optim: optimizer = AdaGrad(),
+            optim: Optimizer = AdaGrad(),
             verbose: bool = False) -> None:
         """ This method trains the reccurrent net language model on the given
         dataset.
@@ -91,8 +91,8 @@ class ReccurentNetLanguageModel:
                 used when optimizing the loss function
 
             optim:
-                Object of type optimizer representing the optimization algorithm
-                to use to minimize the loss function. Default optimizer to use
+                Object of type Optimizer representing the optimization algorithm
+                to use to minimize the loss function. Default Optimizer to use
                 is AdaGrad.
 
             verbose:

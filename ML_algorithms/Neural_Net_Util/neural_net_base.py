@@ -3,7 +3,7 @@
 import numpy as np
 from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense, BaseNeuralNetworkLayer
 from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
+from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent, Optimizer
 from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 from ML_algorithms.Utility.misc import convertToHighestPred
@@ -100,7 +100,7 @@ class NeuralNetworkBase(object):
         batch_size: int = 32,
         ret_train_loss: bool = False,
         learn_rate: float = 0.1,
-        optim: optimizer = gradientDescent(),
+        optim: Optimizer = gradientDescent(),
         verbose: bool = False
     ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
         """This method trains the neural network on the training set.
@@ -140,7 +140,7 @@ class NeuralNetworkBase(object):
                 when optimizing the loss function
 
             optim:
-                Object of type optimizer. Used to optimize the loss function
+                Object of type Optimizer. Used to optimize the loss function
 
             verbose:
                 Boolean value indicating whether to provide updates when
@@ -328,7 +328,7 @@ class NeuralNetworkBase(object):
         return activations
 
     def _backward_propagate(self, initalGradient: np.ndarray, learn_rate: float,
-                            optim: optimizer, epoch: int, curr_x: np.ndarray,
+                            optim: Optimizer, epoch: int, curr_x: np.ndarray,
                             curr_y: np.ndarray):
         """This method implements the backward propagation step
         for a neural network.
@@ -349,7 +349,7 @@ class NeuralNetworkBase(object):
                 be used when optimizing the cost function
 
             optim:
-                Object of type optimizer to use to minimize the loss function
+                Object of type Optimizer to use to minimize the loss function
 
             epoch:
                 Integer representing the epoch which we are training the network

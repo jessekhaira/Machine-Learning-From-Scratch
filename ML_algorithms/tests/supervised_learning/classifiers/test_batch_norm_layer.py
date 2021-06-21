@@ -5,7 +5,7 @@ from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import M
 from ML_algorithms.Neural_Net_Util.neural_net_layers import BatchNormLayer_Dense
 from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax, ReLU
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescentMomentum, RMSProp
+from ML_algorithms.Neural_Net_Util.optimizer import gradientDescentMomentum, RMSProp
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.misc import oneHotEncode
 

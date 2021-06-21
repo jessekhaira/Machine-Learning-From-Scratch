@@ -6,7 +6,7 @@ from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
 from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import IdentityActivation
 from itertools import combinations_with_replacement
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, optimizer
+from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent, Optimizer
 from sklearn import preprocessing
 from typing import Union, Tuple
 
@@ -37,10 +37,10 @@ class BaseLinearRegression(NeuralNetworkBase):
         batch_size: int = 32,
         ret_train_loss: bool = False,
         learn_rate: float = 0.01,
-        optim: optimizer = gradientDescent()
+        optim: Optimizer = gradientDescent()
     ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
         """ This method learns the parameters of the algorithm by minimizing the
-        residual sum of squares cost function using iterative optimizers,
+        residual sum of squares cost function using iterative Optimizers,
         which by default is set to gradient descent. Validation is done using
         xvalid and yvalid, if provided.
 
@@ -77,7 +77,7 @@ class BaseLinearRegression(NeuralNetworkBase):
                 when running the gradient descent optimization algorithm
 
             optim:
-                Object of type optimizer, which is by default set to vanilla
+                Object of type Optimizer, which is by default set to vanilla
                 gradient descent.
 
         Returns:

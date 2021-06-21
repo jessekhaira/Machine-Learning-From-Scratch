@@ -3,7 +3,7 @@ from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNor
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, IdentityActivation, TanH, Sigmoid
 from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
 from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-from ML_algorithms.Neural_Net_Util.Optimizers import gradientDescent, gradientDescentMomentum, RMSProp, Adam
+from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent, gradientDescentMomentum, RMSProp, Adam
 import matplotlib.pyplot as plt
 
 

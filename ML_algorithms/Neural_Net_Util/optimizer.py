@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class optimizer(object):
+class Optimizer(object):
     """ This class is an abstract class that contains methods
     that every optimization algorithm will implement """
 
@@ -9,7 +9,7 @@ class optimizer(object):
         raise NotImplementedError
 
 
-class gradientDescent(optimizer):
+class gradientDescent(Optimizer):
 
     def updateParams(self, params, dparams, learn_rate, epochNum=None):
         for i in range(len(params)):
@@ -17,7 +17,7 @@ class gradientDescent(optimizer):
         return params
 
 
-class gradientDescentMomentum(optimizer):
+class gradientDescentMomentum(Optimizer):
 
     def __init__(self, beta=0.9):
         self.runningGradients = []
@@ -36,7 +36,7 @@ class gradientDescentMomentum(optimizer):
         return params
 
 
-class AdaGrad(optimizer):
+class AdaGrad(Optimizer):
 
     def __init__(self):
         self.runningGradients = []
@@ -55,7 +55,7 @@ class AdaGrad(optimizer):
         return params
 
 
-class RMSProp(optimizer):
+class RMSProp(Optimizer):
 
     def __init__(self, beta=0.9, eps=1e-8):
         self.runningGradients = []
@@ -77,7 +77,7 @@ class RMSProp(optimizer):
         return params
 
 
-class Adam(optimizer):
+class Adam(Optimizer):
 
     def __init__(self, beta1=0.9, beta2=0.9, eps=1e-8):
         self.runningGradients = []

@@ -1,13 +1,9 @@
 import numpy as np
-import random
 from ML_algorithms.Neural_Net_Util.neural_net_layers import BaseNeuralNetworkLayer
-import math
 from ML_algorithms.Utility.misc import gradientClipping
 from ML_algorithms.Utility.misc import oneHotEncodeFeature
-from ML_algorithms.Utility.misc import convertToHighestPred
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax
 from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
-from ML_algorithms.Neural_Net_Util.Optimizers import AdaGrad
 
 
 class RNN_cell_languageModel(BaseNeuralNetworkLayer):
