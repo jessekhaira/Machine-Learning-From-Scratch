@@ -1,10 +1,10 @@
-from ML_algorithms.Supervised_Learning.Regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
+from ML_algorithms.Supervised_Learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
+from ML_algorithms.Utility.ScoreFunctions import MSE, MAE, RMSE
 import unittest
 import numpy as np
-import sklearn.datasets
-from ML_algorithms.Utility.ScoreFunctions import MSE, MAE, RMSE
 import sklearn.metrics
 import sklearn.model_selection
+import sklearn.datasets
 
 
 class KNearestNeighboursRegressorTests(unittest.TestCase):
