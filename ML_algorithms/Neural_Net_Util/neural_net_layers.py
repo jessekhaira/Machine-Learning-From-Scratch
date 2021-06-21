@@ -122,19 +122,20 @@ class DenseLayer(BaseNeuralNetworkLayer):
                         train: bool = True) -> np.ndarray:
         """ This method computes the forward pass through this layer.
 
+        nl_prev: Number of neurons in the previous layer
+        M: Number of examples in the input
+
         Args:
             prevlayer_activations:
                 A (nl_prev, M) numpy array containing the activations for all M
-                examples for every neuron in the previous layer, where nl_prev
-                is the number of neurons in the previous layer.
+                examples for every neuron in the previous layer
 
             train:
                 Boolean value indicating whether the layer is currently training
 
         Returns:
             A numpy matrix of shape (self.num_layer, M) where self.num_layer
-            is the number of neurons inside of this layer, and M is the number
-            of examples in the input matrix
+            is the number of neurons inside of this layer
         """
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
@@ -144,42 +145,61 @@ class DenseLayer(BaseNeuralNetworkLayer):
         return self.A
 
     def _updateWeights(self,
-                       dLdA,
-                       learn_rate,
-                       epoch,
+                       dLdA: np.ndarray,
+                       learn_rate: float,
+                       epoch: int,
                        prediction_obj,
-                       curr_x,
-                       curr_y,
-                       layer,
-                       gradCheck=False):
-        """
-        This method computes the backward pass through this layer. In the gradient circuit,
-        this layers job is to recieve the Jacobian matrix of the loss function with respect
-        to this layers activations, and update its parameters, and then pass on the gradient of the 
-        loss function with respect to the previous layers activations. 
+                       curr_x: np.ndarray,
+                       curr_y: np.ndarray,
+                       layer: int,
+                       gradCheck: bool = False):
+        """ This method computes the backward pass through this layer. In
+        the gradient circuit, this layers job is to recieve the Jacobian
+        matrix of the loss function with respect to this layers activations,
+        and update its parameters, and then pass on the gradient of the
+        loss function with respect to the previous layers activations.
 
+        nl: Number of neurons in the current layer
+        M: number of examples
+        N: Number of features in the input
 
-        Parameters:
-        - dLdA (NumPy matrix) -> A (nl, M) NumPy matrix containing the 
-        Jacobian matrix of the loss function with respect to the activations 
-        in this layer.
+        Args:
+            dLdA:
+                A (nl, M) numpy array containing the Jacobian matrix of the loss
+                function with respect to the activations in this layer.
 
-        - optim (function) -> optimizer to use to minimize the loss function 
+            optim:
+                An object of type optimizer, used to minimize the loss function
 
-        - learn_rate (float) -> learning rate to be used when optimizing the cost function
+            learn_rate:
+                A floating point value representing the learning rate to be used
+                when optimizing the cost function
 
-        - epoch (int) -> the epoch we are updating for currently
-        
-        - prediction_obj (NeuralNet obj) -> the base neural network object we can use
+            epoch:
+                An integer representing the epoch we are updating for currently
 
-        - curr_x (NumPy matrix) -> matrix of examples we are currently training on
+            prediction_obj:
+                Object representing the base neural network object we can use
 
-        - curr_y (NumPy vector) -> matrix of labels for the examples
+            curr_x:
+                A numpy array of shape (N,M), representing the examples that the
+                layer is currently training on
 
-        - layer (int) -> layer in the network we are currently updating 
+            curr_y:
+                A numpy array of shape (1,M), representing the labels for the
+                examples
 
-        Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the Jacobian Matrix
-        of the loss function with respect to the activations in the previous layer.
+            layer:
+                An integer representing the layer in the network we are
+                currently updating
+
+            gradCheck:
+                Variable of type boolean representing whether we are performing
+                gradient checking in the layer
+
+        Returns:
+            A (nl-1, M) numpy array containing the Jacobian Matrix of the loss
+            function with respect to the activations in the previous layer.
         """
 
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
@@ -187,22 +207,28 @@ class DenseLayer(BaseNeuralNetworkLayer):
             dadz = self.activationFunction.getDerivative_wrtInput(self.Z)
             dLdZ = dLdA * dadz
         else:
-            # Every example produces its own jacobian matrix for the softmax function
-            # Therefore you have to loop through every example, get the Jacobian matrix for that example
-            # and dot product it with the dL/da for this example
-            # You can combine the gradients of the softmax and the cross entropy and simplify to make more efficient
-            # But this is more explicit of what is actually happening for learning purposes
+            # Every example produces its own jacobian matrix for the softmax
+            # function. Therefore you have to loop through every example, get
+            # the Jacobian matrix for that example and dot product it with the
+            # dL/da for this example. You can combine the gradients of the
+            # softmax and the cross entropy and simplify to make more efficient.
+            # But this is more explicit of what is actually happening for
+            # learning purposes
             dLdZ = dLdZ_sm(self.Z, self.A, dLdA, self.activationFunction)
 
         dLdW = np.dot(dLdZ, self.Ain.T)
         dLdB = np.sum(dLdZ, axis=1, keepdims=True)
         dLdA_prevLayer = np.dot(self.W.T, dLdZ)
 
-        assert dLdW.shape == self.W.shape, "Your W[L] shape is not the same as dW/dW[L] shape"
-        assert dLdB.shape == self.b.shape, "Your B[L] shape is not the same as dW/dB[L] shape"
-        assert dLdA_prevLayer.shape == self.Ain.shape, "Your dL/dA[L-1] shapes are incomptabile"
+        assert dLdW.shape == self.W.shape, (
+            "Your W[L] shape is not the same as dW/dW[L] shape")
+        assert dLdB.shape == self.b.shape, (
+            "Your B[L] shape is not the same as dW/dB[L] shape")
+        assert dLdA_prevLayer.shape == self.Ain.shape, (
+            "Your dL/dA[L-1] shapes are incomptabile")
 
-        # Epoch zero and you want to gradient check, do some gradient checks for params W and b
+        # Epoch zero and you want to gradient check, do some gradient checks
+        # for params W and b
         if epoch == 0 and gradCheck:
             self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
                                 layer)
