@@ -154,7 +154,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                        layer: int,
                        gradCheck: bool = False):
         """ This method computes the backward pass through this layer. In
-        the gradient circuit, this layers job is to recieve the Jacobian
+        the gradient circuit, this layers job is to recieve the jacobian
         matrix of the loss function with respect to this layers activations,
         and update its parameters, and then pass on the gradient of the
         loss function with respect to the previous layers activations.
@@ -165,7 +165,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
 
         Args:
             dLdA:
-                A (nl, M) numpy array containing the Jacobian matrix of the loss
+                A (nl, M) numpy array containing the jacobian matrix of the loss
                 function with respect to the activations in this layer.
 
             optim:
@@ -198,7 +198,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                 gradient checking in the layer
 
         Returns:
-            A (nl-1, M) numpy array containing the Jacobian Matrix of the loss
+            A (nl-1, M) numpy array containing the jacobian matrix of the loss
             function with respect to the activations in the previous layer.
         """
 
@@ -209,7 +209,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         else:
             # Every example produces its own jacobian matrix for the softmax
             # function. Therefore you have to loop through every example, get
-            # the Jacobian matrix for that example and dot product it with the
+            # the jacobian matrix for that example and dot product it with the
             # dL/da for this example. You can combine the gradients of the
             # softmax and the cross entropy and simplify to make more efficient.
             # But this is more explicit of what is actually happening for
@@ -421,13 +421,13 @@ class BatchNormLayer_Dense(DenseLayer):
                        gradCheck=False):
         """
         This method computes the backward pass through this layer. In the gradient circuit,
-        this layers job is to recieve the Jacobian matrix of the loss function with respect
+        this layers job is to recieve the jacobian matrix of the loss function with respect
         to this layers activations, and update its parameters, and then pass on the gradient of the 
         loss function with respect to the previous layers activations. 
 
         Parameters:
         -> dLdA (NumPy matrix) -> A (nl, M) NumPy matrix containing the 
-        Jacobian matrix of the loss function with respect to the activations 
+        jacobian matrix of the loss function with respect to the activations 
         in this layer.
 
         -> optim (function) -> Optimizer to use to minimize the loss function 
@@ -444,7 +444,7 @@ class BatchNormLayer_Dense(DenseLayer):
 
         -> layer (int) -> layer in the network we are currently updating 
 
-        Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the Jacobian Matrix
+        Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the jacobian Matrix
         of the loss function with respect to the activations in the previous layer.
         """
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
@@ -572,14 +572,14 @@ class DropOutLayer_Dense(DenseLayer):
                        gradCheck=False):
         """
         This method computes the backward pass through this layer. In the gradient circuit,
-        this layers job is to recieve the Jacobian matrix of the loss function with respect
+        this layers job is to recieve the jacobian matrix of the loss function with respect
         to this layers activations, and update its parameters, and then pass on the gradient of the 
         loss function with respect to the previous layers activations. 
 
 
         Parameters:
         -> dLdA (NumPy matrix) -> A (nl, M) NumPy matrix containing the 
-        Jacobian matrix of the loss function with respect to the activations 
+        jacobian matrix of the loss function with respect to the activations 
         in this layer.
 
         -> optim (function) -> Optimizer to use to minimize the loss function 
@@ -596,7 +596,7 @@ class DropOutLayer_Dense(DenseLayer):
 
         -> layer (int) -> layer in the network we are currently updating 
 
-        Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the Jacobian Matrix
+        Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the jacobian Matrix
         of the loss function with respect to the activations in the previous layer.
         """
 
