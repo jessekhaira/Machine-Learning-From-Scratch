@@ -5,7 +5,7 @@ import math
 from ML_algorithms.Utility.misc import findRowColMaxElem
 
 
-class convBase(BaseNeuralNetworkLayer):
+class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
 
     def _padInput(self, x, filterSize, padding):
         pad_h, pad_w = self._get_padding(filterSize, padding)
@@ -29,7 +29,7 @@ class convBase(BaseNeuralNetworkLayer):
             return (pad_h1, pad_h2), (pad_w1, pad_w2)
 
 
-class Conv2D(convBase):
+class Conv2D(BaseConvolutionalLayer):
     """
     This class represents a 2D convolutional layer. This class combines the linear combination
     of weights and neurons with an activation. 
@@ -140,7 +140,7 @@ class Conv2D(convBase):
         bias = np.zeros((self.numFilters, 1))
         return filters, bias
 
-    def _updateWeights(self,
+    def update_weights(self,
                        dLdA,
                        learn_rate,
                        epoch,
@@ -219,7 +219,7 @@ class Conv2D(convBase):
         return dLdA_prevLayer
 
 
-class Pool(convBase):
+class Pool(BaseConvolutionalLayer):
     """
     This class represents a pooling layer. The purpose of this class is to spatially downsample an input
     volume in terms of height and width while leaving the number of dimensions untouched. 
@@ -313,7 +313,7 @@ class Pool(convBase):
         else:
             return self.Z.reshape(-1, x.shape[0])
 
-    def _updateWeights(self,
+    def update_weights(self,
                        dLdA,
                        learn_rate,
                        epoch,

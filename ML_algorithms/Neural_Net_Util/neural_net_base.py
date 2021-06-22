@@ -367,6 +367,6 @@ class NeuralNetworkBase(object):
             layer = self.layers[i]
             if not layer.optim:
                 layer.optim = copy.deepcopy(optim)
-            dLdA_prev = layer._updateWeights(dLdA, learn_rate, epoch, self,
+            dLdA_prev = layer.update_weights(dLdA, learn_rate, epoch, self,
                                              curr_x, curr_y, i)
             dLdA = dLdA_prev

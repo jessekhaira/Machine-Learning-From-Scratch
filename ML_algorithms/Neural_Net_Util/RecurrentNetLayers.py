@@ -86,7 +86,7 @@ class RNN_cell_languageModel(BaseNeuralNetworkLayer):
         predictions = Softmax().compute_output(Z_pred)
         return A, predictions, a_prev, x_t, Z_activ
 
-    def _updateWeights(self, learn_rate, total_timeSteps, y_label, charToIdx,
+    def update_weights(self, learn_rate, total_timeSteps, y_label, charToIdx,
                        epochNum, optim):
         """
         This method carries out backpropagation through time for an RNN cell performing

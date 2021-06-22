@@ -2,8 +2,10 @@
 neural network layers """
 import numpy as np
 import random
-from typing import Literal, Union, Tuple
+from typing import Literal, Union, Tuple, TYPE_CHECKING
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
+if TYPE_CHECKING:
+    from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
 
 
 class BaseNeuralNetworkLayer(object):
@@ -11,7 +13,7 @@ class BaseNeuralNetworkLayer(object):
     def compute_forward(self):
         raise NotImplementedError
 
-    def updateWeights(self, dLdA):
+    def update_weights(self, dLdA):
         raise NotImplementedError
 
     def _getRegularizationLoss(self, regularizationType, regParameter,
@@ -144,11 +146,11 @@ class DenseLayer(BaseNeuralNetworkLayer):
         self.A = self.activationFunction.compute_output(self.Z)
         return self.A
 
-    def _updateWeights(self,
+    def update_weights(self,
                        dLdA: np.ndarray,
                        learn_rate: float,
                        epoch: int,
-                       prediction_obj,
+                       prediction_obj: "NeuralNetworkBase",
                        curr_x: np.ndarray,
                        curr_y: np.ndarray,
                        layer: int,
@@ -230,10 +232,10 @@ class DenseLayer(BaseNeuralNetworkLayer):
         # Epoch zero and you want to gradient check, do some gradient checks
         # for params W and b
         if epoch == 0 and gradCheck:
-            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
-                                layer)
-            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj,
-                                layer)
+            self._gradient_check("W", dLdW, curr_x, curr_y, prediction_obj,
+                                 layer)
+            self._gradient_check("b", dLdB, curr_x, curr_y, prediction_obj,
+                                 layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
 
@@ -248,14 +250,14 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                  epochNum=epoch + 1)
         return dLdA_prevLayer
 
-    def _gradientCheck(self,
-                       param: str,
-                       dparam: np.ndarray,
-                       x: np.ndarray,
-                       y: np.ndarray,
-                       obj: NeuralNetworkBase,
-                       layer: int,
-                       num_checks: int = 10):
+    def _gradient_check(self,
+                        param: str,
+                        dparam: np.ndarray,
+                        x: np.ndarray,
+                        y: np.ndarray,
+                        obj: "NeuralNetworkBase",
+                        layer: int,
+                        num_checks: int = 10):
         """ This method checks the gradient we are using to update the params
         of this dense layer. This check is quite expensive, so its only done
         on the first epoch.
@@ -430,7 +432,7 @@ class BatchNormLayer_Dense(DenseLayer):
         z_final = self.gamma * normalized_Z + self.beta
         return self.activationFunction.compute_output(z_final)
 
-    def _updateWeights(self,
+    def update_weights(self,
                        dLdA,
                        learn_rate,
                        epoch,
@@ -516,10 +518,10 @@ class BatchNormLayer_Dense(DenseLayer):
 
         # Epoch zero and you want to gradient check, do some gradient checks for params W and b
         if epoch == 0 and gradCheck:
-            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
-                                layer)
-            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj,
-                                layer)
+            self._gradient_check("W", dLdW, curr_x, curr_y, prediction_obj,
+                                 layer)
+            self._gradient_check("b", dLdB, curr_x, curr_y, prediction_obj,
+                                 layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
         dregdW = 0
@@ -581,7 +583,7 @@ class DropOutLayer_Dense(DenseLayer):
         A = self.activationFunction.compute_output(self.Z)
         return A
 
-    def _updateWeights(self,
+    def update_weights(self,
                        dLdA,
                        learn_rate,
                        epoch,
@@ -639,10 +641,10 @@ class DropOutLayer_Dense(DenseLayer):
 
         # Epoch zero and you want to gradient check, do some gradient checks for params W and b
         if epoch == 0 and gradCheck:
-            self._gradientCheck("W", dLdW, curr_x, curr_y, prediction_obj,
-                                layer)
-            self._gradientCheck("b", dLdB, curr_x, curr_y, prediction_obj,
-                                layer)
+            self._gradient_check("W", dLdW, curr_x, curr_y, prediction_obj,
+                                 layer)
+            self._gradient_check("b", dLdB, curr_x, curr_y, prediction_obj,
+                                 layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
         dregdW = 0

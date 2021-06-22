@@ -123,7 +123,7 @@ class ReccurentNetLanguageModel:
                                               activations_prev,
                                               self.char_to_idx))
                 # backward pass
-                self.model._updateWeights(learn_rate, timeStepsUnroll, slice_y,
+                self.model.update_weights(learn_rate, timeStepsUnroll, slice_y,
                                           self.char_to_idx, epoch, optim)
                 if verbose:
                     print(loss_epoch[-1])
