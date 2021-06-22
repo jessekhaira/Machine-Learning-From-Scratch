@@ -25,11 +25,11 @@ class BaseNeuralNetworkLayer(object):
         # 1/m term since it is included in the function we want to find the
         # derivative of
         if regularizationType == "L2":
-            dregdW = (1 / numExamples) * regParameter * W
+            dreg_dw = (1 / numExamples) * regParameter * W
         else:
-            signOfWeights = np.sign(W)
-            dregdW = (1 / numExamples) * regParameter * signOfWeights
-        return dregdW
+            sign_of_weights = np.sign(W)
+            dreg_dw = (1 / numExamples) * regParameter * sign_of_weights
+        return dreg_dw
 
 
 class DenseLayer(BaseNeuralNetworkLayer):
@@ -239,12 +239,12 @@ class DenseLayer(BaseNeuralNetworkLayer):
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
 
-        dregdW = 0
+        dreg_dw = 0
         if self.regularization != None:
-            dregdW = self._getRegularizationLoss(self.regularization,
-                                                 self.regParameter,
-                                                 self.Ain.shape[1], self.W)
-        dLdW = dLdW + dregdW
+            dreg_dw = self._getRegularizationLoss(self.regularization,
+                                                  self.regParameter,
+                                                  self.Ain.shape[1], self.W)
+        dLdW = dLdW + dreg_dw
         self.W, self.b = self.optim.updateParams([self.W, self.b], [dLdW, dLdB],
                                                  learn_rate,
                                                  epochNum=epoch + 1)
@@ -289,15 +289,16 @@ class DenseLayer(BaseNeuralNetworkLayer):
         """
         eps = 1e-5
         random.seed(21)
-        # Get access to the objects params - W or B that we are using to predict with
+        # Get access to the objects params - W or B that we are using to
+        # predict with
         obj_attr = getattr(obj.layers[layer], param)
         for i in range(num_checks):
             changeIdx = random.randrange(0, len(obj_attr.T))
             savedParam = obj_attr[:, changeIdx]
 
             # Update the param by eps, then decrease param by eps, then
-            # calculate the new loss in both cases so we can get dL/dparam and compare to
-            # analytical gradient
+            # calculate the new loss in both cases so we can get dL/dparam
+            # and compare to analytical gradient
             obj_attr[:, changeIdx] += eps
             preds1 = obj._forward_propagate(x)
             loss_higher = obj._calculateLoss(y, preds1)
@@ -524,12 +525,12 @@ class BatchNormLayer_Dense(DenseLayer):
                                  layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
-        dregdW = 0
+        dreg_dw = 0
         if self.regularization != None:
-            dregdW = self._getRegularizationLoss(self.regularization,
-                                                 self.regParameter,
-                                                 self.Ain.shape[1], self.W)
-        dLdW = dLdW + dregdW
+            dreg_dw = self._getRegularizationLoss(self.regularization,
+                                                  self.regParameter,
+                                                  self.Ain.shape[1], self.W)
+        dLdW = dLdW + dreg_dw
         self.W, self.b, self.gamma, self.beta = self.optim.updateParams(
             [self.W, self.b, self.gamma, self.beta],
             [dLdW, dLdB, dLdGamma, dLdBeta],
@@ -647,12 +648,12 @@ class DropOutLayer_Dense(DenseLayer):
                                  layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
-        dregdW = 0
+        dreg_dw = 0
         if self.regularization != None:
-            dregdW = self._getRegularizationLoss(self.regularization,
-                                                 self.regParameter,
-                                                 self.Ain.shape[1], self.W)
-        dLdW = dLdW + dregdW
+            dreg_dw = self._getRegularizationLoss(self.regularization,
+                                                  self.regParameter,
+                                                  self.Ain.shape[1], self.W)
+        dLdW = dLdW + dreg_dw
         self.W, self.b = self.optim.updateParams([self.W, self.b], [dLdW, dLdB],
                                                  learn_rate,
                                                  epochNum=epoch + 1)
