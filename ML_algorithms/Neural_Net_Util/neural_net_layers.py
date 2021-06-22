@@ -248,22 +248,42 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                  epochNum=epoch + 1)
         return dLdA_prevLayer
 
-    def _gradientCheck(self, param, dparam, x, y, obj, layer, num_checks=10):
-        """
-        This method checks the gradient we are using to update the params of this
-        dense layer. This check is quite expensive, so its only done on the first 
-        epoch. 
+    def _gradientCheck(self,
+                       param: str,
+                       dparam: np.ndarray,
+                       x: np.ndarray,
+                       y: np.ndarray,
+                       obj: NeuralNetworkBase,
+                       layer: int,
+                       num_checks: int = 10):
+        """ This method checks the gradient we are using to update the params
+        of this dense layer. This check is quite expensive, so its only done
+        on the first epoch.
 
-        Parameters:
-        - param (string) -> the parameter currently being checked
-        - dparam (NumPy matrix) -> the dL/dparam in question
-        - x (NumPy Matrix) -> the matrix of examples used to calculate the gradient for
-        - y (NumPy Matrix) -> the labels for the examples
-        - obj (NeuralNet Object) -> object so we have access to forward prop step
-        - layer (int) -> the specific layer in the object we are gradient checking for 
-        - num_checks (int) -> the number of different dimensions to check in the parameter matrix
+        Args:
+            param:
+                String representing the parameter currently being checked
 
-        Returns: None 
+            dparam:
+                Numpy array representing the dL/dparam in question
+
+            x:
+                Numpy array representing the matrix of examples used to
+                calculate the gradient for
+
+            y:
+                The labels for the examples
+
+            obj:
+                Neural network object so we have access to forward prop step
+
+            layer:
+                Integer representing the specific layer in the object we are
+                gradient checking for
+
+            num_checks:
+                Integer representing the number of different dimensions to check
+                in the parameter matrix
         """
         eps = 1e-5
         random.seed(21)
