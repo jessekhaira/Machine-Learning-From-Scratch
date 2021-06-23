@@ -42,7 +42,7 @@ class SoftmaxTests(unittest.TestCase):
     def test_softmax_no_reg(self):
 
         ## Strength of RMSProp shown - get a 6% increase in accuracy w/ it. 99.3% RMSprop and 93.7% normal gradient descent
-        kScore_normalGD = self.k_fold_obj.getKScore(
+        cross_val_score_gradient_descent = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
             accuracy,
@@ -51,7 +51,7 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.2,
             k=8)
 
-        kScore_RMSProp = self.k_fold_obj.getKScore(
+        cross_val_score_rms_prop = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
             accuracy,
@@ -69,7 +69,7 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.01,
             optim=Adam(),
             ret_train_loss=True)
-        kScore_Adam = self.k_fold_obj.getKScore(
+        cross_val_score_adam = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
             accuracy,
@@ -80,13 +80,13 @@ class SoftmaxTests(unittest.TestCase):
             optim=Adam())
 
         self.assertGreaterEqual(train_acc, 0.90)
-        self.assertGreaterEqual(kScore_normalGD, 0.90)
-        self.assertGreaterEqual(kScore_RMSProp, 0.96)
-        self.assertGreaterEqual(kScore_Adam, 0.98)
+        self.assertGreaterEqual(cross_val_score_gradient_descent, 0.90)
+        self.assertGreaterEqual(cross_val_score_rms_prop, 0.96)
+        self.assertGreaterEqual(cross_val_score_adam, 0.98)
 
     def test_softmax_reg(self):
 
-        kScore1 = self.k_fold_obj.getKScore(
+        cross_val_score_l1_reg = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
             accuracy,
@@ -95,7 +95,7 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.01,
             k=8)
 
-        kScore2 = self.k_fold_obj.getKScore(
+        cross_val_score_l2_reg = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
             accuracy,
@@ -104,8 +104,8 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.01,
             k=8)
 
-        self.assertGreaterEqual(kScore1, 0.80, kScore1)
-        self.assertGreaterEqual(kScore2, 0.80)
+        self.assertGreaterEqual(cross_val_score_l1_reg, 0.80)
+        self.assertGreaterEqual(cross_val_score_l2_reg, 0.80)
 
 
 if __name__ == "__main__":
