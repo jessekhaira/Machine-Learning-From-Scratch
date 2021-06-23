@@ -154,7 +154,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                        curr_x: np.ndarray,
                        curr_y: np.ndarray,
                        layer: int,
-                       gradCheck: bool = False):
+                       gradCheck: bool = False) -> np.ndarray:
         """ This method computes the backward pass through this layer. In
         the gradient circuit, this layers job is to recieve the jacobian
         matrix of the loss function with respect to this layers activations,
@@ -257,7 +257,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                         y: np.ndarray,
                         obj: "NeuralNetworkBase",
                         layer: int,
-                        num_checks: int = 10):
+                        num_checks: int = 10) -> None:
         """ This method checks the gradient we are using to update the params
         of this dense layer. This check is quite expensive, so its only done
         on the first epoch.
