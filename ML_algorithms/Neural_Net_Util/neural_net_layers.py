@@ -6,6 +6,7 @@ from typing import Literal, Union, Tuple, TYPE_CHECKING
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 if TYPE_CHECKING:
     from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
+    from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 
 
 class BaseNeuralNetworkLayer(object):
@@ -314,7 +315,11 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                                 grad_numeric)
 
 
-def dLdZ_sm(Z, A, dLdA, activFunc, efficient=True):
+def dLdZ_sm(Z: np.ndarray,
+            A: np.ndarray,
+            dLdA: np.ndarray,
+            activFunc: Base_ActivationFunction,
+            efficient: bool = True) -> Union[None, np.ndarray]:
     """ This function hooks up dL/dA with dA/dZ to produce the
     dL/dZ through the softmax layer.
 
