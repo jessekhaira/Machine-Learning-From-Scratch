@@ -1,3 +1,4 @@
+""" This module contains tests for the softmax regression algorithm """
 from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
 from ML_algorithms.Neural_Net_Util.optimizer import Adam, RMSProp
 from ML_algorithms.Utility.ScoreFunctions import accuracy
@@ -9,13 +10,15 @@ import unittest
 
 
 class SoftmaxTests(unittest.TestCase):
-    """ The implementation of the softmax classifier is correct. With
-    8 folds, a cross validation score of 94.4% accuracy was achieved.
-    With L1 regularization and L2 regularization, the classifier performs
-    as expected -> performance is very sensitive to regParameter. If the
-    regularization parameter is even slightly high (>0.3), the performance
-    for the l1 regularized and l2 regularized softmax regression models
-    falter heavily.
+    """ This class contains unit tests for the softmax regression
+    algorithm.
+
+    A few notes:
+        With L1 regularization and L2 regularization, the classifier performs
+        as expected -> performance is very sensitive to regParameter. If the
+        regularization parameter is even slightly high (>0.3), the performance
+        for the l1 regularized and l2 regularized softmax regression models
+        falter heavily.
     """
 
     def setUp(self):
@@ -41,7 +44,8 @@ class SoftmaxTests(unittest.TestCase):
 
     def test_softmax_no_reg(self):
 
-        ## Strength of RMSProp shown - get a 6% increase in accuracy w/ it. 99.3% RMSprop and 93.7% normal gradient descent
+        # Strength of RMSProp shown - get a 6% increase in accuracy w/ it. 99.3%
+        # RMSprop and 93.7% normal gradient descent
         cross_val_score_gradient_descent = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
@@ -61,7 +65,8 @@ class SoftmaxTests(unittest.TestCase):
             k=8,
             optim=RMSProp())
 
-        # Adam is the most sensitive out of the three tested and requires the most hyperparameter tuning
+        # Adam is the most sensitive out of the three tested and requires the
+        # most hyperparameter tuning
         _, train_acc = self.softmax_model_no_regularization.fit(
             self.x,
             self.y_encoded,
@@ -69,6 +74,7 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.01,
             optim=Adam(),
             ret_train_loss=True)
+
         cross_val_score_adam = self.k_fold_obj.getKScore(
             self.x,
             self.y_encoded,
