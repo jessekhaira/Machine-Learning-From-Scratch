@@ -6,7 +6,6 @@ from typing import Literal, Union, Tuple, TYPE_CHECKING
 from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 if TYPE_CHECKING:
     from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-    from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
 
 
 class BaseNeuralNetworkLayer(object):
