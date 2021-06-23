@@ -314,22 +314,46 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                                 grad_numeric)
 
 
-def dLdZ_sm(Z, A, dLdA, activFunc, efficient=0):
-    """
-    This function hooks up dL/dA with dA/dZ to produce the dL/dZ through the softmax layer.
-    
-    We have to do a for loop to get the jacobian matrix of the softmax for every single input example,
-    which we insert into the overall dL/dZ for the layer. 
+def dLdZ_sm(Z, A, dLdA, activFunc, efficient=True):
+    """ This function hooks up dL/dA with dA/dZ to produce the
+    dL/dZ through the softmax layer.
 
-    The output of this function is equivalent to dividing the activations by m if the label
-    for the current class is 0, and if the true label is y= 1 at a certain activation, 
-    then it is equal to (activation/m)-1. 
+    We have to do a for loop to get the jacobian matrix of the
+    softmax for every single input example, which we insert into
+    the overall dL/dZ for the layer.
 
-    Parameters:
-    -> Z (NumPy matrix): NumPy matrix of shape (C, M) containing the raw logits for the softmax layer 
-    -> A (NumPy matrix): NumPy matrix of shape (C,M) containing the activations for the softmax layer
-    -> dLdA (NumPy matrix): NumPy matrix of shape (C,M) containing the derivative of the loss function
-    -> activFunc (object): Activation Function object used to get dLdZ_sm 
+    The output of this function is equivalent to dividing the
+    activations by m if the label for the current class is 0,
+    and if the true label is y= 1 at a certain activation,
+    then it is equal to (activation/m)-1.
+
+    C: Number of neurons in the softmax layer
+    M: Number of examples
+
+    Args:
+        Z:
+            Numpy array of shape (C, M) containing the raw logits
+            for the softmax layer
+
+        A:
+            Numpy array of shape (C, M) containing the activations for
+            the softmax layer
+
+        dLdA:
+            Numpy array of shape (C, M) containing the derivative of the
+            loss function
+
+        activFunc:
+            Activation Function object used to get dLdZ_sm
+
+        efficient:
+            Boolean indicating whether to get the gradient for the softmax
+            layer the efficient way
+
+    Returns:
+        None if the gradient is to be computed efficiently. Otherwise, a
+        numpy array of shape (C, M) will be returned which represents the
+        jacobian matrix dl_dz for the softmax layer.
     """
     if not efficient:
         dLdZ = np.zeros((Z.shape[0], Z.shape[1]))
