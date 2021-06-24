@@ -363,13 +363,15 @@ def dLdZ_sm(Z: np.ndarray,
     if not efficient:
         dl_dz = np.zeros((Z.shape[0], Z.shape[1]))
         for i in range(A.shape[1]):
-            column_vecActiv = A[:, i].reshape(-1, 1)
-            derivsLoss_ithEx = dLdA[:, i].reshape(-1, 1)
-            jacobianActiv = activFunc.getDerivative_wrtInput(column_vecActiv)
-            assert jacobianActiv.shape[1] == derivsLoss_ithEx.shape[0]
-            dLdZ_ithEx = np.dot(jacobianActiv, derivsLoss_ithEx)
-            assert dLdZ_ithEx.shape == (Z.shape[0], 1)
-            dl_dz[:, i] = dLdZ_ithEx.reshape(-1)
+            column_vectors_activated = A[:, i].reshape(-1, 1)
+            deriv_loss_ith_example = dLdA[:, i].reshape(-1, 1)
+            jacobian_activation = activFunc.getDerivative_wrtInput(
+                column_vectors_activated)
+            assert jacobian_activation.shape[1] == deriv_loss_ith_example.shape[
+                0]
+            dl_dz_ith_ex = np.dot(jacobian_activation, deriv_loss_ith_example)
+            assert dl_dz_ith_ex.shape == (Z.shape[0], 1)
+            dl_dz[:, i] = dl_dz_ith_ex.reshape(-1)
         return dl_dz
 
 
