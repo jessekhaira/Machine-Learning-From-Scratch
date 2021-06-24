@@ -2,7 +2,7 @@
 algorithm """
 import unittest
 from sklearn.datasets import load_boston
-from ML_algorithms.Supervised_Learning.regression.regression_tree import RegressionTree
+from ML_algorithms.supervised_learning.regression.regression_tree import RegressionTree
 from ML_algorithms.Utility.ScoreFunctions import RMSE, MSE, MAE, TSS, RSS
 from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 

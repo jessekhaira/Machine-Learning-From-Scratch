@@ -1,7 +1,7 @@
 """ This module contains code for testing the ensemble tree models
 for the supervised machine learning task of regression """
-from ML_algorithms.Supervised_Learning.regression.bagged_forest_regressor import BaggedForestRegression
-from ML_algorithms.Supervised_Learning.regression.random_forest_regressor import RandomForestRegressor
+from ML_algorithms.supervised_learning.regression.bagged_forest_regressor import BaggedForestRegression
+from ML_algorithms.supervised_learning.regression.random_forest_regressor import RandomForestRegressor
 import unittest
 from sklearn.datasets import load_boston
 

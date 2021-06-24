@@ -1,6 +1,6 @@
 """ This module contains tests for the recurrent neural network defined
 in the package """
-from ML_algorithms.Supervised_Learning.Classifiers.recurrent_network import ReccurentNetLanguageModel
+from ML_algorithms.supervised_learning.classifiers.recurrent_network import ReccurentNetLanguageModel
 from ML_algorithms.Utility.misc import getUniqueChars, mapcharToIdx, mapidxToChar
 from ML_algorithms.neural_net_utility.activation_functions import TanH
 import unittest

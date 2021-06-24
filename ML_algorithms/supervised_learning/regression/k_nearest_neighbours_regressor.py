@@ -1,7 +1,7 @@
 """ This module contains code representing the k nearest neighbours
 algorithm implemented to perform regression """
 import numpy as np
-from ML_algorithms.Supervised_Learning.base_classes.k_nearest_neighbours_base import KNearestNeighboursBase
+from ML_algorithms.supervised_learning.base_classes.k_nearest_neighbours_base import KNearestNeighboursBase
 
 
 class KNearestNeighboursRegressor(KNearestNeighboursBase):

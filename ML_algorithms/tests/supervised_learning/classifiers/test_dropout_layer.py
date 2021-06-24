@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import tensorflow as tf
-from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import MultiLayerPerceptron
+from ML_algorithms.supervised_learning.classifiers.MultiLayerPerceptron import MultiLayerPerceptron
 from ML_algorithms.neural_net_utility.neural_net_layers import DropOutLayer_Dense, DenseLayer
 from ML_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from ML_algorithms.neural_net_utility.optimizer import RMSProp

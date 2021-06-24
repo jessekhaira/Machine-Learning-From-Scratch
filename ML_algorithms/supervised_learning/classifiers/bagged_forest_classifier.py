@@ -1,13 +1,17 @@
-""" This module contains code for the supervised ensemble machine learning
-algorithm random forests, implemented specifically for regression """
-from ML_algorithms.Supervised_Learning.base_classes.BaggedForest import BaggedForest
+from ML_algorithms.supervised_learning.base_classes.BaggedForest import BaggedForest
+from typing import Literal, Union
 
 
-class RandomForestRegressor(BaggedForest):
-    """ This class represents the random forest algorithm for the task
-    of regression.
+class BaggedForestClassifier(BaggedForest):
+    """
+    This class represents bootstrap aggregated (bagged) decision trees
+    performing the task of classification.
 
     Attributes:
+        criterion:
+            String representing the objective function to use. Should be either
+            "gini" or "entropy.
+
         num_estimators:
             Integer representing the number of estimators to include in the
             ensemble
@@ -47,17 +51,18 @@ class RandomForestRegressor(BaggedForest):
     """
 
     def __init__(self,
-                 num_estimators=100,
-                 max_samples=None,
-                 bootstrap=False,
-                 minSamplesSplit=2,
-                 maxDepth=None,
-                 maxFeatures=None,
-                 min_impurity_decrease=0,
-                 verbose=False):
-        super(RandomForestRegressor,
-              self).__init__(typeSupervised=1,
-                             criterion=None,
+                 criterion: Literal["gini", "entropy"],
+                 num_estimators: int = 100,
+                 max_samples: Union[None, int, float] = None,
+                 bootstrap: bool = False,
+                 minSamplesSplit: int = 2,
+                 maxDepth: Union[int, None] = None,
+                 maxFeatures: Union[int, None] = None,
+                 min_impurity_decrease: float = 0,
+                 verbose: bool = False):
+        super(BaggedForestClassifier,
+              self).__init__(typeSupervised=0,
+                             criterion=criterion,
                              num_estimators=num_estimators,
                              max_samples=max_samples,
                              bootstrap=bootstrap,

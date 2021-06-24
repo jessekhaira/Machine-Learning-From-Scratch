@@ -1,16 +1,16 @@
-from ML_algorithms.Supervised_Learning.base_classes.BaggedForest import BaggedForest
+""" This module contains code representing an implementation of the
+random forest algorithm for classification """
+from ML_algorithms.supervised_learning.base_classes.BaggedForest import BaggedForest
 from typing import Literal, Union
 
 
-class BaggedForestClassifier(BaggedForest):
-    """
-    This class represents bootstrap aggregated (bagged) decision trees
-    performing the task of classification.
+class RandomForestClassifier(BaggedForest):
+    """ This class represents a random forest classifier.
 
     Attributes:
         criterion:
             String representing the objective function to use. Should be either
-            "gini" or "entropy.
+            "gini" or "entropy".
 
         num_estimators:
             Integer representing the number of estimators to include in the
@@ -53,14 +53,14 @@ class BaggedForestClassifier(BaggedForest):
     def __init__(self,
                  criterion: Literal["gini", "entropy"],
                  num_estimators: int = 100,
-                 max_samples: Union[None, int, float] = None,
+                 max_samples: Union[None, int] = None,
                  bootstrap: bool = False,
                  minSamplesSplit: int = 2,
                  maxDepth: Union[int, None] = None,
                  maxFeatures: Union[int, None] = None,
                  min_impurity_decrease: float = 0,
                  verbose: bool = False):
-        super(BaggedForestClassifier,
+        super(RandomForestClassifier,
               self).__init__(typeSupervised=0,
                              criterion=criterion,
                              num_estimators=num_estimators,

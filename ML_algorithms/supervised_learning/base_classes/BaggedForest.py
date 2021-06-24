@@ -1,8 +1,8 @@
 """ This module contains code representing the general
 bagged forest supervised machine learning algorithm """
 import numpy as np
-from ML_algorithms.Supervised_Learning.regression.regression_tree import RegressionTree
-from ML_algorithms.Supervised_Learning.Classifiers.classification_tree import ClassificationTree
+from ML_algorithms.supervised_learning.regression.regression_tree import RegressionTree
+from ML_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionRegression
 from ML_algorithms.Utility.ScoreFunctions import MSE, RMSE, accuracy

@@ -1,5 +1,5 @@
 """ This module contains tests for the softmax regression algorithm """
-from ML_algorithms.Supervised_Learning.Classifiers.softmax_regression import SoftmaxRegression
+from ML_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from ML_algorithms.neural_net_utility.optimizer import Adam, RMSProp
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.misc import oneHotEncode

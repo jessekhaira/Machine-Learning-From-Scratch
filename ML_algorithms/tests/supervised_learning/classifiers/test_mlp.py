@@ -1,9 +1,8 @@
-from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import MultiLayerPerceptron
-from ML_algorithms.Supervised_Learning.Classifiers.softmax_regression import SoftmaxRegression
+from ML_algorithms.supervised_learning.classifiers.MultiLayerPerceptron import MultiLayerPerceptron
+from ML_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from ML_algorithms.neural_net_utility.activation_functions import ReLU, TanH, Sigmoid, Softmax
 import unittest
 import numpy as np
-import sklearn
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer

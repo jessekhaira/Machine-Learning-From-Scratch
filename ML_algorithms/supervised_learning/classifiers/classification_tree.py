@@ -1,6 +1,6 @@
 """ This module contains code representing the classification decision
 tree algorithm """
-from ML_algorithms.Supervised_Learning.base_classes.DecisionTree import BaseDecisionTree
+from ML_algorithms.supervised_learning.base_classes.DecisionTree import BaseDecisionTree
 from ML_algorithms.Utility.DecisionTreeFunctions import entropyGain
 from ML_algorithms.Utility.DecisionTreeFunctions import giniGain
 from ML_algorithms.Utility.DecisionTreeFunctions import predictionClassification

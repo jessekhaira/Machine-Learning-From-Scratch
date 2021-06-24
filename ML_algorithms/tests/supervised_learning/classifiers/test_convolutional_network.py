@@ -4,7 +4,7 @@ import tensorflow as tf
 from ML_algorithms.neural_net_utility.neural_net_layers import DenseLayer
 from ML_algorithms.neural_net_utility.ConvolutionalLayers import Conv2D
 from ML_algorithms.neural_net_utility.ConvolutionalLayers import Pool
-from ML_algorithms.Supervised_Learning.Classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
+from ML_algorithms.supervised_learning.classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
 from ML_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from ML_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, AdaGrad
 from ML_algorithms.Utility.misc import oneHotEncode

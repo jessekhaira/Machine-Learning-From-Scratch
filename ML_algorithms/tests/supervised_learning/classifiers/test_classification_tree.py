@@ -2,7 +2,7 @@
 import unittest
 from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
-from ML_algorithms.Supervised_Learning.Classifiers.classification_tree import ClassificationTree
+from ML_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 

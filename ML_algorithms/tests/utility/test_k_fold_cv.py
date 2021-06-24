@@ -1,7 +1,7 @@
 """ This module contains code that tests the k fold cv algorithm """
 from sklearn import preprocessing
 from sklearn.datasets import load_breast_cancer
-from ML_algorithms.Supervised_Learning.Classifiers.Logistic_Regression import LogisticRegression
+from ML_algorithms.supervised_learning.classifiers.Logistic_Regression import LogisticRegression
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
 import unittest

@@ -1,17 +1,14 @@
 """ This module contains code representing an implementation of the
-random forest algorithm for classification """
-from ML_algorithms.Supervised_Learning.base_classes.BaggedForest import BaggedForest
-from typing import Literal, Union
+bagged forest algorithm for regression """
+from ML_algorithms.supervised_learning.base_classes.BaggedForest import BaggedForest
+from typing import Union
 
 
-class RandomForestClassifier(BaggedForest):
-    """ This class represents a random forest classifier.
+class BaggedForestRegression(BaggedForest):
+    """ This class represents bootstrap aggregated (bagged) decision trees
+   performing the task of regression.
 
     Attributes:
-        criterion:
-            String representing the objective function to use. Should be either
-            "gini" or "entropy".
-
         num_estimators:
             Integer representing the number of estimators to include in the
             ensemble
@@ -51,18 +48,18 @@ class RandomForestClassifier(BaggedForest):
     """
 
     def __init__(self,
-                 criterion: Literal["gini", "entropy"],
                  num_estimators: int = 100,
-                 max_samples: Union[None, int] = None,
+                 max_samples: Union[int, float, None] = None,
                  bootstrap: bool = False,
                  minSamplesSplit: int = 2,
-                 maxDepth: Union[int, None] = None,
+                 maxDepth: int = None,
                  maxFeatures: Union[int, None] = None,
                  min_impurity_decrease: float = 0,
                  verbose: bool = False):
-        super(RandomForestClassifier,
-              self).__init__(typeSupervised=0,
-                             criterion=criterion,
+
+        super(BaggedForestRegression,
+              self).__init__(typeSupervised=1,
+                             criterion=None,
                              num_estimators=num_estimators,
                              max_samples=max_samples,
                              bootstrap=bootstrap,

@@ -1,6 +1,6 @@
 """ This module contains code related to testing the k nearest neighbours
 classifier """
-from ML_algorithms.Supervised_Learning.Classifiers.k_nearest_neighbours_classifier import KNearestNeighboursClassifier
+from ML_algorithms.supervised_learning.classifiers.k_nearest_neighbours_classifier import KNearestNeighboursClassifier
 import unittest
 import numpy as np
 import tensorflow as tf

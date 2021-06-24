@@ -1,9 +1,7 @@
-from ML_algorithms.Supervised_Learning.Classifiers.Logistic_Regression import OneVsAllLogisticRegression
+from ML_algorithms.supervised_learning.classifiers.Logistic_Regression import OneVsAllLogisticRegression
 import unittest
-import numpy as np 
-import sklearn
+import numpy as np
 from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
 from ML_algorithms.Utility.ScoreFunctions import accuracy
@@ -19,22 +17,24 @@ Y = Y.T.reshape(1, -1)
 num_classes = len(np.unique(Y))
 
 # In order to train the weights for every logistic regression
-# model, you have to train for a tonne of epochs - 
+# model, you have to train for a tonne of epochs -
 # training for 10 epochs gets cross val score of 0.78
 
 # Training for 350 epochs gets ~0.95. 450 epochs ~0.96
 
-OneVAll = OneVsAllLogisticRegression(num_classes, X.shape[0], num_epochs=450, learn_rate = 0.3)
+OneVAll = OneVsAllLogisticRegression(num_classes,
+                                     X.shape[0],
+                                     num_epochs=450,
+                                     learn_rate=0.3)
 
 crossVal = k_fold_CV()
 kScore = crossVal.getKScore(X, Y, accuracy, OneVAll)
 
 print(kScore)
 
-sklearn_log =  LR(penalty= 'none', multi_class='ovr')
+sklearn_log = LR(penalty='none', multi_class='ovr')
 
 print(cross_val_score(sklearn_log, X.T, Y.ravel()))
-
 """
 My OneVAll log reg achieves a cross val score of 0.96 by training for 450 epochs with a learning rate of 0.3, which 
 comparable to sklearns implementation of this model. 
@@ -46,7 +46,3 @@ of models to train.
 Learning rate 0.15 -> Better results. Cross val score 93%
 Learning rate 0.3 -> 0.96% cross val score. 
 """
-
-
-
-

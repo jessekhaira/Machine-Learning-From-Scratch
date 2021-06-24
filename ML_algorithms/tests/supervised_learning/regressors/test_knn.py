@@ -1,4 +1,4 @@
-from ML_algorithms.Supervised_Learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
+from ML_algorithms.supervised_learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
 from ML_algorithms.Utility.ScoreFunctions import MSE, MAE, RMSE
 import unittest
 import numpy as np
