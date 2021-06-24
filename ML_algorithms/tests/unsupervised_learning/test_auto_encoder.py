@@ -1,5 +1,5 @@
-from ML_algorithms.Unsupervised_Learning.auto_encoder import Deep_Autoencoder
-from ML_algorithms.Unsupervised_Learning.auto_encoder import Adam, gradientDescentMomentum
+from ML_algorithms.unsupervised_learning.auto_encoder import Deep_Autoencoder
+from ML_algorithms.unsupervised_learning.auto_encoder import Adam, gradientDescentMomentum
 import unittest
 import numpy as np
 import tensorflow as tf

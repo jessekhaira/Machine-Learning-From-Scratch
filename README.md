@@ -6,7 +6,7 @@ This project implements a variety of fundamental machine learning algorithms in 
 
 After implementing the supervised models, I tested them on simple datasets (datasets obtained from sklearn, tensorflow, etc) using the python framework unittest and expected the algorithms to perform up to par. When available, I compared the performance of my implementations to the standard implementations of an algorithm to ensure correctness. The directory containing the tests for the classifiers is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/Supervised_Learning/Classifiers/Tests). The directory containing tests for the regressors is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/Supervised_Learning/regression/Tests).
 
-For testing the unsupervised models, I visually examined the output of the models and ensured they were feasible. For k-means clustering, this involved using the classic Iris Setosa dataset and assessing the output clusters that were produced by the model when k=3. For the graphical models, model outputs were produced during training which were verified (ie: as the model continues to train, it should produce better and better outputs). The directory containing the tests for the unsupervised models is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/Unsupervised_Learning/Tests).
+For testing the unsupervised models, I visually examined the output of the models and ensured they were feasible. For k-means clustering, this involved using the classic Iris Setosa dataset and assessing the output clusters that were produced by the model when k=3. For the graphical models, model outputs were produced during training which were verified (ie: as the model continues to train, it should produce better and better outputs). The directory containing the tests for the unsupervised models is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/ML_algorithms/unsupervised_learning/Tests).
 
 ## Installation
 
@@ -70,7 +70,7 @@ Models:
 
 ### Unsupervised Learning:
 
-- [k-Means Clustering](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/k_Means.py)
-- [Principal Component Analysis](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/PCA.py)
-- [Deep Autoencoder](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/auto_encoder.py)
-- [Restricted Boltzmann Machine](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Unsupervised_Learning/restricted_boltzmann_machine.py)
+- [k-Means Clustering](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/unsupervised_learning/k_Means.py)
+- [Principal Component Analysis](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/unsupervised_learning/PCA.py)
+- [Deep Autoencoder](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/unsupervised_learning/auto_encoder.py)
+- [Restricted Boltzmann Machine](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/unsupervised_learning/restricted_boltzmann_machine.py)
