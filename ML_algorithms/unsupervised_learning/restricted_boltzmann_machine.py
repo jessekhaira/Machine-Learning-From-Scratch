@@ -1,13 +1,12 @@
-""" This module contains code for the restricted boltzmann 
-machine learning algorithm. """
+""" This module contains code for the restricted boltzmann
+machine learning algorithm """
 import numpy as np
-import numpy.typing as npt
 from ML_algorithms.neural_net_utility.activation_functions import Sigmoid
 import matplotlib.pyplot as plt
 
 
 class RBM(object):
-    """This class represents a bernoulli Restricted Boltzmann Machine (RBM). A
+    """ This class represents a bernoulli Restricted Boltzmann Machine (RBM). A
     RBM is a generative neural network used to learn a probability distribution
     over its set of inputs. An RBM is restricted, meaning that no nodes within
     the same layer are connected, but a node in a given layer is fully connected
@@ -23,27 +22,37 @@ class RBM(object):
     Attributes:
         n_visible:
             The number of features in a single example being fed into the net
+
         n_hidden:
             The number of features being learned during training
+
         batch_size:
             The size of a mini-batch during training
+
         n_epochs:
             Number of epochs to train for
+
         ret_train:
             Boolean indicating whether to return the errors while training and
             return images sampled during training
+
         seed:
             Integer representing random seed to use
+
         k:
             Integer representing number of iterations to perform with gibbs
             sampling
+
         is_img:
             Boolean value indicating whether the RBM is being used for images
             for visualization purposes during training
+
         img_h:
             Integer indicating height of image input, if image
+
         img_w:
             Integer indicating width of image input, if image
+
         img_d:
             Int indicating depth of image input, if image
     """
@@ -111,7 +120,7 @@ class RBM(object):
         return x_reconstruct
 
     def train(self,
-              data: npt.ArrayLike,
+              data: np.ndarray,
               verbose: bool = True,
               sampling_epochs: int = 10):
         """This method is used to train the RBM on data of shape (M, n_visible),
