@@ -219,12 +219,12 @@ class DenseLayer(BaseNeuralNetworkLayer):
             dl_dz = dLdZ_sm(self.Z, self.A, dLdA, self.activationFunction)
 
         dl_dw = np.dot(dl_dz, self.Ain.T)
-        dLdB = np.sum(dl_dz, axis=1, keepdims=True)
+        dl_db = np.sum(dl_dz, axis=1, keepdims=True)
         dl_da_prev_layer = np.dot(self.W.T, dl_dz)
 
         assert dl_dw.shape == self.W.shape, (
             "Your W[L] shape is not the same as dW/dW[L] shape")
-        assert dLdB.shape == self.b.shape, (
+        assert dl_db.shape == self.b.shape, (
             "Your B[L] shape is not the same as dW/dB[L] shape")
         assert dl_da_prev_layer.shape == self.Ain.shape, (
             "Your dL/dA[L-1] shapes are incomptabile")
@@ -234,19 +234,19 @@ class DenseLayer(BaseNeuralNetworkLayer):
         if epoch == 0 and gradCheck:
             self._gradient_check("W", dl_dw, curr_x, curr_y, prediction_obj,
                                  layer)
-            self._gradient_check("b", dLdB, curr_x, curr_y, prediction_obj,
+            self._gradient_check("b", dl_db, curr_x, curr_y, prediction_obj,
                                  layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
 
         dreg_dw = 0
-        if self.regularization != None:
+        if self.regularization is not None:
             dreg_dw = self._getRegularizationLoss(self.regularization,
                                                   self.regParameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
         self.W, self.b = self.optim.updateParams([self.W, self.b],
-                                                 [dl_dw, dLdB],
+                                                 [dl_dw, dl_db],
                                                  learn_rate,
                                                  epochNum=epoch + 1)
         return dl_da_prev_layer
@@ -293,23 +293,23 @@ class DenseLayer(BaseNeuralNetworkLayer):
         # Get access to the objects params - W or B that we are using to
         # predict with
         obj_attr = getattr(obj.layers[layer], param)
-        for i in range(num_checks):
-            changeIdx = random.randrange(0, len(obj_attr.T))
-            savedParam = obj_attr[:, changeIdx]
+        for _ in range(num_checks):
+            change_idx = random.randrange(0, len(obj_attr.T))
+            saved_param = obj_attr[:, change_idx]
 
             # Update the param by eps, then decrease param by eps, then
             # calculate the new loss in both cases so we can get dL/dparam
             # and compare to analytical gradient
-            obj_attr[:, changeIdx] += eps
+            obj_attr[:, change_idx] += eps
             preds1 = obj._forward_propagate(x)
             loss_higher = obj._calculateLoss(y, preds1)
 
-            obj_attr[:, changeIdx] = savedParam - eps
+            obj_attr[:, change_idx] = saved_param - eps
             preds2 = obj._forward_propagate(x)
             loss_lower = obj._calculateLoss(y, preds2)
 
-            obj_attr[:, changeIdx] = savedParam
-            grad_analytic = dparam[:, changeIdx]
+            obj_attr[:, change_idx] = saved_param
+            grad_analytic = dparam[:, change_idx]
             grad_numeric = (loss_higher - loss_lower) / (2 * eps)
             rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
                                                                 grad_numeric)
@@ -537,12 +537,12 @@ class BatchNormLayer_Dense(DenseLayer):
         # finally get back to the un-normalized activations where we can get what we
         # wanted from the beginning
         dl_dw = np.dot(dLdZ_in, self.Ain.T)
-        dLdB = np.sum(dLdZ_in, axis=1, keepdims=True)
+        dl_db = np.sum(dLdZ_in, axis=1, keepdims=True)
         dl_da_prev_layer = np.dot(self.W.T, dLdZ_in)
 
         assert dl_dw.shape == self.W.shape, (
             "Your W[L] shape is not the same as dW/dW[L] shape")
-        assert dLdB.shape == self.b.shape, (
+        assert dl_db.shape == self.b.shape, (
             "Your B[L] shape is not the same as dW/dB[L] shape")
         assert dl_da_prev_layer.shape == self.Ain.shape, (
             "Your dL/dA[L-1] shapes are incomptabile")
@@ -556,7 +556,7 @@ class BatchNormLayer_Dense(DenseLayer):
         if epoch == 0 and gradCheck:
             self._gradient_check("W", dl_dw, curr_x, curr_y, prediction_obj,
                                  layer)
-            self._gradient_check("b", dLdB, curr_x, curr_y, prediction_obj,
+            self._gradient_check("b", dl_db, curr_x, curr_y, prediction_obj,
                                  layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
@@ -568,7 +568,7 @@ class BatchNormLayer_Dense(DenseLayer):
         dl_dw = dl_dw + dreg_dw
         self.W, self.b, self.gamma, self.beta = self.optim.updateParams(
             [self.W, self.b, self.gamma, self.beta],
-            [dl_dw, dLdB, dLdGamma, dLdBeta],
+            [dl_dw, dl_db, dLdGamma, dLdBeta],
             learn_rate,
             epochNum=epoch + 1)
         return dl_da_prev_layer
@@ -670,12 +670,12 @@ class DropOutLayer_Dense(DenseLayer):
         dl_dz = dLdA * dadz
 
         dl_dw = np.dot(dl_dz, self.Ain.T)
-        dLdB = np.sum(dl_dz, axis=1, keepdims=True)
+        dl_db = np.sum(dl_dz, axis=1, keepdims=True)
         dl_da_prev_layer = np.dot(self.W.T, dl_dz)
 
         assert dl_dw.shape == self.W.shape, (
             "Your W[L] shape is not the same as dW/dW[L] shape")
-        assert dLdB.shape == self.b.shape, (
+        assert dl_db.shape == self.b.shape, (
             "Your B[L] shape is not the same as dW/dB[L] shape")
         assert dl_da_prev_layer.shape == self.Ain.shape, (
             "Your dL/dA[L-1] shapes are incomptabile")
@@ -685,7 +685,7 @@ class DropOutLayer_Dense(DenseLayer):
         if epoch == 0 and gradCheck:
             self._gradient_check("W", dl_dw, curr_x, curr_y, prediction_obj,
                                  layer)
-            self._gradient_check("b", dLdB, curr_x, curr_y, prediction_obj,
+            self._gradient_check("b", dl_db, curr_x, curr_y, prediction_obj,
                                  layer)
 
         ## GRADIENT FROM REGULARIZATION IF REGULARIZATION
@@ -696,7 +696,7 @@ class DropOutLayer_Dense(DenseLayer):
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
         self.W, self.b = self.optim.updateParams([self.W, self.b],
-                                                 [dl_dw, dLdB],
+                                                 [dl_dw, dl_db],
                                                  learn_rate,
                                                  epochNum=epoch + 1)
         return dl_da_prev_layer
