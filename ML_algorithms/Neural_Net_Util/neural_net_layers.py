@@ -318,7 +318,7 @@ def dLdZ_sm(Z: np.ndarray,
             A: np.ndarray,
             dLdA: np.ndarray,
             activFunc: Base_ActivationFunction,
-            efficient: bool = True) -> Union[None, np.ndarray]:
+            efficient: bool = False) -> Union[None, np.ndarray]:
     """ This function hooks up dL/dA with dA/dZ to produce the
     dL/dZ through the softmax layer.
 

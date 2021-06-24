@@ -13,8 +13,7 @@ import copy
 
 
 class NeuralNetworkBase(object):
-    """
-    This is a fully-connected Neural Network class, which can be used
+    """ This is a fully-connected Neural Network class, which can be used
     for supervised learning and unsupervised learning (autoencoders).
 
     Attributes:
