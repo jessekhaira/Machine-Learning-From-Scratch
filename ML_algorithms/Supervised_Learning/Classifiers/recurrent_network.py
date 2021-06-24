@@ -2,9 +2,9 @@
 the natural language processing task of language modelling."""
 import numpy as np
 from ML_algorithms.Utility.misc import oneHotEncodeFeature
-from ML_algorithms.Neural_Net_Util.RecurrentNetLayers import RNN_cell_languageModel
-from ML_algorithms.Neural_Net_Util.optimizer import AdaGrad, Optimizer
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
+from ML_algorithms.neural_net_utility.reccurent_neural_net_layers import RNN_cell_languageModel
+from ML_algorithms.neural_net_utility.optimizer import AdaGrad, Optimizer
+from ML_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
 from typing import Dict
 
 
@@ -21,7 +21,7 @@ class ReccurentNetLanguageModel:
             Dictionary containing a mapping between strings to integers
 
         activationFunction:
-            Object of type Base_ActivationFunction representing the activation
+            Object of type BaseActivationFunction representing the activation
             function to be used in the net
 
         numberNeurons:
@@ -40,7 +40,7 @@ class ReccurentNetLanguageModel:
     def __init__(self,
                  idx_to_char: Dict[int, str],
                  char_to_idx: Dict[str, int],
-                 activationFunction: Base_ActivationFunction,
+                 activationFunction: BaseActivationFunction,
                  numberNeurons: int,
                  numberFeatures: int,
                  temperature: int = 1):

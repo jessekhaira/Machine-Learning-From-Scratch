@@ -2,7 +2,7 @@
 machine learning algorithm. """
 import numpy as np
 import numpy.typing as npt
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
+from ML_algorithms.neural_net_utility.activation_functions import Sigmoid
 import matplotlib.pyplot as plt
 
 

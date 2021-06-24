@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
-from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D, Pool
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, IdentityActivation
+from ML_algorithms.neural_net_utility.ConvolutionalLayers import Conv2D, Pool
+from ML_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation
 
 
 class tests(unittest.TestCase):

@@ -1,9 +1,9 @@
 import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_layers import BaseNeuralNetworkLayer
+from ML_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from ML_algorithms.Utility.misc import gradientClipping
 from ML_algorithms.Utility.misc import oneHotEncodeFeature
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax
-from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
+from ML_algorithms.neural_net_utility.activation_functions import Softmax
+from ML_algorithms.neural_net_utility.LossFunctions import cross_entropy
 
 
 class RNN_cell_languageModel(BaseNeuralNetworkLayer):

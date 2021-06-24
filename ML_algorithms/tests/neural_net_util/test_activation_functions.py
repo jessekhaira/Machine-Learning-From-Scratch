@@ -1,9 +1,8 @@
 import numpy as np
 import unittest
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax
-from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
-import random
-from ML_algorithms.Neural_Net_Util.neural_net_layers import dLdZ_sm
+from ML_algorithms.neural_net_utility.activation_functions import Softmax
+from ML_algorithms.neural_net_utility.LossFunctions import cross_entropy
+from ML_algorithms.neural_net_utility.neural_net_layers import dLdZ_sm
 
 
 class testActivFuncs(unittest.TestCase):

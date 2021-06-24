@@ -1,7 +1,7 @@
 import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-from ML_algorithms.Neural_Net_Util.LossFunctions import negative_log_loss
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Sigmoid
+from ML_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
+from ML_algorithms.neural_net_utility.LossFunctions import negative_log_loss
+from ML_algorithms.neural_net_utility.activation_functions import Sigmoid
 import copy
 
 

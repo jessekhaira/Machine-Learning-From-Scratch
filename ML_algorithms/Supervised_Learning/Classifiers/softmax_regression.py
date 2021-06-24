@@ -1,11 +1,9 @@
-import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-from ML_algorithms.Neural_Net_Util.LossFunctions import cross_entropy
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax
-import copy
+from ML_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
+from ML_algorithms.neural_net_utility.LossFunctions import cross_entropy
+from ML_algorithms.neural_net_utility.activation_functions import Softmax
 
 
-class softmax_regression(NeuralNetworkBase):
+class SoftmaxRegression(NeuralNetworkBase):
     """
     This class is a template you can use to create softmax regresssion objects. 
     The softmax regression object is used for multiclass classification tasks, where
@@ -25,5 +23,5 @@ class softmax_regression(NeuralNetworkBase):
                  regParameter=None):
         costFunc = cross_entropy(regularization, regParameter)
         activFunc = Softmax()
-        super(softmax_regression, self).__init__(costFunc, inLayerNeuron)
+        super(SoftmaxRegression, self).__init__(costFunc, inLayerNeuron)
         self.add_layer(numClasses, activFunc, 1)

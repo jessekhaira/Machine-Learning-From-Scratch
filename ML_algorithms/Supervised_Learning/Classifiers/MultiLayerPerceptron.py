@@ -1,5 +1,5 @@
-from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-from ML_algorithms.Neural_Net_Util.LossFunctions import negative_log_loss, cross_entropy, mean_squared_error
+from ML_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
+from ML_algorithms.neural_net_utility.LossFunctions import negative_log_loss, cross_entropy, mean_squared_error
 
 
 class MultiLayerPerceptron(NeuralNetworkBase):

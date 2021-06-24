@@ -2,7 +2,7 @@
 in the package """
 from ML_algorithms.Supervised_Learning.Classifiers.recurrent_network import ReccurentNetLanguageModel
 from ML_algorithms.Utility.misc import getUniqueChars, mapcharToIdx, mapidxToChar
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import TanH
+from ML_algorithms.neural_net_utility.activation_functions import TanH
 import unittest
 import sys
 import os

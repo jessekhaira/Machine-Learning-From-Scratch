@@ -3,9 +3,9 @@ neural network layers """
 import numpy as np
 import random
 from typing import Literal, Union, Tuple, TYPE_CHECKING
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
+from ML_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
 if TYPE_CHECKING:
-    from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
+    from ML_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 
 
 class BaseNeuralNetworkLayer(object):
@@ -48,7 +48,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
             Integer representing the number of neurons in this layer
 
         activationFunction:
-            Object of type Base_ActivationFunction representing the activation
+            Object of type BaseActivationFunction representing the activation
             function to use within this layer
 
         W:
@@ -77,7 +77,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
     def __init__(self,
                  num_in: int,
                  num_layer: int,
-                 activationFunction: Base_ActivationFunction,
+                 activationFunction: BaseActivationFunction,
                  regularization=None,
                  regParameter: float = None,
                  isSoftmax: Literal[0, 1] = 0,
@@ -318,7 +318,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
 def dLdZ_sm(Z: np.ndarray,
             A: np.ndarray,
             dLdA: np.ndarray,
-            activFunc: Base_ActivationFunction,
+            activFunc: BaseActivationFunction,
             efficient: bool = False) -> Union[None, np.ndarray]:
     """ This function hooks up dL/dA with dA/dZ to produce the
     dL/dZ through the softmax layer.

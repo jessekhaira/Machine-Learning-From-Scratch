@@ -2,11 +2,11 @@
 algorithms, like lasso regression, ridge regression, and a base
 class which they all inherit from """
 import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import IdentityActivation
+from ML_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
+from ML_algorithms.neural_net_utility.LossFunctions import mean_squared_error
+from ML_algorithms.neural_net_utility.activation_functions import IdentityActivation
 from itertools import combinations_with_replacement
-from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent, Optimizer
+from ML_algorithms.neural_net_utility.optimizer import gradientDescent, Optimizer
 from sklearn import preprocessing
 from typing import Union, Tuple
 

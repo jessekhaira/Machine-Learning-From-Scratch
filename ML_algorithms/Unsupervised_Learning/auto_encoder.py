@@ -1,9 +1,9 @@
 import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, IdentityActivation, TanH, Sigmoid
-from ML_algorithms.Neural_Net_Util.LossFunctions import mean_squared_error
-from ML_algorithms.Neural_Net_Util.neural_net_base import NeuralNetworkBase
-from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent, gradientDescentMomentum, RMSProp, Adam
+from ML_algorithms.neural_net_utility.neural_net_layers import DenseLayer, BatchNormLayer_Dense
+from ML_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation, TanH, Sigmoid
+from ML_algorithms.neural_net_utility.LossFunctions import mean_squared_error
+from ML_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
+from ML_algorithms.neural_net_utility.optimizer import gradientDescent, gradientDescentMomentum, RMSProp, Adam
 import matplotlib.pyplot as plt
 
 

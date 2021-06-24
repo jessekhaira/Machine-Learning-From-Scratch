@@ -1,6 +1,6 @@
 from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import MultiLayerPerceptron
-from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import ReLU, TanH, Sigmoid, Softmax
+from ML_algorithms.Supervised_Learning.Classifiers.softmax_regression import SoftmaxRegression
+from ML_algorithms.neural_net_utility.activation_functions import ReLU, TanH, Sigmoid, Softmax
 import unittest
 import numpy as np
 import sklearn
@@ -204,7 +204,7 @@ class test(unittest.TestCase):
 
     def testMultiClass(self):
         # replicating results from CS231N on this dataset
-        sm = softmax_regression(inLayerNeuron=2, numClasses=3)
+        sm = SoftmaxRegression(inLayerNeuron=2, numClasses=3)
         train_loss_sm, train_acc_sm = sm.fit(X,
                                              y,
                                              ret_train_loss=True,

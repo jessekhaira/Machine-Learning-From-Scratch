@@ -2,7 +2,7 @@ import numpy as np
 import random
 
 
-class Base_ActivationFunction(object):
+class BaseActivationFunction(object):
     """
     This is meant to be an abstract class that every single activation function will inherit from.
     Specifically, every activation function will be computing some output given some input x. Every
@@ -49,7 +49,7 @@ class Base_ActivationFunction(object):
             print('rel error is %s' % (rel_error))
 
 
-class Sigmoid(Base_ActivationFunction):
+class Sigmoid(BaseActivationFunction):
     """
     This is the sigmoid function. The input can be a 
     scalar, vector, or matrix, this function will just
@@ -80,7 +80,7 @@ class Sigmoid(Base_ActivationFunction):
         return output * (1 - output)
 
 
-class IdentityActivation(Base_ActivationFunction):
+class IdentityActivation(BaseActivationFunction):
     """
     This class implements the identity function. The methods are self explanatory. This function is useful to use
     in the output layer of a neural network performing regression. 
@@ -97,7 +97,7 @@ class IdentityActivation(Base_ActivationFunction):
         return 1
 
 
-class Softmax(Base_ActivationFunction):
+class Softmax(BaseActivationFunction):
     """
     This class implements the softmax function. The methods are self explanatory. This function is 
     useful to use in the output layer of a neural network performing multiclass classification. 
@@ -140,7 +140,7 @@ class Softmax(Base_ActivationFunction):
         raise NotImplementedError
 
 
-class ReLU(Base_ActivationFunction):
+class ReLU(BaseActivationFunction):
     """
     This class represents the ReLU function. The input can be a scalar, vector, or matrix, as 
     ReLU applies activations elementwise. 
@@ -169,7 +169,7 @@ class ReLU(Base_ActivationFunction):
         return (x > 0) * 1
 
 
-class TanH(Base_ActivationFunction):
+class TanH(BaseActivationFunction):
     """
     This class represents the TanH function. The input can be a scalar, vector, or matrix, as 
     TanH applies activations elementwise. 

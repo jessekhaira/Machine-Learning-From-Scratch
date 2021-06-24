@@ -23,7 +23,7 @@ $ pip3 install .
 Base Classes (abstract classes which concrete classes implement, keeps code DRY):
 
 - [k-Nearest Neighbours (kNN)](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/base_classes/k_nearest_neighbours_base.py)
-- [Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/neural_net_base.py)
+- [Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/neural_net_utility/neural_net_base.py)
 - [Decision Tree](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/base_classes/DecisionTree.py)
 - [Bagged Forest](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/base_classes/BaggedForest.py)
 
@@ -34,9 +34,9 @@ Deep Learning:
 - [MultiLayer Perceptron](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/MultiLayerPerceptron.py)
 
 - Neural Network Layers:
-  - [Convolutional Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/ConvolutionalLayers.py) (includes Conv2D, max pooling and average pooling layers)
-  - [Fully Connected Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/neural_net_layers.py) (includes Dense, BatchNorm, Dropout layers)
-  - [Recurrent Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Neural_Net_Util/RecurrentNetLayers.py) (includes vanilla RNN cell)
+  - [Convolutional Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/neural_net_utility/ConvolutionalLayers.py) (includes Conv2D, max pooling and average pooling layers)
+  - [Fully Connected Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/neural_net_utility/neural_net_layers.py) (includes Dense, BatchNorm, Dropout layers)
+  - [Recurrent Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/neural_net_utility/reccurent_neural_net_layers.py) (includes vanilla RNN cell)
 
 Models:
 
@@ -65,7 +65,7 @@ Models:
     - [Classifier](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/bagged_forest_classifier.py)
     - [Regressor](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/regression/bagged_forest_regressor.py)
 
-- [Softmax Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/SoftmaxRegression.py)
+- [Softmax Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/softmax_regression.py)
 - [Gaussian Naive Bayes](https://github.com/13jk59/MachineLearning_Scratch/blob/master/ML_algorithms/Supervised_Learning/Classifiers/gaussianNaiveBayes.py)
 
 ### Unsupervised Learning:

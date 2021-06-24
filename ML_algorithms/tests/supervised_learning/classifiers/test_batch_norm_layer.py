@@ -2,10 +2,10 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from ML_algorithms.Supervised_Learning.Classifiers.MultiLayerPerceptron import MultiLayerPerceptron
-from ML_algorithms.Neural_Net_Util.neural_net_layers import BatchNormLayer_Dense
-from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Softmax, ReLU
-from ML_algorithms.Neural_Net_Util.optimizer import gradientDescentMomentum, RMSProp
+from ML_algorithms.neural_net_utility.neural_net_layers import BatchNormLayer_Dense
+from ML_algorithms.Supervised_Learning.Classifiers.softmax_regression import SoftmaxRegression
+from ML_algorithms.neural_net_utility.activation_functions import Softmax, ReLU
+from ML_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, RMSProp
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.misc import oneHotEncode
 
@@ -33,7 +33,7 @@ y_miniValid = y_train[:, 1000:2000]
 class testMNIST_BatchNormLayers(unittest.TestCase):
 
     def test_softmaxRegressor(self):
-        sm = softmax_regression(784, 10)
+        sm = SoftmaxRegression(784, 10)
         train_loss, train_acc = sm.fit(x_miniTrain,
                                        y_miniTrain,
                                        num_epochs=500,

@@ -1,6 +1,6 @@
 """ This module contains tests for the softmax regression algorithm """
-from ML_algorithms.Supervised_Learning.Classifiers.SoftmaxRegression import softmax_regression
-from ML_algorithms.Neural_Net_Util.optimizer import Adam, RMSProp
+from ML_algorithms.Supervised_Learning.Classifiers.softmax_regression import SoftmaxRegression
+from ML_algorithms.neural_net_utility.optimizer import Adam, RMSProp
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from ML_algorithms.Utility.misc import oneHotEncode
 from ML_algorithms.Utility.k_Fold_CV import k_fold_CV
@@ -26,16 +26,16 @@ class SoftmaxTests(unittest.TestCase):
         self.x, self.y = load_iris(return_X_y=True)
         self.x = preprocessing.scale(self.x).T
         self.y_encoded = oneHotEncode(self.y)
-        self.softmax_model_no_regularization = softmax_regression(
+        self.softmax_model_no_regularization = SoftmaxRegression(
             self.x.shape[0], len(self.y_encoded))
 
-        self.softmax_model_l1_regularization = softmax_regression(
+        self.softmax_model_l1_regularization = SoftmaxRegression(
             self.x.shape[0],
             len(self.y_encoded),
             regularization="L1",
             regParameter=0.01)
 
-        self.softmax_model_l2_regularization = softmax_regression(
+        self.softmax_model_l2_regularization = SoftmaxRegression(
             self.x.shape[0],
             len(self.y_encoded),
             regularization="L2",

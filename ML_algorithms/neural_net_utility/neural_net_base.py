@@ -1,11 +1,11 @@
 """ This module contains code representing the base class for Neural Networks
 """
 import numpy as np
-from ML_algorithms.Neural_Net_Util.neural_net_layers import DenseLayer, BatchNormLayer_Dense, BaseNeuralNetworkLayer
-from ML_algorithms.Neural_Net_Util.ConvolutionalLayers import Conv2D
-from ML_algorithms.Neural_Net_Util.optimizer import gradientDescent, Optimizer
-from ML_algorithms.Neural_Net_Util.LossFunctions import LossFunction
-from ML_algorithms.Neural_Net_Util.ActivationFunctions import Base_ActivationFunction
+from ML_algorithms.neural_net_utility.neural_net_layers import DenseLayer, BatchNormLayer_Dense, BaseNeuralNetworkLayer
+from ML_algorithms.neural_net_utility.ConvolutionalLayers import Conv2D
+from ML_algorithms.neural_net_utility.optimizer import gradientDescent, Optimizer
+from ML_algorithms.neural_net_utility.LossFunctions import LossFunction
+from ML_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
 from ML_algorithms.Utility.misc import convertToHighestPred
 from ML_algorithms.Utility.ScoreFunctions import accuracy
 from typing import Union, Tuple, List
@@ -36,7 +36,7 @@ class NeuralNetworkBase(object):
 
     def add_layer(self,
                   num_neurons: int,
-                  activationFunction: Base_ActivationFunction,
+                  activationFunction: BaseActivationFunction,
                   isSoftmax: int = 0,
                   layer: BaseNeuralNetworkLayer = None,
                   keep_prob: int = 1) -> None:
@@ -49,7 +49,7 @@ class NeuralNetworkBase(object):
                 this dense layer of the neural network.
 
             activationFunction:
-                Object of type Base_ActivationFunctionm which will be used to
+                Object of type BaseActivationFunctionm which will be used to
                 introduce non-linearity into your neural net
 
             isSoftmax:
