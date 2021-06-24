@@ -57,9 +57,9 @@ class NeuralNetworkBase(object):
                 activation function is softmax or not
 
             layer:
-                Object of type BaseNeuralNetworkLayer, indicating the current layer being
-                added to the neural network. Default layer is a Dense layer.
-
+                Object of type BaseNeuralNetworkLayer, indicating the current
+                layer being added to the neural network. Default layer is a
+                Dense layer
         """
         if not self.layers:
             layer_x = DenseLayer(
