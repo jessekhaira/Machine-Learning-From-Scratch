@@ -47,9 +47,9 @@ class ReccurentNetLanguageModel:
         self.number_features = number_features
         self.number_neurons = number_neurons
         self.model = ReccurentNetCellGeneration(
-            numNeurons=number_neurons,
+            num_neurons=number_neurons,
             activation_function=activation_function,
-            numInputFeatures=number_features)
+            num_input_features=number_features)
         self.idx_to_char = idx_to_char
         self.char_to_idx = char_to_idx
         self.temperature = temperature
