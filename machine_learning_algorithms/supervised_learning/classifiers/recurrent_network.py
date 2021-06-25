@@ -5,7 +5,7 @@ from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
 from machine_learning_algorithms.neural_net_utility.reccurent_neural_net_layers import RNN_cell_languageModel
 from machine_learning_algorithms.neural_net_utility.optimizer import AdaGrad, Optimizer
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
-from typing import Dict
+from typing import Dict, Tuple, List, Union
 
 
 class ReccurentNetLanguageModel:
@@ -54,15 +54,17 @@ class ReccurentNetLanguageModel:
         self.char_to_idx = char_to_idx
         self.temperature = temperature
 
-    def fit(self,
-            xtrain: str,
-            timeStepsUnroll: int,
-            xvalid: str = None,
-            num_epochs: int = 10,
-            ret_train_loss: bool = False,
-            learn_rate: float = 0.01,
-            optim: Optimizer = AdaGrad(),
-            verbose: bool = False) -> None:
+    def fit(
+        self,
+        xtrain: str,
+        timeStepsUnroll: int,
+        xvalid: str = None,
+        num_epochs: int = 10,
+        ret_train_loss: bool = False,
+        learn_rate: float = 0.01,
+        optim: Optimizer = AdaGrad(),
+        verbose: bool = False
+    ) -> Union[None, Tuple[List[float], List[float]], List[float]]:
         """ This method trains the reccurrent net language model on the given
         dataset.
 
@@ -93,12 +95,21 @@ class ReccurentNetLanguageModel:
             optim:
                 Object of type Optimizer representing the optimization algorithm
                 to use to minimize the loss function. Default Optimizer to use
-                is AdaGrad.
+                is AdaGrad
 
             verbose:
                 Boolean value indicating whether to provide updates when
                 training. If True, will get indications when each epoch is
-                is done training along with a sample generated sentence.
+                is done training along with a sample generated sentence
+
+        Returns:
+            None if ret_train_loss is False. If ret_train_loss is True and a
+            numpy array is passed as input for x_valid, a tuple will
+            be returned consisting of two lists of floating point values,
+            one representing the training losses, the other representing
+            the validation losses. If just ret_train_loss is True, then
+            a list of floating point values representing the training losses
+            will be returned.
         """
         train_loss = []
         valid_loss = []
