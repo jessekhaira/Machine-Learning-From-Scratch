@@ -2,7 +2,7 @@
 the natural language processing task of language modelling."""
 import numpy as np
 from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
-from machine_learning_algorithms.neural_net_utility.reccurent_neural_net_layers import RNN_cell_languageModel
+from machine_learning_algorithms.neural_net_utility.reccurent_neural_net_layers import ReccurentNetCellGeneration
 from machine_learning_algorithms.neural_net_utility.optimizer import AdaGrad, Optimizer
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
 from typing import Dict, Tuple, List, Union
@@ -20,14 +20,14 @@ class ReccurentNetLanguageModel:
         char_to_idx:
             Dictionary containing a mapping between strings to integers
 
-        activationFunction:
+        activation_function:
             Object of type BaseActivationFunction representing the activation
             function to be used in the net
 
-        numberNeurons:
+        number_neurons:
             Integer representing the total number of neurons in the RNN
 
-        numberFeatures:
+        number_features:
             Integer representing the total number of features being input to the
             network
 
@@ -40,16 +40,16 @@ class ReccurentNetLanguageModel:
     def __init__(self,
                  idx_to_char: Dict[int, str],
                  char_to_idx: Dict[str, int],
-                 activationFunction: BaseActivationFunction,
-                 numberNeurons: int,
-                 numberFeatures: int,
+                 activation_function: BaseActivationFunction,
+                 number_neurons: int,
+                 number_features: int,
                  temperature: int = 1):
-        self.numberFeatures = numberFeatures
-        self.numberNeurons = numberNeurons
-        self.model = RNN_cell_languageModel(
-            numNeurons=numberNeurons,
-            activationFunctionLayer=activationFunction,
-            numInputFeatures=numberFeatures)
+        self.number_features = number_features
+        self.number_neurons = number_neurons
+        self.model = ReccurentNetCellGeneration(
+            numNeurons=number_neurons,
+            activation_function=activation_function,
+            numInputFeatures=number_features)
         self.idx_to_char = idx_to_char
         self.char_to_idx = char_to_idx
         self.temperature = temperature
@@ -57,7 +57,7 @@ class ReccurentNetLanguageModel:
     def fit(
         self,
         xtrain: str,
-        timeStepsUnroll: int,
+        time_steps_unroll: int,
         xvalid: str = None,
         num_epochs: int = 10,
         ret_train_loss: bool = False,
@@ -77,7 +77,7 @@ class ReccurentNetLanguageModel:
                 String representing a text file containing the data the network
                 will be validated on
 
-            timeStepsUnroll:
+            time_steps_unroll:
                 Integer representing the length of a sequence from the text
                 file that will be used during training
 
@@ -117,31 +117,32 @@ class ReccurentNetLanguageModel:
             curr_sample_start_train = 0
             # cycle through the entire training set
             loss_epoch = []
-            while curr_sample_start_train + timeStepsUnroll < len(xtrain):
+            while curr_sample_start_train + time_steps_unroll < len(xtrain):
                 # the label for a given char is the char right after it
                 slice_x = xtrain[
                     curr_sample_start_train:curr_sample_start_train +
-                    timeStepsUnroll]
+                    time_steps_unroll]
                 slice_y = xtrain[curr_sample_start_train +
-                                 1:curr_sample_start_train + timeStepsUnroll +
+                                 1:curr_sample_start_train + time_steps_unroll +
                                  1]
                 # new batch
-                curr_sample_start_train += timeStepsUnroll
-                activations_prev = np.zeros((self.numberNeurons, 1))
+                curr_sample_start_train += time_steps_unroll
+                activations_prev = np.zeros((self.number_neurons, 1))
                 # forward pass
                 loss_epoch.append(
-                    self.model._train_forward(slice_x, slice_y,
-                                              activations_prev,
-                                              self.char_to_idx))
+                    self.model.train_forward(slice_x, slice_y, activations_prev,
+                                             self.char_to_idx))
                 # backward pass
-                self.model.update_weights(learn_rate, timeStepsUnroll, slice_y,
-                                          self.char_to_idx, epoch, optim)
+                self.model.update_weights(learn_rate, time_steps_unroll,
+                                          slice_y, self.char_to_idx, epoch,
+                                          optim)
                 if verbose:
                     print(loss_epoch[-1])
 
             train_loss.append(np.mean(loss_epoch))
             if xvalid:
-                valid_loss.append(self._get_valid_loss(xvalid, timeStepsUnroll))
+                valid_loss.append(
+                    self._get_valid_loss(xvalid, time_steps_unroll))
             if verbose and epoch % 10 == 0:
                 print("Finish epoch %s, train loss: %s" %
                       (epoch, train_loss[-1]))
@@ -168,13 +169,13 @@ class ReccurentNetLanguageModel:
             A string of length total_generating_steps that represents
             text generated from the RNN.
         """
-        seed_idx = np.random.randint(0, high=self.numberFeatures)
-        seed_vector = oneHotEncodeFeature(self.numberFeatures, seed_idx)
-        a_prev = np.zeros((self.numberNeurons, 1))
+        seed_idx = np.random.randint(0, high=self.number_features)
+        seed_vector = oneHotEncodeFeature(self.number_features, seed_idx)
+        a_prev = np.zeros((self.number_neurons, 1))
         return self.model.generate(seed_vector, a_prev, total_generating_steps,
                                    self.idx_to_char, self.temperature)
 
-    def _get_valid_loss(self, xvalid: str, time_steps_unroll: int):
+    def _get_valid_loss(self, xvalid: str, time_steps_unroll: int) -> float:
         loss = []
         curr_sample_start_valid = 0
         while curr_sample_start_valid + time_steps_unroll < len(xvalid):
@@ -185,11 +186,11 @@ class ReccurentNetLanguageModel:
                              1:curr_sample_start_valid + time_steps_unroll + 1]
             # new batch
             curr_sample_start_valid += time_steps_unroll
-            activations_prev = np.zeros((self.numberNeurons, 1))
+            activations_prev = np.zeros((self.number_neurons, 1))
             loss.append(
-                self.model._train_forward(slice_x,
-                                          slice_y,
-                                          activations_prev,
-                                          self.char_to_idx,
-                                          cache=False))
+                self.model.train_forward(slice_x,
+                                         slice_y,
+                                         activations_prev,
+                                         self.char_to_idx,
+                                         cache=False))
         return np.mean(loss)

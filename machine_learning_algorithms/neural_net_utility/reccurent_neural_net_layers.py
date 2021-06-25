@@ -2,23 +2,30 @@ import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import gradientClipping
 from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
-from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
+from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, BaseActivationFunction
 from machine_learning_algorithms.neural_net_utility.LossFunctions import cross_entropy
 
 
-class RNN_cell_languageModel(BaseNeuralNetworkLayer):
-    """
-    This class represents a single RNN cell performing language generation. This RNN forms a 
-    many-to-many architecture, as the cell will predict a letter at every single time step.
+class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
+    """ This class represents a single RNN cell performing language
+    generation. This RNN forms a many-to-many architecture, as the cell
+    will predict a letter at every single time step.
 
-    Parameters:
-    -> numNeurons (int): The number of neurons present in this cell
-    -> numInputFeatures (int): The number of features input to the cell at every time step
-    -> activationFunctionLayer (obj): The activation function to be used to introduce non-linearity
-    into the network
+    Attributes:
+        numNeurons:
+            Integer representing the number of neurons present in this cell
+
+        numInputFeatures:
+            Integer representing the number of features input to the cell at
+            every time step
+
+        activation_function:
+            Object of type BaseActivationFunction that represents the activation
+            function to be used to introduce non-linearity into the network
     """
 
-    def __init__(self, numNeurons, numInputFeatures, activationFunctionLayer):
+    def __init__(self, numNeurons: int, numInputFeatures: int,
+                 activation_function: BaseActivationFunction):
         self.numNeurons = numNeurons
         self.numInputFeatures = numInputFeatures
         self.Waa = self._initalizeWeights(numNeurons, numNeurons)
@@ -26,7 +33,7 @@ class RNN_cell_languageModel(BaseNeuralNetworkLayer):
         self.ba = self._initalizeBias(numNeurons)
         self.Way = self._initalizeWeights(numInputFeatures, numNeurons)
         self.by = self._initalizeBias(numInputFeatures)
-        self.activationFunctionLayer = activationFunctionLayer
+        self.activation_function = activation_function
 
         # we're only going to have one RNN cell to do all the generating IE if
         # we have a 100 word long sentence, we don't make a new RNN cell for every single word
@@ -34,7 +41,7 @@ class RNN_cell_languageModel(BaseNeuralNetworkLayer):
         # so we can backprop
         self.cache_perTimestep = {}
 
-    def _train_forward(self, x, y, a_prev, charToIdx, cache=True):
+    def train_forward(self, x, y, a_prev, charToIdx, cache=True):
         """
         This method computes the forward step for a recurrent neural network layer
         performing language modelling. The RNN will be unrolled for t time steps
@@ -45,7 +52,7 @@ class RNN_cell_languageModel(BaseNeuralNetworkLayer):
         -> y (txt file): The labels that the RNN should predict
         -> a_prev (NumPy vector): Vector containing the activations from the previous
         time step
-        -> charToIdx (HashTable): HashTable mapping characters to indices 
+        -> charToIdx (HashTable): HashTable mapping characters to indices
 
         Returns:
         -> loss (int): The loss accumulated over the t timesteps
@@ -77,7 +84,7 @@ class RNN_cell_languageModel(BaseNeuralNetworkLayer):
         assert self.Wax.shape[1] == x_t.shape[0]
         assert a_prev.shape[0] == self.Waa.shape[1]
         Z_activ = np.dot(self.Wax, x_t) + np.dot(self.Waa, a_prev) + self.ba
-        A = self.activationFunctionLayer.compute_output(Z_activ)
+        A = self.activation_function.compute_output(Z_activ)
 
         # raw logits/temp = input to activation function
         Z_pred = (np.dot(self.Way, A) + self.by) / temperature
@@ -140,7 +147,7 @@ class RNN_cell_languageModel(BaseNeuralNetworkLayer):
             # so it gets a gradient portion directly from the softmax classifier and from the next time step
             dLdA = np.dot(self.Way.T, dLdZ_pred) + dLdA_layerAhead
             # backprop through the nonlinearity to get dLdZ_activ
-            dadZ_activ = self.activationFunctionLayer.getDerivative_wrtInput(
+            dadZ_activ = self.activation_function.getDerivative_wrtInput(
                 Z_activ)
             dLdZ_activ = dLdA * dadZ_activ
 
