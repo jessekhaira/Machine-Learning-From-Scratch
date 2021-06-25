@@ -2,8 +2,8 @@
 from sklearn import preprocessing
 from sklearn.datasets import load_breast_cancer
 from machine_learning_algorithms.supervised_learning.classifiers.Logistic_Regression import LogisticRegression
-from machine_learning_algorithms.Utility.ScoreFunctions import accuracy
-from machine_learning_algorithms.Utility.k_Fold_CV import k_fold_CV
+from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
 import unittest
 
 

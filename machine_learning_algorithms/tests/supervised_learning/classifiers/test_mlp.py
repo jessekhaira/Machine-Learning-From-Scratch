@@ -6,8 +6,8 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer
-from machine_learning_algorithms.Utility.ScoreFunctions import accuracy
-from machine_learning_algorithms.Utility.misc import oneHotEncode
+from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.misc import oneHotEncode
 
 # Binary Classif Data that is easily linearaly separable - should expect some overfitting
 # since the capacity of our model is much higher than needed

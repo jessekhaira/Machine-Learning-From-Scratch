@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from machine_learning_algorithms.Utility.ScoreFunctions import MSE
+from machine_learning_algorithms.utility.ScoreFunctions import MSE
 from sklearn.metrics import log_loss
 
 

@@ -6,8 +6,8 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Bat
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, ReLU
 from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, RMSProp
-from machine_learning_algorithms.Utility.ScoreFunctions import accuracy
-from machine_learning_algorithms.Utility.misc import oneHotEncode
+from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.misc import oneHotEncode
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 

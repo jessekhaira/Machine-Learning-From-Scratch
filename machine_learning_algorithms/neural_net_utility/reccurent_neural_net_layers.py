@@ -1,7 +1,7 @@
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
-from machine_learning_algorithms.Utility.misc import gradientClipping
-from machine_learning_algorithms.Utility.misc import oneHotEncodeFeature
+from machine_learning_algorithms.utility.misc import gradientClipping
+from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
 from machine_learning_algorithms.neural_net_utility.LossFunctions import cross_entropy
 

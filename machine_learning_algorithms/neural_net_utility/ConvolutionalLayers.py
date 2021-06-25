@@ -2,7 +2,7 @@ import numpy as np
 import random
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 import math
-from machine_learning_algorithms.Utility.misc import findRowColMaxElem
+from machine_learning_algorithms.utility.misc import findRowColMaxElem
 
 
 class BaseConvolutionalLayer(BaseNeuralNetworkLayer):

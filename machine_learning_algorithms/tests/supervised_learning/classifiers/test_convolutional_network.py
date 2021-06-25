@@ -7,7 +7,7 @@ from machine_learning_algorithms.neural_net_utility.ConvolutionalLayers import P
 from machine_learning_algorithms.supervised_learning.classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, AdaGrad
-from machine_learning_algorithms.Utility.misc import oneHotEncode
+from machine_learning_algorithms.utility.misc import oneHotEncode
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 x_train = np.array(x_train, dtype=float)

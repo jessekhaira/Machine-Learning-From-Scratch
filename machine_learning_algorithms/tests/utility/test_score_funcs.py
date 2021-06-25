@@ -2,10 +2,10 @@
 package """
 import unittest
 import numpy as np
-from machine_learning_algorithms.Utility.DecisionTreeFunctions import entropy
-from machine_learning_algorithms.Utility.DecisionTreeFunctions import entropyGain
-from machine_learning_algorithms.Utility.DecisionTreeFunctions import varianceReduction
-from machine_learning_algorithms.Utility.DecisionTreeFunctions import giniIndex
+from machine_learning_algorithms.utility.DecisionTreeFunctions import entropy
+from machine_learning_algorithms.utility.DecisionTreeFunctions import entropyGain
+from machine_learning_algorithms.utility.DecisionTreeFunctions import varianceReduction
+from machine_learning_algorithms.utility.DecisionTreeFunctions import giniIndex
 
 
 class TestScoreFunctions(unittest.TestCase):

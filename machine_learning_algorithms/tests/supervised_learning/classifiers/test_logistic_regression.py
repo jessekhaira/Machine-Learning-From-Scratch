@@ -5,7 +5,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
-from machine_learning_algorithms.Utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 """
 A few observation from testing the code:
 - Increasing regularization parameter leaves normal logistic regression losses untouched

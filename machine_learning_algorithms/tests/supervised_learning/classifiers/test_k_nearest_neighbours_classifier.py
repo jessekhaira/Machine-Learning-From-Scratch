@@ -4,7 +4,7 @@ from machine_learning_algorithms.supervised_learning.classifiers.k_nearest_neigh
 import unittest
 import numpy as np
 import tensorflow as tf
-from machine_learning_algorithms.Utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 

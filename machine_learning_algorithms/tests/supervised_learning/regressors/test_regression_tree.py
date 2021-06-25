@@ -3,8 +3,8 @@ algorithm """
 import unittest
 from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
-from machine_learning_algorithms.Utility.ScoreFunctions import RMSE, MSE, MAE, TSS, RSS
-from machine_learning_algorithms.Utility.k_Fold_CV import k_fold_CV
+from machine_learning_algorithms.utility.ScoreFunctions import RMSE, MSE, MAE, TSS, RSS
+from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
 
 
 class RegressionTreeTests(unittest.TestCase):

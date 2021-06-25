@@ -1,6 +1,6 @@
 import copy
 import numpy as np
-from machine_learning_algorithms.Utility.misc import convertToHighestPred
+from machine_learning_algorithms.utility.misc import convertToHighestPred
 from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescent
 
 

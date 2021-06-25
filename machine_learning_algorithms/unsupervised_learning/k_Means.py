@@ -1,5 +1,5 @@
 import numpy as np
-from machine_learning_algorithms.Utility.misc import euclideanDistance
+from machine_learning_algorithms.utility.misc import euclideanDistance
 import copy
 
 

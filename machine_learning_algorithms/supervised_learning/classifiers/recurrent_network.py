@@ -1,7 +1,7 @@
 """ This module contains code representing a reccurrent neural network used for
 the natural language processing task of language modelling."""
 import numpy as np
-from machine_learning_algorithms.Utility.misc import oneHotEncodeFeature
+from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
 from machine_learning_algorithms.neural_net_utility.reccurent_neural_net_layers import RNN_cell_languageModel
 from machine_learning_algorithms.neural_net_utility.optimizer import AdaGrad, Optimizer
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
