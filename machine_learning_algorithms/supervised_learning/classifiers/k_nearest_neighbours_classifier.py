@@ -29,7 +29,7 @@ class KNearestNeighboursClassifier(KNearestNeighboursBase):
         super(KNearestNeighboursClassifier,
               self).__init__(k, similarity_metric, verbose)
 
-    def _get_prediction(self, k_closest):
+    def _get_prediction(self, k_closest: np.ndarray) -> int:
         """ This method returns an integer describing the label of the
         current vector.
 
