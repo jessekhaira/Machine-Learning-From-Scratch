@@ -1,7 +1,7 @@
 from sklearn.datasets import load_iris, load_wine
 from sklearn import preprocessing
 import unittest
-from machine_learning_algorithms.supervised_learning.classifiers.gaussianNaiveBayes import gaussianNaiveBayes
+from machine_learning_algorithms.supervised_learning.classifiers.gaussian_naive_bayes import gaussianNaiveBayes
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
 
