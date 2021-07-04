@@ -1,15 +1,13 @@
 import numpy as np
-from sklearn.datasets import load_iris
-from sklearn import preprocessing
 import math
 
 
-class baseNaiveBayes(object):
+class BaseNaiveBayes(object):
 
     def _getProbClasses(self, ytrain):
         counts_eachClass = np.unique(ytrain, return_counts=True)
-        # class probabilties aree simply the frequency of instances that belong to each
-        # class divided by the total number of instances
+        # class probabilties aree simply the frequency of instances that
+        # belong to each class divided by the total number of instances
         uniqueLabels = counts_eachClass[0]
         classProbabilites = counts_eachClass[1] / ytrain.shape[1]
         return uniqueLabels, classProbabilites
@@ -18,7 +16,7 @@ class baseNaiveBayes(object):
         raise NotImplementedError
 
 
-class gaussianNaiveBayes(baseNaiveBayes):
+class GaussianNaiveBayes(BaseNaiveBayes):
     """ This class represents the gaussian naive bayes classifier. Naive
     bayes is a probabilistic classifier that produces a probabiliity
     distribution over the classes in the dataset, with a (naive)

@@ -1,7 +1,7 @@
 from sklearn.datasets import load_iris, load_wine
 from sklearn import preprocessing
 import unittest
-from machine_learning_algorithms.supervised_learning.classifiers.gaussian_naive_bayes import gaussianNaiveBayes
+from machine_learning_algorithms.supervised_learning.classifiers.gaussian_naive_bayes import GaussianNaiveBayes
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
 
@@ -14,7 +14,7 @@ X2, Y2 = load_wine(return_X_y=True)
 X2 = X2.T
 Y2 = Y2.reshape(1, -1)
 kObj = k_fold_CV()
-naiveBayes = gaussianNaiveBayes()
+naiveBayes = GaussianNaiveBayes()
 
 
 class tests(unittest.TestCase):
