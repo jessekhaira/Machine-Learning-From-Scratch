@@ -66,7 +66,7 @@ Models:
     - [Regressor](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/regression/bagged_forest_regressor.py)
 
 - [Softmax Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/softmax_regression.py)
-- [Gaussian Naive Bayes](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/gaussianNaiveBayes.py)
+- [Gaussian Naive Bayes](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/gaussian_naive_bayes.py)
 
 ### Unsupervised Learning:
 
