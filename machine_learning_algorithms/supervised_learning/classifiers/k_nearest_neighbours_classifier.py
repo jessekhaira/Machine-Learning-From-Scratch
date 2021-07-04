@@ -39,7 +39,7 @@ class KNearestNeighboursClassifier(KNearestNeighboursBase):
                 with their corresponding labels
 
         Returns:
-            An integer representing the label of the vector 
+            An integer representing the label of the vector
         """
         unique, counts = np.unique(k_closest, return_counts=True)
         return unique[np.argmax(counts)]
