@@ -1,6 +1,6 @@
 import numpy as np
 import unittest
-from machine_learning_algorithms.neural_net_utility.ConvolutionalLayers import Conv2D, Pool
+from machine_learning_algorithms.neural_net_utility.convolutional_layers import Conv2D, Pool
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation
 
 

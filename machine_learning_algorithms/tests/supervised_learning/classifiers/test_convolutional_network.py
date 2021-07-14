@@ -2,8 +2,8 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer
-from machine_learning_algorithms.neural_net_utility.ConvolutionalLayers import Conv2D
-from machine_learning_algorithms.neural_net_utility.ConvolutionalLayers import Pool
+from machine_learning_algorithms.neural_net_utility.convolutional_layers import Conv2D
+from machine_learning_algorithms.neural_net_utility.convolutional_layers import Pool
 from machine_learning_algorithms.supervised_learning.classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, AdaGrad
