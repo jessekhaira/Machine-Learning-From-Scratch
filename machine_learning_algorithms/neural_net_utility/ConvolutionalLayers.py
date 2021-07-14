@@ -30,20 +30,32 @@ class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
 
 
 class Conv2D(BaseConvolutionalLayer):
-    """
-    This class represents a 2D convolutional layer. This class combines the linear combination
-    of weights and neurons with an activation. 
+    """ This class represents a 2D convolutional layer.
 
-    Parameters:
-    -> filterSize (int): The size of the filters 
-    -> numFilters (int): The number of filters in this layer (indicates how many 
-    feature detectors you have, and how many features you will be learning)
-    -> padding (str): "same" or "valid". "same" indicates no spatial downsampling will happen,
-    "valid" indicates no padding at all
-    -> stride (int): Int representing how far the filter will slide each step
-    -> finalConvLayer(boolean): boolean value indicating whether this is the last convolutional layer
-    before fully connected layers
-    -> inputDepth (int): The depth of the input to this layer 
+    Attributes:
+        filterSize:
+            Integer representing the size of the filters
+
+        numFilters:
+            Integer representing the number of filters in this
+            layer (indicates how many feature detectors you have,
+            and how many features you will be learning)
+
+        padding:
+            String that should be either "same" or "valid". "same"
+            indicates no spatial downsampling will happen, "valid"
+            indicates no padding at all
+
+        stride:
+            Integer representing how far the filter will slide each
+            step
+
+        finalConvLayer:
+            Boolean value indicating whether this is the last convolutional layer
+            before fully connected layers
+
+        inputDepth:
+            Integer representing the depth of the input to this layer
     """
 
     def __init__(self,
