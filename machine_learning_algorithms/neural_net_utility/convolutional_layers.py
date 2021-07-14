@@ -101,10 +101,10 @@ class Conv2D(BaseConvolutionalLayer):
         p = 0 if self.padding == "valid" else int((self.filterSize - 1) / 2)
         output_height = int((x.shape[2] - self.filterSize + 2 * p) /
                             (self.stride) + 1)
-        outputWidth = int((x.shape[3] - self.filterSize + 2 * p) /
-                          (self.stride) + 1)
+        output_width = int((x.shape[3] - self.filterSize + 2 * p) /
+                           (self.stride) + 1)
         self.Z = np.zeros(
-            (x.shape[0], self.numFilters, output_height, outputWidth))
+            (x.shape[0], self.numFilters, output_height, output_width))
 
         padded_input = self._padInput(x, self.filterSize, self.padding)
         self.Ain = padded_input
@@ -282,9 +282,9 @@ class Pool(BaseConvolutionalLayer):
         p = 0 if self.padding is "valid" else (self.filterSize - 1) / 2
         output_height = int((x.shape[2] - self.filterSize + 2 * p) /
                             (self.stride) + 1)
-        outputWidth = int((x.shape[3] - self.filterSize + 2 * p) /
-                          (self.stride) + 1)
-        self.Z = np.zeros((x.shape[0], x.shape[1], outputWidth, output_height))
+        output_width = int((x.shape[3] - self.filterSize + 2 * p) /
+                           (self.stride) + 1)
+        self.Z = np.zeros((x.shape[0], x.shape[1], output_width, output_height))
         # technically it doesn't really make sense to pad in pool layers
         # but the option is still here
         padded_input = self._padInput(x, self.filterSize, self.padding)
