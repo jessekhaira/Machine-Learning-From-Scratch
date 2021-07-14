@@ -3,6 +3,7 @@ import random
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 import math
 from machine_learning_algorithms.utility.misc import findRowColMaxElem
+from typing import Literal, Union
 
 
 class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
@@ -51,21 +52,22 @@ class Conv2D(BaseConvolutionalLayer):
             step
 
         finalConvLayer:
-            Boolean value indicating whether this is the last convolutional layer
-            before fully connected layers
+            Boolean value indicating whether this is the last convolutional
+            layer before fully connected layers
 
         inputDepth:
-            Integer representing the depth of the input to this layer
+            Integer representing the depth of the input to this layer, or
+            None
     """
 
     def __init__(self,
-                 filterSize,
-                 numFilters,
+                 filterSize: int,
+                 numFilters: int,
                  activationFunction,
-                 padding="same",
-                 stride=1,
-                 finalConvLayer=False,
-                 inputDepth=None):
+                 padding: Literal["same", "valid"] = "same",
+                 stride: int = 1,
+                 finalConvLayer: bool = False,
+                 inputDepth: Union[None, int] = None):
         self.filterSize = filterSize
         self.numFilters = numFilters
         self.padding = padding
