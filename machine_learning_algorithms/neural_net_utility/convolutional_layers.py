@@ -79,17 +79,24 @@ class Conv2D(BaseConvolutionalLayer):
         self.optim = None
 
     def compute_forward(self, x, train=True):
-        """
-        This method computes the forward propagation step through the convolutional layer. 
-        Expects x to be a (sizeBatch, depth, height, width) tensor. This step combines the convolution
+        """ This method computes the forward propagation step through
+        the convolutional layer. Expects x to be a (sizeBatch, depth,
+        height, width) tensor. This step combines the convolution
         operation and the activation function into one.
 
-        Parameters:
-        -> x(sizeBatch, depth, height, width) NumPy tensor: Tensor that we are computing the forward pass through this layer
-        on
-        -> train(boolean): Indicating whether this layer is training or validating 
+        Args:
+            x:
+                Numpy array of shape (sizeBatch, depth, height, width)
+                containing a batch of examples for the layer to process
 
-        Returns: Output(numExamples, numFilters, self.filterSize, self.filterSize, self.numFilters) NumPy tensor.
+            train:
+                Boolean value indicating whether this layer is in training
+                mode or validation mode
+
+        Returns:
+            A numpy array of shape (numExamples, numFilters, self.filterSize,
+            self.filterSize, self.numFilters) representing the output
+            from the layer
         """
         p = 0 if self.padding == "valid" else int((self.filterSize - 1) / 2)
         outputHeight = int((x.shape[2] - self.filterSize + 2 * p) /
