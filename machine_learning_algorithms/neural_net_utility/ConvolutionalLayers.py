@@ -11,7 +11,7 @@ class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
         pad_h, pad_w = self._get_padding(filterSize, padding)
         # x has images first and channels last - dont pad those
         images_padded = np.pad(x, ((0, 0), (0, 0), pad_h, pad_w),
-                               mode='constant',
+                               mode="constant",
                                constant_values=0)
         return images_padded
 
