@@ -1,3 +1,5 @@
+""" This module contains code for functionality related to convolutional
+neural network layers """
 import numpy as np
 import random
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
