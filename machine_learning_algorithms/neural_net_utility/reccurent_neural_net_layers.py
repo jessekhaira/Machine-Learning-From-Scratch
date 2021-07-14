@@ -3,7 +3,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Bas
 from machine_learning_algorithms.utility.misc import gradientClipping
 from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, BaseActivationFunction
-from machine_learning_algorithms.neural_net_utility.LossFunctions import cross_entropy
+from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
 
 
 class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):

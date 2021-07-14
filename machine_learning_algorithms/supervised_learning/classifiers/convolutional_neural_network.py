@@ -1,6 +1,6 @@
 """ This module contains code representing a convolutional neural network """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.LossFunctions import negative_log_loss, cross_entropy, mean_squared_error
+from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss, cross_entropy, mean_squared_error
 from typing import Literal
 
 

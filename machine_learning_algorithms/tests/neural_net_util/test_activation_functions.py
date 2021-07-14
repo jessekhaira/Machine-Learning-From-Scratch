@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
-from machine_learning_algorithms.neural_net_utility.LossFunctions import cross_entropy
+from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import dLdZ_sm
 
 
