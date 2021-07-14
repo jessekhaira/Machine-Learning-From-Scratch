@@ -78,7 +78,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.finalConvLayer = finalConvLayer
         self.optim = None
 
-    def compute_forward(self, x: np.ndarray, train: bool = True):
+    def compute_forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
         """ This method computes the forward propagation step through
         the convolutional layer. Expects x to be a (sizeBatch, depth,
         height, width) tensor. This step combines the convolution
