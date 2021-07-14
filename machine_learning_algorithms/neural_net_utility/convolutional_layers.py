@@ -111,9 +111,9 @@ class Conv2D(BaseConvolutionalLayer):
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
             # have to pad image with zeros
-            for filter in range(self.numFilters):
-                filterWeights = self.filters[filter, :, :, :]
-                bias = self.b[filter]
+            for curr_filter in range(self.numFilters):
+                filterWeights = self.filters[curr_filter, :, :, :]
+                bias = self.b[curr_filter]
                 curr_rowPic = 0
                 curr_rowNeuron = -1
                 # while you haven't seen all the height rows
@@ -129,17 +129,17 @@ class Conv2D(BaseConvolutionalLayer):
                                                 self.filterSize,
                                                 curr_colPic:curr_colPic +
                                                 self.filterSize]
-                        # for this image and this filter, we fill curr_rowNeuron and curr_colNeuron with the value shown
-                        self.Z[i, filter, curr_rowNeuron,
+                        # for this image and this curr_filter, we fill curr_rowNeuron and curr_colNeuron with the value shown
+                        self.Z[i, curr_filter, curr_rowNeuron,
                                curr_colNeuron] = np.sum(
                                    curr_imageSlice * filterWeights) + bias
 
-                        # slide the filter horizontally with a step size equal to stride
+                        # slide the curr_filter horizontally with a step size equal to stride
                         curr_colPic += self.stride
                         # the next activated neuron in this row of the picture
                         curr_colNeuron += 1
 
-                    # when your finished sliding horizontally, slide the filter down vertically with step size equal to stride
+                    # when your finished sliding horizontally, slide the curr_filter down vertically with step size equal to stride
                     curr_rowPic += self.stride
 
         # apply activation function to the activation maps for every single image elementwise
