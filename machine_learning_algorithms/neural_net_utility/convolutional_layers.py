@@ -112,40 +112,49 @@ class Conv2D(BaseConvolutionalLayer):
             image = padded_input[i, :, :, :]
             # have to pad image with zeros
             for curr_filter in range(self.numFilters):
-                filterWeights = self.filters[curr_filter, :, :, :]
+                filter_weights = self.filters[curr_filter, :, :, :]
                 bias = self.b[curr_filter]
-                curr_rowPic = 0
-                curr_rowNeuron = -1
+                curr_row_example = 0
+                curr_row_neuron = -1
                 # while you haven't seen all the height rows
-                while curr_rowPic + self.filterSize <= image.shape[1]:
+                while curr_row_example + self.filterSize <= image.shape[1]:
                     # while you haven't seen the full width of this row
-                    curr_rowNeuron += 1
+                    curr_row_neuron += 1
                     # reset the column to zero for every single row we are at
                     # for both the picture and neuron
-                    curr_colPic = 0
-                    curr_colNeuron = 0
-                    while curr_colPic + self.filterSize <= image.shape[2]:
-                        curr_imageSlice = image[:, curr_rowPic:curr_rowPic +
-                                                self.filterSize,
-                                                curr_colPic:curr_colPic +
-                                                self.filterSize]
-                        # for this image and this curr_filter, we fill curr_rowNeuron and curr_colNeuron with the value shown
-                        self.Z[i, curr_filter, curr_rowNeuron,
-                               curr_colNeuron] = np.sum(
-                                   curr_imageSlice * filterWeights) + bias
+                    curr_col_example = 0
+                    curr_col_neuron = 0
+                    while curr_col_example + self.filterSize <= image.shape[2]:
+                        curr_image_slice = image[:, curr_row_example:
+                                                 curr_row_example +
+                                                 self.filterSize,
+                                                 curr_col_example:
+                                                 curr_col_example +
+                                                 self.filterSize]
+                        # for this image and this curr_filter, we fill
+                        # curr_row_neuron and curr_col_neuron with the value
+                        # shown
+                        self.Z[i, curr_filter, curr_row_neuron,
+                               curr_col_neuron] = np.sum(
+                                   curr_image_slice * filter_weights) + bias
 
-                        # slide the curr_filter horizontally with a step size equal to stride
-                        curr_colPic += self.stride
-                        # the next activated neuron in this row of the picture
-                        curr_colNeuron += 1
+                        # slide the curr_filter horizontally with a step size
+                        # equal to stride
+                        curr_col_example += self.stride
+                        # the next activated neuron in this row of the
+                        # picture
+                        curr_col_neuron += 1
 
-                    # when your finished sliding horizontally, slide the curr_filter down vertically with step size equal to stride
-                    curr_rowPic += self.stride
+                    # when your finished sliding horizontally, slide the
+                    # curr_filter down vertically with step size equal
+                    # to stride
+                    curr_row_example += self.stride
 
-        # apply activation function to the activation maps for every single image elementwise
+        # apply activation function to the activation maps for every
+        # single image elementwise
         self.A = self.activationFunction.compute_output(self.Z)
-        # if its the final conv layer, then return a flattened vector as output
-        # otherwise, return it as is
+        # if its the final conv layer, then return a flattened vector
+        # as output otherwise, return it as is
         if not self.finalConvLayer:
             return self.A
         else:
