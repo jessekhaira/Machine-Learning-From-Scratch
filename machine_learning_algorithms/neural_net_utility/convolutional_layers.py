@@ -188,71 +188,75 @@ class Conv2D(BaseConvolutionalLayer):
         # (num ex, num dim, H, W) IE same shape as the output of the layer.
         # Basically reverse of the flattening to a single vector step :D
         if self.finalConvLayer:
-            dLdA = dLdA.reshape(self.Z.shape[0], self.Z.shape[1],
-                                self.Z.shape[2], self.Z.shape[3])
+            dl_da = dl_da.reshape(self.Z.shape[0], self.Z.shape[1],
+                                  self.Z.shape[2], self.Z.shape[3])
 
         # get dAdZ to get dLdZ
-        dadz = self.activationFunction.getDerivative_wrtInput(self.Z)
-        dLdZ = dLdA * dadz
+        da_dz = self.activationFunction.getDerivative_wrtInput(self.Z)
+        dl_dz = dl_da * da_dz
 
         # going to fill in dLdW and dLdB and then update every weight in
         # every filter with the optimizer
-        dLdW = np.zeros_like(self.filters)
-        dLdb = np.zeros((self.numFilters, 1, 1, 1))
-        dLdA_prevLayer = np.zeros_like(self.Ain)
+        dl_dw = np.zeros_like(self.filters)
+        dl_db = np.zeros((self.numFilters, 1, 1, 1))
+        dl_da_prev = np.zeros_like(self.Ain)
 
         for i in range(self.Ain.shape[0]):
             image = self.Ain[i, :, :, :]
-            # get dLdW per each filter
+            # get dl_dw per each filter
             for curr_filter in range(self.numFilters):
-                curr_rowPic = 0
-                curr_rowNeuron = -1
-                while curr_rowPic + self.filterSize <= image.shape[1]:
-                    curr_rowNeuron += 1
-                    curr_colPic = 0
-                    curr_colNeuron = 0
-                    while curr_colPic + self.filterSize <= image.shape[2]:
-                        # this image slice is responsible for creating a SINGLE neuron
-                        # in other words, this is a multivariable scalar function as it takes multiple dimensions in
-                        # and returns a single value
+                curr_row_pic = 0
+                curr_row_neuron = -1
+                while curr_row_pic + self.filterSize <= image.shape[1]:
+                    curr_row_neuron += 1
+                    curr_col_pic = 0
+                    curr_col_neuron = 0
+                    while curr_col_pic + self.filterSize <= image.shape[2]:
+                        # this image slice is responsible for creating a SINGLE
+                        # neuron. In other words, this is a multivariable scalar
+                        # function as it takes multiple dimensions in and
+                        # returns a single value
 
-                        # we accumulate the gradients for the current curr_filter over every part of the current image, AND over every single image that these
-                        # filters see
-                        curr_imageSlice = image[:, curr_rowPic:curr_rowPic +
-                                                self.filterSize,
-                                                curr_colPic:curr_colPic +
-                                                self.filterSize]
-                        neuron_gradientHere = dLdZ[i, curr_filter,
-                                                   curr_rowNeuron,
-                                                   curr_colNeuron]
+                        # we accumulate the gradients for the current
+                        # curr_filter over every part of the current image,
+                        # AND over every single image that these filters see
+                        curr_img_slice = image[:, curr_row_pic:curr_row_pic +
+                                               self.filterSize,
+                                               curr_col_pic:curr_col_pic +
+                                               self.filterSize]
+                        neuron_gradient_here = dl_dz[i, curr_filter,
+                                                     curr_row_neuron,
+                                                     curr_col_neuron]
 
-                        dLdW[curr_filter] += (curr_imageSlice *
-                                              neuron_gradientHere)
-                        dLdb[curr_filter] += neuron_gradientHere
+                        dl_dw[curr_filter] += (curr_img_slice *
+                                               neuron_gradient_here)
+                        dl_db[curr_filter] += neuron_gradient_here
 
-                        # for the ith picture, for every single dimension, for the current sliced out image
-                        # we accumulate the gradients for the current input for every curr_filter that sees the ith image
-                        dLdA_prevLayer[i, :, curr_rowPic:curr_rowPic +
-                                       self.filterSize,
-                                       curr_colPic:curr_colPic +
-                                       self.filterSize] += (
-                                           self.filters[curr_filter] *
-                                           neuron_gradientHere)
+                        # for the ith picture, for every single dimension, for
+                        # the current sliced out image we accumulate the
+                        # gradients for the current input for every curr_filter
+                        # that sees the ith image
+                        dl_da_prev[i, :,
+                                   curr_row_pic:curr_row_pic + self.filterSize,
+                                   curr_col_pic:curr_col_pic +
+                                   self.filterSize] += (
+                                       self.filters[curr_filter] *
+                                       neuron_gradient_here)
 
-                        curr_colPic += self.stride
-                        curr_colNeuron += 1
+                        curr_col_pic += self.stride
+                        curr_col_neuron += 1
 
-                    curr_rowPic += self.stride
+                    curr_row_pic += self.stride
 
         # update filters and bias
-        dLdb = np.sum(dLdb.reshape(-1, 1), axis=1, keepdims=True)
+        dl_db = np.sum(dl_db.reshape(-1, 1), axis=1, keepdims=True)
         self.filters, self.b = self.optim.updateParams([self.filters, self.b],
-                                                       [dLdW, dLdb],
+                                                       [dl_dw, dl_db],
                                                        learn_rate,
                                                        epochNum=epoch + 1)
 
         # pass the gradient down the circuit
-        return dLdA_prevLayer
+        return dl_da_prev
 
 
 class Pool(BaseConvolutionalLayer):
