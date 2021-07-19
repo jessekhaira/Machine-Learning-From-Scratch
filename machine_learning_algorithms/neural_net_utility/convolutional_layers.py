@@ -290,7 +290,7 @@ class Pool(BaseConvolutionalLayer):
 
         Returns: Output(numExamples, numFilters, self.filterSize, self.filterSize, self.numFilters) NumPy tensor.
         """
-        p = 0 if self.padding is "valid" else (self.filterSize - 1) / 2
+        p = 0 if self.padding == "valid" else (self.filterSize - 1) / 2
         output_height = int((x.shape[2] - self.filterSize + 2 * p) /
                             (self.stride) + 1)
         output_width = int((x.shape[3] - self.filterSize + 2 * p) /
