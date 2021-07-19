@@ -260,17 +260,29 @@ class Conv2D(BaseConvolutionalLayer):
 
 
 class Pool(BaseConvolutionalLayer):
-    """
-    This class represents a pooling layer. The purpose of this class is to spatially downsample an input
-    volume in terms of height and width while leaving the number of dimensions untouched. 
+    """ This class represents a pooling layer. The purpose of this class
+    is to spatially downsample an input volume in terms of height and
+    width while leaving the number of dimensions untouched.
 
-    Parameters:
-    -> filterSize (int): The size of the filter you will be using to scan the input images 
-    -> inputDepth (int): The depth of one slice in the input 
-    -> padding (str): "same" or "valid". "same" indicates no spatial downsampling will happen,
-    "valid" indicates no padding at all
-    -> stride (int): Int representing how far the filter will slide each step
-    -> poolType (str): The type of pooling that will be used at this layer. Should be max or avg. 
+    Attributes:
+        filterSize:
+            Integer representing the size of the filter you will be
+            using to scan the input images
+
+        inputDepth:
+            Integer representing the depth of one slice in the input
+
+        padding:
+            String that is either "same" or "valid". "same" indicates
+            no spatial downsampling will happen, "valid" indicates no
+            padding at all
+
+        stride:
+            Integer representing how far the filter will slide each step
+
+        poolType:
+            String that is either "max" or "avg", representing the type of
+            pooling that will be used at this layer
     """
 
     def __init__(self,
