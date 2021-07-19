@@ -181,11 +181,12 @@ class Conv2D(BaseConvolutionalLayer):
                        curr_y,
                        layer,
                        gradCheck=False):
-        # if this is the last conv layer, then we reshape our output in the forward pass to be
-        # a N features by M examples matrix
+        # if this is the last conv layer, then we reshape our output
+        # in the forward pass to be a N features by M examples matrix
 
-        # so when we're coming back, we have to reshape that to be (num ex, num dim, H, W) IE same shape as
-        # the output of the layer. Basically reverse of the flattening to a single vector step :D
+        # so when we're coming back, we have to reshape that to be
+        # (num ex, num dim, H, W) IE same shape as the output of the layer.
+        # Basically reverse of the flattening to a single vector step :D
         if self.finalConvLayer:
             dLdA = dLdA.reshape(self.Z.shape[0], self.Z.shape[1],
                                 self.Z.shape[2], self.Z.shape[3])
@@ -194,7 +195,8 @@ class Conv2D(BaseConvolutionalLayer):
         dadz = self.activationFunction.getDerivative_wrtInput(self.Z)
         dLdZ = dLdA * dadz
 
-        # going to fill in dLdW and dLdB and then update every weight in every filter with the optimizer
+        # going to fill in dLdW and dLdB and then update every weight in
+        # every filter with the optimizer
         dLdW = np.zeros_like(self.filters)
         dLdb = np.zeros((self.numFilters, 1, 1, 1))
         dLdA_prevLayer = np.zeros_like(self.Ain)
@@ -202,7 +204,7 @@ class Conv2D(BaseConvolutionalLayer):
         for i in range(self.Ain.shape[0]):
             image = self.Ain[i, :, :, :]
             # get dLdW per each filter
-            for filter in range(self.numFilters):
+            for curr_filter in range(self.numFilters):
                 curr_rowPic = 0
                 curr_rowNeuron = -1
                 while curr_rowPic + self.filterSize <= image.shape[1]:
@@ -214,25 +216,27 @@ class Conv2D(BaseConvolutionalLayer):
                         # in other words, this is a multivariable scalar function as it takes multiple dimensions in
                         # and returns a single value
 
-                        # we accumulate the gradients for the current filter over every part of the current image, AND over every single image that these
+                        # we accumulate the gradients for the current curr_filter over every part of the current image, AND over every single image that these
                         # filters see
                         curr_imageSlice = image[:, curr_rowPic:curr_rowPic +
                                                 self.filterSize,
                                                 curr_colPic:curr_colPic +
                                                 self.filterSize]
-                        neuron_gradientHere = dLdZ[i, filter, curr_rowNeuron,
+                        neuron_gradientHere = dLdZ[i, curr_filter,
+                                                   curr_rowNeuron,
                                                    curr_colNeuron]
 
-                        dLdW[filter] += (curr_imageSlice * neuron_gradientHere)
-                        dLdb[filter] += neuron_gradientHere
+                        dLdW[curr_filter] += (curr_imageSlice *
+                                              neuron_gradientHere)
+                        dLdb[curr_filter] += neuron_gradientHere
 
                         # for the ith picture, for every single dimension, for the current sliced out image
-                        # we accumulate the gradients for the current input for every filter that sees the ith image
+                        # we accumulate the gradients for the current input for every curr_filter that sees the ith image
                         dLdA_prevLayer[i, :, curr_rowPic:curr_rowPic +
                                        self.filterSize,
                                        curr_colPic:curr_colPic +
                                        self.filterSize] += (
-                                           self.filters[filter] *
+                                           self.filters[curr_filter] *
                                            neuron_gradientHere)
 
                         curr_colPic += self.stride
