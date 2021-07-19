@@ -286,11 +286,11 @@ class Pool(BaseConvolutionalLayer):
     """
 
     def __init__(self,
-                 filterSize,
-                 padding="valid",
-                 stride=1,
-                 poolType="max",
-                 finalConvLayer=False):
+                 filterSize: int,
+                 padding: Literal["valid", "same"] = "valid",
+                 stride: int = 1,
+                 poolType: Literal["max", "avg"] = "max",
+                 finalConvLayer: bool = False):
         self.filterSize = filterSize
         self.typePool = poolType
         self.padding = padding
