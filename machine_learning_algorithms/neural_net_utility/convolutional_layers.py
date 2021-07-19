@@ -10,7 +10,7 @@ from typing import Literal, Union
 
 class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
 
-    def _padInput(self, x, filterSize, padding):
+    def _pad_input(self, x, filterSize, padding):
         pad_h, pad_w = self._get_padding(filterSize, padding)
         # x has images first and channels last - dont pad those
         images_padded = np.pad(x, ((0, 0), (0, 0), pad_h, pad_w),
@@ -108,7 +108,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.Z = np.zeros(
             (x.shape[0], self.numFilters, output_height, output_width))
 
-        padded_input = self._padInput(x, self.filterSize, self.padding)
+        padded_input = self._pad_input(x, self.filterSize, self.padding)
         self.Ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
@@ -163,7 +163,7 @@ class Conv2D(BaseConvolutionalLayer):
             return self.A.reshape(-1, x.shape[0])
 
     def _initialize_weights(self):
-        if self.inputDepth is None:
+        if self.inputDepth == None:
             return None, None
         # we are going to have F x F x D1 x K total filters in this layer
         filters = np.random.rand(self.numFilters, self.inputDepth,
@@ -298,7 +298,7 @@ class Pool(BaseConvolutionalLayer):
         self.Z = np.zeros((x.shape[0], x.shape[1], output_width, output_height))
         # technically it doesn't really make sense to pad in pool layers
         # but the option is still here
-        padded_input = self._padInput(x, self.filterSize, self.padding)
+        padded_input = self._pad_input(x, self.filterSize, self.padding)
         self.Ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
