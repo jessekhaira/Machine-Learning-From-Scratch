@@ -313,7 +313,7 @@ class NeuralNetworkBase(object):
             # the weights for each layer.
             if isinstance(layer, DenseLayer) and layer.W is None:
                 # conv layer will have flattened its output to matrix shape
-                layer.W, layer.b = layer._initializeWeights(
+                layer.W, layer.b = layer._initialize_weights(
                     layer.num_layer, prev_activations.shape[0])
                 if isinstance(layer, BatchNormLayer_Dense):
                     layer.gamma, layer.beta = layer._initializeGammaBeta()
@@ -321,7 +321,7 @@ class NeuralNetworkBase(object):
                     )
             elif (isinstance(layer, Conv2D)) and layer.filters is None:
                 layer.inputDepth = prev_activations.shape[1]
-                layer.filters, layer.b = layer._initializeWeights()
+                layer.filters, layer.b = layer._initialize_weights()
             activations = layer.compute_forward(prev_activations, train)
             prev_activations = activations
         return activations

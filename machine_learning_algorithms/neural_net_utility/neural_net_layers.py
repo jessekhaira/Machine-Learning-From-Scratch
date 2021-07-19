@@ -84,7 +84,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                  keepProb: float = None):
         self.num_in = num_in
         self.num_layer = num_layer
-        self.W, self.b = self._initializeWeights(self.num_layer, self.num_in)
+        self.W, self.b = self._initialize_weights(self.num_layer, self.num_in)
         self.Z = None
         self.A = None
         self.Ain = None
@@ -94,7 +94,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         self.isSoftmax = isSoftmax
         self.optim = None
 
-    def _initializeWeights(
+    def _initialize_weights(
         self, num_layer: int, num_prev_layer: int
     ) -> Union[Tuple[None, None], Tuple[np.ndarray, np.ndarray]]:
         """ This method will initialize the weights used in this layer. For the

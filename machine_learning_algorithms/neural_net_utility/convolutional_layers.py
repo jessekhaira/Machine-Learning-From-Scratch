@@ -75,7 +75,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.padding = padding
         self.stride = stride
         self.inputDepth = inputDepth
-        self.filters, self.b = self._initializeWeights()
+        self.filters, self.b = self._initialize_weights()
         self.activationFunction = activationFunction
         self.finalConvLayer = finalConvLayer
         self.optim = None
@@ -162,7 +162,7 @@ class Conv2D(BaseConvolutionalLayer):
         else:
             return self.A.reshape(-1, x.shape[0])
 
-    def _initializeWeights(self):
+    def _initialize_weights(self):
         if self.inputDepth is None:
             return None, None
         # we are going to have F x F x D1 x K total filters in this layer
