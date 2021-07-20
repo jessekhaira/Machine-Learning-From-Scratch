@@ -326,8 +326,9 @@ class Pool(BaseConvolutionalLayer):
         self.Ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
-            # for every single image, you apply the spatial downsampling PER dimension
-            # so we don't reduce the number of dimensions we have, we just reduce the height and width
+            # for every single image, you apply the spatial downsampling
+            # PER dimension so we don't reduce the number of dimensions
+            # we have, we just reduce the height and width
             for dimension in range(image.shape[0]):
                 curr_rowPic = 0
                 curr_rowNeuron = -1
@@ -378,62 +379,70 @@ class Pool(BaseConvolutionalLayer):
                        curr_y,
                        layer,
                        gradCheck=False):
-        # Pooling layer has no weights to update but we still need to get
-        # dL/d(A_layer-1) to pass back to the layer before
+        # Pooling layer has no weights to update but we still
+        # need to get dL/d(A_layer-1) to pass back to the layer
+        # before
 
-        # if this is the last conv layer, then we reshape our output in the forward pass to be
-        # a N features by M examples matrix
+        # if this is the last conv layer, then we reshape our output in
+        # the forward pass to be a N features by M examples matrix
 
-        # so when we're coming back, we have to reshape that to be (num ex, num dim, H, W) IE same shape as
-        # the output of the layer. Basically reverse of the flattening to a single vector step :D
+        # so when we're coming back, we have to reshape that to be
+        # (num ex, num dim, H, W) IE same shape as the output of the
+        # layer. Basically reverse of the flattening to a single vector
+        # step :D
         if self.finalConvLayer:
             dLdA = dLdA.reshape(self.Z.shape[0], self.Z.shape[1],
                                 self.Z.shape[2], self.Z.shape[3])
 
-        # get dAout_dAin and chain it together with dLdA_out to get dLdA_in to pass back
-        dLdA_in = np.zeros((self.Ain.shape[0], self.Ain.shape[1],
-                            self.Ain.shape[2], self.Ain.shape[3]))
+        # get dAout_dAin and chain it together with dLdA_out to get
+        # dl_da_in to pass back
+        dl_da_in = np.zeros((self.Ain.shape[0], self.Ain.shape[1],
+                             self.Ain.shape[2], self.Ain.shape[3]))
 
         for i in range(self.Ain.shape[0]):
             image = self.Ain[i, :, :, :]
             for dimension in range(image.shape[0]):
-                curr_rowPic = 0
-                curr_rowNeuron = -1
-                while curr_rowPic + self.filterSize <= image.shape[1]:
-                    curr_rowNeuron += 1
-                    curr_colPic = 0
-                    curr_colNeuron = 0
-                    while curr_colPic + self.filterSize <= image.shape[2]:
-                        # this image slice is responsible for creating a SINGLE neuron
-                        # in other words, this is a multivariable scalar function as it takes multiple dimensions in
+                curr_row_pic = 0
+                curr_row_neuron = -1
+                while curr_row_pic + self.filterSize <= image.shape[1]:
+                    curr_row_neuron += 1
+                    curr_col_pic = 0
+                    curr_col_neuron = 0
+                    while curr_col_pic + self.filterSize <= image.shape[2]:
+                        # this image slice is responsible for creating a
+                        # SINGLE neuron. In other words, this is a multivariable
+                        # scalar function as it takes multiple dimensions in
                         # and returns a single value
-                        curr_imageSlice = image[dimension,
-                                                curr_rowPic:curr_rowPic +
-                                                self.filterSize,
-                                                curr_colPic:curr_colPic +
-                                                self.filterSize]
-                        # in max pool, dAout/dA_in is zero everywhere except the MAX idx
+                        curr_img_slice = image[dimension,
+                                               curr_row_pic:curr_row_pic +
+                                               self.filterSize,
+                                               curr_col_pic:curr_col_pic +
+                                               self.filterSize]
+                        # in max pool, dAout/dA_in is zero everywhere except the
+                        # MAX idx
                         if self.typePool == "max":
-                            maxIdx_row, maxIdx_col = findRowColMaxElem(
-                                curr_imageSlice)
-                            dLdA_in[i, dimension, maxIdx_row,
-                                    maxIdx_col] += 1 * dLdA[i, dimension,
-                                                            maxIdx_row,
-                                                            maxIdx_col]
-                        # in avg pool,  dAout/dA_in is 1/N everywhere, where N is the total number of neurons in the depth slice for the ith
-                        # since all the neurons in the img slice just get averaged
+                            max_idx_row, max_idx_col = findRowColMaxElem(
+                                curr_img_slice)
+                            dl_da_in[i, dimension, max_idx_row,
+                                     max_idx_col] += 1 * dLdA[i, dimension,
+                                                              max_idx_row,
+                                                              max_idx_col]
+                        # in avg pool,  dAout/dA_in is 1/N everywhere, where N
+                        # is the total number of neurons in the depth slice for
+                        # the ith since all the neurons in the img slice just
+                        # get averaged
                         else:
-                            dLdA_in[i, dimension,
-                                    curr_rowPic:curr_rowPic + self.filterSize,
-                                    curr_colPic:curr_colPic +
-                                    self.filterSize] += (
-                                        1 / np.size(curr_imageSlice) *
-                                        dLdA[i, dimension, curr_rowNeuron,
-                                             curr_colNeuron])
+                            dl_da_in[i, dimension, curr_row_pic:curr_row_pic +
+                                     self.filterSize,
+                                     curr_col_pic:curr_col_pic +
+                                     self.filterSize] += (
+                                         1 / np.size(curr_img_slice) *
+                                         dLdA[i, dimension, curr_row_neuron,
+                                              curr_col_neuron])
 
-                        curr_colPic += self.stride
-                        curr_colNeuron += 1
+                        curr_col_pic += self.stride
+                        curr_col_neuron += 1
 
-                    curr_rowPic += self.stride
+                    curr_row_pic += self.stride
 
-        return dLdA_in
+        return dl_da_in
