@@ -1,3 +1,6 @@
+""" This module contains classes that represent optimization algorithms
+used to optimize objective functions in machine learning
+"""
 import numpy as np
 
 
