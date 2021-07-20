@@ -173,14 +173,14 @@ class Conv2D(BaseConvolutionalLayer):
         return filters, bias
 
     def update_weights(self,
-                       dLdA,
-                       learn_rate,
-                       epoch,
+                       dLdA: np.ndarray,
+                       learn_rate: float,
+                       epoch: int,
                        prediction_obj,
-                       curr_x,
-                       curr_y,
+                       curr_x: np.ndarray,
+                       curr_y: np.ndarray,
                        layer,
-                       gradCheck=False):
+                       gradCheck: bool = False) -> np.ndarray:
         # if this is the last conv layer, then we reshape our output
         # in the forward pass to be a N features by M examples matrix
 
