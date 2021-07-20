@@ -330,37 +330,41 @@ class Pool(BaseConvolutionalLayer):
             # PER dimension so we don't reduce the number of dimensions
             # we have, we just reduce the height and width
             for dimension in range(image.shape[0]):
-                curr_rowPic = 0
-                curr_rowNeuron = -1
+                curr_row_pic = 0
+                curr_row_neuron = -1
                 # while you haven't seen all the height rows
-                while curr_rowPic + self.filterSize <= image.shape[1]:
+                while curr_row_pic + self.filterSize <= image.shape[1]:
                     # while you haven't seen the full width of this row
-                    curr_rowNeuron += 1
+                    curr_row_neuron += 1
                     # reset the column to zero for every single row we are at
                     # for both the picture and neuron
-                    curr_colPic = 0
-                    curr_colNeuron = 0
-                    while curr_colPic + self.filterSize <= image.shape[2]:
-                        curr_imageSlice = image[dimension,
-                                                curr_rowPic:curr_rowPic +
-                                                self.filterSize,
-                                                curr_colPic:curr_colPic +
-                                                self.filterSize]
+                    curr_col_pic = 0
+                    curr_col_neuron = 0
+                    while curr_col_pic + self.filterSize <= image.shape[2]:
+                        curr_img_slice = image[dimension,
+                                               curr_row_pic:curr_row_pic +
+                                               self.filterSize,
+                                               curr_col_pic:curr_col_pic +
+                                               self.filterSize]
                         # max pool or average pool
                         if self.typePool == "max":
-                            self.Z[i, dimension, curr_rowNeuron,
-                                   curr_colNeuron] = np.max(curr_imageSlice)
+                            self.Z[i, dimension, curr_row_neuron,
+                                   curr_col_neuron] = np.max(curr_img_slice)
                         else:
-                            self.Z[i, dimension, curr_rowNeuron,
-                                   curr_colNeuron] = np.average(curr_imageSlice)
+                            self.Z[i, dimension, curr_row_neuron,
+                                   curr_col_neuron] = np.average(curr_img_slice)
 
-                        # slide the filter horizontally with a step size equal to stride
-                        curr_colPic += self.stride
-                        # the next activated neuron in this row of the picture
-                        curr_colNeuron += 1
+                        # slide the filter horizontally with a step size equal
+                        # to stride
+                        curr_col_pic += self.stride
+                        # the next activated neuron in this row of the
+                        # picture
+                        curr_col_neuron += 1
 
-                    # when your finished sliding horizontally, slide the filter down vertically with step size equal to stride
-                    curr_rowPic += self.stride
+                    # when your finished sliding horizontally, slide the
+                    # filter down vertically with step size equal to
+                    # stride
+                    curr_row_pic += self.stride
 
         # return input that has been downsampled spatially
         # if its the last conv layer, then flatten to a vector
