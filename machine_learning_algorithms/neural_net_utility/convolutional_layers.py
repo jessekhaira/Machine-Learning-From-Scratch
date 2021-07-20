@@ -298,9 +298,8 @@ class Pool(BaseConvolutionalLayer):
         self.finalConvLayer = finalConvLayer
         self.optim = None
 
-    def compute_forward(self, x, train=True):
-        """
-        This method computes the forward propagation step through the pool layer. 
+    def compute_forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
+        """This method computes the forward propagation step through the pool layer. 
         Expects x to be a (sizeBatch,depth, height, width) tensor. This step combines the convolution
         operation and the activation function into one.
 
