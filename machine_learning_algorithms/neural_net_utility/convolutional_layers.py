@@ -299,15 +299,20 @@ class Pool(BaseConvolutionalLayer):
         self.optim = None
 
     def compute_forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
-        """This method computes the forward propagation step through the pool layer. 
-        Expects x to be a (sizeBatch,depth, height, width) tensor. This step combines the convolution
+        """ This method computes the forward propagation step
+        through the pool layer. Expects x to be a (sizeBatch, depth,
+        height, width) tensor. This step combines the convolution
         operation and the activation function into one.
 
-        Parameters:
-        -> x(sizeBatch, depth, height, width) NumPy tensor: Tensor that we are computing the forward pass through this layer
-        on
+        Args:
+            x:
+                Numpy array of shape (sizeBatch, depth, height, width) that
+                we are computing the forward pass through this layer on
 
-        Returns: Output(numExamples, numFilters, self.filterSize, self.filterSize, self.numFilters) NumPy tensor.
+        Returns:
+            Numpy array of shape (numExamples, numFilters, self.filterSize,
+            self.filterSize, self.numFilters) representing the spatially
+            downsampled input
         """
         p = 0 if self.padding == "valid" else (self.filterSize - 1) / 2
         output_height = int((x.shape[2] - self.filterSize + 2 * p) /
