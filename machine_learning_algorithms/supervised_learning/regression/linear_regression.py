@@ -6,7 +6,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_base import Neura
 from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
 from machine_learning_algorithms.neural_net_utility.activation_functions import IdentityActivation
 from itertools import combinations_with_replacement
-from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescent, Optimizer
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 from sklearn import preprocessing
 from typing import Union, Tuple
 
@@ -37,7 +37,7 @@ class BaseLinearRegression(NeuralNetworkBase):
         batch_size: int = 32,
         ret_train_loss: bool = False,
         learn_rate: float = 0.01,
-        optim: Optimizer = gradientDescent()
+        optim: Optimizer = GradientDescent()
     ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
         """ This method learns the parameters of the algorithm by minimizing the
         residual sum of squares cost function using iterative Optimizers,

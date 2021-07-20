@@ -3,7 +3,7 @@
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, BatchNormLayer_Dense, BaseNeuralNetworkLayer
 from machine_learning_algorithms.neural_net_utility.convolutional_layers import Conv2D
-from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescent, Optimizer
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 from machine_learning_algorithms.neural_net_utility.loss_functions import LossFunction
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
 from machine_learning_algorithms.utility.misc import convertToHighestPred
@@ -99,7 +99,7 @@ class NeuralNetworkBase(object):
         batch_size: int = 32,
         ret_train_loss: bool = False,
         learn_rate: float = 0.1,
-        optim: Optimizer = gradientDescent(),
+        optim: Optimizer = GradientDescent(),
         verbose: bool = False
     ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
         """This method trains the neural network on the training set.

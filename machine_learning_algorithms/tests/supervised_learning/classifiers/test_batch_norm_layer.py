@@ -5,7 +5,7 @@ from machine_learning_algorithms.supervised_learning.classifiers.MultiLayerPerce
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BatchNormLayer_Dense
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, ReLU
-from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, RMSProp
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, RMSProp
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.misc import oneHotEncode
 
@@ -77,7 +77,7 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
                                            y_train[:, :100],
                                            num_epochs=150,
                                            ret_train_loss=True,
-                                           optim=gradientDescentMomentum(),
+                                           optim=GradientDescentMomentum(),
                                            learn_rate=0.1)
         predictions2 = MLP2.predictMLP(x_train[:, :100].reshape(784, -1))
         acc2 = accuracy(saved_y[:, :100].reshape(1, -1), predictions2)
@@ -109,7 +109,7 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
             yvalid=y_miniValid,
             num_epochs=500,
             ret_train_loss=True,
-            optim=gradientDescentMomentum(),
+            optim=GradientDescentMomentum(),
             learn_rate=0.1)
         print(train_loss)
         print('\n')
@@ -136,7 +136,7 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
             yvalid=y_miniValid,
             num_epochs=100,
             ret_train_loss=True,
-            optim=gradientDescentMomentum(),
+            optim=GradientDescentMomentum(),
             learn_rate=0.1)
         print(train_loss)
         print('\n')

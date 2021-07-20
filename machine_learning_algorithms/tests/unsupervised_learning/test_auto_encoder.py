@@ -1,5 +1,5 @@
 from machine_learning_algorithms.unsupervised_learning.auto_encoder import Deep_Autoencoder
-from machine_learning_algorithms.unsupervised_learning.auto_encoder import Adam, gradientDescentMomentum
+from machine_learning_algorithms.unsupervised_learning.auto_encoder import Adam, GradientDescentMomentum
 import unittest
 import numpy as np
 import tensorflow as tf
@@ -18,7 +18,7 @@ class tests(unittest.TestCase):
         autoencoderObj = Deep_Autoencoder(size_encoding=150)
         autoencoderObj.fit(x_train,
                            num_epochs=10000,
-                           optim=gradientDescentMomentum(),
+                           optim=GradientDescentMomentum(),
                            ret_train_loss=True,
                            verbose=True,
                            learn_rate=0.1,

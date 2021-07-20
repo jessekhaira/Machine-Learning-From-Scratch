@@ -6,7 +6,7 @@ from machine_learning_algorithms.neural_net_utility.convolutional_layers import 
 from machine_learning_algorithms.neural_net_utility.convolutional_layers import Pool
 from machine_learning_algorithms.supervised_learning.classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
-from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescentMomentum, AdaGrad
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, AdaGrad
 from machine_learning_algorithms.utility.misc import oneHotEncode
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
@@ -126,7 +126,7 @@ class testConvNet_Mnist(unittest.TestCase):
                                          ret_train_loss=True,
                                          verbose=True,
                                          learn_rate=0.4,
-                                         optim=gradientDescentMomentum())
+                                         optim=GradientDescentMomentum())
         print(train_loss)
 
         # Looks good!
@@ -170,7 +170,7 @@ class testConvNet_Mnist(unittest.TestCase):
                                          ret_train_loss=True,
                                          verbose=True,
                                          learn_rate=0.4,
-                                         optim=gradientDescentMomentum())
+                                         optim=GradientDescentMomentum())
 
         # Looks good!
 
@@ -213,7 +213,7 @@ class testConvNet_Mnist(unittest.TestCase):
                                          ret_train_loss=True,
                                          verbose=True,
                                          learn_rate=0.4,
-                                         optim=gradientDescentMomentum())
+                                         optim=GradientDescentMomentum())
 
         # trains fine but loss goes down way slower than average pooling since we only send the gradient through the maximum neuron
         # versus every single neuron. Doesn't make a huge difference, just need to train for way longer.

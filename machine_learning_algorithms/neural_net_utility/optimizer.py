@@ -9,7 +9,7 @@ class Optimizer(object):
         raise NotImplementedError
 
 
-class gradientDescent(Optimizer):
+class GradientDescent(Optimizer):
 
     def updateParams(self, params, dparams, learn_rate, epochNum=None):
         for i in range(len(params)):
@@ -17,7 +17,7 @@ class gradientDescent(Optimizer):
         return params
 
 
-class gradientDescentMomentum(Optimizer):
+class GradientDescentMomentum(Optimizer):
 
     def __init__(self, beta=0.9):
         self.runningGradients = []

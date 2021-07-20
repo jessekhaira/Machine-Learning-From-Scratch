@@ -3,7 +3,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Den
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation, TanH, Sigmoid
 from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescent, gradientDescentMomentum, RMSProp, Adam
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, GradientDescentMomentum, RMSProp, Adam
 import matplotlib.pyplot as plt
 
 
@@ -80,7 +80,7 @@ class Deep_Autoencoder(NeuralNetworkBase):
             batch_size=32,
             ret_train_loss=False,
             learn_rate=0.1,
-            optim=gradientDescent(),
+            optim=GradientDescent(),
             verbose=False):
         num_batches = xtrain.shape[1] // batch_size
         train_loss = []

@@ -1,7 +1,7 @@
 import copy
 import numpy as np
 from machine_learning_algorithms.utility.misc import convertToHighestPred
-from machine_learning_algorithms.neural_net_utility.optimizer import gradientDescent
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
 
 
 class k_fold_CV(object):
@@ -14,7 +14,7 @@ class k_fold_CV(object):
                   k=5,
                   numEpochs=None,
                   learn_rate=None,
-                  optim=gradientDescent()):
+                  optim=GradientDescent()):
         """
         This function implements k-fold cross validation. This function should be used
         when your dataset is to small for a train/validation/test split to yield 
