@@ -8,6 +8,8 @@ from typing import Literal, Union
 
 
 class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
+    """ This class represents the base class from which convolutional neural
+    network layers will inherit """
 
     def _pad_input(self, x, filterSize, padding):
         pad_h, pad_w = self._get_padding(filterSize, padding)
