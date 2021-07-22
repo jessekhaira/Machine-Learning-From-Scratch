@@ -21,7 +21,7 @@ class LossFunction(object):
     """
     This is the base LossFunction abstract class which all loss functions will inherit from.
     Every loss function will have a method of get_loss, derivativeLoss_wrtPrediction, and 
-    _gradCheck, therefore it made sense to make an abstract class from which all these related
+    _gradient_checking, therefore it made sense to make an abstract class from which all these related
     classes will inherit from.
     """
 
@@ -31,7 +31,7 @@ class LossFunction(object):
     def derivativeLoss_wrtPrediction(self, labels, predictions):
         raise NotImplementedError
 
-    def _gradCheck(self, labels, predictions, num_checks=10):
+    def _gradient_checking(self, labels, predictions, num_checks=10):
         """
         This method does a quick gradient check to ensure the
         dL/dA is indeed correct. 

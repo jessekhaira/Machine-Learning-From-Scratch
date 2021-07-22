@@ -24,7 +24,7 @@ class BaseActivationFunction(object):
     def get_derivative_wrt_input(self, x):
         raise NotImplementedError
 
-    def _gradCheck(self, input, num_checks=10):
+    def _gradient_checking(self, input, num_checks=10):
         """
         This method does a quick gradient check to ensure the
         da/dz is indeed correct. 
@@ -140,7 +140,7 @@ class Softmax(BaseActivationFunction):
         # to do an element by element subtraction
         return jacobian_mat - np.dot(a, a.T)
 
-    def _gradCheck(self, input, num_checks=10):
+    def _gradient_checking(self, input, num_checks=10):
         raise NotImplementedError
 
 

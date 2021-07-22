@@ -20,7 +20,7 @@ class testLossFunc(unittest.TestCase):
 
         print(derivLoss)
 
-        print(CE._gradCheck(y, yhat))
+        print(CE._gradient_checking(y, yhat))
 
         y1 = np.array([0, 0, 1, 0]).T
         yhat1 = np.array([0.32574286, 0.081362, 0.0352241, 0.55767104]).T
