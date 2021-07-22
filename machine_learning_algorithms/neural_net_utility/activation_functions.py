@@ -3,15 +3,17 @@ import random
 
 
 class BaseActivationFunction(object):
-    """
-    This is meant to be an abstract class that every single activation function will inherit from.
-    Specifically, every activation function will be computing some output given some input x. Every
-    function will have some derivative/partial derivative with respect to its input. 
+    """ This is meant to be an abstract class that every single
+    activation function will inherit from. Specifically, every
+    activation function will be computing some output given some
+    input x. Every function will have some derivative/partial
+    derivative with respect to its input.
 
-    Lastly, a quick gradCheck method will be implemented for every class to ensure the gradient
-    calculation is correct.
+    Lastly, a quick gradCheck method will be implemented for
+    every class to ensure the gradient calculation is correct.
 
-    Thus, it made sense to make an abstract class which all the related classes will inherit from.
+    Thus, it made sense to make an abstract class which all the
+    related classes will inherit from.
     """
 
     def compute_output(self, x):
