@@ -54,16 +54,9 @@ class BaseActivationFunction(object):
 
 
 class Sigmoid(BaseActivationFunction):
-    """
-    This is the sigmoid function. The input can be a 
-    scalar, vector, or matrix, this function will just
-    apply the activation elementwise.
-    
-    Parameters:
-    - x (int, NumPy vector, or NumPy matrix) -> input that needs to be activated
-
-    Returns: Output (int, vector, or matrix) -> function will apply the transformation
-    elementwise and return the same form that was input. 
+    """ This is the sigmoid function. The input can be a scalar,
+    vector, or matrix, this function will just apply the activation
+    elementwise.
     """
 
     def compute_output(self, x):
