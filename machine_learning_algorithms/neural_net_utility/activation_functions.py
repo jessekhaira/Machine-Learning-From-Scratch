@@ -24,29 +24,29 @@ class BaseActivationFunction(object):
     def get_derivative_wrt_input(self, x):
         raise NotImplementedError
 
-    def _gradient_checking(self, input, num_checks=10):
-        """
-        This method does a quick gradient check to ensure the
-        da/dz is indeed correct. 
+    def _gradient_checking(self, x: np.ndarray, num_checks: int = 10) -> None:
+        """ This method does a quick gradient check to ensure the
+        da/dz is indeed correct.
 
-        Parameters:
-        input (NumPy vector) -> (m,1) vector representing the predictions (prob between 0 and 1)
-        for m examples
-        
-        num_checks (int) -> number of times to check the gradient implentation
+        Args:
+            x:
+                Numpy array of shape (m,1) representing the
+                predictions (prob between 0 and 1) for m examples
 
-        Returns: None
+            num_checks:
+                Integer representing the number of times to check the
+                gradient implentation
         """
         eps = 1e-5
         random.seed(21)
-        for i in range(num_checks):
-            changeIdx = random.randrange(0, len(input))
-            x = input[changeIdx, changeIdx]
+        for _ in range(num_checks):
+            change_idx = random.randrange(0, len(x))
+            x = x[change_idx, change_idx]
             x_upeps = x + eps
             activ_higher = self.compute_output(x_upeps)
             x_downeps = x - eps
             activ_lower = self.compute_output(x_downeps)
-            grad_analytic = self.get_derivative_wrt_input(x)
+            grad_analytic = self.get_derivative_wrt_x(x)
             grad_numeric = (activ_higher - activ_lower) / (2 * eps)
             rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
                                                                 grad_numeric)
