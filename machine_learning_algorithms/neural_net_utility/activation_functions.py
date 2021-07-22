@@ -1,3 +1,5 @@
+""" This module contains code for functionality related to activation
+functions used inside of neural networks """
 import numpy as np
 import random
 
