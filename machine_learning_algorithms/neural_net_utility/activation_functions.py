@@ -21,7 +21,7 @@ class BaseActivationFunction(object):
     def compute_output(self, x):
         raise NotImplementedError
 
-    def getDerivative_wrtInput(self, x):
+    def get_derivative_wrt_input(self, x):
         raise NotImplementedError
 
     def _gradCheck(self, input, num_checks=10):
@@ -46,7 +46,7 @@ class BaseActivationFunction(object):
             activ_higher = self.compute_output(x_upeps)
             x_downeps = x - eps
             activ_lower = self.compute_output(x_downeps)
-            grad_analytic = self.getDerivative_wrtInput(x)
+            grad_analytic = self.get_derivative_wrt_input(x)
             grad_numeric = (activ_higher - activ_lower) / (2 * eps)
             rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
                                                                 grad_numeric)
@@ -69,7 +69,7 @@ class Sigmoid(BaseActivationFunction):
     def compute_output(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def getDerivative_wrtInput(self, x):
+    def get_derivative_wrt_input(self, x):
         """
         This method returns da/dz -> the derivative of the sigmoid function with respect
         to the input value. 
@@ -97,7 +97,7 @@ class IdentityActivation(BaseActivationFunction):
     def compute_output(self, x):
         return x
 
-    def getDerivative_wrtInput(self, x):
+    def get_derivative_wrt_input(self, x):
         return 1
 
 
@@ -121,7 +121,7 @@ class Softmax(BaseActivationFunction):
         x -= max_predictionPerExample
         return np.exp(x) / np.sum(np.exp(x), axis=0)
 
-    def getDerivative_wrtInput(self, a):
+    def get_derivative_wrt_input(self, a):
         """ 
         This function computes da/dZ, which will be chained together will dL/da 
         to produce the gradient da/dZ.
@@ -159,7 +159,7 @@ class ReLU(BaseActivationFunction):
     def compute_output(self, x):
         return np.maximum(0, x)
 
-    def getDerivative_wrtInput(self, x):
+    def get_derivative_wrt_input(self, x):
         """
         This method returns da/dz -> the gradient of the relu function with respect
         to the input value. 
@@ -188,7 +188,7 @@ class TanH(BaseActivationFunction):
     def compute_output(self, x):
         return np.tanh(x)
 
-    def getDerivative_wrtInput(self, x):
+    def get_derivative_wrt_input(self, x):
         """
         This method returns da/dz -> the gradient of the TanH function with respect
         to the input value. 

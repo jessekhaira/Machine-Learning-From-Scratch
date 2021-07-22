@@ -193,7 +193,7 @@ class Conv2D(BaseConvolutionalLayer):
                                   self.Z.shape[2], self.Z.shape[3])
 
         # get dAdZ to get dLdZ
-        da_dz = self.activationFunction.getDerivative_wrtInput(self.Z)
+        da_dz = self.activationFunction.get_derivative_wrt_input(self.Z)
         dl_dz = dl_da * da_dz
 
         # going to fill in dLdW and dLdB and then update every weight in

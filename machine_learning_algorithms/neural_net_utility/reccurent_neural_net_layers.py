@@ -146,7 +146,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             # so it gets a gradient portion directly from the softmax classifier and from the next time step
             dl_da = np.dot(self.way.T, dl_dzpred) + dl_da_layer_ahead
             # backprop through the nonlinearity to get dl_dzactiv
-            da_dzactiv = self.activation_function.getDerivative_wrtInput(
+            da_dzactiv = self.activation_function.get_derivative_wrt_input(
                 z_activ)
             dl_dzactiv = dl_da * da_dzactiv
 

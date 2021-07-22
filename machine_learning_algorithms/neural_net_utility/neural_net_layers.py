@@ -206,7 +206,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
 
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
         if self.isSoftmax == 0:
-            dadz = self.activationFunction.getDerivative_wrtInput(self.Z)
+            dadz = self.activationFunction.get_derivative_wrt_input(self.Z)
             dl_dz = dLdA * dadz
         else:
             # Every example produces its own jacobian matrix for the softmax
@@ -365,7 +365,7 @@ def dLdZ_sm(Z: np.ndarray,
         for i in range(A.shape[1]):
             column_vectors_activated = A[:, i].reshape(-1, 1)
             deriv_loss_ith_example = dLdA[:, i].reshape(-1, 1)
-            jacobian_activation = activFunc.getDerivative_wrtInput(
+            jacobian_activation = activFunc.get_derivative_wrt_input(
                 column_vectors_activated)
             assert jacobian_activation.shape[1] == deriv_loss_ith_example.shape[
                 0]
@@ -503,7 +503,7 @@ class BatchNormLayer_Dense(DenseLayer):
         """
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
         if self.isSoftmax == 0:
-            dadz_final = self.activationFunction.getDerivative_wrtInput(
+            dadz_final = self.activationFunction.get_derivative_wrt_input(
                 self.Z_final)
             dLdZ_final = dLdA * dadz_final
         else:
@@ -667,7 +667,7 @@ class DropOutLayer_Dense(DenseLayer):
 
         # only change between dropout and normal dense layer - you have the
         # boolean mask and /p term when getting dadz
-        dadz = (self.activationFunction.getDerivative_wrtInput(self.Z) *
+        dadz = (self.activationFunction.get_derivative_wrt_input(self.Z) *
                 self.mask) / (self.keepProb)
         dl_dz = dLdA * dadz
 
