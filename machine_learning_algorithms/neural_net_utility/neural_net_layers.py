@@ -389,11 +389,11 @@ class BatchNormLayer_Dense(DenseLayer):
               self).__init__(num_in, num_layer, activationFunction,
                              regularization, regParameter, isSoftmax)
         # these are learnable parameters
-        self.gamma, self.beta = self._initializeGammaBeta()
+        self.gamma, self.beta = self._init_gamma_beta()
         # We need to keep an exponentially weighted average of the
         # mean and variance for this layer when we train, so we can
         # use this to normalize test time predictions
-        self.runningMean, self.runningVar = self._initializeRunningMeanVar()
+        self.runningMean, self.runningVar = self._init_running_mean_var()
         self.Z_in = None
         self.Z_centered = None
         self.Z_norm = None
@@ -404,7 +404,7 @@ class BatchNormLayer_Dense(DenseLayer):
         self.mean_miniBatch = None
         self.eps = 1e-7
 
-    def _initializeGammaBeta(self):
+    def _init_gamma_beta(self):
         # initialize gamma to be a vector of 1's for every neuron in this layer
         # and beta to be 0 for every neuron in this layer
         if self.W is None:
@@ -412,7 +412,7 @@ class BatchNormLayer_Dense(DenseLayer):
         else:
             return np.ones((self.W.shape[0], 1)), np.zeros((self.W.shape[0], 1))
 
-    def _initializeRunningMeanVar(self):
+    def _init_running_mean_var(self):
         if self.W is None:
             return None, None
         else:
@@ -421,10 +421,10 @@ class BatchNormLayer_Dense(DenseLayer):
 
     def compute_forward(self, x, train=True):
         if train:
-            return self._trainForward(x)
-        return self._testForward(x)
+            return self._train_forward(x)
+        return self._test_forward(x)
 
-    def _trainForward(self, prevlayer_activations):
+    def _train_forward(self, prevlayer_activations):
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
@@ -434,7 +434,7 @@ class BatchNormLayer_Dense(DenseLayer):
         self.mean_miniBatch = np.mean(self.Z_in, axis=1, keepdims=True)
         self.variance = np.var(self.Z_in, axis=1, keepdims=True)
         # update running mean and std dev of every feature
-        self._updateRunningAvg()
+        self._update_running_avg()
         # normalize feature means to 0 and std dev to 1
         self.Z_centered = self.Z_in - self.mean_miniBatch
         self.inv_stdDev = 1 / np.sqrt(self.variance + self.eps)
@@ -445,13 +445,13 @@ class BatchNormLayer_Dense(DenseLayer):
         self.A = self.activationFunction.compute_output(self.Z_final)
         return self.A
 
-    def _updateRunningAvg(self, beta=0.9):
+    def _update_running_avg(self, beta=0.9):
         self.runningMean = (beta) * (self.runningMean) + (
             1 - beta) * self.mean_miniBatch
         self.runningVar = (beta) * (self.runningVar) + (1 -
                                                         beta) * self.variance
 
-    def _testForward(self, prevlayer_activations):
+    def _test_forward(self, prevlayer_activations):
         # BatchNorm has diff behaviour at test time and train time
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
@@ -576,7 +576,7 @@ class BatchNormLayer_Dense(DenseLayer):
         return dl_da_prev_layer
 
 
-class DropOutLayer_Dense(DenseLayer):
+class DenseDropOutLayer(DenseLayer):
 
     def __init__(self,
                  num_in,
@@ -586,7 +586,7 @@ class DropOutLayer_Dense(DenseLayer):
                  regParameter=None,
                  isSoftmax=0,
                  keepProb=0.5):
-        super(DropOutLayer_Dense,
+        super(DenseDropOutLayer,
               self).__init__(num_in, num_layer, activationFunction,
                              regularization, regParameter, isSoftmax)
         self.keepProb = keepProb
@@ -596,10 +596,10 @@ class DropOutLayer_Dense(DenseLayer):
 
     def compute_forward(self, x, train=True):
         if train:
-            return self._trainForward(x)
-        return self._testForward(x)
+            return self._train_forward(x)
+        return self._test_forward(x)
 
-    def _trainForward(self, prevlayer_activations):
+    def _train_forward(self, prevlayer_activations):
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
@@ -613,7 +613,7 @@ class DropOutLayer_Dense(DenseLayer):
         self.A = A_dropped / self.keepProb
         return self.A
 
-    def _testForward(self, prevlayer_activations):
+    def _test_forward(self, prevlayer_activations):
         # testing forward has no dropout - we use our full architecture
         # so its just the same as forward prop through a dense layer
         assert self.W.shape[1] == prevlayer_activations.shape[

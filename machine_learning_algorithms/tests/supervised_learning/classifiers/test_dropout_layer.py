@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from machine_learning_algorithms.supervised_learning.classifiers.MultiLayerPerceptron import MultiLayerPerceptron
-from machine_learning_algorithms.neural_net_utility.neural_net_layers import DropOutLayer_Dense, DenseLayer
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseDropOutLayer, DenseLayer
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import RMSProp
 from machine_learning_algorithms.utility.misc import oneHotEncode
@@ -37,7 +37,7 @@ class testMNIST_DropoutLayers(unittest.TestCase):
         # just sanity checking the implementation of the droput layer
         MLP.add_layer(num_neurons=100,
                       activationFunction=ReLU(),
-                      layer=DropOutLayer_Dense,
+                      layer=DenseDropOutLayer,
                       keep_prob=0.01)
         MLP.add_layer(num_neurons=10,
                       activationFunction=Softmax(),
@@ -64,7 +64,7 @@ class testMNIST_DropoutLayers(unittest.TestCase):
         # just sanity checking the implementation of the droput layer
         MLP.add_layer(num_neurons=100,
                       activationFunction=ReLU(),
-                      layer=DropOutLayer_Dense,
+                      layer=DenseDropOutLayer,
                       keep_prob=0.6)
         MLP.add_layer(num_neurons=10,
                       activationFunction=Softmax(),
@@ -86,11 +86,11 @@ class testMNIST_DropoutLayers(unittest.TestCase):
                                    numberInputFeatures=784)
         MLP.add_layer(num_neurons=25,
                       activationFunction=ReLU(),
-                      layer=DropOutLayer_Dense,
+                      layer=DenseDropOutLayer,
                       keep_prob=0.09)
         MLP.add_layer(num_neurons=25,
                       activationFunction=ReLU(),
-                      layer=DropOutLayer_Dense,
+                      layer=DenseDropOutLayer,
                       keep_prob=0.09)
         MLP.add_layer(num_neurons=10,
                       activationFunction=Softmax(),

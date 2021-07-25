@@ -316,8 +316,8 @@ class NeuralNetworkBase(object):
                 layer.W, layer.b = layer._initialize_weights(
                     layer.num_layer, prev_activations.shape[0])
                 if isinstance(layer, BatchNormLayer_Dense):
-                    layer.gamma, layer.beta = layer._initializeGammaBeta()
-                    layer.runningMean, layer.runningVar = layer._initializeRunningMeanVar(
+                    layer.gamma, layer.beta = layer._init_gamma_beta()
+                    layer.runningMean, layer.runningVar = layer._init_running_mean_var(
                     )
             elif (isinstance(layer, Conv2D)) and layer.filters is None:
                 layer.inputDepth = prev_activations.shape[1]
