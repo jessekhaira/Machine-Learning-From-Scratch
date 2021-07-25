@@ -62,16 +62,21 @@ class Sigmoid(BaseActivationFunction):
     def compute_output(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def get_derivative_wrt_input(self, x):
-        """
-        This method returns da/dz -> the derivative of the sigmoid function with respect
-        to the input value. 
+    def get_derivative_wrt_input(self,
+                                 x: float | np.ndarray) -> float | np.ndarray:
+        """ This method returns da/dz, which is the derivative of
+        the sigmoid function with respect to the input value.
 
-        Parameters:
-        - x (int, NumPy vector, or NumPy matrix) -> input to get da/dz for 
+        Args:
+            x:
+                Scalar or matrix input to get da/dz for, where a is the
+                activation produced by this function and z is the input
+                value
 
-        Returns: da/dz (int, NumPy vector, or NumPy matrix) -> function will get da/dz elementwise and return
-        the output accordingly
+        Returns:
+            A scalar value or matrix representing da/dz, where a is the
+            activation produced by this function and z is the input
+            value
         """
         output = self.compute_output(x)
         return output * (1 - output)
