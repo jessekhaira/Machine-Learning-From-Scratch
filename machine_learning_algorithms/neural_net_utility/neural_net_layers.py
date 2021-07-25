@@ -390,9 +390,9 @@ class BatchNormLayer_Dense(DenseLayer):
                              regularization, regParameter, isSoftmax)
         # these are learnable parameters
         self.gamma, self.beta = self._initializeGammaBeta()
-        # We need to keep an exponentially weighted average of the mean and variance
-        # for this layer when we train, so we can use this to normalize test time predictions
-        # init to a vector of zeros - one mean and one variance for every neuron in this layer
+        # We need to keep an exponentially weighted average of the
+        # mean and variance for this layer when we train, so we can
+        # use this to normalize test time predictions
         self.runningMean, self.runningVar = self._initializeRunningMeanVar()
         self.Z_in = None
         self.Z_centered = None
