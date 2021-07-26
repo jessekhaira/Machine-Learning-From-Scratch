@@ -465,14 +465,14 @@ class BatchNormLayer_Dense(DenseLayer):
         return self.activationFunction.compute_output(z_final)
 
     def update_weights(self,
-                       dLdA,
-                       learn_rate,
-                       epoch,
+                       dLdA: np.ndarray,
+                       learn_rate: float,
+                       epoch: int,
                        prediction_obj,
-                       curr_x,
-                       curr_y,
-                       layer,
-                       gradCheck=False):
+                       curr_x: np.ndarray,
+                       curr_y: np.ndarray,
+                       layer: int,
+                       gradCheck: bool = False) -> np.ndarray:
         """ This method computes the backward pass through this layer.
         In the gradient circuit, this layers job is to recieve the
         jacobian matrix of the loss function with respect to this
