@@ -473,33 +473,47 @@ class BatchNormLayer_Dense(DenseLayer):
                        curr_y,
                        layer,
                        gradCheck=False):
-        """
-        This method computes the backward pass through this layer. In the gradient circuit,
-        this layers job is to recieve the jacobian matrix of the loss function with respect
-        to this layers activations, and update its parameters, and then pass on the gradient of the 
-        loss function with respect to the previous layers activations. 
+        """ This method computes the backward pass through this layer.
+        In the gradient circuit, this layers job is to recieve the
+        jacobian matrix of the loss function with respect to this
+        layers activations, and update its parameters, and then pass on
+        the gradient of the loss function with respect to the previous
+        layers activations.
 
-        Parameters:
-        -> dLdA (NumPy matrix) -> A (nl, M) NumPy matrix containing the 
-        jacobian matrix of the loss function with respect to the activations 
-        in this layer.
+        Args:
+            dLdA:
+                A numpy array of shape A (nl, M), containing the jacobian matrix
+                of the loss function with respect to the activations in this
+                layer.
 
-        -> optim (function) -> Optimizer to use to minimize the loss function 
+            optim:
+                Object repersenting the optimization algorithm to use to
+                minimize the objective function
 
-        -> learn_rate (float) -> learning rate to be used when optimizing the cost function
+            learn_rate:
+                Floating point value representing the learning rate to be used
+                when optimizing the objective function
 
-        -> epoch (int) -> the epoch we are updating for currently
-        
-        -> prediction_obj (NeuralNet obj) -> the base neural network object we can use
+            epoch:
+                Integer representing the epoch we are updating for currently
 
-        -> curr_x (NumPy matrix) -> matrix of examples we are currently training on
+            prediction_obj:
+                Object representing the base neural network object we can use
 
-        -> curr_y (NumPy vector) -> matrix of labels for the examples
+            curr_x:
+                Numpy array of examples we are currently training on
 
-        -> layer (int) -> layer in the network we are currently updating 
+            curr_y:
+                Numpy array of labels for the examples
 
-        Returns: dL/dA_L-1 (NumPy Matrix) -> A (nl-1, M) NumPy matrix containing the jacobian Matrix
-        of the loss function with respect to the activations in the previous layer.
+            layer:
+                Integer representing the layer in the network we are currently
+                updating
+
+        Returns:
+            A numpy array representing dL/dA_L-1, which is a (nl-1, M)
+            numpy array containing the jacobian Matrix of the objective
+            function with respect to the activations in the previous layer.
         """
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
         if self.isSoftmax == 0:
