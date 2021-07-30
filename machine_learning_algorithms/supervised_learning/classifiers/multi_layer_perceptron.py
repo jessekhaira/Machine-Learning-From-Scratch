@@ -2,6 +2,7 @@
 multi layer perceptron algorithm for supervised learning """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss, cross_entropy, mean_squared_error
+from typing import Literal, Union
 
 
 class MultiLayerPerceptron(NeuralNetworkBase):
@@ -24,14 +25,14 @@ class MultiLayerPerceptron(NeuralNetworkBase):
             regularization should be used
 
         regParameter:
-            Integer representing the strength of the regularization
+            Floating point value representing the strength of the regularization
     """
 
     def __init__(self,
-                 typeSupervised,
-                 numberInputFeatures,
-                 regularization=None,
-                 regParameter=None):
+                 typeSupervised: Literal["binary", "multiclass", "regression"],
+                 numberInputFeatures: int,
+                 regularization: Union[Literal["L1", "L2"], None] = None,
+                 regParameter: float = None):
         if typeSupervised == "binary":
             loss_obj = negative_log_loss(regularization=regularization,
                                          regParameter=regParameter)
@@ -44,11 +45,11 @@ class MultiLayerPerceptron(NeuralNetworkBase):
         super(MultiLayerPerceptron,
               self).__init__(loss_obj, input_features=numberInputFeatures)
 
-    def predictMLP(self, X, classificationThreshold=None):
-        # For binary classification, we need a classification threshold to seperate out the
-        # pos class from the neg class
+    def predict_multi_layer_perceptron(self, x, classificationThreshold=None):
+        # For binary classification, we need a classification threshold to
+        # seperate out the pos class from the neg class
         if classificationThreshold:
-            predictions = self._forward_propagate(X)
+            predictions = self._forward_propagate(x)
             return (predictions >= classificationThreshold).astype(int)
         else:
-            return self.predict(X)
+            return self.predict(x)

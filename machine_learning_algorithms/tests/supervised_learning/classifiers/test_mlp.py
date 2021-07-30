@@ -73,7 +73,7 @@ class test(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=100,
             learn_rate=2.6)
-        preds = MLP.predictMLP(X_test, 0.5)
+        preds = MLP.predict_multi_layer_perceptron(X_test, 0.5)
         acc = accuracy(y_test, preds)
         print(acc)
         print(train_loss)
@@ -115,7 +115,7 @@ class test(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=10,
             learn_rate=2.6)
-        preds1 = MLP1.predictMLP(X_test, 0.5)
+        preds1 = MLP1.predict_multi_layer_perceptron(X_test, 0.5)
         acc1 = accuracy(y_test, preds1)
         print(acc1)
         print(train_loss1)
@@ -130,7 +130,7 @@ class test(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=10,
             learn_rate=3)
-        preds2 = MLP2.predictMLP(X_test, 0.5)
+        preds2 = MLP2.predict_multi_layer_perceptron(X_test, 0.5)
         acc2 = accuracy(y_test, preds2)
         print(acc2)
         print(train_loss2)
@@ -176,7 +176,7 @@ class test(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=100,
             learn_rate=2.8)
-        preds3 = MLP3.predictMLP(X_test, 0.5)
+        preds3 = MLP3.predict_multi_layer_perceptron(X_test, 0.5)
         acc3 = accuracy(y_test, preds3)
         print(acc3)
         print('\n')
@@ -193,7 +193,7 @@ class test(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=100,
             learn_rate=2.6)
-        preds4 = MLP4.predictMLP(X_test, 0.5)
+        preds4 = MLP4.predict_multi_layer_perceptron(X_test, 0.5)
         acc4 = accuracy(y_test, preds4)
         print(acc4)
         print(train_loss4)
@@ -229,7 +229,7 @@ class test(unittest.TestCase):
                                           learn_rate=1,
                                           ret_train_loss=True)
         print(train_loss6)
-        preds_MLP6 = MLP6.predictMLP(X)
+        preds_MLP6 = MLP6.predict_multi_layer_perceptron(X)
         acc_6 = accuracy(notEncodedy, preds_MLP6)
         print(acc_6)
         # Performance without regularization should be above 90%
@@ -251,7 +251,7 @@ class test(unittest.TestCase):
                                            learn_rate=1,
                                            ret_train_loss=True)
         print(train_loss7)
-        preds_MLP7 = MLP7.predictMLP(X)
+        preds_MLP7 = MLP7.predict_multi_layer_perceptron(X)
         acc_7 = accuracy(notEncodedy, preds_MLP7)
         print(acc_7)
 

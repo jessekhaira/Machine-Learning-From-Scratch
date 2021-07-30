@@ -56,7 +56,8 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
                                           ret_train_loss=True,
                                           optim=RMSProp(),
                                           learn_rate=0.001)
-        predictions1 = MLP.predictMLP(x_train[:, :100].reshape(784, -1))
+        predictions1 = MLP.predict_multi_layer_perceptron(
+            x_train[:, :100].reshape(784, -1))
         acc = accuracy(saved_y[:, :100].reshape(1, -1), predictions1)
         print(train_loss1)
         print(acc)
@@ -79,7 +80,8 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
                                            ret_train_loss=True,
                                            optim=GradientDescentMomentum(),
                                            learn_rate=0.1)
-        predictions2 = MLP2.predictMLP(x_train[:, :100].reshape(784, -1))
+        predictions2 = MLP2.predict_multi_layer_perceptron(
+            x_train[:, :100].reshape(784, -1))
         acc2 = accuracy(saved_y[:, :100].reshape(1, -1), predictions2)
         print(train_loss2)
         print(acc2)
