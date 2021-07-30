@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 import tensorflow as tf
-from machine_learning_algorithms.supervised_learning.classifiers.MultiLayerPerceptron import MultiLayerPerceptron
+from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_perceptron import MultiLayerPerceptron
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BatchNormLayer_Dense
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, ReLU

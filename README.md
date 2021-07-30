@@ -31,7 +31,7 @@ Deep Learning:
 
 - [Convolutional Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/convolutional_neural_network.py)
 - [Recurrent Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/recurrent_network.py)
-- [MultiLayer Perceptron](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/MultiLayerPerceptron.py)
+- [MultiLayer Perceptron](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/multi_layer_perceptron.py)
 
 - Neural Network Layers:
   - [Convolutional Layers](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/neural_net_utility/convolutional_layers.py) (includes Conv2D, max pooling and average pooling layers)
