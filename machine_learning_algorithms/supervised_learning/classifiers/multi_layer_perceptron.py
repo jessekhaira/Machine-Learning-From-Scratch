@@ -1,3 +1,6 @@
+""" This module contains code representing an implementation of the
+multi layer perceptron algorithm for the supervised learning task of
+classification """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss, cross_entropy, mean_squared_error
 
