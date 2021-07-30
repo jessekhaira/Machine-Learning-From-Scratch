@@ -234,7 +234,7 @@ class test(unittest.TestCase):
         print(acc_6)
         # Performance without regularization should be above 90%
         self.assertLessEqual(train_loss6[-1], 0.245)
-        self.assertGreaterEqual(acc_6, 0.94)
+        self.assertGreaterEqual(acc_6, 0.90)
 
         # Performance with L2 regularization should be much better
         MLP7 = MultiLayerPerceptron(typeSupervised="multiclass",

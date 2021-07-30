@@ -2,6 +2,7 @@
 functions used inside of neural networks """
 import numpy as np
 import random
+from typing import Union
 
 
 class BaseActivationFunction(object):
@@ -62,8 +63,8 @@ class Sigmoid(BaseActivationFunction):
     def compute_output(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def get_derivative_wrt_input(self,
-                                 x: float | np.ndarray) -> float | np.ndarray:
+    def get_derivative_wrt_input(
+            self, x: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         """ This method returns da/dz, which is the derivative of
         the sigmoid function with respect to the input value.
 
