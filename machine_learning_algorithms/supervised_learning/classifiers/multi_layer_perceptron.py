@@ -1,22 +1,30 @@
 """ This module contains code representing an implementation of the
-multi layer perceptron algorithm for the supervised learning task of
-classification """
+multi layer perceptron algorithm for supervised learning """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss, cross_entropy, mean_squared_error
 
 
 class MultiLayerPerceptron(NeuralNetworkBase):
-    """
-    This class represents a multi-layer perceptron used for supervised learning. The user will have
-    to add the number of layers desired to this layer accordingly. 
+    """ This class represents a multi-layer perceptron used for
+    supervised learning. The user will have to add the number of
+    layers desired to this layer accordingly.
 
-    Parameters:
-    -> typeSupervised(str): binary, multiclass, or regression
-    -> numberInputFeatures (int): Integer representing the number of input features on the data the user will train
-    the network on
-    -> regularization (str): Either L1, L2, or None depending on if the weight updates for every layer should be regularized
-    or not
-    -> regParameter (int): Integer representing the strength of the regularization
+    Attributes:
+        typeSupervised:
+            String that should either be "binary", "multiclass",
+            or "regression", indicating the specific type of supervised
+            learning task this algorithm is going to be used for
+
+        numberInputFeatures:
+            Integer representing the number of input features on the data
+            the user will train the network on
+
+        regularization:
+            String that should either be "L1", "L2" or None indicating no 
+            regularization should be used
+
+        regParameter:
+            Integer representing the strength of the regularization
     """
 
     def __init__(self,
