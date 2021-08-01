@@ -19,10 +19,10 @@ class BaseActivationFunction(object):
     related classes will inherit from.
     """
 
-    def compute_output(self, x):
+    def compute_output(self, x: np.ndarray):
         raise NotImplementedError
 
-    def get_derivative_wrt_input(self, x):
+    def get_derivative_wrt_input(self, x: np.ndarray):
         raise NotImplementedError
 
     def _gradient_checking(self, x: np.ndarray, num_checks: int = 10) -> None:
@@ -60,7 +60,7 @@ class Sigmoid(BaseActivationFunction):
     elementwise.
     """
 
-    def compute_output(self, x):
+    def compute_output(self, x: np.ndarray):
         return 1 / (1 + np.exp(-x))
 
     def get_derivative_wrt_input(
@@ -94,10 +94,10 @@ class IdentityActivation(BaseActivationFunction):
             function elementwise to the input
     """
 
-    def compute_output(self, x):
+    def compute_output(self, x: np.ndarray):
         return x
 
-    def get_derivative_wrt_input(self, x):
+    def get_derivative_wrt_input(self, x: np.ndarray):
         return 1
 
 
@@ -117,14 +117,14 @@ class Softmax(BaseActivationFunction):
     That means its gradient is a matrix called a Jacobian matrix.
     """
 
-    def compute_output(self, x):
+    def compute_output(self, x: np.ndarray):
         # Numerically stable softmax - subtract max(x) input vector x
         # before computing softmax
         max_pred_per_ex = np.amax(x, axis=0)
         x -= max_pred_per_ex
         return np.exp(x) / np.sum(np.exp(x), axis=0)
 
-    def get_derivative_wrt_input(self, a):
+    def get_derivative_wrt_input(self, a: np.ndarray):
         """ This function computes da/dZ, which will be chained
         together with dL/da to produce the gradient da/dZ.
 
