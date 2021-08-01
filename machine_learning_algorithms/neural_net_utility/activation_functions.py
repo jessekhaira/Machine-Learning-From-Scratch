@@ -84,13 +84,14 @@ class Sigmoid(BaseActivationFunction):
 
 
 class IdentityActivation(BaseActivationFunction):
-    """
-    This class implements the identity function. The methods are self explanatory. This function is useful to use
-    in the output layer of a neural network performing regression. 
-    
-    Parameters:
-    -> x (can be int, matrix, tensor): We just apply the identity function elementwise to this
-    input
+    """ This class implements the identity function. The methods
+    are self explanatory. This function is useful to use in the
+    output layer of a neural network performing regression.
+
+    Args:
+        x:
+            Floating point value or tensor. We just apply the identity
+            function elementwise to the input
     """
 
     def compute_output(self, x):
