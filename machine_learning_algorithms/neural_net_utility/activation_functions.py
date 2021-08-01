@@ -102,23 +102,25 @@ class IdentityActivation(BaseActivationFunction):
 
 
 class Softmax(BaseActivationFunction):
-    """
-    This class implements the softmax function. The methods are self explanatory. This function is 
-    useful to use in the output layer of a neural network performing multiclass classification. 
+    """ This class implements the softmax function. This function is
+    useful to use in the output layer of a neural network performing
+    multiclass classification.
 
-    Key thing to realize is: the input to the softmax is a vector R^n vector and the output is a
-    R^n vector. Therefore we cannot just apply this function elementwise to the activations at the 
-    previous layer. We can take the exp() of each term elementwise, but we sum along each column vector
-    to normalize the activations for that example.
+    Key thing to realize is: the input to the softmax is a R^n vector
+    and the output is a R^n vector. Therefore we cannot just apply this
+    function elementwise to the activations at the previous layer.
+    We can take the exp() of each term elementwise, but we sum along each
+    column vector to normalize the activations for that example.
 
-    In addition, the gradient of the softmax cannot just be applied elementwise either, as the softmax is 
-    a vector valued function. That means its gradient is a matrix called a Jacobian matrix.
+    In addition, the gradient of the softmax cannot just be applied
+    elementwise either, as the softmax is a vector valued function.
+    That means its gradient is a matrix called a Jacobian matrix.
     """
 
     def compute_output(self, x):
         # Numerically stable softmax - subtract max(x) input vector x before computing softmax
-        max_predictionPerExample = np.amax(x, axis=0)
-        x -= max_predictionPerExample
+        max_pred_per_ex = np.amax(x, axis=0)
+        x -= max_pred_per_ex
         return np.exp(x) / np.sum(np.exp(x), axis=0)
 
     def get_derivative_wrt_input(self, a):
