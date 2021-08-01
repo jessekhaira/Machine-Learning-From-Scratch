@@ -118,27 +118,33 @@ class Softmax(BaseActivationFunction):
     """
 
     def compute_output(self, x):
-        # Numerically stable softmax - subtract max(x) input vector x before computing softmax
+        # Numerically stable softmax - subtract max(x) input vector x
+        # before computing softmax
         max_pred_per_ex = np.amax(x, axis=0)
         x -= max_pred_per_ex
         return np.exp(x) / np.sum(np.exp(x), axis=0)
 
     def get_derivative_wrt_input(self, a):
-        """ 
-        This function computes da/dZ, which will be chained together will dL/da 
-        to produce the gradient da/dZ.
+        """ This function computes da/dZ, which will be chained
+        together with dL/da to produce the gradient da/dZ.
 
-        Parameters:
-        -> a (NumPy vector): Vector of shape (C,1) representing one of the activations in the fully
-        activated matrix
+        C - Number of neurons in the softmax layer
 
-        Returns: Output (NumPy matrix) -> Matrix of shape (C,C) representing the Jacobian matrix. 
+        Args:
+            a:
+                Vector of shape (C,1) representing one of the activations
+                in the fully activated matrix
+
+        Returns:
+            A numpy array of shape (C,C) representing the Jacobian matrix
+            for the function.
         """
         # Gradient softmax == Jacobian matrix (IE d(output_1)/d(input_1),
         # d(output_1)/d(input_2), d(output_1)/d(input_3)..)
         jacobian_mat = np.diagflat(a)
-        # Jacobian matrix will have activations on diagonal where i == j and zeros
-        # everywhere else the dot product will return a CxC matrix, which we can then use
+        # Jacobian matrix will have activations on diagonal where
+        # i == j and zeros everywhere else.
+        # The dot product will return a CxC matrix, which we can then use
         # to do an element by element subtraction
         return jacobian_mat - np.dot(a, a.T)
 
