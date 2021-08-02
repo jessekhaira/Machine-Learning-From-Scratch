@@ -153,18 +153,25 @@ class Softmax(BaseActivationFunction):
 
 
 class ReLU(BaseActivationFunction):
-    """
-    This class represents the ReLU function. The input can be a scalar, vector, or matrix, as 
-    ReLU applies activations elementwise. 
-
-    Parameters:
-    - x (int, NumPy vector, or NumPy matrix) -> input that needs to be activated
-
-    Returns: Output (int, vector, or matrix) -> function will apply the transformation
-    elementwise and return the same form that was input. 
+    """ This class represents the ReLU function. The input
+    can be a scalar, vector, or matrix, as ReLU applies
+    activations elementwise.
     """
 
-    def compute_output(self, x):
+    def compute_output(
+            self, x: Union[int, float,
+                           np.ndarray]) -> Union[int, float, np.ndarray]:
+        """
+        This function computes the ReLU function elementwise
+        over the input x
+        Args:
+            x:
+                Integer, floating point value or tensor
+
+        Returns:
+            Integer, floating point value or tensor. Just returns the same
+            data type that was input
+        """
         return np.maximum(0, x)
 
     def get_derivative_wrt_input(self, x):
