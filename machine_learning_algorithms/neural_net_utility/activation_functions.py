@@ -191,18 +191,24 @@ class ReLU(BaseActivationFunction):
 
 
 class TanH(BaseActivationFunction):
-    """
-    This class represents the TanH function. The input can be a scalar, vector, or matrix, as 
-    TanH applies activations elementwise. 
-
-    Parameters:
-    -> x (int, NumPy vector, or NumPy matrix) -> input that needs to be activated
-
-    Returns: Output (int, vector, or matrix) -> function will apply the transformation
-    elementwise and return the same form that was input. 
+    """ This class represents the TanH function. The input can be a scalar,
+    vector, or matrix, as TanH applies activations elementwise.
     """
 
-    def compute_output(self, x):
+    def compute_output(
+            self, x: Union[int, float,
+                           np.ndarray]) -> Union[int, float, np.ndarray]:
+        """ This function computes the TanH function elementwise
+        over the given input.
+
+        Args:
+            x:
+                Integer, floating point value or tensor
+
+        Returns:
+            A value of the same data type that was input representing
+            da/dz
+        """
         return np.tanh(x)
 
     def get_derivative_wrt_input(self, x):
