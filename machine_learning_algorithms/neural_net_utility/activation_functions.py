@@ -175,7 +175,9 @@ class ReLU(BaseActivationFunction):
         """
         return np.maximum(0, x)
 
-    def get_derivative_wrt_input(self, x: np.ndarray):
+    def get_derivative_wrt_input(
+            self, x: Union[int, float,
+                           np.ndarray]) -> Union[int, float, np.ndarray]:
         """ This method returns da/dz, which is the gradient of the
         relu function with respect to the input value.
 
@@ -211,15 +213,18 @@ class TanH(BaseActivationFunction):
         """
         return np.tanh(x)
 
-    def get_derivative_wrt_input(self, x):
-        """
-        This method returns da/dz -> the gradient of the TanH function with respect
-        to the input value. 
+    def get_derivative_wrt_input(
+            self, x: Union[int, float,
+                           np.ndarray]) -> Union[int, float, np.ndarray]:
+        """ This method returns da/dz, which is the gradient of the
+        output of the tanh function with respect to the input value.
 
-        Parameters:
-        -> x (int, NumPy vector, or NumPy matrix) -> input to get da/dz for 
+        Args:
+            x:
+                Integer, floating point value or tensor
 
-        Returns: da/dz (int, NumPy vector, or NumPy matrix) -> function will get da/dz elementwise and return
-        the output accordingly
+        Returns:
+            A value of the same data type that was input representing
+            da/dz
         """
         return 1 - np.square(self.compute_output(x))
