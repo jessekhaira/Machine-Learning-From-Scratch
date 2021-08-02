@@ -164,6 +164,7 @@ class ReLU(BaseActivationFunction):
         """
         This function computes the ReLU function elementwise
         over the input x
+
         Args:
             x:
                 Integer, floating point value or tensor
@@ -174,16 +175,17 @@ class ReLU(BaseActivationFunction):
         """
         return np.maximum(0, x)
 
-    def get_derivative_wrt_input(self, x):
-        """
-        This method returns da/dz -> the gradient of the relu function with respect
-        to the input value. 
+    def get_derivative_wrt_input(self, x: np.ndarray):
+        """ This method returns da/dz, which is the gradient of the
+        relu function with respect to the input value.
 
-        Parameters:
-        -> x (int, NumPy vector, or NumPy matrix) -> input to get da/dz for 
+        Args:
+            x:
+                Integer, floating point value or tensor
 
-        Returns: da/dz (int, NumPy vector, or NumPy matrix) -> function will get da/dz elementwise and return
-        the output accordingly
+        Returns:
+            A value of the same data type that was input representing
+            da/dz
         """
         return (x > 0) * 1
 
