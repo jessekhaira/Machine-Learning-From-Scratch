@@ -1,18 +1,18 @@
+""" This module contains code representing the logistic regression
+supervised machine learning algorithm, used for the task of
+binary classification.
+"""
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss
 from machine_learning_algorithms.neural_net_utility.activation_functions import Sigmoid
-import copy
 
 
 class LogisticRegression(NeuralNetworkBase):
-    """
-    This class is a template to create logistic regresssion objects. 
-    The logistic regression object is used for binary classification tasks, where
-    the output labels are integers. The object contains one hidden layer with one 
-    neuron using the sigmoid activation function. 
+    """ This class represents the logistic regression supervised
+    machine learning algorithm, used for the task of binary classification.
 
-    Parameters:
+    Attributes:
     -> inLayerNeuron (int): Integer representing how many features are at the input to the classifier
     -> classificationThreshold (int): Scalar value that is applied to the predictions, to separate the positive class
     from the negative class when predicting. 
