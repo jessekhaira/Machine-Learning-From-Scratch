@@ -41,12 +41,12 @@ class LogisticRegression(NeuralNetworkBase):
         activ = Sigmoid()
         super(LogisticRegression, self).__init__(input_features=inLayerNeuron,
                                                  lossFunction=loss_obj)
-        # Logistic regression has one fully connected layer, with a single neuron, with the sigmoid
-        # activation function
+        # Logistic regression has one fully connected layer, with a
+        # single neuron, with the sigmoid activation function
         self.add_layer(1, activ)
         self.classificationThreshold = classificationThreshold
 
-    def predict(self, X):
+    def predict(self, X: np.ndarray) -> np.ndarray:
         predictions = self._forward_propagate(X)
         if self.classificationThreshold:
             return predictions >= self.classificationThreshold
