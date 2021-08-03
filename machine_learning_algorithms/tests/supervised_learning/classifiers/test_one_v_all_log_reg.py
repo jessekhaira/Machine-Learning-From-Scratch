@@ -1,4 +1,4 @@
-from machine_learning_algorithms.supervised_learning.classifiers.Logistic_Regression import OneVsAllLogisticRegression
+from machine_learning_algorithms.supervised_learning.classifiers.logistic_regression import OneVsAllLogisticRegression
 import unittest
 import numpy as np
 from sklearn.datasets import load_iris

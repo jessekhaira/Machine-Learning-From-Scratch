@@ -44,7 +44,7 @@ Models:
 
   - Encompasses Polynomial Regression, Ridge Regression and Lasso Regression
 
-- [Logistic Regression & One V All Logistic Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/Logistic_Regression.py)
+- [Logistic Regression & One V All Logistic Regression](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/classifiers/logistic_regression.py)
 
 - kNN
 
