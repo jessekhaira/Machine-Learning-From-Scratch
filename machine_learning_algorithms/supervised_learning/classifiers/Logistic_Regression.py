@@ -6,6 +6,7 @@ import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss
 from machine_learning_algorithms.neural_net_utility.activation_functions import Sigmoid
+from typing import Literal, Union
 
 
 class LogisticRegression(NeuralNetworkBase):
@@ -13,18 +14,29 @@ class LogisticRegression(NeuralNetworkBase):
     machine learning algorithm, used for the task of binary classification.
 
     Attributes:
-    -> inLayerNeuron (int): Integer representing how many features are at the input to the classifier
-    -> classificationThreshold (int): Scalar value that is applied to the predictions, to separate the positive class
-    from the negative class when predicting. 
-    -> regularization (str): Type of regularization to use. Either "L2" or "L1" is accepted.
-    -> regParameter(int): Integer representing the strength of the regularization
+        inLayerNeuron:
+            Integer representing how many features are to be input to
+            the classifier
+
+        classificationThreshold:
+            Floating point value to be applied to the predictions,
+            to separate the positive class from the negative
+            class when predicting, or None if not wanted
+
+        regularization:
+            String that should be either "L2" or "L1" indicating the
+            type of regularization to use.
+
+        regParameter:
+            Floating point value representing the strength of the
+            regularization
     """
 
     def __init__(self,
-                 inLayerNeuron,
-                 classificationThreshold=None,
-                 regularization=None,
-                 regParameter=None):
+                 inLayerNeuron: int,
+                 classificationThreshold: Union[None, Float] = None,
+                 regularization: Literal["L2", "L1"] = None,
+                 regParameter: float = None):
         loss_obj = negative_log_loss(regularization, regParameter)
         activ = Sigmoid()
         super(LogisticRegression, self).__init__(input_features=inLayerNeuron,
