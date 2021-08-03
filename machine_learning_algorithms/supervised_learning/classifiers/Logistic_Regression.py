@@ -34,7 +34,7 @@ class LogisticRegression(NeuralNetworkBase):
 
     def __init__(self,
                  inLayerNeuron: int,
-                 classificationThreshold: Union[None, Float] = None,
+                 classificationThreshold: Union[None, float] = None,
                  regularization: Literal["L2", "L1"] = None,
                  regParameter: float = None):
         loss_obj = negative_log_loss(regularization, regParameter)
@@ -54,20 +54,26 @@ class LogisticRegression(NeuralNetworkBase):
 
 
 class OneVsAllLogisticRegression(object):
-    """
-    This class is a template to create OneVsAll (OVA) logistic regresssion objects. 
-    The OVA regression object is used for multi class classification tasks, where
-    the output labels are integers. The object contains N logistic regression objects,
-    each trained to identify one type of class. 
+    """ This class represents the one vs all logistic regresison algorithm.
 
-    Parameters:
-    -> num_classes (int): The number of classes in your dataset
-    -> num_in_neurons (int): The number of features in your dataset
-    -> num_epochs (int): The number of epochs you would like to train your N objects for 
-    -> learn_rate (int): The speed at which to update parameters during gradient descent 
+    Attributes:
+        num_classes:
+            Integer representing the number of classes in your dataset
+
+        num_in_neurons:
+            Integer representing the number of features in your dataset
+
+        num_epochs:
+            Integer representing the number of epochs you would like to
+            train your N objects for
+
+        learn_rate:
+            Floating point value representing the speed at which to update
+            parameters during gradient descent
     """
 
-    def __init__(self, num_classes, num_in_neurons, num_epochs, learn_rate):
+    def __init__(self, num_classes: int, num_in_neurons: int, num_epochs: int,
+                 learn_rate: float):
         self.model = []
         for i in range(num_classes):
             self.model.append(LogisticRegression(num_in_neurons))
