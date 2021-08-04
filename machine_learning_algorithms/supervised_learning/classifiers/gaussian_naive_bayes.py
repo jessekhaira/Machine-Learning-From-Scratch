@@ -88,7 +88,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
             self.p_x_conditioned_y_mean[:, label_y] = p_x_conditioned_y_mean
             self.p_x_conditioned_y_std[:, label_y] = p_x_conditioned_y_std
 
-    def predict(self, X):
+    def predict(self, X: np.ndarray) -> np.ndarray:
         """
         This method carries out classification using Bayes Theorem. Since this is a Gaussian Naive Bayes,
         the probability for each class is computed using the PDF for a normal distribution.
