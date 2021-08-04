@@ -2,6 +2,7 @@
 for classification """
 import numpy as np
 from machine_learning_algorithms.supervised_learning.base_classes.k_nearest_neighbours_base import KNearestNeighboursBase
+from typing import Literal
 
 
 class KNearestNeighboursClassifier(KNearestNeighboursBase):
@@ -24,7 +25,10 @@ class KNearestNeighboursClassifier(KNearestNeighboursBase):
             when the model is predicting on new examples.
     """
 
-    def __init__(self, k=10, similarity_metric="L2", verbose=True):
+    def __init__(self,
+                 k: int = 10,
+                 similarity_metric: Literal["L2"] = "L2",
+                 verbose: bool = True):
         #Allow either L2 distance or L1 distance to be used
         super(KNearestNeighboursClassifier,
               self).__init__(k, similarity_metric, verbose)

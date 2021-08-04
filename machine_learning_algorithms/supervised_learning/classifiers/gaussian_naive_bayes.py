@@ -1,18 +1,22 @@
+""" This module contains code representing the gaussian naive bayes
+supervised machine learning algorithm """
 import numpy as np
 import math
+from typing import Tuple
 
 
 class BaseNaiveBayes(object):
 
-    def _getProbClasses(self, ytrain):
-        counts_eachClass = np.unique(ytrain, return_counts=True)
+    def _get_probability_classes(
+            self, ytrain: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        counts_each_class = np.unique(ytrain, return_counts=True)
         # class probabilties aree simply the frequency of instances that
         # belong to each class divided by the total number of instances
-        uniqueLabels = counts_eachClass[0]
-        classProbabilites = counts_eachClass[1] / ytrain.shape[1]
-        return uniqueLabels, classProbabilites
+        unique_lables = counts_each_class[0]
+        class_probabilities = counts_each_class[1] / ytrain.shape[1]
+        return unique_lables, class_probabilities
 
-    def _getProbPX_Y(self, xtrain, ytrain):
+    def _get_probability_pxy(self, xtrain: np.ndarray, ytrain: np.ndarray):
         raise NotImplementedError
 
 
@@ -38,7 +42,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
     def __init__(self):
         # need to store P(Y) and the unique labels
         self.Y = None
-        self.classProbabilites = None
+        self.class_probabilities = None
         # need to store P(X|Y)
         self.PX_Y_mean = None
         self.PX_Y_std = None
@@ -58,10 +62,10 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         Returns:
         -> None 
         """
-        self.Y, self.classProbabilites = self._getProbClasses(ytrain)
-        self._getProbPX_Y(xtrain, ytrain)
+        self.Y, self.class_probabilities = self._get_probability_classes(ytrain)
+        self._get_probability_pxy(xtrain, ytrain)
 
-    def _getProbPX_Y(self, xtrain, ytrain):
+    def _get_probability_pxy(self, xtrain, ytrain):
         # GAUSSIAN naive bayes - not going to get P(X|Y) by frequencies as our features are continous random variables
         # instead we assume the features are all normally distributeed
         # and then compute probabilities using the gaussian PDF
@@ -99,7 +103,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
             for y_label in self.Y:
                 y_label = int(y_label)
                 # compute P(Y|X) for the specific feature vals we have
-                PY_X = np.log(self.classProbabilites[y_label] + 1e-10)
+                PY_X = np.log(self.class_probabilities[y_label] + 1e-10)
                 for feature_row in range(vector.shape[0]):
                     x = vector[feature_row]
                     PX_Y = self._computeProbability(x, feature_row, y_label)
