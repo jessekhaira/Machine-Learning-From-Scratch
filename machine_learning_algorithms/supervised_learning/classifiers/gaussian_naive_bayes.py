@@ -70,11 +70,12 @@ class GaussianNaiveBayes(BaseNaiveBayes):
 
     def _get_probability_x_conditioned_y(self, xtrain: np.ndarray,
                                          ytrain: np.ndarray) -> None:
-        # GAUSSIAN naive bayes - not going to get P(X|Y) by frequencies
-        # as our features are continous random variables. Instead, we
-        # assume the features are all normally distributed, and then
-        # compute probabilities using the gaussian PDF. Thus, we
-        # need the mean and std dev for P(X|Y=class 1), P(X|Y=class 2) etc
+        """ GAUSSIAN naive bayes - not going to get P(X|Y) by frequencies
+        as our features are continous random variables. Instead, we
+        assume the features are all normally distributed, and then
+        compute probabilities using the gaussian PDF. Thus, we
+        need the mean and std dev for P(X|Y=class 1), P(X|Y=class 2) etc
+        """
 
         train_matrix = np.hstack((xtrain.T, ytrain.T))
         self.p_x_conditioned_y_mean = np.zeros((xtrain.shape[0], len(self.y)))
