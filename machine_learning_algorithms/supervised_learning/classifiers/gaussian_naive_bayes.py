@@ -16,7 +16,8 @@ class BaseNaiveBayes(object):
         class_probabilities = counts_each_class[1] / ytrain.shape[1]
         return unique_lables, class_probabilities
 
-    def _get_probability_pxy(self, xtrain: np.ndarray, ytrain: np.ndarray):
+    def _get_probability_x_conditioned_y(self, xtrain: np.ndarray,
+                                         ytrain: np.ndarray):
         raise NotImplementedError
 
 
@@ -48,37 +49,40 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         self.p_x_conditioned_y_std = None
 
     def fit(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
-        """
-        This method trains the classifier on the dataset. Fitting is fast fitting is fast -  as there is no need 
-        to carry out expensive optimization because we aren't trying to find coefficients.
+        """ This method trains the classifier on the dataset. Fitting
+        is fast, as there is no need to carry out expensive optimization
+        because we aren't trying to fit coefficients.
 
-        The fitting procedure is just computing P(Y) for the class labels, and then P(X|Y) for all the class labels,
-        and storing them.
+        The fitting procedure is just computing P(Y) for the class labels,
+        and then P(X|Y) for all the class labels, and storing them.
 
-        Parameters:
-        -> xtrain (NumPy matrix): Matrix of shape (features, examples)
-        -> ytrain (NumPy vector): Vector of shape (1, examples)
+        Args:
+            xtrain:
+                Numpy array of shape (features, examples) representing the
+                training vectors for the algorithm
 
-        Returns:
-        -> None 
+            ytrain:
+                Numpy array of shape (1, examples) representing the labels for
+                the training vectors for the algorithm
         """
         self.y, self.class_probabilities = self._get_probability_classes(ytrain)
-        self._get_probability_pxy(xtrain, ytrain)
+        self._get_probability_x_conditioned_y(xtrain, ytrain)
 
-    def _get_probability_pxy(self, xtrain, ytrain):
-        # GAUSSIAN naive bayes - not going to get P(X|Y) by frequencies as our features are continous random variables
-        # instead we assume the features are all normally distributeed
-        # and then compute probabilities using the gaussian PDF
+    def _get_probability_x_conditioned_y(self, xtrain: np.ndarray,
+                                         ytrain: np.ndarray) -> None:
+        # GAUSSIAN naive bayes - not going to get P(X|Y) by frequencies
+        # as our features are continous random variables. Instead, we
+        # assume the features are all normally distributed, and then
+        # compute probabilities using the gaussian PDF. Thus, we
+        # need the mean and std dev for P(X|Y=class 1), P(X|Y=class 2) etc
 
-        # thus, we need the mean and std dev for P(X|Y=class 1), P(X|Y=class 2) etc
-
-        trainMatrix = np.hstack((xtrain.T, ytrain.T))
+        train_matrix = np.hstack((xtrain.T, ytrain.T))
         self.p_x_conditioned_y_mean = np.zeros((xtrain.shape[0], len(self.y)))
         self.p_x_conditioned_y_std = np.zeros((xtrain.shape[0], len(self.y)))
         for label_y in self.y:
             label_y = int(label_y)
-            idxs_filtered = np.where(trainMatrix[:, -1] == label_y)
-            filteredMatrix = trainMatrix[idxs_filtered[0], :-1].T
+            idxs_filtered = np.where(train_matrix[:, -1] == label_y)
+            filteredMatrix = train_matrix[idxs_filtered[0], :-1].T
             mean_vectorFeatures_labelY = np.mean(filteredMatrix, axis=1)
             std_devVecFeatures_labelY = np.std(filteredMatrix, axis=1)
             self.p_x_conditioned_y_mean[:, label_y] = mean_vectorFeatures_labelY
