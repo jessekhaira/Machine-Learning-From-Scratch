@@ -47,9 +47,10 @@ class MultiLayerPerceptron(NeuralNetworkBase):
               self).__init__(loss_obj, input_features=numberInputFeatures)
 
     def predict_multi_layer_perceptron(
-            self,
-            x: np.ndarray,
-            classificationThreshold: Union[None, float] = None):
+        self,
+        x: np.ndarray,
+        classificationThreshold: Union[None, float] = None
+    ) -> Union[int, np.ndarray]:
         # For binary classification, we need a classification threshold to
         # seperate out the pos class from the neg class
         if classificationThreshold:
