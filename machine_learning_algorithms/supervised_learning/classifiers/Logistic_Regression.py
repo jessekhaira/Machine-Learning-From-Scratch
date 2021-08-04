@@ -82,14 +82,14 @@ class OneVsAllLogisticRegression(object):
         self.learn_rate = learn_rate
 
     def fit(self, xtrain, ytrain):
-        self._buildDatasets(xtrain, ytrain)
+        self._build_datasets(xtrain, ytrain)
         for i in range(len(self.model)):
             self.model[i].fit(self.datasets[i][0],
                               self.datasets[i][1],
                               num_epochs=self.num_epochs,
                               learn_rate=self.learn_rate)
 
-    def _buildDatasets(self, xtrain, ytrain):
+    def _build_datasets(self, xtrain, ytrain):
         classes_data = np.unique(ytrain)
         for i in range(len(classes_data)):
             curr_class = classes_data[i]
@@ -97,17 +97,20 @@ class OneVsAllLogisticRegression(object):
             self.datasets.append((xtrain, only_one_labelis1))
 
     def predict(self, x):
-        assert x.shape[0] == self.model[
-            0].num_input, "Your new data has to have as many features as what you trained on"
+        assert x.shape[0] == self.model[0].num_input, (
+            "Your new data has to have as many features as what you trained on")
         predictions = []
         for i in range(len(self.model)):
             predictions.append(self.model[i].predict(x))
-        # Stack all predictions next to each other in a matrix so we can easily get col vals
-        # for each row using np.argmax()
-        # Predictions from each unit will be a (1,M) vector, so we need to stack them up in rows
-        # and then get max row val for each example (Class) by saying np.argmax(axis=0)
+        # Stack all predictions next to each other in a matrix so we
+        # can easily get col vals for each row using np.argmax()
+        # Predictions from each unit will be a (1,M) vector, so we
+        # need to stack them up in rows and then get max row
+        # val for each example (Class) by saying
+        # np.argmax(axis=0)
         matrix_pred = np.row_stack((i for i in predictions))
-        # matrix_pred should be of shape (num_features in example, num examples * num predictors)
+        # matrix_pred should be of shape
+        # (num_features in example, num examples * num predictors)
         assert matrix_pred.shape == (len(self.model), x.shape[1])
         final_output = np.argmax(matrix_pred, axis=0)
         assert final_output.shape == (x.shape[1],)
