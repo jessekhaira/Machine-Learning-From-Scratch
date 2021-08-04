@@ -81,7 +81,7 @@ class OneVsAllLogisticRegression(object):
         self.num_epochs = num_epochs
         self.learn_rate = learn_rate
 
-    def fit(self, xtrain, ytrain):
+    def fit(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
         self._build_datasets(xtrain, ytrain)
         for i in range(len(self.model)):
             self.model[i].fit(self.datasets[i][0],
