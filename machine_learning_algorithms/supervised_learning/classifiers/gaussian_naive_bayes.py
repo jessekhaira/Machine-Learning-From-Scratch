@@ -47,7 +47,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         self.p_x_conditioned_y_mean = None
         self.p_x_conditioned_y_std = None
 
-    def fit(self, xtrain, ytrain):
+    def fit(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
         """
         This method trains the classifier on the dataset. Fitting is fast fitting is fast -  as there is no need 
         to carry out expensive optimization because we aren't trying to find coefficients.
