@@ -89,7 +89,7 @@ class OneVsAllLogisticRegression(object):
                               num_epochs=self.num_epochs,
                               learn_rate=self.learn_rate)
 
-    def _build_datasets(self, xtrain, ytrain):
+    def _build_datasets(self, xtrain: np.ndarray, ytrain: np.ndarray) -> None:
         classes_data = np.unique(ytrain)
         for i in range(len(classes_data)):
             curr_class = classes_data[i]
