@@ -3,6 +3,7 @@ multi layer perceptron algorithm for supervised learning """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss, cross_entropy, mean_squared_error
 from typing import Literal, Union
+import numpy as np
 
 
 class MultiLayerPerceptron(NeuralNetworkBase):
@@ -45,7 +46,10 @@ class MultiLayerPerceptron(NeuralNetworkBase):
         super(MultiLayerPerceptron,
               self).__init__(loss_obj, input_features=numberInputFeatures)
 
-    def predict_multi_layer_perceptron(self, x, classificationThreshold=None):
+    def predict_multi_layer_perceptron(
+            self,
+            x: np.ndarray,
+            classificationThreshold: Union[None, float] = None):
         # For binary classification, we need a classification threshold to
         # seperate out the pos class from the neg class
         if classificationThreshold:
