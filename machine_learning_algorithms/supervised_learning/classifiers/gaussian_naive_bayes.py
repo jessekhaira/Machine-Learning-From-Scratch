@@ -41,11 +41,11 @@ class GaussianNaiveBayes(BaseNaiveBayes):
 
     def __init__(self):
         # need to store P(Y) and the unique labels
-        self.Y = None
+        self.y = None
         self.class_probabilities = None
         # need to store P(X|Y)
-        self.PX_Y_mean = None
-        self.PX_Y_std = None
+        self.p_x_conditioned_y_mean = None
+        self.p_x_conditioned_y_std = None
 
     def fit(self, xtrain, ytrain):
         """
@@ -62,7 +62,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         Returns:
         -> None 
         """
-        self.Y, self.class_probabilities = self._get_probability_classes(ytrain)
+        self.y, self.class_probabilities = self._get_probability_classes(ytrain)
         self._get_probability_pxy(xtrain, ytrain)
 
     def _get_probability_pxy(self, xtrain, ytrain):
@@ -73,16 +73,16 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         # thus, we need the mean and std dev for P(X|Y=class 1), P(X|Y=class 2) etc
 
         trainMatrix = np.hstack((xtrain.T, ytrain.T))
-        self.PX_Y_mean = np.zeros((xtrain.shape[0], len(self.Y)))
-        self.PX_Y_std = np.zeros((xtrain.shape[0], len(self.Y)))
-        for label_y in self.Y:
+        self.p_x_conditioned_y_mean = np.zeros((xtrain.shape[0], len(self.y)))
+        self.p_x_conditioned_y_std = np.zeros((xtrain.shape[0], len(self.y)))
+        for label_y in self.y:
             label_y = int(label_y)
             idxs_filtered = np.where(trainMatrix[:, -1] == label_y)
             filteredMatrix = trainMatrix[idxs_filtered[0], :-1].T
             mean_vectorFeatures_labelY = np.mean(filteredMatrix, axis=1)
             std_devVecFeatures_labelY = np.std(filteredMatrix, axis=1)
-            self.PX_Y_mean[:, label_y] = mean_vectorFeatures_labelY
-            self.PX_Y_std[:, label_y] = std_devVecFeatures_labelY
+            self.p_x_conditioned_y_mean[:, label_y] = mean_vectorFeatures_labelY
+            self.p_x_conditioned_y_std[:, label_y] = std_devVecFeatures_labelY
 
     def predict(self, X):
         """
@@ -100,7 +100,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
             vector = X[:, i].reshape(-1, 1)
             highestProb = float('-inf')
             predictedClass = -1
-            for y_label in self.Y:
+            for y_label in self.y:
                 y_label = int(y_label)
                 # compute P(Y|X) for the specific feature vals we have
                 PY_X = np.log(self.class_probabilities[y_label] + 1e-10)
@@ -125,10 +125,12 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         # you can compute the PDF all in one
         # Just find it easier to seperate out the terms and then combine at the end cause theres
         # so much going on
-        denominator = 1 / (
-            self.PX_Y_std[feature_row, label] * np.sqrt(2 * math.pi) + eps)
-        exp_termNumerator = feature_value - self.PX_Y_mean[feature_row, label]
-        exp_termDenominator = self.PX_Y_std[feature_row, label] + eps
+        denominator = 1 / (self.p_x_conditioned_y_std[feature_row, label] *
+                           np.sqrt(2 * math.pi) + eps)
+        exp_termNumerator = feature_value - self.p_x_conditioned_y_mean[
+            feature_row, label]
+        exp_termDenominator = self.p_x_conditioned_y_std[feature_row,
+                                                         label] + eps
         combined = np.power(exp_termNumerator / exp_termDenominator, 2)
         exp_term = np.exp(-0.5 * combined)
         return denominator * exp_term
