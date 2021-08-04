@@ -82,11 +82,11 @@ class GaussianNaiveBayes(BaseNaiveBayes):
         for label_y in self.y:
             label_y = int(label_y)
             idxs_filtered = np.where(train_matrix[:, -1] == label_y)
-            filteredMatrix = train_matrix[idxs_filtered[0], :-1].T
-            mean_vectorFeatures_labelY = np.mean(filteredMatrix, axis=1)
-            std_devVecFeatures_labelY = np.std(filteredMatrix, axis=1)
-            self.p_x_conditioned_y_mean[:, label_y] = mean_vectorFeatures_labelY
-            self.p_x_conditioned_y_std[:, label_y] = std_devVecFeatures_labelY
+            filtered_matrix = train_matrix[idxs_filtered[0], :-1].T
+            p_x_conditioned_y_mean = np.mean(filtered_matrix, axis=1)
+            p_x_conditioned_y_std = np.std(filtered_matrix, axis=1)
+            self.p_x_conditioned_y_mean[:, label_y] = p_x_conditioned_y_mean
+            self.p_x_conditioned_y_std[:, label_y] = p_x_conditioned_y_std
 
     def predict(self, X):
         """
