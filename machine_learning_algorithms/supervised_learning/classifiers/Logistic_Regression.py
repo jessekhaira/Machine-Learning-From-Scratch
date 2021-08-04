@@ -75,7 +75,7 @@ class OneVsAllLogisticRegression(object):
     def __init__(self, num_classes: int, num_in_neurons: int, num_epochs: int,
                  learn_rate: float):
         self.model = []
-        for i in range(num_classes):
+        for _ in range(num_classes):
             self.model.append(LogisticRegression(num_in_neurons))
         self.datasets = []
         self.num_epochs = num_epochs
