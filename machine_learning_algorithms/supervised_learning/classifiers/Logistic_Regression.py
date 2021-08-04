@@ -96,7 +96,7 @@ class OneVsAllLogisticRegression(object):
             only_one_labelis1 = (ytrain == curr_class).astype(int)
             self.datasets.append((xtrain, only_one_labelis1))
 
-    def predict(self, x):
+    def predict(self, x: np.ndarray) -> np.ndarray:
         assert x.shape[0] == self.model[0].num_input, (
             "Your new data has to have as many features as what you trained on")
         predictions = []
