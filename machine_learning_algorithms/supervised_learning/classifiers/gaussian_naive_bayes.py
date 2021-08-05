@@ -112,7 +112,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
                                            1e-10)
                 for feature_row in range(vector.shape[0]):
                     x = vector[feature_row]
-                    p_x_conditioned_y = self._computeProbability(
+                    p_x_conditioned_y = self._compute_probability(
                         x, feature_row, y_label)
                     # this is where naive part of naive bayes comes in
                     # we use all our features and combine them as such:
@@ -128,7 +128,7 @@ class GaussianNaiveBayes(BaseNaiveBayes):
 
         return predictions
 
-    def _computeProbability(self, feature_value, feature_row, label):
+    def _compute_probability(self, feature_value, feature_row, label):
         eps = 1e-8
         # you can compute the PDF all in one
         # Just find it easier to seperate out the terms and then combine at the end cause theres
