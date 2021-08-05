@@ -128,17 +128,20 @@ class GaussianNaiveBayes(BaseNaiveBayes):
 
         return predictions
 
-    def _compute_probability(self, feature_value, feature_row, label):
+    def _compute_probability(self, feature_value: float, feature_row: int,
+                             label: int) -> float:
+        """ You can compute the probability density function for normal
+        distributions all in one line. I just find it easier to
+        seperate out the terms and then combine at the end cause theres
+        so much going on
+        """
         eps = 1e-8
-        # you can compute the PDF all in one
-        # Just find it easier to seperate out the terms and then combine at the end cause theres
-        # so much going on
         denominator = 1 / (self.p_x_conditioned_y_std[feature_row, label] *
                            np.sqrt(2 * math.pi) + eps)
-        exp_termNumerator = feature_value - self.p_x_conditioned_y_mean[
+        exp_term_numerator = feature_value - self.p_x_conditioned_y_mean[
             feature_row, label]
-        exp_termDenominator = self.p_x_conditioned_y_std[feature_row,
-                                                         label] + eps
-        combined = np.power(exp_termNumerator / exp_termDenominator, 2)
+        exp_term_denominator = self.p_x_conditioned_y_std[feature_row,
+                                                          label] + eps
+        combined = np.power(exp_term_numerator / exp_term_denominator, 2)
         exp_term = np.exp(-0.5 * combined)
         return denominator * exp_term
