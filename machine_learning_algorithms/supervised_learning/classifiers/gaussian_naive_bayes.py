@@ -89,39 +89,42 @@ class GaussianNaiveBayes(BaseNaiveBayes):
             self.p_x_conditioned_y_mean[:, label_y] = p_x_conditioned_y_mean
             self.p_x_conditioned_y_std[:, label_y] = p_x_conditioned_y_std
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def predict(self, x: np.ndarray) -> np.ndarray:
         """
         This method carries out classification using Bayes Theorem. Since this is a Gaussian Naive Bayes,
         the probability for each class is computed using the PDF for a normal distribution.
 
         Parameters:
-        -> X (single NumPy vector, or NumPy matrix): Matrix of examples to predict on of shape (features, examples)
+        -> x (single NumPy vector, or NumPy matrix): Matrix of examples to predict on of shape (features, examples)
 
         Returns:
         -> Output (NumPy vector): Predictions for every vector in the input  
         """
-        predictions = np.zeros((1, X.shape[1]))
-        for i in range(X.shape[1]):
-            vector = X[:, i].reshape(-1, 1)
-            highestProb = float('-inf')
-            predictedClass = -1
+        predictions = np.zeros((1, x.shape[1]))
+        for i in range(x.shape[1]):
+            vector = x[:, i].reshape(-1, 1)
+            highest_prob = float('-inf')
+            predicted_class = -1
             for y_label in self.y:
                 y_label = int(y_label)
-                # compute P(Y|X) for the specific feature vals we have
-                PY_X = np.log(self.class_probabilities[y_label] + 1e-10)
+                # compute P(Y|x) for the specific feature vals we have
+                p_y_conditioned_x = np.log(self.class_probabilities[y_label] +
+                                           1e-10)
                 for feature_row in range(vector.shape[0]):
                     x = vector[feature_row]
-                    PX_Y = self._computeProbability(x, feature_row, y_label)
+                    p_x_conditioned_y = self._computeProbability(
+                        x, feature_row, y_label)
                     # this is where naive part of naive bayes comes in
                     # we use all our features and combine them as such:
-                    # P(Y|X1,X2,X3,..,XN) = P(X1|Y)*P(X2|Y)*P(X3|Y)*...*P(XN|Y)*P(Y)
-                    # IE assume all our features are independent. This is vulnerable to numeric
-                    # underflows so use ln(prob) instead and add
-                    PY_X += (np.log(PX_Y[0] + 1e-10))
-                if PY_X > highestProb:
-                    highestProb = PY_X
-                    predictedClass = y_label
-            predictions[:, i] = predictedClass
+                    # P(Y|X1,X2,X3,..,XN) = P(X1|Y)*P(X2|Y)*...*P(XN|Y)*P(Y)
+                    # IE assume all our features are independent. This is
+                    # vulnerable to numeric underflows so use ln(prob)
+                    # instead and add together
+                    p_y_conditioned_x += (np.log(p_x_conditioned_y[0] + 1e-10))
+                if p_y_conditioned_x > highest_prob:
+                    highest_prob = p_y_conditioned_x
+                    predicted_class = y_label
+            predictions[:, i] = predicted_class
 
         return predictions
 
