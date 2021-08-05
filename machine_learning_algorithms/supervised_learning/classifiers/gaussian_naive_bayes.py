@@ -6,6 +6,8 @@ from typing import Tuple
 
 
 class BaseNaiveBayes(object):
+    """ This class represents a base class which naive bayes classifiers
+    can inherit from """
 
     def _get_probability_classes(
             self, ytrain: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
