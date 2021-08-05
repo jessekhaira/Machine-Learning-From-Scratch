@@ -90,15 +90,18 @@ class GaussianNaiveBayes(BaseNaiveBayes):
             self.p_x_conditioned_y_std[:, label_y] = p_x_conditioned_y_std
 
     def predict(self, x: np.ndarray) -> np.ndarray:
-        """
-        This method carries out classification using Bayes Theorem. Since this is a Gaussian Naive Bayes,
-        the probability for each class is computed using the PDF for a normal distribution.
+        """ This method carries out classification using Bayes Theorem.
+        Since this is a Gaussian Naive Bayes, the probability for each class
+        is computed using the PDF for a normal distribution.
 
-        Parameters:
-        -> x (single NumPy vector, or NumPy matrix): Matrix of examples to predict on of shape (features, examples)
+        Args:
+            x:
+                Numpy array of shape (features, examples) representing the
+                feature vectors to predict on
 
         Returns:
-        -> Output (NumPy vector): Predictions for every vector in the input  
+            Numpy array of shape (1, examples), representing the predictions
+            of the algorithm for every vector in the input
         """
         predictions = np.zeros((1, x.shape[1]))
         for i in range(x.shape[1]):
