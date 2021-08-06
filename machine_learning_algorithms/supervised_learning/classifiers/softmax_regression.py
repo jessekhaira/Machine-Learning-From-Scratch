@@ -1,3 +1,5 @@
+""" This module contains code representing the softmax regression
+multi class classification algorithm """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
