@@ -32,7 +32,7 @@ class SoftmaxRegression(NeuralNetworkBase):
                  numClasses,
                  regularization=None,
                  regParameter=None):
-        costFunc = cross_entropy(regularization, regParameter)
-        activFunc = Softmax()
-        super(SoftmaxRegression, self).__init__(costFunc, inLayerNeuron)
-        self.add_layer(numClasses, activFunc, 1)
+        cost_func = cross_entropy(regularization, regParameter)
+        activ_func = Softmax()
+        super(SoftmaxRegression, self).__init__(cost_func, inLayerNeuron)
+        self.add_layer(numClasses, activ_func, 1)
