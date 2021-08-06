@@ -3,6 +3,7 @@ multi class classification algorithm """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
+from typing import Union, Literal
 
 
 class SoftmaxRegression(NeuralNetworkBase):
@@ -24,14 +25,15 @@ class SoftmaxRegression(NeuralNetworkBase):
             to use
 
         regParameter:
-            Floating point value representing the strength of the regularization
+            Floating point value representing the strength of the
+            regularization, or None if regularization is not used
     """
 
     def __init__(self,
-                 inLayerNeuron,
-                 numClasses,
-                 regularization=None,
-                 regParameter=None):
+                 inLayerNeuron: int,
+                 numClasses: int,
+                 regularization: Union[Literal["L2", "L1"], None] = None,
+                 regParameter: Union[float, None] = None):
         cost_func = cross_entropy(regularization, regParameter)
         activ_func = Softmax()
         super(SoftmaxRegression, self).__init__(cost_func, inLayerNeuron)
