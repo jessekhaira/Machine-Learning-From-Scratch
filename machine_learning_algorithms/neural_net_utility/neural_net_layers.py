@@ -451,7 +451,7 @@ class BatchNormLayer_Dense(DenseLayer):
         self.runningVar = (beta) * (self.runningVar) + (1 -
                                                         beta) * self.variance
 
-    def _test_forward(self, prevlayer_activations):
+    def _test_forward(self, prevlayer_activations: np.ndarray) -> np.ndarray:
         # BatchNorm has diff behaviour at test time and train time
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
