@@ -378,12 +378,12 @@ def dLdZ_sm(Z: np.ndarray,
 class BatchNormLayer_Dense(DenseLayer):
 
     def __init__(self,
-                 num_in,
-                 num_layer,
+                 num_in: int,
+                 num_layer: int,
                  activationFunction,
                  regularization=None,
-                 regParameter=None,
-                 isSoftmax=0,
+                 regParameter: Union[float, None] = None,
+                 isSoftmax: Literal[0, 1] = 0,
                  p=None):
         super(BatchNormLayer_Dense,
               self).__init__(num_in, num_layer, activationFunction,
