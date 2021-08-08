@@ -456,12 +456,13 @@ class BatchNormLayer_Dense(DenseLayer):
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
         Z = np.dot(self.W, prevlayer_activations) + self.b
-        # Vectorize operation - elementwise subtraction, then elementwise division
-        # where Z is a (N,M) matrix and running mean and running variance are (N,1) vectors
-        normalized_Z = (Z - self.runningMean) / (np.sqrt(self.runningVar +
+        # Vectorize operation - elementwise subtraction, then
+        # elementwise division, where Z is a (N,M) matrix and
+        # running mean and running variance are (N,1) vectors
+        normalized_z = (Z - self.runningMean) / (np.sqrt(self.runningVar +
                                                          self.eps))
         # multiply by learnable parameter gamma and add beta
-        z_final = self.gamma * normalized_Z + self.beta
+        z_final = self.gamma * normalized_z + self.beta
         return self.activationFunction.compute_output(z_final)
 
     def update_weights(self,
