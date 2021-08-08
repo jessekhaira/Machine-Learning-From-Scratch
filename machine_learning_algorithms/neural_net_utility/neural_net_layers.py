@@ -455,11 +455,11 @@ class BatchNormLayer_Dense(DenseLayer):
         # BatchNorm has diff behaviour at test time and train time
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
-        Z = np.dot(self.W, prevlayer_activations) + self.b
+        z = np.dot(self.W, prevlayer_activations) + self.b
         # Vectorize operation - elementwise subtraction, then
-        # elementwise division, where Z is a (N,M) matrix and
+        # elementwise division, where z is a (N,M) matrix and
         # running mean and running variance are (N,1) vectors
-        normalized_z = (Z - self.runningMean) / (np.sqrt(self.runningVar +
+        normalized_z = (z - self.runningMean) / (np.sqrt(self.runningVar +
                                                          self.eps))
         # multiply by learnable parameter gamma and add beta
         z_final = self.gamma * normalized_z + self.beta
