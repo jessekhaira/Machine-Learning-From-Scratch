@@ -375,7 +375,7 @@ def dl_dz_softmax(z: np.ndarray,
         return dl_dz
 
 
-class BatchNormLayer_Dense(DenseLayer):
+class DenseBatchNormLayer(DenseLayer):
 
     def __init__(self,
                  num_in: int,
@@ -385,7 +385,7 @@ class BatchNormLayer_Dense(DenseLayer):
                  regParameter: Union[float, None] = None,
                  isSoftmax: Literal[0, 1] = 0,
                  p=None):
-        super(BatchNormLayer_Dense,
+        super(DenseBatchNormLayer,
               self).__init__(num_in, num_layer, activationFunction,
                              regularization, regParameter, isSoftmax)
         # these are learnable parameters

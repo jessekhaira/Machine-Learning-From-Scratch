@@ -1,5 +1,5 @@
 import numpy as np
-from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, BatchNormLayer_Dense
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, DenseBatchNormLayer
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation, TanH, Sigmoid
 from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
@@ -42,30 +42,30 @@ class Deep_Autoencoder(NeuralNetworkBase):
     def _buildEncoder(self):
         encoder = []
         encoder.append(
-            BatchNormLayer_Dense(num_in=784,
-                                 num_layer=300,
-                                 activationFunction=ReLU()))
+            DenseBatchNormLayer(num_in=784,
+                                num_layer=300,
+                                activationFunction=ReLU()))
         encoder.append(
-            BatchNormLayer_Dense(num_in=300,
-                                 num_layer=150,
-                                 activationFunction=ReLU()))
+            DenseBatchNormLayer(num_in=300,
+                                num_layer=150,
+                                activationFunction=ReLU()))
         # fully encoded units
         encoder.append(
-            BatchNormLayer_Dense(num_in=150,
-                                 num_layer=self.size_encoding,
-                                 activationFunction=ReLU()))
+            DenseBatchNormLayer(num_in=150,
+                                num_layer=self.size_encoding,
+                                activationFunction=ReLU()))
         return encoder
 
     def _buildDecoder(self):
         decoder = []
         decoder.append(
-            BatchNormLayer_Dense(num_in=self.size_encoding,
-                                 num_layer=150,
-                                 activationFunction=ReLU()))
+            DenseBatchNormLayer(num_in=self.size_encoding,
+                                num_layer=150,
+                                activationFunction=ReLU()))
         decoder.append(
-            BatchNormLayer_Dense(num_in=150,
-                                 num_layer=300,
-                                 activationFunction=ReLU()))
+            DenseBatchNormLayer(num_in=150,
+                                num_layer=300,
+                                activationFunction=ReLU()))
         # decoded outputs - sigmoid activation used because inputs are in the range of 0 -1
         # so our outputs should also be in between the range of 0-1
         decoder.append(

@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_perceptron import MultiLayerPerceptron
-from machine_learning_algorithms.neural_net_utility.neural_net_layers import BatchNormLayer_Dense
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseBatchNormLayer
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, ReLU
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, RMSProp
@@ -45,7 +45,7 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
 
         MLP.add_layer(num_neurons=100,
                       activationFunction=ReLU(),
-                      layer=BatchNormLayer_Dense)
+                      layer=DenseBatchNormLayer)
         MLP.add_layer(num_neurons=10,
                       activationFunction=Softmax(),
                       isSoftmax=True)
@@ -69,7 +69,7 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
 
         MLP2.add_layer(num_neurons=100,
                        activationFunction=ReLU(),
-                       layer=BatchNormLayer_Dense)
+                       layer=DenseBatchNormLayer)
         MLP2.add_layer(num_neurons=10,
                        activationFunction=Softmax(),
                        isSoftmax=True)
@@ -96,10 +96,10 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
 
         MLP3.add_layer(num_neurons=100,
                        activationFunction=ReLU(),
-                       layer=BatchNormLayer_Dense)
+                       layer=DenseBatchNormLayer)
         MLP3.add_layer(num_neurons=100,
                        activationFunction=ReLU(),
-                       layer=BatchNormLayer_Dense)
+                       layer=DenseBatchNormLayer)
         MLP3.add_layer(num_neurons=10,
                        activationFunction=Softmax(),
                        isSoftmax=True)

@@ -1,7 +1,7 @@
 """ This module contains code representing the base class for Neural Networks
 """
 import numpy as np
-from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, BatchNormLayer_Dense, BaseNeuralNetworkLayer
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, DenseBatchNormLayer, BaseNeuralNetworkLayer
 from machine_learning_algorithms.neural_net_utility.convolutional_layers import Conv2D
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 from machine_learning_algorithms.neural_net_utility.loss_functions import LossFunction
@@ -315,7 +315,7 @@ class NeuralNetworkBase(object):
                 # conv layer will have flattened its output to matrix shape
                 layer.W, layer.b = layer._initialize_weights(
                     layer.num_layer, prev_activations.shape[0])
-                if isinstance(layer, BatchNormLayer_Dense):
+                if isinstance(layer, DenseBatchNormLayer):
                     layer.gamma, layer.beta = layer._init_gamma_beta()
                     layer.runningMean, layer.runningVar = layer._init_running_mean_var(
                     )
