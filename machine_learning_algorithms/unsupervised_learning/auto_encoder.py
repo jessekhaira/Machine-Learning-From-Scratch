@@ -3,24 +3,29 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Den
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation, TanH, Sigmoid
 from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, GradientDescentMomentum, RMSProp, Adam
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
 import matplotlib.pyplot as plt
 
 
-class Deep_Autoencoder(NeuralNetworkBase):
-    """
-    This class represents a Deep Autoencoder made for MNIST. An autoencoder is a type of neural network used in unsupervised learning,
-    typically to learn data codings for dimensionality reduction. 
+class AutoEncoder(NeuralNetworkBase):
+    """ This class represents a Deep Autoencoder made for MNIST.
+    An autoencoder is a type of neural network used in unsupervised
+    learning, typically to learn data codings for dimensionality
+    reduction.
 
-    The Autoencoder consists of two fully connected nets: An encoder and a decoder. The encoder takes the high dimensional
-    input and encodes it in a size_encoding dense layer. From the size_encoding dense layer, the original input is reconstructed
-    by the decoder.
+    The Autoencoder consists of two fully connected nets: An encoder and
+    a decoder. The encoder takes as input high dimensional vectors and
+    embeds them in a lower dimension. From the embedding the original
+    input is reconstructed by the decoder.
 
-    The whole architecture is then trained with Mean Squared Loss, with the objective obviously being to reconstruct the original
-    inputs from the low dimensional encoding.
+    The whole architecture is then trained with Mean Squared Loss, with
+    the objective obviously being to reconstruct the original inputs
+    from the low dimensional encoding.
 
-    Parameters:
-    -> size_encoding (int): Integer representing the size of the encoding the autoencoder will encode to. 
+    Attributes:
+        size_encoding:
+            Integer representing the size of the encoding the autoencoder
+            will encode to
     """
 
     def __init__(self, size_encoding):
@@ -30,8 +35,8 @@ class Deep_Autoencoder(NeuralNetworkBase):
         # not a hard constraint but its convienant as it removes a hyperparameter
         self.img_height = 28
         self.img_width = 28
-        self.encoder = self._buildEncoder()
-        self.decoder = self._buildDecoder()
+        self.encoder = self._build_encoder()
+        self.decoder = self._build_decoder()
         # now stack the decoder layers right after the encoder layers
         self.layers = self.encoder + self.decoder
         self.lossFunction = mean_squared_error()
@@ -39,7 +44,7 @@ class Deep_Autoencoder(NeuralNetworkBase):
         # after we've defined the architecture, the autoencoder is like any other
         # neural net
 
-    def _buildEncoder(self):
+    def _build_encoder(self):
         encoder = []
         encoder.append(
             DenseBatchNormLayer(num_in=784,
@@ -56,7 +61,7 @@ class Deep_Autoencoder(NeuralNetworkBase):
                                 activationFunction=ReLU()))
         return encoder
 
-    def _buildDecoder(self):
+    def _build_decoder(self):
         decoder = []
         decoder.append(
             DenseBatchNormLayer(num_in=self.size_encoding,

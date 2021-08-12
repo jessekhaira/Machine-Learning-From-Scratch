@@ -1,4 +1,4 @@
-from machine_learning_algorithms.unsupervised_learning.auto_encoder import Deep_Autoencoder
+from machine_learning_algorithms.unsupervised_learning.auto_encoder import AutoEncoder
 from machine_learning_algorithms.unsupervised_learning.auto_encoder import Adam, GradientDescentMomentum
 import unittest
 import numpy as np
@@ -15,7 +15,7 @@ class tests(unittest.TestCase):
 
     def test1(self):
         # works fine, but takes a really long time to train
-        autoencoderObj = Deep_Autoencoder(size_encoding=150)
+        autoencoderObj = AutoEncoder(size_encoding=150)
         autoencoderObj.fit(x_train,
                            num_epochs=10000,
                            optim=GradientDescentMomentum(),
