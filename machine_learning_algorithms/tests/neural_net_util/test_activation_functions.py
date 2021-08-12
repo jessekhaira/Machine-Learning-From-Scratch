@@ -6,6 +6,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_
 
 
 class TestActivationFunctions(unittest.TestCase):
+    """ This class contain unit tests for activation functions """
 
     def test1(self):
         #test with single example first
