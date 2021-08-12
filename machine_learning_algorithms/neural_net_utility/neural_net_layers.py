@@ -315,10 +315,10 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                                 grad_numeric)
 
 
-def dl_dz_softmax(Z: np.ndarray,
-                  A: np.ndarray,
-                  dLdA: np.ndarray,
-                  activFunc: BaseActivationFunction,
+def dl_dz_softmax(z: np.ndarray,
+                  a: np.ndarray,
+                  dl_da: np.ndarray,
+                  activ_func: BaseActivationFunction,
                   efficient: bool = False) -> Union[None, np.ndarray]:
     """ This function hooks up dL/dA with dA/dZ to produce the
     dL/dZ through the softmax layer.
@@ -336,19 +336,19 @@ def dl_dz_softmax(Z: np.ndarray,
     M: Number of examples
 
     Args:
-        Z:
+        z:
             Numpy array of shape (C, M) containing the raw logits
             for the softmax layer
 
-        A:
+        a:
             Numpy array of shape (C, M) containing the activations for
             the softmax layer
 
-        dLdA:
+        dl_da:
             Numpy array of shape (C, M) containing the derivative of the
             loss function
 
-        activFunc:
+        activ_func:
             Activation Function object used to get dl_dz_softmax
 
         efficient:
@@ -361,16 +361,16 @@ def dl_dz_softmax(Z: np.ndarray,
         jacobian matrix dl_dz for the softmax layer.
     """
     if not efficient:
-        dl_dz = np.zeros((Z.shape[0], Z.shape[1]))
-        for i in range(A.shape[1]):
-            column_vectors_activated = A[:, i].reshape(-1, 1)
-            deriv_loss_ith_example = dLdA[:, i].reshape(-1, 1)
-            jacobian_activation = activFunc.get_derivative_wrt_input(
+        dl_dz = np.zeros((z.shape[0], z.shape[1]))
+        for i in range(a.shape[1]):
+            column_vectors_activated = a[:, i].reshape(-1, 1)
+            deriv_loss_ith_example = dl_da[:, i].reshape(-1, 1)
+            jacobian_activation = activ_func.get_derivative_wrt_input(
                 column_vectors_activated)
             assert jacobian_activation.shape[1] == deriv_loss_ith_example.shape[
                 0]
             dl_dz_ith_ex = np.dot(jacobian_activation, deriv_loss_ith_example)
-            assert dl_dz_ith_ex.shape == (Z.shape[0], 1)
+            assert dl_dz_ith_ex.shape == (z.shape[0], 1)
             dl_dz[:, i] = dl_dz_ith_ex.reshape(-1)
         return dl_dz
 
