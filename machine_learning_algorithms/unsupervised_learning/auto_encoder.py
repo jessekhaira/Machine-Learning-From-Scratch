@@ -1,6 +1,6 @@
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, DenseBatchNormLayer
-from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation, TanH, Sigmoid
+from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Sigmoid
 from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
