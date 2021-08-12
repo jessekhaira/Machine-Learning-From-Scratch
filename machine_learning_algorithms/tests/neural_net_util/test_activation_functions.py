@@ -2,7 +2,7 @@ import numpy as np
 import unittest
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
 from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
-from machine_learning_algorithms.neural_net_utility.neural_net_layers import dLdZ_sm
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_dz_softmax
 
 
 class testActivFuncs(unittest.TestCase):
@@ -21,7 +21,7 @@ class testActivFuncs(unittest.TestCase):
         print(Y)
         dLdA1 = ce.derivativeLoss_wrtPrediction(Y, A1)
         print(dLdA1)
-        dLdZ = dLdZ_sm(Z1, A1, dLdA1, sm)
+        dLdZ = dl_dz_softmax(Z1, A1, dLdA1, sm)
         # Only one value in each column should be negative, the rest should be positive
         # and the values should be easily correlated with (a-1)/m (if y =1) else (a)/m
         print(dLdZ)

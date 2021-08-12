@@ -216,7 +216,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
             # softmax and the cross entropy and simplify to make more efficient.
             # But this is more explicit of what is actually happening for
             # learning purposes
-            dl_dz = dLdZ_sm(self.Z, self.A, dLdA, self.activationFunction)
+            dl_dz = dl_dz_softmax(self.Z, self.A, dLdA, self.activationFunction)
 
         dl_dw = np.dot(dl_dz, self.Ain.T)
         dl_db = np.sum(dl_dz, axis=1, keepdims=True)
@@ -315,11 +315,11 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                                 grad_numeric)
 
 
-def dLdZ_sm(Z: np.ndarray,
-            A: np.ndarray,
-            dLdA: np.ndarray,
-            activFunc: BaseActivationFunction,
-            efficient: bool = False) -> Union[None, np.ndarray]:
+def dl_dz_softmax(Z: np.ndarray,
+                  A: np.ndarray,
+                  dLdA: np.ndarray,
+                  activFunc: BaseActivationFunction,
+                  efficient: bool = False) -> Union[None, np.ndarray]:
     """ This function hooks up dL/dA with dA/dZ to produce the
     dL/dZ through the softmax layer.
 
@@ -349,7 +349,7 @@ def dLdZ_sm(Z: np.ndarray,
             loss function
 
         activFunc:
-            Activation Function object used to get dLdZ_sm
+            Activation Function object used to get dl_dz_softmax
 
         efficient:
             Boolean indicating whether to get the gradient for the softmax
@@ -522,8 +522,8 @@ class BatchNormLayer_Dense(DenseLayer):
                 self.Z_final)
             dLdZ_final = dLdA * dadz_final
         else:
-            dLdZ_final = dLdZ_sm(self.Z_final, self.A, dLdA,
-                                 self.activationFunction)
+            dLdZ_final = dl_dz_softmax(self.Z_final, self.A, dLdA,
+                                       self.activationFunction)
 
         # gradients for learnable parameters - computation step for z_final layer
         dLdGamma = np.sum(np.dot(dLdZ_final, self.Z_norm.T),
