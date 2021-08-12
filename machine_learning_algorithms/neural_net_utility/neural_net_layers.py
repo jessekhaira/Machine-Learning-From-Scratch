@@ -429,8 +429,9 @@ class DenseBatchNormLayer(DenseLayer):
             0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
         self.Z_in = np.dot(self.W, prevlayer_activations) + self.b
-        # Z is a (features, examples) matrix so for every feature, we want the mean and std dev
-        # of every row meaning we get a (N,1) vector of means
+        # Z is a (features, examples) matrix so for every feature,
+        # we want the mean and std dev of every row meaning we get
+        # a (N,1) vector of means
         self.mean_miniBatch = np.mean(self.Z_in, axis=1, keepdims=True)
         self.variance = np.var(self.Z_in, axis=1, keepdims=True)
         # update running mean and std dev of every feature
@@ -439,7 +440,8 @@ class DenseBatchNormLayer(DenseLayer):
         self.Z_centered = self.Z_in - self.mean_miniBatch
         self.inv_stdDev = 1 / np.sqrt(self.variance + self.eps)
         self.Z_norm = self.Z_centered * self.inv_stdDev
-        # Multiply by learnable parameters to avoid the network from losing expressivity
+        # Multiply by learnable parameters to avoid the network from
+        # losing expressivity
         self.Z_final = self.gamma * self.Z_norm + self.beta
         # Finally, feed into activation function to activate.
         self.A = self.activationFunction.compute_output(self.Z_final)
