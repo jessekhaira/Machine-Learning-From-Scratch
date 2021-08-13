@@ -26,24 +26,51 @@ class AutoEncoder(NeuralNetworkBase):
         size_encoding:
             Integer representing the size of the encoding the autoencoder
             will encode to
-        
+
+        num_input_features:
+            Integer representing the number of dimensions present in the
+            input vectors to the auto encoder
+
+        img_height:
+            Integer representing the height of the images shown during training
+
+        img_width:
+            Integer representing the width of the images shown during training
+
+        encoder:
+            Fully connected neural network representing the encoder portion
+            of the autoencoder
+
+        decoder:
+            Fully connected neural network representing the decoder portion
+            of the autoencoder
+
+        layers:
+            A list containing the two layers of the autoencoder
+
+        objective_function:
+            Function representing the objective function to use during
+            training
     """
 
-    def __init__(self, size_encoding: int):
+    def __init__(self,
+                 size_encoding: int,
+                 num_input_features=784,
+                 img_height=28,
+                 img_width=28,
+                 objective_function=mean_squared_error()):
         self.size_encoding = size_encoding
-        self.num_features = 784
+        self.num_input_features = num_input_features
         # Design decision - encoder and decoder are symmetric
-        # not a hard constraint but its convienant as it removes a hyperparameter
-        self.img_height = 28
-        self.img_width = 28
+        # not a hard constraint but its convienant as it removes
+        # a hyperparameter
+        self.img_height = img_height
+        self.img_width = img_width
         self.encoder = self._build_encoder()
         self.decoder = self._build_decoder()
         # now stack the decoder layers right after the encoder layers
         self.layers = self.encoder + self.decoder
-        self.lossFunction = mean_squared_error()
-
-        # after we've defined the architecture, the autoencoder is like any other
-        # neural net
+        self.objective_function = objective_function
 
     def _build_encoder(self):
         encoder = []
@@ -76,7 +103,7 @@ class AutoEncoder(NeuralNetworkBase):
         # so our outputs should also be in between the range of 0-1
         decoder.append(
             DenseLayer(num_in=300,
-                       num_layer=self.num_features,
+                       num_layer=self.num_input_features,
                        activationFunction=Sigmoid()))
         return decoder
 
@@ -103,7 +130,7 @@ class AutoEncoder(NeuralNetworkBase):
                 pred_miniBatch = self._forward_propagate(curr_x)
                 loss = self._calculateLoss(curr_x, pred_miniBatch, self.layers)
                 lossEpoch.append(loss)
-                backpropInit = self.lossFunction.derivativeLoss_wrtPrediction(
+                backpropInit = self.objective_function.derivativeLoss_wrtPrediction(
                     curr_x, pred_miniBatch)
                 self._backward_propagate(backpropInit, learn_rate, optim, epoch,
                                          curr_x, curr_x)
