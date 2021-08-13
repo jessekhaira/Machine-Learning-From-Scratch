@@ -1,3 +1,5 @@
+""" This module contains code representing the unsupervised
+machine learning algorithm the autoencoder """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, DenseBatchNormLayer
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Sigmoid
@@ -55,9 +57,9 @@ class AutoEncoder(NeuralNetworkBase):
 
     def __init__(self,
                  size_encoding: int,
-                 num_input_features=784,
-                 img_height=28,
-                 img_width=28,
+                 num_input_features: int = 784,
+                 img_height: int = 28,
+                 img_width: int = 28,
                  objective_function=mean_squared_error()):
         self.size_encoding = size_encoding
         self.num_input_features = num_input_features
