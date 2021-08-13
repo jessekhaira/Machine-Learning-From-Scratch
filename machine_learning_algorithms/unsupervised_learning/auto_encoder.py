@@ -26,9 +26,10 @@ class AutoEncoder(NeuralNetworkBase):
         size_encoding:
             Integer representing the size of the encoding the autoencoder
             will encode to
+        
     """
 
-    def __init__(self, size_encoding):
+    def __init__(self, size_encoding: int):
         self.size_encoding = size_encoding
         self.num_features = 784
         # Design decision - encoder and decoder are symmetric
