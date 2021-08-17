@@ -101,8 +101,9 @@ class AutoEncoder(NeuralNetworkBase):
             DenseBatchNormLayer(num_in=150,
                                 num_layer=300,
                                 activationFunction=ReLU()))
-        # decoded outputs - sigmoid activation used because inputs are in the range of 0 -1
-        # so our outputs should also be in between the range of 0-1
+        # decoded outputs - sigmoid activation used because
+        # inputs are in the range of 0 -1, so our outputs should
+        # also be in between the range of 0-1
         decoder.append(
             DenseLayer(num_in=300,
                        num_layer=self.num_input_features,
