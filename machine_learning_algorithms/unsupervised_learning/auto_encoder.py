@@ -121,24 +121,24 @@ class AutoEncoder(NeuralNetworkBase):
         num_batches = xtrain.shape[1] // batch_size
         train_loss = []
         for epoch in range(num_epochs):
-            currStart = 0
-            currEnd = batch_size
-            lossEpoch = []
+            curr_start = 0
+            curr_end = batch_size
+            loss_epoch = []
             for i in range(num_batches):
                 if verbose:
                     print("epoch num %s, batch num %s" % (epoch, i))
-                curr_x = xtrain[:, currStart:currEnd]
-                currStart = currEnd
-                currEnd += batch_size
-                pred_miniBatch = self._forward_propagate(curr_x)
-                loss = self._calculateLoss(curr_x, pred_miniBatch, self.layers)
-                lossEpoch.append(loss)
-                backpropInit = self.objective_function.derivativeLoss_wrtPrediction(
-                    curr_x, pred_miniBatch)
-                self._backward_propagate(backpropInit, learn_rate, optim, epoch,
-                                         curr_x, curr_x)
+                curr_x = xtrain[:, curr_start:curr_end]
+                curr_start = curr_end
+                curr_end += batch_size
+                pred_mini_batch = self._forward_propagate(curr_x)
+                loss = self._calculateLoss(curr_x, pred_mini_batch, self.layers)
+                loss_epoch.append(loss)
+                backprop_init = self.objective_function.derivativeLoss_wrtPrediction(
+                    curr_x, pred_mini_batch)
+                self._backward_propagate(backprop_init, learn_rate, optim,
+                                         epoch, curr_x, curr_x)
 
-            train_loss.append(np.mean(lossEpoch))
+            train_loss.append(np.mean(loss_epoch))
 
             # provide updates during training for sanitys sake
             if verbose and epoch % 100 == 0:
