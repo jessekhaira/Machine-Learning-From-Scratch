@@ -5,7 +5,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Den
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Sigmoid
 from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
+from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 import matplotlib.pyplot as plt
 
 
@@ -111,13 +111,13 @@ class AutoEncoder(NeuralNetworkBase):
         return decoder
 
     def fit(self,
-            xtrain,
-            num_epochs=10,
-            batch_size=32,
-            ret_train_loss=False,
-            learn_rate=0.1,
-            optim=GradientDescent(),
-            verbose=False):
+            xtrain: np.ndarray,
+            num_epochs: int = 10,
+            batch_size: int = 32,
+            ret_train_loss: bool = False,
+            learn_rate: float = 0.1,
+            optim: Optimizer = GradientDescent(),
+            verbose: bool = False):
         num_batches = xtrain.shape[1] // batch_size
         train_loss = []
         for epoch in range(num_epochs):
