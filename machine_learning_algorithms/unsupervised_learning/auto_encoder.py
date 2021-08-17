@@ -148,18 +148,19 @@ class AutoEncoder(NeuralNetworkBase):
         if ret_train_loss:
             return train_loss
 
-    def imgs_checkpoints(self, epoch, X):
-        """
-        This method generates a batch of images from the autoencoder, plots them,
-        and saves the figure produced at various training checkpoints to assess how well 
-        the autoencoder is doing at reconstructing the inputs.
-        
-        Parameters:
-        -> epoch (int): The epoch at which the imgs are generated
-        -> X (NumPy matrix): Matrix of training examples
-        
-        Returns:
-        None
+    def imgs_checkpoints(self, epoch: int, X: np.ndarray) -> None:
+        """ This method generates a batch of images from the
+        autoencoder, plots them, and saves the figure produced
+        at various training checkpoints to assess how well the
+        autoencoder is doing at reconstructing the inputs.
+
+        Args:
+            epoch:
+                Integer representing the epoch at which the imgs are generated
+
+            X:
+                Numpy array of shape (num_examples, num_features) of
+                training examples
         """
         # we are going to generate 9 images
         # and then plot 9 images on subplots
