@@ -178,9 +178,10 @@ class AutoEncoder(NeuralNetworkBase):
         imgIdx = 0
         for i in range(num_rows):
             for j in range(num_cols):
-                ax[i, j].imshow(imgs[imgIdx, :, :], cmap='gray')
-                # we just want to see a grid of pictures, so we turn the axes off
-                ax[i, j].axis('off')
+                ax[i, j].imshow(imgs[imgIdx, :, :], cmap="gray")
+                # we just want to see a grid of pictures, so we turn
+                # the axes off
+                ax[i, j].axis("off")
                 imgIdx += 1
         # save the figures!
         fig.savefig("AutoEncoder Imgs Epoch Num %s" % epoch)
