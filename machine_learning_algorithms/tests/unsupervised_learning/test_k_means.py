@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from sklearn.datasets import load_iris
 from sklearn import preprocessing
-from machine_learning_algorithms.unsupervised_learning.k_Means import k_Means
+from machine_learning_algorithms.unsupervised_learning.k_means import KMeansClustering
 import matplotlib.pyplot as plt
 
 X, Y = load_iris(return_X_y=True)
@@ -13,7 +13,7 @@ X = preprocessing.scale(X).T
 class tests(unittest.TestCase):
 
     def testIris(self):
-        kMeanObj = k_Means()
+        kMeanObj = KMeansClustering()
         clustersAssigned = kMeanObj.fit_predict(X, num_clusters=3)
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
