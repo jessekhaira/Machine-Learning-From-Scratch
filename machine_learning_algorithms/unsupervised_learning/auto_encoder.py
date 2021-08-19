@@ -148,7 +148,7 @@ class AutoEncoder(NeuralNetworkBase):
         if ret_train_loss:
             return train_loss
 
-    def imgs_checkpoints(self, epoch: int, X: np.ndarray) -> None:
+    def imgs_checkpoints(self, epoch: int, x: np.ndarray) -> None:
         """ This method generates a batch of images from the
         autoencoder, plots them, and saves the figure produced
         at various training checkpoints to assess how well the
@@ -158,31 +158,31 @@ class AutoEncoder(NeuralNetworkBase):
             epoch:
                 Integer representing the epoch at which the imgs are generated
 
-            X:
+            x:
                 Numpy array of shape (num_examples, num_features) of
                 training examples
         """
         # we are going to generate 9 images
         # and then plot 9 images on subplots
         num_rows, num_cols = 3, 3
-        totalPics = 9
+        total_pics = 9
         #random batch of 9 pics w/o replacement
-        pic_axes = np.random.choice(X.shape[1], size=totalPics, replace=False)
-        train_9 = X[:, pic_axes]
+        pic_axes = np.random.choice(x.shape[1], size=total_pics, replace=False)
+        train_9 = x[:, pic_axes]
         # plots
         fig, ax = plt.subplots(nrows=num_rows, ncols=num_cols)
         # get generated imgs
         imgs = self.predict(train_9,
                             supervised=False).reshape(-1, self.img_height,
                                                       self.img_width)
-        imgIdx = 0
+        img_idx = 0
         for i in range(num_rows):
             for j in range(num_cols):
-                ax[i, j].imshow(imgs[imgIdx, :, :], cmap="gray")
+                ax[i, j].imshow(imgs[img_idx, :, :], cmap="gray")
                 # we just want to see a grid of pictures, so we turn
                 # the axes off
                 ax[i, j].axis("off")
-                imgIdx += 1
+                img_idx += 1
         # save the figures!
         fig.savefig("AutoEncoder Imgs Epoch Num %s" % epoch)
         plt.close()
