@@ -3,7 +3,7 @@ from machine_learning_algorithms.utility.misc import euclideanDistance
 import copy
 
 
-class k_Means(object):
+class KMeansClustering(object):
     """
     This class represents the K-Means clustering algorithm used for unsupervised learning.
 
