@@ -10,7 +10,7 @@ X, Y = load_iris(return_X_y=True)
 X = preprocessing.scale(X).T
 
 
-class tests(unittest.TestCase):
+class KMeansClusteringTests(unittest.TestCase):
 
     def testIris(self):
         kMeanObj = KMeansClustering()
