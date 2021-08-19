@@ -12,7 +12,7 @@ X = preprocessing.scale(X).T
 
 class KMeansClusteringTests(unittest.TestCase):
 
-    def testIris(self):
+    def test1(self):
         kMeanObj = KMeansClustering()
         clustersAssigned = kMeanObj.fit_predict(X, num_clusters=3)
         fig = plt.figure()

@@ -11,7 +11,7 @@ x_train.reshape(784, -1)
 x_train = x_train.reshape(784, -1)
 
 
-class tests(unittest.TestCase):
+class AutoEncoderTests(unittest.TestCase):
 
     def test1(self):
         # works fine, but takes a really long time to train
