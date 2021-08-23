@@ -134,9 +134,11 @@ class RBM(object):
             data:
                 Numpy Matrix of shape (M,N) where M is the number of examples
                 and N is the number of features
+
             verbose:
                 Boolean indicating whether or not to provide updates during
                 training
+
             sampling_epochs:
                 If verbose, the number of epochs to wait before producing
                 sampled images and reconstruction errors
