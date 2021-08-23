@@ -5,10 +5,22 @@ import copy
 
 class KMeansClustering(object):
     """
-    This class represents the K-Means clustering algorithm used for unsupervised learning.
+    This class represents the K-Means algorithm, which is an
+    unsupervised machine learning algorithm used to find hidden structure
+    inside of data.
 
-    Parameters:
-    -> maxNumLoops (int): The maximum number of times the algorithm should run if it does not converge on its own
+    Attributes:
+        maxNumLoops:
+            Integer representing the maximum number of times the algorithm
+            should run (if it does not converge on its own).
+
+        clusterCentroids:
+            Value that is None or is a numpy array holding vectors in the input
+            data that are considered cluster centroids
+
+        clustersVectorsAssigned:
+            Value that is None or is a numpy array indicating the cluster
+            centroid every vector in the input data will have
     """
 
     def __init__(self, maxNumLoops=300):
@@ -23,18 +35,28 @@ class KMeansClustering(object):
                     num_clusters,
                     similarityMetric=euclideanDistance,
                     seed=21):
-        """
-        This method computes cluster centroids for every vector in the data and returns them.
+        """ This method computes cluster centroids for every vector in the data
+        and returns them.
 
-        Parameters:
-        -> data (NumPy matrix): Should be a (features, examples) matrix
-        -> num_clusters (int): The number of clusters the user would like to discover in the data
-        -> similarityMetric (function): The function to use to compute similarity between vectors
-        -> seed (int): The seed to use when randomly generating the cluster centroids
+        Args:
+            data:
+                Numpy array of shape (num_features, num_examples) indicating the
+                data to find clusters in
+
+            num_clusters:
+                Integer representing the number of clusters the user would
+                like to discover in the data
+
+            similarityMetric:
+                Function used to compute the similarity between vectors
+
+            seed:  
+                Integer representing the seed to use when randomly generating
+                the cluster centroids
 
         Returns:
-        -> self.clustersVectorsAssigned (NumPy vector): Vector of shape (1, num_examples) indicating the cluster
-        every point has been assigned to.
+            A numpy array of shape (1, num_examples) indicating the cluster
+            every vector in the data has been assigned to.
         """
 
         self._initializeClusterCentroids(num_clusters, data, seed)
@@ -42,7 +64,7 @@ class KMeansClustering(object):
 
         # we assign vectors to the cluster centroid they are the closest to
         # and then update the cluster centroid until convergence
-        for loop in range(self.maxNumLoops):
+        for _ in range(self.maxNumLoops):
             for i in range(data.shape[1]):
                 vector = data[:, i]
                 self._updateCluster(vector, similarityMetric, i)
