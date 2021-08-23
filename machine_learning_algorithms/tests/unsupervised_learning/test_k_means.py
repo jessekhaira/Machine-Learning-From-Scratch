@@ -1,3 +1,5 @@
+""" This module contains unit tests for the k-means
+clustering algorithm """
 import unittest
 import numpy as np
 from sklearn.datasets import load_iris
@@ -5,30 +7,35 @@ from sklearn import preprocessing
 from machine_learning_algorithms.unsupervised_learning.k_means import KMeansClustering
 import matplotlib.pyplot as plt
 
-X, Y = load_iris(return_X_y=True)
-
-X = preprocessing.scale(X).T
-
 
 class KMeansClusteringTests(unittest.TestCase):
+    """ This class contains unit tests for the k-means
+    clustering algorithm """
+
+    def setUp(self):
+        self.x, self.y = load_iris(return_X_y=True)
+        self.x = preprocessing.scale(self.x).T
+
+    def tearDown(self):
+        self.x = None
+        self.y = None
 
     def test1(self):
-        kMeanObj = KMeansClustering()
-        clustersAssigned = kMeanObj.fit_predict(X, num_clusters=3)
+        k_mean_obj = KMeansClustering()
+        clusters_assigned = k_mean_obj.fit_predict(self.x, num_clusters=3)
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        # as expected, we got the wrong clusters which is what we should've gotten :D
         scatter = []
         markers = ['.', ',', 'o']
         colors = ['red', 'blue', 'green']
         for i, m, color in zip(range(3), markers, colors):
-            ithClusterPts = np.where(clustersAssigned[:] == i)[1]
-            scatterI = ax.scatter(X[0, ithClusterPts],
-                                  X[1, ithClusterPts],
-                                  X[3, ithClusterPts],
-                                  c=color,
-                                  marker=m)
-            scatter.append(scatterI)
+            ith_cluster_pts = np.where(clusters_assigned[:] == i)[1]
+            scatter_i = ax.scatter(self.x[0, ith_cluster_pts],
+                                   self.x[1, ith_cluster_pts],
+                                   self.x[3, ith_cluster_pts],
+                                   c=color,
+                                   marker=m)
+            scatter.append(scatter_i)
         ax.legend(scatter, (
             'cluster1',
             'cluster2',
