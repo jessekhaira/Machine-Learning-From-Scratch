@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from machine_learning_algorithms.unsupervised_learning.PCA import PrincipalComponentAnalysis
+from machine_learning_algorithms.unsupervised_learning.principal_component_analysis import PrincipalComponentAnalysis
 import unittest
 import matplotlib.pyplot as plt
 

@@ -71,6 +71,6 @@ Models:
 ### Unsupervised Learning:
 
 - [K-Means](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/unsupervised_learning/k_means.py)
-- [Principal Component Analysis](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/unsupervised_learning/PCA.py)
+- [Principal Component Analysis](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/unsupervised_learning/principal_component_analysis.py)
 - [Deep Autoencoder](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/unsupervised_learning/auto_encoder.py)
 - [Restricted Boltzmann Machine](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/unsupervised_learning/restricted_boltzmann_machine.py)
