@@ -20,7 +20,7 @@ class PrincipalComponentAnalysis:
         self.eigenValues = None
         self.eigenVectors = None
 
-    def fit_transform(self, data, num_principal):
+    def fit_transform(self, data: np.ndarray, num_principal: int) -> np.ndarray:
         """ This method extracts num_principal principal components
         from the input data and returns them.
 
