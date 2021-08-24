@@ -17,8 +17,8 @@ class PrincipalComponentAnalysis:
     """
 
     def __init__(self):
-        self.eigenValues = None
-        self.eigenVectors = None
+        self.eigen_values = None
+        self.eigen_vectors = None
 
     def fit_transform(self, data: np.ndarray, num_principal: int) -> np.ndarray:
         """ This method extracts num_principal principal components
@@ -44,13 +44,15 @@ class PrincipalComponentAnalysis:
 
         # eigenvalues - how much variance is captured by a certain dimension
         # eigenvectors - the new axes (dimensions) we will use
-        self.eigenValues, self.eigenVectors = np.linalg.eig(cov_matrix)
-
-        # order the eigenvectors according to the eigenvalues - IE the eigenvalue matrix is really
-        # like a diagonal covariance matrix in that every element is 0 (meaning no dimension is correlated with any other)
-        # except for the diagonal elements, which indicate how much variance the i == j dimension explains
-        idxSorted = np.argsort(self.eigenValues, axis=0)[::-1]
-        eigenVectors = self.eigenVectors[idxSorted]
-        # transform the data to the new vector space with the principal components found above
-        # and only return the first num_principal dimensions
-        return self.eigenVectors.dot(data)[:num_principal]
+        self.eigen_values, self.eigen_vectors = np.linalg.eig(cov_matrix)
+        # order the eigenvectors according to the eigenvalues - IE the
+        # eigenvalue matrix is really like a diagonal covariance matrix
+        # in that every element is 0 (meaning no dimension is correlated
+        # with any other) except for the diagonal elements, which indicate
+        # how much variance the i == j dimension explains
+        idxSorted = np.argsort(self.eigen_values, axis=0)[::-1]
+        eigen_vectors = self.eigen_vectors[idxSorted]
+        # transform the data to the new vector space with the principal
+        # components found above and only return the first num_principal
+        # dimensions
+        return self.eigen_vectors.dot(data)[:num_principal]
