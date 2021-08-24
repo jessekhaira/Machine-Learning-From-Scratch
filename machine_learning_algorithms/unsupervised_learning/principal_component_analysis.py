@@ -1,3 +1,5 @@
+""" This module contains code representing the unsupervised
+machine learning algorithm principal component analysis """
 import numpy as np
 from machine_learning_algorithms.utility.misc import getCovarianceMatrix
 
@@ -40,7 +42,8 @@ class PrincipalComponentAnalysis:
         """
         # perform PCA by doing eigen decomposition on the covariance matrix
         cov_matrix = getCovarianceMatrix(data)
-        # we lose interpretability of the features but we get uncorrelated features
+        # we lose interpretability of the features but we get uncorrelated
+        # features
 
         # eigenvalues - how much variance is captured by a certain dimension
         # eigenvectors - the new axes (dimensions) we will use
