@@ -2,7 +2,7 @@ import numpy as np
 from machine_learning_algorithms.utility.misc import getCovarianceMatrix
 
 
-class PrincipalComponentAnalysis(object):
+class PrincipalComponentAnalysis:
     """
     Principal Component Analysis (PCA) is a dimensionality reduction algorithm primarily used for exploratory
     data analysis and for making predictive models. PCA can either be carried out by eigendecomposition
