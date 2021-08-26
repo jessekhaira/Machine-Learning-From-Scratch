@@ -12,8 +12,7 @@ import matplotlib.pyplot as plt
 class AutoEncoder(NeuralNetworkBase):
     """ This class represents a Deep Autoencoder made for MNIST.
     An autoencoder is a type of neural network used in unsupervised
-    learning, typically to learn data codings for dimensionality
-    reduction.
+    learning, typically to perform dimensionality reduction.
 
     The Autoencoder consists of two fully connected nets: An encoder and
     a decoder. The encoder takes as input high dimensional vectors and
