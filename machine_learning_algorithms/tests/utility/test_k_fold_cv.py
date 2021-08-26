@@ -1,10 +1,10 @@
 """ This module contains code that tests the k fold cv algorithm """
+import unittest
 from sklearn import preprocessing
 from sklearn.datasets import load_breast_cancer
 from machine_learning_algorithms.supervised_learning.classifiers.logistic_regression import LogisticRegression
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
-import unittest
 
 
 class TestKFoldCV(unittest.TestCase):
