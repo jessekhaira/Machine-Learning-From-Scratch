@@ -18,11 +18,12 @@ def regularization_loss(layersOfWeights, typeReg):
 
 
 class LossFunction(object):
-    """
-    This is the base LossFunction abstract class which all loss functions will inherit from.
-    Every loss function will have a method of get_loss, derivativeLoss_wrtPrediction, and 
-    _gradient_checking, therefore it made sense to make an abstract class from which all these related
-    classes will inherit from.
+    """ This is the base class which all loss functions will inherit from.
+
+    Every loss function will have a method of get_loss,
+    derivativeLoss_wrtPrediction, and _gradient_checking, therefore it made
+    sense to make an abstract class from which all these related classes will
+    inherit from.
     """
 
     def get_loss(self, labels, predictions, layersOfWeights):
