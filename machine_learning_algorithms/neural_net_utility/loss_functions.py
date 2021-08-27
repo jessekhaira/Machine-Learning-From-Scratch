@@ -1,7 +1,5 @@
 import numpy as np
 import random
-from machine_learning_algorithms.utility.ScoreFunctions import MSE
-from sklearn.metrics import log_loss
 
 
 def regularization_loss(layersOfWeights, typeReg):
@@ -48,7 +46,7 @@ class LossFunction(object):
             predictions:
                 Numpy array of shape (m,1), representing the predictions
                 (probability between 0 and 1) for m examples
-        
+
             num_checks:
                 Integer representing the number of times to check the
                 gradient implentation
