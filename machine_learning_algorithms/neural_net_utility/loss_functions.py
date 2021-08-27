@@ -32,20 +32,26 @@ class LossFunction(object):
     def derivativeLoss_wrtPrediction(self, labels, predictions):
         raise NotImplementedError
 
-    def _gradient_checking(self, labels, predictions, num_checks=10):
+    def _gradient_checking(self,
+                           labels: np.ndarray,
+                           predictions: np.ndarray,
+                           num_checks: int = 10):
         """
         This method does a quick gradient check to ensure the
-        dL/dA is indeed correct. 
+        dL/dA is indeed correct.
 
-        Parameters:
-        - labels (NumPy vector) -> (m,1) vector representing the labels for m examples
+        Arguments:
+            labels:
+                Numpy array of shape (m,1), representing the labels
+                for all input examples
 
-        - predictions (NumPy vector) -> (m,1) vector representing the predictions (prob between 0 and 1)
-        for m examples
+            predictions:
+                Numpy array of shape (m,1), representing the predictions
+                (probability between 0 and 1) for m examples
         
-        - num_checks (int) -> number of times to check the gradient implentation
-
-        Output (None)
+            num_checks:
+                Integer representing the number of times to check the
+                gradient implentation
         """
         eps = 1e-7
         random.seed(561)
