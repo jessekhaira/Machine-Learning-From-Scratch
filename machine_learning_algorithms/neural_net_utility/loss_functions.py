@@ -25,7 +25,8 @@ class LossFunction(object):
     inherit from.
     """
 
-    def get_loss(self, labels, predictions, layersOfWeights):
+    def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
+                 layersOfWeights: np.ndarray):
         raise NotImplementedError
 
     def derivativeLoss_wrtPrediction(self, labels, predictions):
