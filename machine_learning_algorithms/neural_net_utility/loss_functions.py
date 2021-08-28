@@ -246,7 +246,7 @@ class CrossEntropy(LossFunction):
 
             predictions:
                 Numpy array of shape (C,m) representing predictions
-        
+
         Returns:
             Floating point value representing the loss
         """

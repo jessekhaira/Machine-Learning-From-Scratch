@@ -174,7 +174,7 @@ class Conv2D(BaseConvolutionalLayer):
         return filters, bias
 
     def update_weights(self,
-                       dLdA: np.ndarray,
+                       dl_da: np.ndarray,
                        learn_rate: float,
                        epoch: int,
                        prediction_obj,

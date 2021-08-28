@@ -13,7 +13,7 @@ class BaseNeuralNetworkLayer(object):
     def compute_forward(self):
         raise NotImplementedError
 
-    def update_weights(self, dLdA):
+    def update_weights(self, dl_da):
         raise NotImplementedError
 
     def _getRegularizationLoss(self, regularizationType, regParameter,
