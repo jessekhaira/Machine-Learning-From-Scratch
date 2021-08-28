@@ -1,3 +1,4 @@
+""" This module contains a variety of objective functions """
 import numpy as np
 import random
 
@@ -34,8 +35,7 @@ class LossFunction(object):
                            labels: np.ndarray,
                            predictions: np.ndarray,
                            num_checks: int = 10):
-        """
-        This method does a quick gradient check to ensure the
+        """ This method does a quick gradient check to ensure the
         dL/dA is indeed correct.
 
         Arguments:
