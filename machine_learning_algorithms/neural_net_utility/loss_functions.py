@@ -29,7 +29,8 @@ class LossFunction(object):
                  layersOfWeights: np.ndarray):
         raise NotImplementedError
 
-    def derivativeLoss_wrtPrediction(self, labels, predictions):
+    def derivativeLoss_wrtPrediction(self, labels: np.ndarray,
+                                     predictions: np.ndarray):
         raise NotImplementedError
 
     def _gradient_checking(self,
