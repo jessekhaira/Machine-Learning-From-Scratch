@@ -255,7 +255,8 @@ class cross_entropy(LossFunction):
         # sum up all the losses for every single example (column wise sum) and then average them and return
         return np.mean(np.sum(data_loss, axis=0))
 
-    def get_gradient_pred(self, labels, predictions):
+    def get_gradient_pred(self, labels: np.ndarray,
+                          predictions: np.ndarray) -> np.ndarray:
         """
         This method represents the derivative of the cost function with respect to 
         the input y^ value. This gradient is meant to be passed back in the circuit
@@ -269,7 +270,9 @@ class cross_entropy(LossFunction):
         
         Output (NumPy matrix) -> NumPy matrix of shape (C,m) 
         """
-        assert labels.shape == predictions.shape, "Somethings wrong, your labels have to be the same shape as the predictions!"
+        assert labels.shape == predictions.shape, (
+            "Somethings wrong, your labels have to be the same shape as the predictions!"
+        )
         # -1/m dont forget in gradient!
-        dLda = -(1 / labels.shape[1]) * (labels / predictions)
-        return dLda
+        dl_da = -(1 / labels.shape[1]) * (labels / predictions)
+        return dl_da
