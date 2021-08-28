@@ -1,10 +1,12 @@
+""" This module contains unit tests for objective functions """
 import numpy as np
 import unittest
-import math
 from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
 
 
 class TestObjectiveFunctions(unittest.TestCase):
+    """ This class contains unit tests for a variety of objective
+    functions """
 
     def setUp(self):
         self.cross_entropy_object = cross_entropy()
