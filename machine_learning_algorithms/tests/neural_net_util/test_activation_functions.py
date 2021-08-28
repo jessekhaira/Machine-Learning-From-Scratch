@@ -3,7 +3,7 @@ activation functions """
 import numpy as np
 import unittest
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
-from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
+from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_dz_softmax
 
 
@@ -14,7 +14,7 @@ class TestActivationFunctions(unittest.TestCase):
         #test with single example first
         np.random.seed(21)
         softmax_predictor = Softmax()
-        ce = cross_entropy()
+        ce = CrossEntropy()
         z = np.random.randn(4, 5)
         a = softmax_predictor.compute_output(z)
         print(a)

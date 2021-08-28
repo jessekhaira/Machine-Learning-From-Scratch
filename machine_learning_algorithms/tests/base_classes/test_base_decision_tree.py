@@ -7,8 +7,7 @@ import unittest
 
 
 class TestBaseDecisionTree(unittest.TestCase):
-    """
-    This class contains unit tests for each of the methods
+    """ This class contains unit tests for each of the methods
     defined for the base decision tree class.
     """
 

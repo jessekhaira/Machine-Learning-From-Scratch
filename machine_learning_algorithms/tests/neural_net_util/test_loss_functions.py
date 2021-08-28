@@ -1,7 +1,7 @@
-""" This module contains unit tests for objective functions """
+""" This module contains tests for objective functions """
 import numpy as np
 import unittest
-from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
+from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 
 
 class TestObjectiveFunctions(unittest.TestCase):
@@ -9,7 +9,7 @@ class TestObjectiveFunctions(unittest.TestCase):
     functions """
 
     def setUp(self):
-        self.cross_entropy_object = cross_entropy()
+        self.cross_entropy_object = CrossEntropy()
 
     def test_cross_entropy_loss1(self):
         y = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1]]).T

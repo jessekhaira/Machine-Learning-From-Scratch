@@ -1,7 +1,7 @@
 """ This module contains code representing the softmax regression
 multi class classification algorithm """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import cross_entropy
+from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax
 from typing import Union, Literal
 
@@ -34,7 +34,7 @@ class SoftmaxRegression(NeuralNetworkBase):
                  numClasses: int,
                  regularization: Union[Literal["L2", "L1"], None] = None,
                  regParameter: Union[float, None] = None):
-        cost_func = cross_entropy(regularization, regParameter)
+        cost_func = CrossEntropy(regularization, regParameter)
         activ_func = Softmax()
         super(SoftmaxRegression, self).__init__(cost_func, inLayerNeuron)
         self.add_layer(numClasses, activ_func, 1)

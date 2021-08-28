@@ -1,15 +1,16 @@
 """ This module contains a variety of objective functions """
 import numpy as np
 import random
+from typing import Union
 
 
 def regularization_loss(layersOfWeights: np.ndarray, typeReg: str) -> float:
     reg_loss = 0
-    if typeReg == 'L2':
+    if typeReg == "L2":
         for i in range(len(layersOfWeights)):
             reg_loss += (np.linalg.norm(layersOfWeights[i].W, ord=2)**2)
 
-    elif typeReg == 'L1':
+    elif typeReg == "L1":
         for i in range(len(layersOfWeights)):
             reg_loss += np.linalg.norm(layersOfWeights[i].W, ord=1)
 
@@ -207,12 +208,14 @@ class mean_squared_error(LossFunction):
         
         Output (NumPy vector) -> NumPy vector of shape (m,1) 
         """
-        assert labels.shape == predictions.shape, "Somethings wrong, your labels have to be the same shape as the predictions!"
+        assert labels.shape == predictions.shape, (
+            "Somethings wrong, your labels have to be the same shape as the predictions!"
+        )
         dLda = (1 / labels.shape[1]) * (predictions - labels)
         return dLda
 
 
-class cross_entropy(LossFunction):
+class CrossEntropy(LossFunction):
     """
     This class represents the cross entropy loss, which is typically the cost function to be optimized
     in multiclass classification tasks.
@@ -225,54 +228,76 @@ class cross_entropy(LossFunction):
     - regParameter (int) -> Integer indicating the strength of the regularization 
     """
 
-    def __init__(self, regularization=None, regParameter=None):
+    def __init__(self,
+                 regularization: Union[None, str] = None,
+                 regParameter: Union[None, float] = None):
         self.regularization = regularization
         self.regParameter = regParameter
 
-    def get_loss(self, labels, predictions, layersOfWeights=None):
+    def get_loss(self,
+                 labels: np.ndarray,
+                 predictions: np.ndarray,
+                 layersOfWeights: Union[None, np.ndarray] = None) -> float:
         """
-        Parameters:
-        - labels (NumPy matrix) -> (C,m) matrix representing the C labels for M examples
+        Arguments:
+            labels:
+                Numpy array of shape (C,m), representing the labels for
+                all of the inputs
 
-        - predictions (NumPy matrix) -> (C,m) matrix representing the softmax probability distribution 
+            predictions:
+                Numpy array of shape (C,m) representing predictions
+        
+        Returns:
+            Floating point value representing the loss
         """
-        # Numerical stability issues -> we never want to take the log of 0 so we clip our predictions at a lowest val of 1e-10
+        # Numerical stability issues -> we never want to take the log of 0
+        # so we clip our predictions at a lowest val of 1e-10
         predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         data_loss = -(labels * np.log(predictions))
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
         reg_loss = regularization_loss(layersOfWeights, self.regularization)
-        if self.regularization == 'L2':
+        if self.regularization == "L2":
             return np.mean(data_loss + (self.regParameter / 2) * reg_loss)
 
-        # One examples loss, say zeroth, is -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
-        # The entire loss is this summed up over the entire vector of predictions
-        # This operations has beeen vectorized to allow this to happen
-        elif self.regularization == 'L1':
+        # One examples loss, say zeroth, is:
+        # -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
+        # The entire loss is this summed up over the entire vector of
+        # predictions. This operations has beeen vectorized to allow
+        # this to happen
+        elif self.regularization == "L1":
             return np.mean(data_loss + self.regParameter * reg_loss)
 
-        # sum up all the losses for every single example (column wise sum) and then average them and return
+        # sum up all the losses for every single example (column wise sum) and
+        # then average them and return
         return np.mean(np.sum(data_loss, axis=0))
 
     def get_gradient_pred(self, labels: np.ndarray,
                           predictions: np.ndarray) -> np.ndarray:
-        """
-        This method represents the derivative of the cost function with respect to 
-        the input y^ value. This gradient is meant to be passed back in the circuit
-        of the neural network, and if there is regularization, the regularization will
-        be included when updating the weights of a certain layer. 
-        
-        Parameters:
-        - labels (NumPy matrix) -> (C,m) matrix representing the C labels for M examples
+        """ This method represents the derivative of the cost
+        function with respect to the input value. This gradient
+        is meant to be passed back in the circuit of the neural
+        network, and if there is regularization, the regularization
+        will be included when updating the weights of a certain layer.
 
-        - predictions (NumPy matrix) -> (C,m) matrix representing the softmax probability distribution 
-        
-        Output (NumPy matrix) -> NumPy matrix of shape (C,m) 
+        C - number of classes
+        m - number of examples
+
+        Arguments:
+            labels:
+                Numpy array of shape (C,m), representing the labels for
+                all of the inputs
+
+            predictions:
+                Numpy array of shape (C,m) representing predictions
+
+        Returns:
+            Jacobian matrix of shape (C,m)
         """
         assert labels.shape == predictions.shape, (
-            "Somethings wrong, your labels have to be the same shape as the predictions!"
-        )
+            "Somethings wrong, your labels have to be the same shape as" +
+            "the predictions!")
         # -1/m dont forget in gradient!
         dl_da = -(1 / labels.shape[1]) * (labels / predictions)
         return dl_da
