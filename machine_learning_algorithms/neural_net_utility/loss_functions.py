@@ -36,9 +36,20 @@ class LossFunction(object):
     def _gradient_checking(self,
                            labels: np.ndarray,
                            predictions: np.ndarray,
-                           num_checks: int = 10):
+                           num_checks: int = 10) -> None:
         """ This method does a quick gradient check to ensure the
         dL/dA is indeed correct.
+
+        Theoretically, we should be able to compute the loss with
+        respect to every single example at one time. It turns out
+        that you lose precision when you do it that way, so you
+        don't get appropriate results for when you compute the
+        gradient.
+
+        Specifically, np.log seems to not perform well in terms
+        of precise accuracy when applied to an entire vector. Thus,
+        we just compute, our loss with a single example at a time
+        as this seems to preserve accuracy much better.
 
         Arguments:
             labels:
@@ -55,13 +66,7 @@ class LossFunction(object):
         """
         eps = 1e-7
         random.seed(561)
-        for i in range(num_checks):
-            # Theoretically, we should be able to compute the loss with respect to every single
-            # example at one time. It turns out that you lose precision when you do it that way
-            # so you don't get appropriate results for when you add eps and subtract eps AKA np.log
-            # seems to not perform well in terms of precise accuracy when applied to an entire vector
-            #  Thus, we just compute  our loss with a single example at a time as this seems to preserve accuracy much
-            # better and proves the gradient!
+        for _ in range(num_checks):
             if labels.shape[0] > 1:
                 # Reshape multiclass labels to be easier to work with
                 labels = labels.reshape(1, -1)
