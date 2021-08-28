@@ -71,9 +71,9 @@ class LossFunction(object):
                 # Reshape multiclass labels to be easier to work with
                 labels = labels.reshape(1, -1)
                 predictions = predictions.reshape(1, -1)
-            changeIdx = np.random.randint(0, labels.shape[1])
-            y = labels[:, changeIdx].reshape(1, 1)
-            p = predictions[:, changeIdx].reshape(1, 1)
+            change_idx = np.random.randint(0, labels.shape[1])
+            y = labels[:, change_idx].reshape(1, 1)
+            p = predictions[:, change_idx].reshape(1, 1)
             p_upeps = p + eps
             loss_higher = self.get_loss(y, p_upeps, None)
             p_downeps = p - eps
@@ -86,7 +86,7 @@ class LossFunction(object):
             print('rel error is %s' % (rel_error))
 
 
-class negative_log_loss(LossFunction):
+class NegativeLogLoss(LossFunction):
     """
     This class represents the negative log loss, which is typically the cost function to be optimized
     in binary classification tasks.

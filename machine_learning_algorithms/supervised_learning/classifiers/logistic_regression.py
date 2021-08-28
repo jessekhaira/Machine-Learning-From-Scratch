@@ -4,7 +4,7 @@ binary classification.
 """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss
+from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss
 from machine_learning_algorithms.neural_net_utility.activation_functions import Sigmoid
 from typing import Literal, Union
 
@@ -37,7 +37,7 @@ class LogisticRegression(NeuralNetworkBase):
                  classificationThreshold: Union[None, float] = None,
                  regularization: Literal["L2", "L1"] = None,
                  regParameter: float = None):
-        loss_obj = negative_log_loss(regularization, regParameter)
+        loss_obj = NegativeLogLoss(regularization, regParameter)
         activ = Sigmoid()
         super(LogisticRegression, self).__init__(input_features=inLayerNeuron,
                                                  lossFunction=loss_obj)

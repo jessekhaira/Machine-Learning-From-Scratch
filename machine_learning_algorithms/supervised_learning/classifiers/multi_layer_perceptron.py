@@ -1,7 +1,7 @@
 """ This module contains code representing an implementation of the
 multi layer perceptron algorithm for supervised learning """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import negative_log_loss, cross_entropy, mean_squared_error
+from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss, cross_entropy, mean_squared_error
 from typing import Literal, Union
 import numpy as np
 
@@ -35,8 +35,8 @@ class MultiLayerPerceptron(NeuralNetworkBase):
                  regularization: Union[Literal["L1", "L2"], None] = None,
                  regParameter: float = None):
         if typeSupervised == "binary":
-            loss_obj = negative_log_loss(regularization=regularization,
-                                         regParameter=regParameter)
+            loss_obj = NegativeLogLoss(regularization=regularization,
+                                       regParameter=regParameter)
         elif typeSupervised == "multiclass":
             loss_obj = cross_entropy(regularization=regularization,
                                      regParameter=regParameter)
