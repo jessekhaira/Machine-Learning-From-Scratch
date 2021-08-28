@@ -3,7 +3,7 @@ import numpy as np
 import random
 
 
-def regularization_loss(layersOfWeights, typeReg):
+def regularization_loss(layersOfWeights: np.ndarray, typeReg: str) -> float:
     reg_loss = 0
     if typeReg == 'L2':
         for i in range(len(layersOfWeights)):
