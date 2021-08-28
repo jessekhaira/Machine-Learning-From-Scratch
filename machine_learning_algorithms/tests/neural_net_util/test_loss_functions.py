@@ -16,7 +16,7 @@ class testLossFunc(unittest.TestCase):
 
         print(loss)
 
-        derivLoss = CE.derivativeLoss_wrtPrediction(y, yhat)
+        derivLoss = CE.get_gradient_pred(y, yhat)
 
         print(derivLoss)
 

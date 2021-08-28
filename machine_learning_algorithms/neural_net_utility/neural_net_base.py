@@ -188,7 +188,7 @@ class NeuralNetworkBase(object):
                 pred_miniBatch = self._forward_propagate(curr_x)
                 loss = self._calculateLoss(curr_y, pred_miniBatch, self.layers)
                 lossEpoch.append(loss)
-                backpropInit = self.lossFunction.derivativeLoss_wrtPrediction(
+                backpropInit = self.lossFunction.get_gradient_pred(
                     curr_y, pred_miniBatch)
                 self._backward_propagate(backpropInit, learn_rate, optim, epoch,
                                          curr_x, curr_y)

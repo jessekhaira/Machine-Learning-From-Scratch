@@ -132,7 +132,7 @@ class AutoEncoder(NeuralNetworkBase):
                 pred_mini_batch = self._forward_propagate(curr_x)
                 loss = self._calculateLoss(curr_x, pred_mini_batch, self.layers)
                 loss_epoch.append(loss)
-                backprop_init = self.objective_function.derivativeLoss_wrtPrediction(
+                backprop_init = self.objective_function.get_gradient_pred(
                     curr_x, pred_mini_batch)
                 self._backward_propagate(backprop_init, learn_rate, optim,
                                          epoch, curr_x, curr_x)

@@ -20,7 +20,7 @@ class LossFunction(object):
     """ This is the base class which all loss functions will inherit from.
 
     Every loss function will have a method of get_loss,
-    derivativeLoss_wrtPrediction, and _gradient_checking, therefore it made
+    get_gradient_pred, and _gradient_checking, therefore it made
     sense to make an abstract class from which all these related classes will
     inherit from.
     """
@@ -29,8 +29,7 @@ class LossFunction(object):
                  layersOfWeights: np.ndarray):
         raise NotImplementedError
 
-    def derivativeLoss_wrtPrediction(self, labels: np.ndarray,
-                                     predictions: np.ndarray):
+    def get_gradient_pred(self, labels: np.ndarray, predictions: np.ndarray):
         raise NotImplementedError
 
     def _gradient_checking(self,
@@ -78,7 +77,7 @@ class LossFunction(object):
             loss_higher = self.get_loss(y, p_upeps, None)
             p_downeps = p - eps
             loss_lower = self.get_loss(y, p_downeps, None)
-            grad_analytic = self.derivativeLoss_wrtPrediction(y, p)
+            grad_analytic = self.get_gradient_pred(y, p)
             grad_numeric = (loss_higher - loss_lower) / (2 * eps)
             rel_error = abs(grad_analytic -
                             grad_numeric) / abs(grad_analytic + grad_numeric +
@@ -129,7 +128,7 @@ class NegativeLogLoss(LossFunction):
         # no regularization, just return mean of data loss
         return np.mean(data_loss)
 
-    def derivativeLoss_wrtPrediction(self, labels, predictions):
+    def get_gradient_pred(self, labels, predictions):
         """
         This method represents the derivative of the cost function with respect to 
         the input y^ value. This gradient is meant to be passed back in the circuit
@@ -193,7 +192,7 @@ class mean_squared_error(LossFunction):
         # no regularization, just return mean of data loss
         return np.mean(data_loss)
 
-    def derivativeLoss_wrtPrediction(self, labels, predictions):
+    def get_gradient_pred(self, labels, predictions):
         """
         This method represents the derivative of the cost function with respect to 
         the input y^ value. This gradient is meant to be passed back in the circuit
@@ -256,7 +255,7 @@ class cross_entropy(LossFunction):
         # sum up all the losses for every single example (column wise sum) and then average them and return
         return np.mean(np.sum(data_loss, axis=0))
 
-    def derivativeLoss_wrtPrediction(self, labels, predictions):
+    def get_gradient_pred(self, labels, predictions):
         """
         This method represents the derivative of the cost function with respect to 
         the input y^ value. This gradient is meant to be passed back in the circuit

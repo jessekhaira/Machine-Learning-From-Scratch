@@ -20,7 +20,7 @@ class TestActivationFunctions(unittest.TestCase):
                       [0, 1, 0, 0]]).T
         print(ce.get_loss(Y, A1))
         print(Y)
-        dLdA1 = ce.derivativeLoss_wrtPrediction(Y, A1)
+        dLdA1 = ce.get_gradient_pred(Y, A1)
         print(dLdA1)
         dLdZ = dl_dz_softmax(Z1, A1, dLdA1, sm)
         # Only one value in each column should be negative, the rest should be positive
