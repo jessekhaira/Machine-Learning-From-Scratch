@@ -3,7 +3,7 @@ machine learning algorithm the autoencoder """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, DenseBatchNormLayer
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Sigmoid
-from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
+from machine_learning_algorithms.neural_net_utility.loss_functions import MeanSquaredError
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 import matplotlib.pyplot as plt
@@ -59,7 +59,7 @@ class AutoEncoder(NeuralNetworkBase):
                  num_input_features: int = 784,
                  img_height: int = 28,
                  img_width: int = 28,
-                 objective_function=mean_squared_error()):
+                 objective_function=MeanSquaredError()):
         self.size_encoding = size_encoding
         self.num_input_features = num_input_features
         # Design decision - encoder and decoder are symmetric

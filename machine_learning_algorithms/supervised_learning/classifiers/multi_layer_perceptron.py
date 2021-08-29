@@ -1,7 +1,7 @@
 """ This module contains code representing an implementation of the
 multi layer perceptron algorithm for supervised learning """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss, CrossEntropy, mean_squared_error
+from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss, CrossEntropy, MeanSquaredError
 from typing import Literal, Union
 import numpy as np
 
@@ -41,8 +41,8 @@ class MultiLayerPerceptron(NeuralNetworkBase):
             loss_obj = CrossEntropy(regularization=regularization,
                                     regParameter=regParameter)
         else:
-            loss_obj = mean_squared_error(regularization=regularization,
-                                          regParameter=regParameter)
+            loss_obj = MeanSquaredError(regularization=regularization,
+                                        regParameter=regParameter)
         super(MultiLayerPerceptron,
               self).__init__(loss_obj, input_features=numberInputFeatures)
 

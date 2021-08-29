@@ -3,7 +3,7 @@ algorithms, like lasso regression, ridge regression, and a base
 class which they all inherit from """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import mean_squared_error
+from machine_learning_algorithms.neural_net_utility.loss_functions import MeanSquaredError
 from machine_learning_algorithms.neural_net_utility.activation_functions import IdentityActivation
 from itertools import combinations_with_replacement
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
@@ -23,7 +23,7 @@ class BaseLinearRegression(NeuralNetworkBase):
         self.degree = degree
         # Loss function for regression tasks is RSS averaged over all
         # examples = MSE
-        loss_function = mean_squared_error(regularization, regParameter)
+        loss_function = MeanSquaredError(regularization, regParameter)
         super(BaseLinearRegression, self).__init__(lossFunction=loss_function,
                                                    input_features=None)
 

@@ -152,7 +152,7 @@ class NegativeLogLoss(LossFunction):
         return dLdA
 
 
-class mean_squared_error(LossFunction):
+class MeanSquaredError(LossFunction):
     """
     This class represents the mean squared error loss, which is typically the cost function to be optimized
     in regression tasks.

@@ -1,6 +1,6 @@
 """ This module contains code representing a convolutional neural network """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss, CrossEntropy, mean_squared_error
+from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss, CrossEntropy, MeanSquaredError
 from typing import Literal
 
 
@@ -26,7 +26,7 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
         elif typeSupervised == "multiclass":
             loss_obj = CrossEntropy()
         else:
-            loss_obj = mean_squared_error()
+            loss_obj = MeanSquaredError()
         super(ConvolutionalNeuralNetwork, self).__init__(loss_obj,
                                                          input_features=None)
         self.inputDepth = inputDepth
