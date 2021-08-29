@@ -153,13 +153,18 @@ class NegativeLogLoss(LossFunction):
 
 
 class MeanSquaredError(LossFunction):
-    """
-    This class represents the mean squared error loss, which is typically the cost function to be optimized
+    """ This class represents the mean squared error loss,
+    which is typically the cost function to be optimized
     in regression tasks.
 
-    Parameters:
-    - regularization (string) -> Indicating which type of regularization you want to use, either "L2" or "L1"
-    - regParameter (int) -> Integer indicating the strength of the regularization 
+    Attributes:
+        regularization:
+            String that is restricted to being either "L2" or "L1" indicating
+            the type of regularization to be used, or None
+
+        regParameter:
+            Floating point value indicating the strength of the regularization
+            if being used
     """
 
     def __init__(self, regularization=None, regParameter=None):
