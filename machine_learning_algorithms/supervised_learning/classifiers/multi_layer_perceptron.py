@@ -39,7 +39,7 @@ class MultiLayerPerceptron(NeuralNetworkBase):
                                        regParameter=regParameter)
         elif typeSupervised == "multiclass":
             loss_obj = CrossEntropy(regularization=regularization,
-                                    regParameter=regParameter)
+                                    reg_parameter=regParameter)
         else:
             loss_obj = MeanSquaredError(regularization=regularization,
                                         regParameter=regParameter)
