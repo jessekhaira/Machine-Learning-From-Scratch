@@ -229,21 +229,21 @@ class CrossEntropy(LossFunction):
             String that is restricted to being either "L2" or "L1" indicating
             the type of regularization to be used, or None
 
-        regParameter:
+        reg_parameter:
             Floating point value indicating the strength of the regularization
             if being used
     """
 
     def __init__(self,
                  regularization: Union[Literal["L1", "L2"], None],
-                 regParameter: Union[None, float] = None):
+                 reg_parameter: Union[None, float] = None):
         self.regularization = regularization
-        self.regParameter = regParameter
+        self.reg_parameter = reg_parameter
 
     def get_loss(self,
                  labels: np.ndarray,
                  predictions: np.ndarray,
-                 layersOfWeights: Union[None, np.ndarray] = None) -> float:
+                 layers_of_weights: Union[None, np.ndarray] = None) -> float:
         """
         Arguments:
             labels:
@@ -263,9 +263,9 @@ class CrossEntropy(LossFunction):
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        reg_loss = regularization_loss(layersOfWeights, self.regularization)
+        reg_loss = regularization_loss(layers_of_weights, self.regularization)
         if self.regularization == "L2":
-            return np.mean(data_loss + (self.regParameter / 2) * reg_loss)
+            return np.mean(data_loss + (self.reg_parameter / 2) * reg_loss)
 
         # One examples loss, say zeroth, is:
         # -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
@@ -273,7 +273,7 @@ class CrossEntropy(LossFunction):
         # predictions. This operations has beeen vectorized to allow
         # this to happen
         elif self.regularization == "L1":
-            return np.mean(data_loss + self.regParameter * reg_loss)
+            return np.mean(data_loss + self.reg_parameter * reg_loss)
 
         # sum up all the losses for every single example (column wise sum) and
         # then average them and return
