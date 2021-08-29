@@ -1,7 +1,7 @@
 """ This module contains a variety of objective functions """
 import numpy as np
 import random
-from typing import Union
+from typing import Union, Literal
 
 
 def regularization_loss(layersOfWeights: np.ndarray, typeReg: str) -> float:
@@ -216,20 +216,26 @@ class mean_squared_error(LossFunction):
 
 
 class CrossEntropy(LossFunction):
-    """
-    This class represents the cross entropy loss, which is typically the cost function to be optimized
-    in multiclass classification tasks.
+    """ This class represents the cross entropy loss, which is typically
+    the cost function to be optimized in multiclass classification.
 
-    This cost function relies on the input being a (C,m) probability distribution as the same shape as
-    the labels, where C is the number of classes you have in your data and m is the number of examples. 
+    This cost function relies on the input being a (C,m) probability
+    distribution as the same shape as the labels, where C is the
+    number of classes you have in your data and m is the number
+    of examples.
 
-    Parameters:
-    - regularization (string) -> Indicating which type of regularization you want to use, either "L2" or "L1"
-    - regParameter (int) -> Integer indicating the strength of the regularization 
+    Attributes:
+        regularization:
+            String that is restricted to being either "L2" or "L1" indicating
+            the type of regularization to be used, or None
+
+        regParameter:
+            Floating point value indicating the strength of the regularization
+            if being used
     """
 
     def __init__(self,
-                 regularization: Union[None, str] = None,
+                 regularization: Union[Literal["L1", "L2"], None],
                  regParameter: Union[None, float] = None):
         self.regularization = regularization
         self.regParameter = regParameter
