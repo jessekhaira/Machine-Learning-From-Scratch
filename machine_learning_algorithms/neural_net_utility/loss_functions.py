@@ -234,10 +234,10 @@ class MeanSquaredError(LossFunction):
             Jacobian matrix of shape (C,m)
         """
         assert labels.shape == predictions.shape, (
-            "Somethings wrong, your labels have to be the same shape as the predictions!"
-        )
-        dLda = (1 / labels.shape[1]) * (predictions - labels)
-        return dLda
+            "Somethings wrong, your labels have to be the same shape " +
+            "as the predictions!")
+        dl_da = (1 / labels.shape[1]) * (predictions - labels)
+        return dl_da
 
 
 class CrossEntropy(LossFunction):
