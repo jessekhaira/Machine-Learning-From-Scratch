@@ -167,7 +167,9 @@ class MeanSquaredError(LossFunction):
             if being used
     """
 
-    def __init__(self, regularization=None, regParameter=None):
+    def __init__(self,
+                 regularization: Union[Literal["L1", "L2"], None],
+                 regParameter: Union[None, float] = None):
         self.regularization = regularization
         self.regParameter = regParameter
 
