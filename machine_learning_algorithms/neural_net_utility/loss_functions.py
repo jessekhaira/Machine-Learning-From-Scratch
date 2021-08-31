@@ -195,13 +195,13 @@ class MeanSquaredError(LossFunction):
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
         reg_loss = regularization_loss(layersOfWeights, self.regularization)
-        if self.regularization == 'L2':
+        if self.regularization == "L2":
             return np.mean(data_loss + (self.regParameter / 2) * reg_loss)
 
         # One examples loss, say zeroth, is -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
         # The entire loss is this summed up over the entire vector of predictions
         # This operations has beeen vectorized to allow this to happen
-        elif self.regularization == 'L1':
+        elif self.regularization == "L1":
             return np.mean(data_loss + self.regParameter * reg_loss)
 
         # no regularization, just return mean of data loss
