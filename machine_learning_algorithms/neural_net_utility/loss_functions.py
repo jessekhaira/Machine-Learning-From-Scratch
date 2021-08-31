@@ -171,13 +171,19 @@ class MeanSquaredError(LossFunction):
         self.regularization = regularization
         self.regParameter = regParameter
 
-    def get_loss(self, labels, predictions, layersOfWeights):
-        """  
-        Parameters:
-        - labels (NumPy vector) -> (m,1) vector representing the labels for m examples
+    def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
+                 layersOfWeights: np.ndarray) -> float:
+        """
+        Arguments:
+            labels:
+                Numpy array of shape (C,m), representing the labels for
+                all of the inputs
 
-        - predictions (NumPy vector) -> (m,1) vector representing the predictions (prob between 0 and 1)
-        for m examples
+            predictions:
+                Numpy array of shape (C,m) representing predictions
+
+        Returns:
+            Floating point value representing the loss
         """
         assert labels.shape == predictions.shape, "Somethings wrong, your labels have to be the same shape as the predictions!"
         # Numerical stability issues -> we never want to take the log of 0 so we clip our predictions at a lowest val of 1e-10
