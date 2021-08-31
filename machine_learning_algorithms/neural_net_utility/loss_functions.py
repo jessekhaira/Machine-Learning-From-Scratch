@@ -211,20 +211,27 @@ class MeanSquaredError(LossFunction):
         # no regularization, just return mean of data loss
         return np.mean(data_loss)
 
-    def get_gradient_pred(self, labels, predictions):
-        """
-        This method represents the derivative of the cost function with respect to 
-        the input y^ value. This gradient is meant to be passed back in the circuit
-        of the neural network, and if there is regularization, the regularization will
-        be included when updating the weights of a certain layer. 
-        
-        Parameters:
-        labels (NumPy vector) -> (m,1) vector representing the labels for m examples
+    def get_gradient_pred(self, labels: np.ndarray,
+                          predictions: np.ndarray) -> np.ndarray:
+        """ This method represents the derivative of the cost
+        function with respect to the input value. This gradient
+        is meant to be passed back in the circuit of the neural
+        network, and if there is regularization, the regularization
+        will be included when updating the weights of a certain layer.
 
-        predictions (NumPy vector) -> (m,1) vector representing the predictions (prob between 0 and 1)
-        for m examples
-        
-        Output (NumPy vector) -> NumPy vector of shape (m,1) 
+        C - number of classes
+        m - number of examples
+
+        Arguments:
+            labels:
+                Numpy array of shape (C,m), representing the labels for
+                all of the inputs
+
+            predictions:
+                Numpy array of shape (C,m) representing predictions
+
+        Returns:
+            Jacobian matrix of shape (C,m)
         """
         assert labels.shape == predictions.shape, (
             "Somethings wrong, your labels have to be the same shape as the predictions!"
