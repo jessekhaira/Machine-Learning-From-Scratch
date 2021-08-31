@@ -185,8 +185,11 @@ class MeanSquaredError(LossFunction):
         Returns:
             Floating point value representing the loss
         """
-        assert labels.shape == predictions.shape, "Somethings wrong, your labels have to be the same shape as the predictions!"
-        # Numerical stability issues -> we never want to take the log of 0 so we clip our predictions at a lowest val of 1e-10
+        assert labels.shape == predictions.shape, (
+            "Somethings wrong, your labels have to be the same shape " +
+            "as the predictions!")
+        # Numerical stability issues -> we never want to take the log of 0 so we
+        # clip our predictions at a lowest val of 1e-10
         data_loss = (1 / 2) * np.square(np.subtract(labels, predictions))
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
