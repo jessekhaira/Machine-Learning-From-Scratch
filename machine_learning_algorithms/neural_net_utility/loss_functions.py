@@ -168,7 +168,7 @@ class MeanSquaredError(LossFunction):
     """
 
     def __init__(self,
-                 regularization: Union[Literal["L1", "L2"], None],
+                 regularization: Union[Literal["L1", "L2"], None] = None,
                  regParameter: Union[None, float] = None):
         self.regularization = regularization
         self.reg_parameter = regParameter
@@ -260,7 +260,7 @@ class CrossEntropy(LossFunction):
     """
 
     def __init__(self,
-                 regularization: Union[Literal["L1", "L2"], None],
+                 regularization: Union[Literal["L1", "L2"], None] = None,
                  reg_parameter: Union[None, float] = None):
         self.regularization = regularization
         self.reg_parameter = reg_parameter
