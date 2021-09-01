@@ -144,7 +144,9 @@ class NegativeLogLoss(LossFunction):
         
         Output (NumPy vector) -> NumPy vector of shape (1,m) 
         """
-        assert labels.shape == predictions.shape, "Somethings wrong, your labels have to be the same shape as the predictions!"
+        assert labels.shape == predictions.shape, (
+            "Somethings wrong, your labels have to be the same shape " +
+            "as the predictions!")
         predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         # Include 1/batchsize term here for when we backprop
         dLdA = 1 / labels.shape[1] * ((predictions - labels) /
