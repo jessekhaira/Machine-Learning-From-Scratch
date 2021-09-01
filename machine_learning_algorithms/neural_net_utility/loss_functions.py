@@ -175,7 +175,9 @@ class MeanSquaredError(LossFunction):
 
     def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
                  layers_of_weights: np.ndarray) -> float:
-        """
+        """ This method computes the loss for the predictions over the
+        given labels, and adds a regularization loss as well if needed.
+
         Arguments:
             labels:
                 Numpy array of shape (C,m), representing the labels for
@@ -269,7 +271,9 @@ class CrossEntropy(LossFunction):
                  labels: np.ndarray,
                  predictions: np.ndarray,
                  layers_of_weights: Union[None, np.ndarray] = None) -> float:
-        """
+        """ This method computes the loss for the predictions over the
+        given labels, and adds a regularization loss as well if needed.
+
         Arguments:
             labels:
                 Numpy array of shape (C,m), representing the labels for
