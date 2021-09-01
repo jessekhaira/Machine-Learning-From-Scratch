@@ -22,10 +22,10 @@ class MultiLayerPerceptron(NeuralNetworkBase):
             the user will train the network on
 
         regularization:
-            String that should either be "L1", "L2" or None indicating no 
+            String that should either be "L1", "L2" or None indicating no
             regularization should be used
 
-        regParameter:
+        reg_parameter:
             Floating point value representing the strength of the regularization
     """
 
@@ -33,16 +33,16 @@ class MultiLayerPerceptron(NeuralNetworkBase):
                  typeSupervised: Literal["binary", "multiclass", "regression"],
                  numberInputFeatures: int,
                  regularization: Union[Literal["L1", "L2"], None] = None,
-                 regParameter: float = None):
+                 reg_parameter: float = None):
         if typeSupervised == "binary":
             loss_obj = NegativeLogLoss(regularization=regularization,
-                                       regParameter=regParameter)
+                                       reg_parameter=reg_parameter)
         elif typeSupervised == "multiclass":
             loss_obj = CrossEntropy(regularization=regularization,
-                                    reg_parameter=regParameter)
+                                    reg_parameter=reg_parameter)
         else:
             loss_obj = MeanSquaredError(regularization=regularization,
-                                        regParameter=regParameter)
+                                        reg_parameter=reg_parameter)
         super(MultiLayerPerceptron,
               self).__init__(loss_obj, input_features=numberInputFeatures)
 

@@ -92,7 +92,7 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
         MLP3 = MultiLayerPerceptron(typeSupervised="multiclass",
                                     numberInputFeatures=784,
                                     regularization="L2",
-                                    regParameter=0.01)
+                                    reg_parameter=0.01)
 
         MLP3.add_layer(num_neurons=100,
                        activationFunction=ReLU(),

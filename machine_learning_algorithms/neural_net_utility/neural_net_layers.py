@@ -16,7 +16,7 @@ class BaseNeuralNetworkLayer(object):
     def update_weights(self, dl_da):
         raise NotImplementedError
 
-    def _getRegularizationLoss(self, regularizationType, regParameter,
+    def _getRegularizationLoss(self, regularizationType, reg_parameter,
                                numExamples, W):
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
@@ -25,10 +25,10 @@ class BaseNeuralNetworkLayer(object):
         # 1/m term since it is included in the function we want to find the
         # derivative of
         if regularizationType == "L2":
-            dreg_dw = (1 / numExamples) * regParameter * W
+            dreg_dw = (1 / numExamples) * reg_parameter * W
         else:
             sign_of_weights = np.sign(W)
-            dreg_dw = (1 / numExamples) * regParameter * sign_of_weights
+            dreg_dw = (1 / numExamples) * reg_parameter * sign_of_weights
         return dreg_dw
 
 
@@ -70,7 +70,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
             Numpy array of shape (num_layer-1, M) representing the input to this
             layer
 
-        regParameter:
+        reg_parameter:
             Floating point value representing the strength of the regularization
     """
 
@@ -79,7 +79,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                  num_layer: int,
                  activationFunction: BaseActivationFunction,
                  regularization=None,
-                 regParameter: float = None,
+                 reg_parameter: float = None,
                  isSoftmax: Literal[0, 1] = 0,
                  keepProb: float = None):
         self.num_in = num_in
@@ -90,7 +90,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         self.Ain = None
         self.activationFunction = activationFunction
         self.regularization = regularization
-        self.regParameter = regParameter
+        self.reg_parameter = reg_parameter
         self.isSoftmax = isSoftmax
         self.optim = None
 
@@ -242,7 +242,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         dreg_dw = 0
         if self.regularization is not None:
             dreg_dw = self._getRegularizationLoss(self.regularization,
-                                                  self.regParameter,
+                                                  self.reg_parameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
         self.W, self.b = self.optim.updateParams([self.W, self.b],
@@ -382,12 +382,12 @@ class DenseBatchNormLayer(DenseLayer):
                  num_layer: int,
                  activationFunction,
                  regularization=None,
-                 regParameter: Union[float, None] = None,
+                 reg_parameter: Union[float, None] = None,
                  isSoftmax: Literal[0, 1] = 0,
                  p=None):
         super(DenseBatchNormLayer,
               self).__init__(num_in, num_layer, activationFunction,
-                             regularization, regParameter, isSoftmax)
+                             regularization, reg_parameter, isSoftmax)
         # these are learnable parameters
         self.gamma, self.beta = self._init_gamma_beta()
         # We need to keep an exponentially weighted average of the
@@ -582,7 +582,7 @@ class DenseBatchNormLayer(DenseLayer):
         dreg_dw = 0
         if self.regularization != None:
             dreg_dw = self._getRegularizationLoss(self.regularization,
-                                                  self.regParameter,
+                                                  self.reg_parameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
         self.W, self.b, self.gamma, self.beta = self.optim.updateParams(
@@ -600,12 +600,12 @@ class DenseDropOutLayer(DenseLayer):
                  num_layer,
                  activationFunction,
                  regularization=None,
-                 regParameter=None,
+                 reg_parameter=None,
                  isSoftmax=0,
                  keepProb=0.5):
         super(DenseDropOutLayer,
               self).__init__(num_in, num_layer, activationFunction,
-                             regularization, regParameter, isSoftmax)
+                             regularization, reg_parameter, isSoftmax)
         self.keepProb = keepProb
         # if keep prob is 1, then every value in matrix will be less
         # than 1, and thus be True and so every activated neuron is kept
@@ -711,7 +711,7 @@ class DenseDropOutLayer(DenseLayer):
         dreg_dw = 0
         if self.regularization != None:
             dreg_dw = self._getRegularizationLoss(self.regularization,
-                                                  self.regParameter,
+                                                  self.reg_parameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
         self.W, self.b = self.optim.updateParams([self.W, self.b],

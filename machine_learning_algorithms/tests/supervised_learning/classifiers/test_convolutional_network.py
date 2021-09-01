@@ -73,7 +73,7 @@ paramsLayer5 = {
     "num_neurons": 75,
     "activationFunction": ReLU(),
     "regularization": None,
-    "regParameter": None
+    "reg_parameter": None
 }
 obj1.addConvNetLayer(DenseLayer, **paramsLayer5)
 
@@ -81,7 +81,7 @@ paramsLayer6 = {
     "num_neurons": 10,
     "activationFunction": Softmax(),
     "regularization": None,
-    "regParameter": None,
+    "reg_parameter": None,
     "isSoftmax": 1
 }
 obj1.addConvNetLayer(DenseLayer, **paramsLayer6)
@@ -115,7 +115,7 @@ class testConvNet_Mnist(unittest.TestCase):
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
-            "regParameter": None,
+            "reg_parameter": None,
             "isSoftmax": 1
         }
         obj2.addConvNetLayer(DenseLayer, **paramsLayer6)
@@ -159,7 +159,7 @@ class testConvNet_Mnist(unittest.TestCase):
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
-            "regParameter": None,
+            "reg_parameter": None,
             "isSoftmax": 1
         }
         obj3.addConvNetLayer(DenseLayer, **paramsLayer6)
@@ -202,7 +202,7 @@ class testConvNet_Mnist(unittest.TestCase):
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
-            "regParameter": None,
+            "reg_parameter": None,
             "isSoftmax": 1
         }
         obj3.addConvNetLayer(DenseLayer, **paramsLayer6)

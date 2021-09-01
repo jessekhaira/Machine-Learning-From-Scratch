@@ -16,14 +16,14 @@ class BaseLinearRegression(NeuralNetworkBase):
     linear regression classes will inherit.
     """
 
-    def __init__(self, degree, regularization=None, regParameter=None):
+    def __init__(self, degree, regularization=None, reg_parameter=None):
         # Save the degree of the polynomial function that is desired to be fit.
         # Will be used later to transform the input features to the final
         # function features we will fit
         self.degree = degree
         # Loss function for regression tasks is RSS averaged over all
         # examples = MSE
-        loss_function = MeanSquaredError(regularization, regParameter)
+        loss_function = MeanSquaredError(regularization, reg_parameter)
         super(BaseLinearRegression, self).__init__(lossFunction=loss_function,
                                                    input_features=None)
 
@@ -163,7 +163,7 @@ class LinearRegression(BaseLinearRegression):
     def __init__(self, degree):
         super(LinearRegression, self).__init__(degree=degree,
                                                regularization=None,
-                                               regParameter=None)
+                                               reg_parameter=None)
 
 
 class RidgeRegression(BaseLinearRegression):
@@ -171,7 +171,7 @@ class RidgeRegression(BaseLinearRegression):
     def __init__(self, degree, regParam=0.2):
         super(RidgeRegression, self).__init__(degree=degree,
                                               regularization="L2",
-                                              regParameter=regParam)
+                                              reg_parameter=regParam)
 
 
 class LassoRegression(BaseLinearRegression):
@@ -179,4 +179,4 @@ class LassoRegression(BaseLinearRegression):
     def __init__(self, degree, regParam=0.2):
         super(LassoRegression, self).__init__(degree=degree,
                                               regularization="L1",
-                                              regParameter=regParam)
+                                              reg_parameter=regParam)

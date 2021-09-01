@@ -16,7 +16,7 @@ class SoftmaxTests(unittest.TestCase):
 
     A few notes:
         With L1 regularization and L2 regularization, the classifier performs
-        as expected -> performance is very sensitive to regParameter. If the
+        as expected -> performance is very sensitive to reg_parameter. If the
         regularization parameter is even slightly high (>0.3), the performance
         for the l1 regularized and l2 regularized softmax regression models
         falter heavily.
@@ -33,13 +33,13 @@ class SoftmaxTests(unittest.TestCase):
             self.x.shape[0],
             len(self.y_encoded),
             regularization="L1",
-            regParameter=0.01)
+            reg_parameter=0.01)
 
         self.softmax_model_l2_regularization = SoftmaxRegression(
             self.x.shape[0],
             len(self.y_encoded),
             regularization="L2",
-            regParameter=0.01)
+            reg_parameter=0.01)
 
         self.k_fold_obj = k_fold_CV()
 

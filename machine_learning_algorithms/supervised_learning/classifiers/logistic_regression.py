@@ -27,7 +27,7 @@ class LogisticRegression(NeuralNetworkBase):
             String that should be either "L2" or "L1" indicating the
             type of regularization to use.
 
-        regParameter:
+        reg_parameter:
             Floating point value representing the strength of the
             regularization
     """
@@ -36,8 +36,8 @@ class LogisticRegression(NeuralNetworkBase):
                  inLayerNeuron: int,
                  classificationThreshold: Union[None, float] = None,
                  regularization: Literal["L2", "L1"] = None,
-                 regParameter: float = None):
-        loss_obj = NegativeLogLoss(regularization, regParameter)
+                 reg_parameter: float = None):
+        loss_obj = NegativeLogLoss(regularization, reg_parameter)
         activ = Sigmoid()
         super(LogisticRegression, self).__init__(input_features=inLayerNeuron,
                                                  lossFunction=loss_obj)

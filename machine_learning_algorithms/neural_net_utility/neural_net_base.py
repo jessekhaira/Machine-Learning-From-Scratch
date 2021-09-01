@@ -65,11 +65,11 @@ class NeuralNetworkBase(object):
             layer_x = DenseLayer(
                 self.num_input, num_neurons, activationFunction,
                 self.lossFunction.regularization,
-                self.lossFunction.regParameter,
+                self.lossFunction.reg_parameter,
                 isSoftmax) if layer is None else layer(
                     self.num_input, num_neurons, activationFunction,
                     self.lossFunction.regularization,
-                    self.lossFunction.regParameter, isSoftmax, keep_prob)
+                    self.lossFunction.reg_parameter, isSoftmax, keep_prob)
             self.layers.append(layer_x)
         else:
             # if the layeer beforee this is a dense layer, then get its weight
@@ -81,11 +81,11 @@ class NeuralNetworkBase(object):
                 and self.layers[-1].W is not None) else None
             layer_x = DenseLayer(shape_1, num_neurons, activationFunction,
                                  self.lossFunction.regularization,
-                                 self.lossFunction.regParameter,
+                                 self.lossFunction.reg_parameter,
                                  isSoftmax) if layer is None else layer(
                                      shape_1, num_neurons, activationFunction,
                                      self.lossFunction.regularization,
-                                     self.lossFunction.regParameter, isSoftmax,
+                                     self.lossFunction.reg_parameter, isSoftmax,
                                      keep_prob)
             self.layers.append(layer_x)
 

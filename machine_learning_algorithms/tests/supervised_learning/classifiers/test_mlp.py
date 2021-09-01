@@ -80,19 +80,19 @@ class test(unittest.TestCase):
         print('\n')
         print(valid_loss)
 
-        # Can get 99.75% w/ a normal logistic regresssion model on this dataset, get
-        # 98.83% with this model
+        # Can get 99.75% w/ a normal logistic regresssion model
+        # on this dataset, get 98.83% with this model
 
     def testHighRegBinary(self):
         # Sanity check - high regularization leads to very high losses.
         MLP1 = MultiLayerPerceptron(typeSupervised="binary",
                                     numberInputFeatures=X_train.shape[0],
                                     regularization="L1",
-                                    regParameter=500)
+                                    reg_parameter=500)
         MLP2 = MultiLayerPerceptron(typeSupervised="binary",
                                     numberInputFeatures=X_train.shape[0],
                                     regularization="L2",
-                                    regParameter=500)
+                                    reg_parameter=500)
         # 10 features learnt in first hidden layer w/ ReLU
         MLP1.add_layer(10, activationFunction=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
@@ -148,11 +148,11 @@ class test(unittest.TestCase):
         MLP3 = MultiLayerPerceptron(typeSupervised="binary",
                                     numberInputFeatures=X_train.shape[0],
                                     regularization="L1",
-                                    regParameter=0.01)
+                                    reg_parameter=0.01)
         MLP4 = MultiLayerPerceptron(typeSupervised="binary",
                                     numberInputFeatures=X_train.shape[0],
                                     regularization="L2",
-                                    regParameter=0.01)
+                                    reg_parameter=0.01)
 
         # 10 features learnt in first hidden layer w/ ReLU
         MLP3.add_layer(10, activationFunction=ReLU())
@@ -240,7 +240,7 @@ class test(unittest.TestCase):
         MLP7 = MultiLayerPerceptron(typeSupervised="multiclass",
                                     numberInputFeatures=2,
                                     regularization="L2",
-                                    regParameter=1e-3)
+                                    reg_parameter=1e-3)
         # Learn 100 features in first hidden layer
         MLP7.add_layer(100, activationFunction=ReLU())
         # Output layer learn 3 features for softmax
@@ -250,7 +250,7 @@ class test(unittest.TestCase):
                                            num_epochs=5000,
                                            learn_rate=1,
                                            ret_train_loss=True)
-        print(train_loss7)
+        print(train_loss7, train_acc7)
         preds_MLP7 = MLP7.predict_multi_layer_perceptron(X)
         acc_7 = accuracy(notEncodedy, preds_MLP7)
         print(acc_7)
@@ -259,8 +259,8 @@ class test(unittest.TestCase):
         self.assertLessEqual(train_loss7[-1], 0.29)
         self.assertGreaterEqual(acc_7, 0.98)
 
-        ## Checked the implemmentation of our MLP against the reference implementation on CS231N and
-        ## looks fine!
+        # Checked the implemmentation of our MLP against the reference
+        # implementation on CS231N and looks fine!
 
 
 if __name__ == "__main__":

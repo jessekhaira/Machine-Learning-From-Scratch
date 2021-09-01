@@ -65,12 +65,12 @@ y_valid = y_valid.T.reshape(1, -1)
 obj1 = LogisticRegression(X_train.shape[0],
                           classificationThreshold=0.5,
                           regularization="L2",
-                          regParameter=50)
+                          reg_parameter=50)
 obj2 = LogisticRegression(X_train.shape[0], classificationThreshold=0.5)
 obj3 = LogisticRegression(X_train.shape[0],
                           classificationThreshold=0.5,
                           regularization="L1",
-                          regParameter=50)
+                          reg_parameter=50)
 
 train_loss1, valid_loss1, train_acc1, valid_acc1 = obj1.fit(X_train,
                                                             y_train,
@@ -126,7 +126,7 @@ print(accuracy(y_test, preds_sk))
 obj4 = LogisticRegression(X_train.shape[0],
                           classificationThreshold=0.5,
                           regularization="L2",
-                          regParameter=1)
+                          reg_parameter=1)
 obj4.fit(X_train, y_train, num_epochs=50, learn_rate=0.1)
 preds_model = obj4.predict(X_test)
 print(preds_model)
@@ -144,7 +144,7 @@ print(accuracy(y_test, preds_sk))
 obj5 = LogisticRegression(X_train.shape[0],
                           classificationThreshold=0.5,
                           regularization="L2",
-                          regParameter=476)
+                          reg_parameter=476)
 obj5.fit(X_train, y_train, num_epochs=50, learn_rate=0.1)
 preds_model = obj5.predict(X_test)
 print(accuracy(y_test, preds_sk))

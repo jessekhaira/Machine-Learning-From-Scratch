@@ -24,7 +24,7 @@ class SoftmaxRegression(NeuralNetworkBase):
             or a value of None type, representing the type of regularization
             to use
 
-        regParameter:
+        reg_parameter:
             Floating point value representing the strength of the
             regularization, or None if regularization is not used
     """
@@ -33,8 +33,8 @@ class SoftmaxRegression(NeuralNetworkBase):
                  inLayerNeuron: int,
                  numClasses: int,
                  regularization: Union[Literal["L2", "L1"], None] = None,
-                 regParameter: Union[float, None] = None):
-        cost_func = CrossEntropy(regularization, regParameter)
+                 reg_parameter: Union[float, None] = None):
+        cost_func = CrossEntropy(regularization, reg_parameter)
         activ_func = Softmax()
         super(SoftmaxRegression, self).__init__(cost_func, inLayerNeuron)
         self.add_layer(numClasses, activ_func, 1)
