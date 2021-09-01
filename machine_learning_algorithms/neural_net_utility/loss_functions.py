@@ -4,15 +4,15 @@ import random
 from typing import Union, Literal
 
 
-def regularization_loss(layersOfWeights: np.ndarray, typeReg: str) -> float:
+def regularization_loss(layers_of_weights: np.ndarray, typeReg: str) -> float:
     reg_loss = 0
     if typeReg == "L2":
-        for i in range(len(layersOfWeights)):
-            reg_loss += (np.linalg.norm(layersOfWeights[i].W, ord=2)**2)
+        for i in range(len(layers_of_weights)):
+            reg_loss += (np.linalg.norm(layers_of_weights[i].W, ord=2)**2)
 
     elif typeReg == "L1":
-        for i in range(len(layersOfWeights)):
-            reg_loss += np.linalg.norm(layersOfWeights[i].W, ord=1)
+        for i in range(len(layers_of_weights)):
+            reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
 
     return reg_loss
 
@@ -27,7 +27,7 @@ class LossFunction(object):
     """
 
     def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
-                 layersOfWeights: np.ndarray):
+                 layers_of_weights: np.ndarray):
         raise NotImplementedError
 
     def get_gradient_pred(self, labels: np.ndarray, predictions: np.ndarray):
@@ -100,7 +100,7 @@ class NegativeLogLoss(LossFunction):
         self.regularization = regularization
         self.reg_parameter = reg_parameter
 
-    def get_loss(self, labels, predictions, layersOfWeights):
+    def get_loss(self, labels, predictions, layers_of_weights):
         """
         Parameters:
         - labels (NumPy vector) -> (m,1) vector representing the labels for m examples
@@ -116,7 +116,7 @@ class NegativeLogLoss(LossFunction):
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        reg_loss = regularization_loss(layersOfWeights, self.regularization)
+        reg_loss = regularization_loss(layers_of_weights, self.regularization)
         if self.regularization == 'L2':
             return np.mean(data_loss + (self.reg_parameter / 2) * reg_loss)
 
@@ -174,7 +174,7 @@ class MeanSquaredError(LossFunction):
         self.reg_parameter = reg_parameter
 
     def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
-                 layersOfWeights: np.ndarray) -> float:
+                 layers_of_weights: np.ndarray) -> float:
         """
         Arguments:
             labels:
@@ -196,7 +196,7 @@ class MeanSquaredError(LossFunction):
         # Cost is averaged overall all examples so we get
         # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
         # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        reg_loss = regularization_loss(layersOfWeights, self.regularization)
+        reg_loss = regularization_loss(layers_of_weights, self.regularization)
         if self.regularization == "L2":
             return np.mean(data_loss + (self.reg_parameter / 2) * reg_loss)
 
