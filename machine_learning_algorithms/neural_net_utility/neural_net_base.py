@@ -232,13 +232,12 @@ class NeuralNetworkBase(object):
         elif ret_train_loss:
             return train_loss, train_acc
 
-    def predict(self, X: np.ndarray, supervised: bool = True) -> np.ndarray:
-        """
-        This method is used to use the neural network to predict on instances
-        it has not trained on.
+    def predict(self, x: np.ndarray, supervised: bool = True) -> np.ndarray:
+        """ This method is used to use the neural network to predict
+        on data.
 
         Args:
-            X:
+            x:
                 Numpy matrix of shape (M,N) where M is the number of instances
                 to predict on, and N is the number of features in an example.
 
@@ -250,7 +249,7 @@ class NeuralNetworkBase(object):
         Returns:
             A numpy matrix containing the output of the neural network.
         """
-        output = self._forward_propagate(X, train=False)
+        output = self._forward_propagate(x, train=False)
         # if more than one class, then compute the highest value as the
         # prediction
         if output.shape[0] > 1 and supervised:
