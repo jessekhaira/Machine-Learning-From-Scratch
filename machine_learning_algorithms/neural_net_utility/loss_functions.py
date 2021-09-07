@@ -4,13 +4,13 @@ import random
 from typing import Union, Literal
 
 
-def regularization_loss(layers_of_weights: np.ndarray, typeReg: str) -> float:
+def regularization_loss(layers_of_weights: np.ndarray, type_reg: str) -> float:
     reg_loss = 0
-    if typeReg == "L2":
+    if type_reg == "L2":
         for i in range(len(layers_of_weights)):
             reg_loss += (np.linalg.norm(layers_of_weights[i].W, ord=2)**2)
 
-    elif typeReg == "L1":
+    elif type_reg == "L1":
         for i in range(len(layers_of_weights)):
             reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
 
