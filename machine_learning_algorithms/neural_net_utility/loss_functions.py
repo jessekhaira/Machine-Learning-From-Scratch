@@ -83,7 +83,7 @@ class LossFunction(object):
             rel_error = abs(grad_analytic -
                             grad_numeric) / abs(grad_analytic + grad_numeric +
                                                 eps)
-            print('rel error is %s' % (rel_error))
+            print("rel error is %s" % (rel_error))
 
 
 class NegativeLogLoss(LossFunction):
