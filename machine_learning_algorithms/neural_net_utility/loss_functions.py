@@ -175,9 +175,9 @@ class NegativeLogLoss(LossFunction):
             "as the predictions!")
         predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         # Include 1/batchsize term here for when we backprop
-        dLdA = 1 / labels.shape[1] * ((predictions - labels) /
-                                      (predictions * (1 - predictions)))
-        return dLdA
+        dl_da = 1 / labels.shape[1] * ((predictions - labels) /
+                                       (predictions * (1 - predictions)))
+        return dl_da
 
 
 class MeanSquaredError(LossFunction):
