@@ -1,4 +1,5 @@
-""" This module contains code representing the base class for Neural Networks
+""" This module contains code representing the base class which
+neural networks inherit from
 """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseLayer, DenseBatchNormLayer, BaseNeuralNetworkLayer
@@ -40,8 +41,7 @@ class NeuralNetworkBase(object):
                   isSoftmax: int = 0,
                   layer: BaseNeuralNetworkLayer = None,
                   keep_prob: int = 1) -> None:
-        """
-        This method adds a dense layer to your neural network.
+        """ This method adds a dense layer to your neural network.
 
         Args:
             num_neurons:
@@ -102,7 +102,7 @@ class NeuralNetworkBase(object):
         optim: Optimizer = GradientDescent(),
         verbose: bool = False
     ) -> Union[Tuple[int, int, int, int], Tuple[int, int], None]:
-        """This method trains the neural network on the training set.
+        """ This method trains the neural network on the training set.
 
         M: number of training examples
         N: number of features in a single example
@@ -173,47 +173,49 @@ class NeuralNetworkBase(object):
         validation_loss = []
         val_acc = []
         for epoch in range(num_epochs):
-            currStart = 0
-            currEnd = batch_size
-            lossEpoch = []
-            for i in range(num_batches):
-                curr_y = ytrain[:, currStart:currEnd]
+            curr_start = 0
+            curr_end = batch_size
+            loss_epoch = []
+            for _ in range(num_batches):
+                curr_y = ytrain[:, curr_start:curr_end]
                 if len(xtrain.shape) == 2:
-                    curr_x = xtrain[:, currStart:currEnd]
+                    curr_x = xtrain[:, curr_start:curr_end]
                 else:
                     # 3D pictures
-                    curr_x = xtrain[currStart:currEnd, :, :, :]
-                currStart = currEnd
-                currEnd += batch_size
-                pred_miniBatch = self._forward_propagate(curr_x)
-                loss = self._calculateLoss(curr_y, pred_miniBatch, self.layers)
-                lossEpoch.append(loss)
-                backpropInit = self.lossFunction.get_gradient_pred(
-                    curr_y, pred_miniBatch)
-                self._backward_propagate(backpropInit, learn_rate, optim, epoch,
-                                         curr_x, curr_y)
+                    curr_x = xtrain[curr_start:curr_end, :, :, :]
+                curr_start = curr_end
+                curr_end += batch_size
+                predictions_mini_batch = self._forward_propagate(curr_x)
+                loss = self._calculateLoss(curr_y, predictions_mini_batch,
+                                           self.layers)
+                loss_epoch.append(loss)
+                backprop_init = self.lossFunction.get_gradient_pred(
+                    curr_y, predictions_mini_batch)
+                self._backward_propagate(backprop_init, learn_rate, optim,
+                                         epoch, curr_x, curr_y)
 
-            train_loss.append(np.mean(lossEpoch))
+            train_loss.append(np.mean(loss_epoch))
 
             if ytrain.shape[0] > 1:
-                acc_trainSet = accuracy(convertToHighestPred(ytrain),
-                                        self.predict(xtrain))
+                accuracy_train_set = accuracy(convertToHighestPred(ytrain),
+                                              self.predict(xtrain))
             else:
-                acc_trainSet = accuracy(ytrain, self.predict(xtrain))
-            train_acc.append(acc_trainSet)
+                accuracy_train_set = accuracy(ytrain, self.predict(xtrain))
+            train_acc.append(accuracy_train_set)
 
             if xvalid is not None:
                 if ytrain.shape[0] > 1:
-                    acc_valSet = accuracy(convertToHighestPred(yvalid),
-                                          self.predict(xvalid))
+                    accuracy_validation_set = accuracy(
+                        convertToHighestPred(yvalid), self.predict(xvalid))
                     val_loss = self._calculateLoss(
                         yvalid, self._forward_propagate(xvalid), self.layers)
                 else:
-                    acc_valSet = accuracy(yvalid, self.predict(xvalid))
+                    accuracy_validation_set = accuracy(yvalid,
+                                                       self.predict(xvalid))
                     val_loss = self._calculateLoss(yvalid, self.predict(xvalid),
                                                    self.layers)
 
-                val_acc.append(acc_valSet)
+                val_acc.append(accuracy_validation_set)
                 validation_loss.append(val_loss)
 
             # provide updates during training for sanitys sake
