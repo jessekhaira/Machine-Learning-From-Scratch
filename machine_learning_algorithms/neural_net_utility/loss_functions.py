@@ -87,16 +87,23 @@ class LossFunction(object):
 
 
 class NegativeLogLoss(LossFunction):
-    """
-    This class represents the negative log loss, which is typically the cost function to be optimized
+    """ This class represents the negative log loss function,
+    which is typically the cost function to be optimized
     in binary classification tasks.
 
-    Parameters:
-    - regularization (string) -> Indicating which type of regularization you want to use, either "L2" or "L1"
-    - reg_parameter (int) -> Integer indicating the strength of the regularization 
+    Attributes:
+        regularization:
+            String that is restricted to being either "L2" or "L1" indicating
+            the type of regularization to be used, or None
+
+        reg_parameter:
+            Floating point value indicating the strength of the regularization
+            if being used
     """
 
-    def __init__(self, regularization=None, reg_parameter=None):
+    def __init__(self,
+                 regularization: Union[Literal["L1", "L2"], None] = None,
+                 reg_parameter: Union[None, float] = None):
         self.regularization = regularization
         self.reg_parameter = reg_parameter
 
