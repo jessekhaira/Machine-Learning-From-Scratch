@@ -107,16 +107,27 @@ class NegativeLogLoss(LossFunction):
         self.regularization = regularization
         self.reg_parameter = reg_parameter
 
-    def get_loss(self, labels, predictions, layers_of_weights):
-        """
-        Parameters:
-        - labels (NumPy vector) -> (m,1) vector representing the labels for m examples
+    def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
+                 layers_of_weights: np.ndarray) -> float:
+        """ This method computes the loss for the predictions over the
+        given labels, and adds a regularization loss as well if needed.
 
-        - predictions (NumPy vector) -> (m,1) vector representing the predictions (prob between 0 and 1)
-        for m examples
+        Arguments:
+            labels:
+                Numpy array of shape (C,m), representing the labels for
+                all of the inputs
+
+            predictions:
+                Numpy array of shape (C,m) representing predictions
+
+        Returns:
+            Floating point value representing the loss
         """
-        assert labels.shape == predictions.shape, "Somethings wrong, your labels have to be the same shape as the predictions!"
-        # Numerical stability issues -> we never want to take the log of 0 so we clip our predictions at a lowest val of 1e-10
+        assert labels.shape == predictions.shape, (
+            "Somethings wrong, your labels have to be the same " +
+            "shape as the predictions!")
+        # Numerical stability issues -> we never want to take the log of 0
+        # so we clip our predictions at a lowest val of 1e-10
         predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         data_loss = -(labels * np.log(predictions) +
                       (1 - labels) * np.log(1 - predictions))
