@@ -376,14 +376,14 @@ class Pool(BaseConvolutionalLayer):
             return self.Z.reshape(-1, x.shape[0])
 
     def update_weights(self,
-                       dLdA,
-                       learn_rate,
-                       epoch,
+                       dLdA: np.ndarray,
+                       learn_rate: float,
+                       epoch: int,
                        prediction_obj,
-                       curr_x,
-                       curr_y,
+                       curr_x: np.ndarray,
+                       curr_y: np.ndarray,
                        layer,
-                       gradCheck=False):
+                       gradCheck: bool = False):
         # Pooling layer has no weights to update but we still
         # need to get dL/d(A_layer-1) to pass back to the layer
         # before
