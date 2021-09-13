@@ -2,6 +2,7 @@
 used to optimize objective functions in machine learning
 """
 import numpy as np
+from typing import Union
 
 
 class Optimizer(object):
@@ -14,7 +15,11 @@ class Optimizer(object):
 
 class GradientDescent(Optimizer):
 
-    def updateParams(self, params, dparams, learn_rate, epochNum=None):
+    def updateParams(self,
+                     params: np.ndarray,
+                     dparams: np.ndarray,
+                     learn_rate: float,
+                     epochNum: Union[None, int] = None):
         for i in range(len(params)):
             params[i] = params[i] - learn_rate * dparams[i]
         return params
@@ -22,11 +27,15 @@ class GradientDescent(Optimizer):
 
 class GradientDescentMomentum(Optimizer):
 
-    def __init__(self, beta=0.9):
+    def __init__(self, beta: float = 0.9):
         self.runningGradients = []
         self.beta = beta
 
-    def updateParams(self, params, dparams, learn_rate, epochNum=None):
+    def updateParams(self,
+                     params: np.ndarray,
+                     dparams: np.ndarray,
+                     learn_rate: float,
+                     epochNum: Union[None, int] = None):
         # epoch zero, initialize running gradients for every single parameter in this layer
         if not self.runningGradients:
             for i in range(len(params)):
