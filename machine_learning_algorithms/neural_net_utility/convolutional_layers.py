@@ -11,7 +11,7 @@ class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
     """ This class represents the base class from which convolutional neural
     network layers will inherit """
 
-    def _pad_input(self, x, filterSize, padding):
+    def _pad_input(self, x: np.ndarray, filterSize: int, padding: int):
         pad_h, pad_w = self._get_padding(filterSize, padding)
         # x has images first and channels last - dont pad those
         images_padded = np.pad(x, ((0, 0), (0, 0), pad_h, pad_w),
@@ -19,7 +19,7 @@ class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
                                constant_values=0)
         return images_padded
 
-    def _get_padding(self, filterSize, padding):
+    def _get_padding(self, filterSize: int, padding: int):
         # valid means padding is zero
         if padding == "valid":
             return (0, 0), (0, 0)
