@@ -248,7 +248,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         self.W, self.b = self.optim.updateParams([self.W, self.b],
                                                  [dl_dw, dl_db],
                                                  learn_rate,
-                                                 epochNum=epoch + 1)
+                                                 epoch_num=epoch + 1)
         return dl_da_prev_layer
 
     def _gradient_check(self,
@@ -589,7 +589,7 @@ class DenseBatchNormLayer(DenseLayer):
             [self.W, self.b, self.gamma, self.beta],
             [dl_dw, dl_db, dLdGamma, dLdBeta],
             learn_rate,
-            epochNum=epoch + 1)
+            epoch_num=epoch + 1)
         return dl_da_prev_layer
 
 
@@ -717,5 +717,5 @@ class DenseDropOutLayer(DenseLayer):
         self.W, self.b = self.optim.updateParams([self.W, self.b],
                                                  [dl_dw, dl_db],
                                                  learn_rate,
-                                                 epochNum=epoch + 1)
+                                                 epoch_num=epoch + 1)
         return dl_da_prev_layer

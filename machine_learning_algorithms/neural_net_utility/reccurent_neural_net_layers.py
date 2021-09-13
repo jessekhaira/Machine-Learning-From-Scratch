@@ -95,7 +95,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         return a, predictions, a_prev, x_t, z_activ
 
     def update_weights(self, learn_rate, total_timeSteps, y_label, char_to_idx,
-                       epochNum, optim):
+                       epoch_num, optim):
         """
         This method carries out backpropagation through time for an RNN cell performing
         language modelling.
@@ -163,7 +163,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         dparams = [dl_dway, dl_dwaa, dl_dwax, dl_dba, dl_dby]
         gradientClipping(dparams)
         self.way, self.waa, self.wax, self.ba, self.by = optim.updateParams(
-            params, dparams, learn_rate, epochNum)
+            params, dparams, learn_rate, epoch_num)
 
     def generate(self, seedVector, a_prev, totalGeneratingSteps, idxToChar,
                  temperature):

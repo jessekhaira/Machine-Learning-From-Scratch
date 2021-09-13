@@ -254,7 +254,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.filters, self.b = self.optim.updateParams([self.filters, self.b],
                                                        [dl_dw, dl_db],
                                                        learn_rate,
-                                                       epochNum=epoch + 1)
+                                                       epoch_num=epoch + 1)
 
         # pass the gradient down the circuit
         return dl_da_prev
