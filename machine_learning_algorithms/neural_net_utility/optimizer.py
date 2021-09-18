@@ -91,7 +91,10 @@ class RMSProp(Optimizer):
 
 class Adam(Optimizer):
 
-    def __init__(self, beta1=0.9, beta2=0.9, eps=1e-8):
+    def __init__(self,
+                 beta1: float = 0.9,
+                 beta2: float = 0.9,
+                 eps: float = 1e-8):
         self.running_gradients = []
         self.beta1 = beta1
         self.beta2 = beta2
