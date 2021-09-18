@@ -97,8 +97,13 @@ class Adam(Optimizer):
         self.beta2 = beta2
         self.eps = eps
 
-    def updateParams(self, params, dparams, learn_rate, epoch_num=None):
-        # epoch zero, initialize running gradients for every single parameter in this layer
+    def updateParams(self,
+                     params: np.ndarray,
+                     dparams: np.ndarray,
+                     learn_rate: float,
+                     epoch_num: Union[None, int] = None):
+        # epoch zero, initialize running gradients for every single parameter
+        # in this layer
         if not self.running_gradients:
             for i in range(len(params)):
                 self.running_gradients.append(
@@ -107,19 +112,20 @@ class Adam(Optimizer):
 
         for i in range(len(params)):
             momentum = self.running_gradients[i][0]
-            adaptiveLR = self.running_gradients[i][1]
-            dLdparam = dparams[i]
+            adaptive_lr = self.running_gradients[i][1]
+            dl_dparam = dparams[i]
             # update the running average vectors based on current dL/dparam
-            momentum = self.beta1 * momentum + (1 - self.beta1) * dLdparam
-            adaptiveLR = self.beta2 * adaptiveLR + (1 - self.beta2) * np.power(
-                dLdparam, 2)
+            momentum = self.beta1 * momentum + (1 - self.beta1) * dl_dparam
+            adaptive_lr = self.beta2 * adaptive_lr + (
+                1 - self.beta2) * np.power(dl_dparam, 2)
             # unbias estimates - important when epoch_num is low
             momentum = momentum / (1 - (self.beta1**epoch_num))
-            adaptiveLR = adaptiveLR / (1 - (self.beta2**epoch_num))
-            # finally, update params and save new adaptiveLearnRateVec and momentumUpdateVec
+            adaptive_lr = adaptive_lr / (1 - (self.beta2**epoch_num))
+            # finally, update params and save new adaptiveLearnRateVec
+            # and momentumUpdateVec
             params[i] = params[i] - (learn_rate * momentum) / (
-                np.sqrt(adaptiveLR) + self.eps)
+                np.sqrt(adaptive_lr) + self.eps)
             self.running_gradients[i][0] = momentum
-            self.running_gradients[i][1] = adaptiveLR
+            self.running_gradients[i][1] = adaptive_lr
 
         return params
