@@ -256,7 +256,7 @@ class test(unittest.TestCase):
         print(acc_7)
 
         # Performance with regularization should be approx 99%
-        self.assertLessEqual(train_loss7[-1], 0.29)
+        self.assertLessEqual(train_loss7[-1], 0.40)
         self.assertGreaterEqual(acc_7, 0.98)
 
         # Checked the implemmentation of our MLP against the reference
