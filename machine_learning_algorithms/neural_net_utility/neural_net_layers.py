@@ -245,10 +245,10 @@ class DenseLayer(BaseNeuralNetworkLayer):
                                                   self.reg_parameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
-        self.W, self.b = self.optim.updateParams([self.W, self.b],
-                                                 [dl_dw, dl_db],
-                                                 learn_rate,
-                                                 epoch_num=epoch + 1)
+        self.W, self.b = self.optim.update_params([self.W, self.b],
+                                                  [dl_dw, dl_db],
+                                                  learn_rate,
+                                                  epoch_num=epoch + 1)
         return dl_da_prev_layer
 
     def _gradient_check(self,
@@ -585,7 +585,7 @@ class DenseBatchNormLayer(DenseLayer):
                                                   self.reg_parameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
-        self.W, self.b, self.gamma, self.beta = self.optim.updateParams(
+        self.W, self.b, self.gamma, self.beta = self.optim.update_params(
             [self.W, self.b, self.gamma, self.beta],
             [dl_dw, dl_db, dLdGamma, dLdBeta],
             learn_rate,
@@ -714,8 +714,8 @@ class DenseDropOutLayer(DenseLayer):
                                                   self.reg_parameter,
                                                   self.Ain.shape[1], self.W)
         dl_dw = dl_dw + dreg_dw
-        self.W, self.b = self.optim.updateParams([self.W, self.b],
-                                                 [dl_dw, dl_db],
-                                                 learn_rate,
-                                                 epoch_num=epoch + 1)
+        self.W, self.b = self.optim.update_params([self.W, self.b],
+                                                  [dl_dw, dl_db],
+                                                  learn_rate,
+                                                  epoch_num=epoch + 1)
         return dl_da_prev_layer

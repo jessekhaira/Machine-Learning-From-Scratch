@@ -9,17 +9,17 @@ class Optimizer(object):
     """ This class is an abstract class that contains methods
     that every optimization algorithm will implement """
 
-    def updateParams(self):
+    def update_params(self):
         raise NotImplementedError
 
 
 class GradientDescent(Optimizer):
 
-    def updateParams(self,
-                     params: np.ndarray,
-                     dparams: np.ndarray,
-                     learn_rate: float,
-                     epoch_num: Union[None, int] = None):
+    def update_params(self,
+                      params: np.ndarray,
+                      dparams: np.ndarray,
+                      learn_rate: float,
+                      epoch_num: Union[None, int] = None):
         for i in range(len(params)):
             params[i] = params[i] - learn_rate * dparams[i]
         return params
@@ -31,11 +31,11 @@ class GradientDescentMomentum(Optimizer):
         self.running_gradients = []
         self.beta = beta
 
-    def updateParams(self,
-                     params: np.ndarray,
-                     dparams: np.ndarray,
-                     learn_rate: float,
-                     epoch_num: Union[None, int] = None):
+    def update_params(self,
+                      params: np.ndarray,
+                      dparams: np.ndarray,
+                      learn_rate: float,
+                      epoch_num: Union[None, int] = None):
         # epoch zero, initialize running gradients for every single parameter in this layer
         if not self.running_gradients:
             for i in range(len(params)):
@@ -54,7 +54,7 @@ class AdaGrad(Optimizer):
         self.running_gradients = []
         self.eps = 1e-8
 
-    def updateParams(self, params, dparams, learn_rate, epoch_num=None):
+    def update_params(self, params, dparams, learn_rate, epoch_num=None):
         if not self.running_gradients:
             for i in range(len(params)):
                 self.running_gradients.append(np.zeros_like(dparams[i]))
@@ -74,8 +74,9 @@ class RMSProp(Optimizer):
         self.beta = beta
         self.eps = eps
 
-    def updateParams(self, params, dparams, learn_rate, epoch_num=None):
-        # epoch zero, initialize running gradients for every single parameter in this layer
+    def update_params(self, params, dparams, learn_rate, epoch_num=None):
+        # epoch zero, initialize running gradients for every single
+        # parameter in this layer
         if not self.running_gradients:
             for i in range(len(params)):
                 self.running_gradients.append(np.zeros_like(params[i]))
@@ -90,6 +91,8 @@ class RMSProp(Optimizer):
 
 
 class Adam(Optimizer):
+    """ This class represents the Adam optimization algorithm
+    """
 
     def __init__(self,
                  beta1: float = 0.9,
@@ -100,11 +103,11 @@ class Adam(Optimizer):
         self.beta2 = beta2
         self.eps = eps
 
-    def updateParams(self,
-                     params: np.ndarray,
-                     dparams: np.ndarray,
-                     learn_rate: float,
-                     epoch_num: Union[None, int] = None):
+    def update_params(self,
+                      params: np.ndarray,
+                      dparams: np.ndarray,
+                      learn_rate: float,
+                      epoch_num: Union[None, int] = None):
         # epoch zero, initialize running gradients for every single parameter
         # in this layer
         if not self.running_gradients:

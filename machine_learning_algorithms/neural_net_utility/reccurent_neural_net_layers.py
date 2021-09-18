@@ -162,7 +162,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         params = [self.way, self.waa, self.wax, self.ba, self.by]
         dparams = [dl_dway, dl_dwaa, dl_dwax, dl_dba, dl_dby]
         gradientClipping(dparams)
-        self.way, self.waa, self.wax, self.ba, self.by = optim.updateParams(
+        self.way, self.waa, self.wax, self.ba, self.by = optim.update_params(
             params, dparams, learn_rate, epoch_num)
 
     def generate(self, seedVector, a_prev, totalGeneratingSteps, idxToChar,

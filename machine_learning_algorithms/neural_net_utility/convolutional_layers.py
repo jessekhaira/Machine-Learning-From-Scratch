@@ -251,10 +251,10 @@ class Conv2D(BaseConvolutionalLayer):
 
         # update filters and bias
         dl_db = np.sum(dl_db.reshape(-1, 1), axis=1, keepdims=True)
-        self.filters, self.b = self.optim.updateParams([self.filters, self.b],
-                                                       [dl_dw, dl_db],
-                                                       learn_rate,
-                                                       epoch_num=epoch + 1)
+        self.filters, self.b = self.optim.update_params([self.filters, self.b],
+                                                        [dl_dw, dl_db],
+                                                        learn_rate,
+                                                        epoch_num=epoch + 1)
 
         # pass the gradient down the circuit
         return dl_da_prev
