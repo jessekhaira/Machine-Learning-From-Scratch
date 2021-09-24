@@ -54,6 +54,7 @@ class GradientDescentMomentum(Optimizer):
 
 
 class AdaGrad(Optimizer):
+    """ This class represents the adagrad optimization algorithm """
 
     def __init__(self):
         self.running_gradients = []
