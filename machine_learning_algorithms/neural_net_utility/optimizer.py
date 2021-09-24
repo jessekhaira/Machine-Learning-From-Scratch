@@ -14,6 +14,8 @@ class Optimizer(object):
 
 
 class GradientDescent(Optimizer):
+    """ This class represents the vanilla gradient descent
+    optimization algorithm """
 
     def update_params(self,
                       params: np.ndarray,
@@ -26,6 +28,8 @@ class GradientDescent(Optimizer):
 
 
 class GradientDescentMomentum(Optimizer):
+    """ This class represents the gradient descent algorithm
+    using momentum """
 
     def __init__(self, beta: float = 0.9):
         self.running_gradients = []
@@ -36,7 +40,8 @@ class GradientDescentMomentum(Optimizer):
                       dparams: np.ndarray,
                       learn_rate: float,
                       epoch_num: Union[None, int] = None):
-        # epoch zero, initialize running gradients for every single parameter in this layer
+        # epoch zero, initialize running gradients for every single parameter
+        # in this layer
         if not self.running_gradients:
             for i in range(len(params)):
                 self.running_gradients.append(np.zeros_like(params[i]))
