@@ -22,6 +22,31 @@ class GradientDescent(Optimizer):
                       dparams: np.ndarray,
                       learn_rate: float,
                       epoch_num: Union[None, int] = None):
+        """ This method updates the numpy array passed in called params
+        using the gradients contained in the numpy array dparams,
+        utilizing the gradient descent formula:
+
+        W = W - learn_rate * dparams
+
+        Args:
+            params:
+                Argument of type np.ndarray representing the parameters inside
+                of some machine learning algorithm used to compute some function
+
+            dparams:
+                Argument of type np.ndarray representing the gradient of some
+                function with respect to the params argument
+
+            learn_rate:
+                Floating point value representing the learning rate used inside
+                of gradient descent
+
+            epoch_num:
+                Argument of type integer or None representing the epoch number
+
+        Returns:
+            Numpy array containing the updated version of the params
+        """
         for i in range(len(params)):
             params[i] = params[i] - learn_rate * dparams[i]
         return params
