@@ -74,6 +74,7 @@ class AdaGrad(Optimizer):
 
 
 class RMSProp(Optimizer):
+    """ This class represents the RMSProp optimization algorithm """
 
     def __init__(self, beta=0.9, eps=1e-8):
         self.running_gradients = []
@@ -97,8 +98,7 @@ class RMSProp(Optimizer):
 
 
 class Adam(Optimizer):
-    """ This class represents the Adam optimization algorithm
-    """
+    """ This class represents the Adam optimization algorithm """
 
     def __init__(self,
                  beta1: float = 0.9,
