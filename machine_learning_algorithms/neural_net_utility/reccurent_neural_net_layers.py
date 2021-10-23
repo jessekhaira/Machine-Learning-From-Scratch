@@ -42,20 +42,28 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         self.cache_per_time_step = {}
 
     def train_forward(self, x, y, a_prev, char_to_idx, cache=True):
-        """
-        This method computes the forward step for a recurrent neural network layer
-        performing language modelling. The RNN will be unrolled for t time steps
-        and compute a loss over those t time steps.
+        """ This method computes the forward step for a recurrent neural
+        network layer performing language modelling. The RNN will be
+        unrolled for t time steps and compute a loss over those t time
+        steps.
 
-        Parameters:
-        -> x (txt file): The text that the RNN should emulate
-        -> y (txt file): The labels that the RNN should predict
-        -> a_prev (NumPy vector): Vector containing the activations from the previous
-        time step
-        -> char_to_idx (HashTable): HashTable mapping characters to indices
+        Args:
+            x:
+                The text that the RNN should emulate
+
+            y:
+                The labels for the input text x
+
+            a_prev:
+                Numpy array containing the activations from the previous
+                time step
+
+            char_to_idx:
+                Dictionary mapping characters to indices
 
         Returns:
-        -> loss (int): The loss accumulated over the t timesteps
+            Floating point value representing the loss accumulated over the t
+            timesteps
         """
         # loop through every time step
         loss = 0
