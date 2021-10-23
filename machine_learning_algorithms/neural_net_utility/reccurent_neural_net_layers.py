@@ -1,3 +1,5 @@
+""" This module contains a class meant to be used
+for charracter level language modelling """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import gradientClipping
