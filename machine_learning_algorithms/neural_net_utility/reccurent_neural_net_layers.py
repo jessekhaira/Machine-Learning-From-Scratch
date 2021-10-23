@@ -102,17 +102,21 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         predictions = Softmax().compute_output(z_pred)
         return a, predictions, a_prev, x_t, z_activ
 
-    def update_weights(self, learn_rate, total_timeSteps, y_label, char_to_idx,
-                       epoch_num, optim):
-        """
-        This method carries out backpropagation through time for an RNN cell performing
-        language modelling.
+    def update_weights(self, learn_rate: float, total_timeSteps: int,
+                       y_label: np.ndarray, char_to_idx, epoch_num: int, optim):
+        """ This method carries out backpropagation through time for an RNN cel
+        performing language modelling.
 
-        Parameters:
-        -> learn_rate (int): Integer representing how much to update the weights in gradient descent
-        -> total_timeSteps (int): The total number of timesteps this RNN will be unrolled for.
-        -> y_label (NumPy vector): (N,1) NumPy vector with labels indicating the correct prediction at each time
-        step t in the RNN cell
+        Args:
+            learn_rate:
+                Floating point value to be used for the optimization algorithm
+
+            total_timeSteps:
+                The total number of timesteps this RNN will be unrolled for
+
+            y_label:
+                Numpy array shape of (N,1) containing the labels for the correct
+                prediction at each time step t in the RNN cell
         """
         # this is different from normal neural nets and conv nets
         # where every layer was a seperate entity and each layers responsibility
