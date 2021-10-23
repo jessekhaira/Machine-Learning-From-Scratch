@@ -117,6 +117,9 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             y_label:
                 Numpy array shape of (N,1) containing the labels for the correct
                 prediction at each time step t in the RNN cell
+
+            char_to_idx:
+                Dictionary containing mapping between characters to indices
         """
         # this is different from normal neural nets and conv nets
         # where every layer was a seperate entity and each layers responsibility
