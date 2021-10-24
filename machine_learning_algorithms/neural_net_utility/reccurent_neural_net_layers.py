@@ -104,7 +104,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         predictions = Softmax().compute_output(z_pred)
         return a, predictions, a_prev, x_t, z_activ
 
-    def update_weights(self, learn_rate: float, total_timeSteps: int,
+    def update_weights(self, learn_rate: float, total_time_steps: int,
                        y_label: np.ndarray, char_to_idx, epoch_num: int, optim):
         """ This method carries out backpropagation through time for an RNN cel
         performing language modelling.
@@ -113,7 +113,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             learn_rate:
                 Floating point value to be used for the optimization algorithm
 
-            total_timeSteps:
+            total_time_steps:
                 The total number of timesteps this RNN will be unrolled for
 
             y_label:
@@ -128,7 +128,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         # was to recieve dl_da and update its weights (if there were any) and
         # then pass back dL/dA_prev. The key thing with RNN's is there is a
         # horizontal temporal dimension - so one RNN cell is unrolled for
-        # total_timeSteps. We can go deeper as well though and pass the output
+        # total_time_steps. We can go deeper as well though and pass the output
         # from this RNN cell into another RNN cell another layer deep.
 
         # init everything
@@ -138,7 +138,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             self.waa), np.zeros_like(self.wax)
 
         # backprop through time :D
-        for t in reversed(range(total_timeSteps)):
+        for t in reversed(range(total_time_steps)):
             a = self.cache_per_time_step[t][0]
             predictions = self.cache_per_time_step[t][1]
             z_activ = self.cache_per_time_step[t][4]
@@ -159,8 +159,9 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             dl_dby += dl_dzpred
             dl_dway += np.dot(dl_dzpred, a.T)
 
-            # this activation goes to the cell in the next time step and is used again
-            # so it gets a gradient portion directly from the softmax classifier and from the next time step
+            # this activation goes to the cell in the next time step and is
+            # used again. So it gets a gradient portion directly from the
+            # softmax classifier and from the next time step
             dl_da = np.dot(self.way.T, dl_dzpred) + dl_da_layer_ahead
             # backprop through the nonlinearity to get dl_dzactiv
             da_dzactiv = self.activation_function.get_derivative_wrt_input(
@@ -174,8 +175,8 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             # pass gradient back to prev activation
             dl_da_layer_ahead = np.dot(self.waa, dl_da)
 
-        # RNN's can suffer from exploding gradients, so before we update the params
-        # we are going to do gradient clipping
+        # RNN's can suffer from exploding gradients, so before we update
+        # the params we are going to do gradient clipping
         params = [self.way, self.waa, self.wax, self.ba, self.by]
         dparams = [dl_dway, dl_dwaa, dl_dwax, dl_dba, dl_dby]
         gradientClipping(dparams)
