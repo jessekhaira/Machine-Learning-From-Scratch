@@ -183,23 +183,33 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         self.way, self.waa, self.wax, self.ba, self.by = optim.update_params(
             params, dparams, learn_rate, epoch_num)
 
-    def generate(self, seedVector, a_prev, totalGeneratingSteps, idxToChar,
+    def generate(self, seed_vector, a_prev, total_gen_steps, idx_to_char,
                  temperature):
-        """
-        This method generates sequences from the RNN. 
+        """ This method generates sequences from the RNN.
 
-        Parameters:
-        -> seedVector (NumPy vector): Vector containing a seed character for the RNN. Can be randomly chosen.
-        -> a_prev (NumPy vector): Vector of previous activations, should be zero to start with. 
-        -> totalGeneratingSteps (int): The length of the sequence that the user wants to generate
-        -> idxToChar (HashTable<Integer,String>): A mapping between integer indices to characters
+        Args:
+            seed_vector:
+                Numpy array containing a seed character for the RNN.
+                Can be randomly chosen.
+
+            a_prev:
+                Numpy array containing previous activations. Should be
+                zero to start with.
+
+            total_gen_steps:
+                Integer representing the length of the sequence that the
+                user wants to generate
+
+            idx_to_char:
+                Dictionary containing a mapping between integer indices to
+                characters
 
         Returns:
-        -> output (string): A string indicating the words the RNN predicted
+            A string indicating the words the RNN predicted
         """
-        x_t = seedVector
+        x_t = seed_vector
         output = []
-        for _ in range(totalGeneratingSteps):
+        for _ in range(total_gen_steps):
             a, predicted_vector, _, _, _ = self._compute_one_step_forward(
                 x_t, a_prev, temperature)
             # lets choose a letter weighted by the probability given by the
@@ -211,7 +221,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             x_t = predicted_vector
             a_prev = a
             # get the char that the index represents and join it to the output
-            predicted_letter = idxToChar[predicted_index]
+            predicted_letter = idx_to_char[predicted_index]
             output.append(predicted_letter)
         return "".join(output)
 
