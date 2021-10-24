@@ -1,6 +1,7 @@
 """ This module contains a class meant to be used
 for charracter level language modelling """
 import numpy as np
+from typing import Dict
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import gradientClipping
 from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
@@ -183,8 +184,9 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         self.way, self.waa, self.wax, self.ba, self.by = optim.update_params(
             params, dparams, learn_rate, epoch_num)
 
-    def generate(self, seed_vector, a_prev, total_gen_steps, idx_to_char,
-                 temperature):
+    def generate(self, seed_vector: np.ndarray, a_prev: np.ndarray,
+                 total_gen_steps: int, idx_to_char: Dict[int, str],
+                 temperature: float) -> str:
         """ This method generates sequences from the RNN.
 
         Args:
@@ -203,6 +205,10 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             idx_to_char:
                 Dictionary containing a mapping between integer indices to
                 characters
+
+            temperature:
+                Floating point value indicating the desired randomness of
+                predictions 
 
         Returns:
             A string indicating the words the RNN predicted
