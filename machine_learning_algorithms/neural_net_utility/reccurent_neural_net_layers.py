@@ -44,7 +44,12 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         # predictions at every time step so we can backprop
         self.cache_per_time_step = {}
 
-    def train_forward(self, x, y, a_prev, char_to_idx, cache=True):
+    def train_forward(self,
+                      x,
+                      y,
+                      a_prev: np.ndarray,
+                      char_to_idx: Dict[str, int],
+                      cache=True):
         """ This method computes the forward step for a recurrent neural
         network layer performing language modelling. The RNN will be
         unrolled for t time steps and compute a loss over those t time
@@ -52,10 +57,10 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
 
         Args:
             x:
-                The text that the RNN should emulate
+                Textfile that the RNN should emulate
 
             y:
-                The labels for the input text x
+                Textfile representing the labels for the input text x
 
             a_prev:
                 Numpy array containing the activations from the previous
@@ -208,7 +213,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
 
             temperature:
                 Floating point value indicating the desired randomness of
-                predictions 
+                predictions
 
         Returns:
             A string indicating the words the RNN predicted
