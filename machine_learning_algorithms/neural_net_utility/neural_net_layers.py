@@ -419,12 +419,12 @@ class DenseBatchNormLayer(DenseLayer):
             return np.zeros((self.W.shape[0], 1)), np.zeros(
                 (self.W.shape[0], 1))
 
-    def compute_forward(self, x, train=True):
+    def compute_forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
         if train:
             return self._train_forward(x)
         return self._test_forward(x)
 
-    def _train_forward(self, prevlayer_activations):
+    def _train_forward(self, prevlayer_activations: np.ndarray) -> np.ndarray:
         assert self.W.shape[1] == prevlayer_activations.shape[
             0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
@@ -447,7 +447,7 @@ class DenseBatchNormLayer(DenseLayer):
         self.A = self.activationFunction.compute_output(self.Z_final)
         return self.A
 
-    def _update_running_avg(self, beta=0.9):
+    def _update_running_avg(self, beta: float = 0.9) -> None:
         self.runningMean = (beta) * (self.runningMean) + (
             1 - beta) * self.mean_miniBatch
         self.runningVar = (beta) * (self.runningVar) + (1 -
