@@ -242,10 +242,10 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             output.append(predicted_letter)
         return "".join(output)
 
-    def _initialize_weights(self, size1, size2):
+    def _initialize_weights(self, size1: int, size2: int) -> np.ndarray:
         # sample from a standard normal distribution and multiple by 0.01
         # to init weights
         return np.random.randn(size1, size2) * 0.01
 
-    def _initialize_bias(self, size1):
+    def _initialize_bias(self, size1: int) -> np.ndarray:
         return np.zeros((size1, 1))
