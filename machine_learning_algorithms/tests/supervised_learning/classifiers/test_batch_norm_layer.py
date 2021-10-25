@@ -1,3 +1,4 @@
+""" This module contains unit tests for the batch norm layer """
 import unittest
 import numpy as np
 import tensorflow as tf
@@ -9,106 +10,102 @@ from machine_learning_algorithms.neural_net_utility.optimizer import GradientDes
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.misc import oneHotEncode
 
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 
-x_train = np.array(x_train, dtype=float)
-x_test = np.array(x_test, dtype=float)
-x_train /= 255
-x_test /= 255
-x_train = x_train.reshape(784, -1)
-x_test = x_test.reshape(784, -1)
-saved_y = y_train.reshape(1, -1)
-y_train = oneHotEncode(y_train.reshape(1, -1))
-y_test = oneHotEncode(y_test.reshape(1, -1))
-print(y_train.shape)
-print(y_test.shape)
-print(x_train[:, :5])
+class TestBatchNorm(unittest.TestCase):
+    """ This class contains unit tests for the batch norm layer """
 
-x_miniTrain = x_train[:, :1000].reshape(784, -1)
-y_miniTrain = y_train[:, :1000]
-x_miniValid = x_train[:, 1000:2000].reshape(784, -1)
-y_miniValid = y_train[:, 1000:2000]
+    def setUp(self):
+        (self.x_train,
+         self.y_train), (self.x_test,
+                         self.y_test) = tf.keras.datasets.mnist.load_data()
 
+        self.x_train = np.array(self.x_train, dtype=float)
+        self.x_test = np.array(self.x_test, dtype=float)
+        self.x_train /= 255
+        self.x_test /= 255
+        self.x_train = self.x_train.reshape(784, -1)
+        self.x_test = self.x_test.reshape(784, -1)
+        self.saved_y = self.y_train.reshape(1, -1)
+        self.y_train = oneHotEncode(self.y_train.reshape(1, -1))
+        self.y_test = oneHotEncode(self.y_test.reshape(1, -1))
+        self.x_mini_train = self.x_train[:, :1000].reshape(784, -1)
+        self.y_mini_train = self.y_train[:, :1000]
+        self.x_mini_valid = self.x_train[:, 1000:2000].reshape(784, -1)
+        self.y_mini_valid = self.y_train[:, 1000:2000]
 
-class testMNIST_BatchNormLayers(unittest.TestCase):
+    def test_overfit_small_batch(self):
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=784)
 
-    def test_softmaxRegressor(self):
-        sm = SoftmaxRegression(784, 10)
-        train_loss, train_acc = sm.fit(x_miniTrain,
-                                       y_miniTrain,
-                                       num_epochs=500,
-                                       ret_train_loss=True)
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activationFunction=ReLU(),
+                                         layer=DenseBatchNormLayer)
+        multi_layer_perceptron.add_layer(num_neurons=10,
+                                         activationFunction=Softmax(),
+                                         isSoftmax=True)
 
-    def testOverFitSmallBatch(self):
-        MLP = MultiLayerPerceptron(typeSupervised="multiclass",
-                                   numberInputFeatures=784)
-
-        MLP.add_layer(num_neurons=100,
-                      activationFunction=ReLU(),
-                      layer=DenseBatchNormLayer)
-        MLP.add_layer(num_neurons=10,
-                      activationFunction=Softmax(),
-                      isSoftmax=True)
-
-        train_loss1, train_acc1 = MLP.fit(x_train[:, :100].reshape(784, -1),
-                                          y_train[:, :100],
-                                          num_epochs=150,
-                                          ret_train_loss=True,
-                                          optim=RMSProp(),
-                                          learn_rate=0.001)
-        predictions1 = MLP.predict_multi_layer_perceptron(
-            x_train[:, :100].reshape(784, -1))
-        acc = accuracy(saved_y[:, :100].reshape(1, -1), predictions1)
+        train_loss1, train_acc1 = multi_layer_perceptron.fit(
+            self.x_train[:, :100].reshape(784, -1),
+            self.y_train[:, :100],
+            num_epochs=150,
+            ret_train_loss=True,
+            optim=RMSProp(),
+            learn_rate=0.001)
+        predictions1 = multi_layer_perceptron.predict_multi_layer_perceptron(
+            self.x_train[:, :100].reshape(784, -1))
+        acc = accuracy(self.saved_y[:, :100].reshape(1, -1), predictions1)
         print(train_loss1)
         print(acc)
         self.assertLessEqual(train_loss1[-1], 0.09)
         self.assertEqual(acc, 1)
 
-        MLP2 = MultiLayerPerceptron(typeSupervised="multiclass",
-                                    numberInputFeatures=784)
+        multi_layer_perceptron2 = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=784)
 
-        MLP2.add_layer(num_neurons=100,
-                       activationFunction=ReLU(),
-                       layer=DenseBatchNormLayer)
-        MLP2.add_layer(num_neurons=10,
-                       activationFunction=Softmax(),
-                       isSoftmax=True)
+        multi_layer_perceptron2.add_layer(num_neurons=100,
+                                          activationFunction=ReLU(),
+                                          layer=DenseBatchNormLayer)
+        multi_layer_perceptron2.add_layer(num_neurons=10,
+                                          activationFunction=Softmax(),
+                                          isSoftmax=True)
 
-        train_loss2, train_acc2 = MLP2.fit(x_train[:, :100].reshape(784, -1),
-                                           y_train[:, :100],
-                                           num_epochs=150,
-                                           ret_train_loss=True,
-                                           optim=GradientDescentMomentum(),
-                                           learn_rate=0.1)
-        predictions2 = MLP2.predict_multi_layer_perceptron(
-            x_train[:, :100].reshape(784, -1))
-        acc2 = accuracy(saved_y[:, :100].reshape(1, -1), predictions2)
+        train_loss2, train_acc2 = multi_layer_perceptron2.fit(
+            self.x_train[:, :100].reshape(784, -1),
+            self.y_train[:, :100],
+            num_epochs=150,
+            ret_train_loss=True,
+            optim=GradientDescentMomentum(),
+            learn_rate=0.1)
+        predictions2 = multi_layer_perceptron2.predict_multi_layer_perceptron(
+            self.x_train[:, :100].reshape(784, -1))
+        acc2 = accuracy(self.saved_y[:, :100].reshape(1, -1), predictions2)
         print(train_loss2)
         print(acc2)
         self.assertLessEqual(train_loss2[-1], 0.09)
         self.assertEqual(acc2, 1)
 
-    def testBiggerBatch_BatchNorm(self):
-        MLP3 = MultiLayerPerceptron(typeSupervised="multiclass",
-                                    numberInputFeatures=784,
-                                    regularization="L2",
-                                    reg_parameter=0.01)
+    def test_bigger_batch_batchnorm(self):
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass",
+            numberInputFeatures=784,
+            regularization="L2",
+            reg_parameter=0.01)
 
-        MLP3.add_layer(num_neurons=100,
-                       activationFunction=ReLU(),
-                       layer=DenseBatchNormLayer)
-        MLP3.add_layer(num_neurons=100,
-                       activationFunction=ReLU(),
-                       layer=DenseBatchNormLayer)
-        MLP3.add_layer(num_neurons=10,
-                       activationFunction=Softmax(),
-                       isSoftmax=True)
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activationFunction=ReLU(),
+                                         layer=DenseBatchNormLayer)
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activationFunction=ReLU(),
+                                         layer=DenseBatchNormLayer)
+        multi_layer_perceptron.add_layer(num_neurons=10,
+                                         activationFunction=Softmax(),
+                                         isSoftmax=True)
 
-        train_loss, valid_loss, train_acc, valid_acc = MLP3.fit(
-            x_miniTrain,
-            y_miniTrain,
-            xvalid=x_miniValid,
-            yvalid=y_miniValid,
+        train_loss, valid_loss, train_acc, valid_acc = multi_layer_perceptron.fit(
+            self.x_mini_train,
+            self.y_mini_train,
+            xvalid=self.x_mini_valid,
+            yvalid=self.y_mini_valid,
             num_epochs=500,
             ret_train_loss=True,
             optim=GradientDescentMomentum(),
@@ -121,21 +118,23 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
         print('\n')
         print(valid_acc)
 
-    def testBiggerBatch_normal(self):
-        MLP4 = MultiLayerPerceptron(typeSupervised="multiclass",
-                                    numberInputFeatures=784)
+    def test_bigger_batch_normal(self):
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=784)
 
-        MLP4.add_layer(num_neurons=100, activationFunction=ReLU())
-        MLP4.add_layer(num_neurons=100, activationFunction=ReLU())
-        MLP4.add_layer(num_neurons=10,
-                       activationFunction=Softmax(),
-                       isSoftmax=True)
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activationFunction=ReLU())
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activationFunction=ReLU())
+        multi_layer_perceptron.add_layer(num_neurons=10,
+                                         activationFunction=Softmax(),
+                                         isSoftmax=True)
 
-        train_loss, valid_loss, train_acc, valid_acc = MLP4.fit(
-            x_miniTrain,
-            y_miniTrain,
-            xvalid=x_miniValid,
-            yvalid=y_miniValid,
+        train_loss, valid_loss, train_acc, valid_acc = multi_layer_perceptron.fit(
+            self.x_mini_train,
+            self.y_mini_train,
+            xvalid=self.x_mini_valid,
+            yvalid=self.y_mini_valid,
             num_epochs=100,
             ret_train_loss=True,
             optim=GradientDescentMomentum(),
@@ -149,12 +148,5 @@ class testMNIST_BatchNormLayers(unittest.TestCase):
         print(valid_acc)
 
 
-## MLP with 2 batch norm layers with 100 neurons and a 10 way softmax each is fitting well to the training set but just overfitting
-# -> fixed with some regulariization and exposing the model to more examples
-
-## MLP with 2 normal layers with 100 neurons each and a 10 way softmax is not fitting well to the training set and not generalizing
-# when trained with the same hyperparameters as the other network
-
-# Effectiveness of batch norm layers!
 if __name__ == "__main__":
     unittest.main()
