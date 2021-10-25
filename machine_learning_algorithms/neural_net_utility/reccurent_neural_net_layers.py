@@ -1,7 +1,7 @@
 """ This module contains a class meant to be used
 for charracter level language modelling """
 import numpy as np
-from typing import Dict
+from typing import Dict, Tuple
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import gradientClipping
 from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
@@ -97,7 +97,12 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
 
         return loss
 
-    def _compute_one_step_forward(self, x_t, a_prev, temperature=1):
+    def _compute_one_step_forward(
+        self,
+        x_t: np.ndarray,
+        a_prev: np.ndarray,
+        temperature: float = 1
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         assert self.wax.shape[1] == x_t.shape[0]
         assert a_prev.shape[0] == self.waa.shape[1]
         z_activ = np.dot(self.wax, x_t) + np.dot(self.waa, a_prev) + self.ba
@@ -111,7 +116,8 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         return a, predictions, a_prev, x_t, z_activ
 
     def update_weights(self, learn_rate: float, total_time_steps: int,
-                       y_label: np.ndarray, char_to_idx, epoch_num: int, optim):
+                       y_label: np.ndarray, char_to_idx, epoch_num: int,
+                       optim) -> None:
         """ This method carries out backpropagation through time for an RNN cel
         performing language modelling.
 
