@@ -522,42 +522,46 @@ class DenseBatchNormLayer(DenseLayer):
         if self.isSoftmax == 0:
             dadz_final = self.activationFunction.get_derivative_wrt_input(
                 self.Z_final)
-            dLdZ_final = dLdA * dadz_final
+            dl_dzfinal = dLdA * dadz_final
         else:
-            dLdZ_final = dl_dz_softmax(self.Z_final, self.A, dLdA,
+            dl_dzfinal = dl_dz_softmax(self.Z_final, self.A, dLdA,
                                        self.activationFunction)
 
-        # gradients for learnable parameters - computation step for z_final layer
-        dLdGamma = np.sum(np.dot(dLdZ_final, self.Z_norm.T),
-                          axis=1,
-                          keepdims=True)
-        dLdBeta = np.sum(dLdZ_final, axis=1, keepdims=True)
-        dLdZnorm = dLdZ_final * self.gamma
+        # gradients for learnable parameters - computation step
+        # for z_final layer
+        dl_dgamma = np.sum(np.dot(dl_dzfinal, self.Z_norm.T),
+                           axis=1,
+                           keepdims=True)
+        dl_dbeta = np.sum(dl_dzfinal, axis=1, keepdims=True)
+        dl_dznorm = dl_dzfinal * self.gamma
 
         # first branch dl_dz
-        dLdZin_firstBranch = dLdZnorm * self.inv_stdDev
+        dl_dzin_firstbranch = dl_dznorm * self.inv_stdDev
         ## variance portion of dl_dz
-        dZnormdInv = self.Z_centered
-        dInvdVar = -(0.5) * np.power(self.variance + self.eps, -3 / 2)
-        dLdVar = np.sum(dLdZnorm * dZnormdInv * dInvdVar, axis=1, keepdims=True)
-        dLdZin_secondBranch = dLdVar * (2 /
-                                        self.Z_in.shape[1]) * (self.Z_centered)
+        dznorm_dinv = self.Z_centered
+        dinv_dvar = -(0.5) * np.power(self.variance + self.eps, -3 / 2)
+        dl_dvar = np.sum(dl_dznorm * dznorm_dinv * dinv_dvar,
+                         axis=1,
+                         keepdims=True)
+        dl_dzin_secondbranch = dl_dvar * (2 / self.Z_in.shape[1]) * (
+            self.Z_centered)
         ## mean portion of dl_dz
-        dLdMu1 = np.sum(dLdZnorm * (-1) * (self.inv_stdDev),
-                        axis=1,
-                        keepdims=True)
-        dLdMu2 = np.sum(dLdVar * (-2 / self.Z_in.shape[1]) * (self.Z_centered),
-                        axis=1,
-                        keepdims=True)
-        dLdZin_thirdBranch = (1 / self.Z_in.shape[1]) * (dLdMu1 + dLdMu2)
+        dl_dmu1 = np.sum(dl_dznorm * (-1) * (self.inv_stdDev),
+                         axis=1,
+                         keepdims=True)
+        dl_dmu2 = np.sum(dl_dvar * (-2 / self.Z_in.shape[1]) *
+                         (self.Z_centered),
+                         axis=1,
+                         keepdims=True)
+        dl_dzin_thirdbranch = (1 / self.Z_in.shape[1]) * (dl_dmu1 + dl_dmu2)
         # total dl_dz is sum of all three branches
-        dLdZ_in = dLdZin_firstBranch + dLdZin_secondBranch + dLdZin_thirdBranch
+        dl_dzin = dl_dzin_firstbranch + dl_dzin_secondbranch + dl_dzin_thirdbranch
 
-        # finally get back to the un-normalized activations where we can get what we
-        # wanted from the beginning
-        dl_dw = np.dot(dLdZ_in, self.Ain.T)
-        dl_db = np.sum(dLdZ_in, axis=1, keepdims=True)
-        dl_da_prev_layer = np.dot(self.W.T, dLdZ_in)
+        # finally get back to the un-normalized activations where
+        # we can get what we wanted from the beginning
+        dl_dw = np.dot(dl_dzin, self.Ain.T)
+        dl_db = np.sum(dl_dzin, axis=1, keepdims=True)
+        dl_da_prev_layer = np.dot(self.W.T, dl_dzin)
 
         assert dl_dw.shape == self.W.shape, (
             "Your W[L] shape is not the same as dW/dW[L] shape")
@@ -565,9 +569,9 @@ class DenseBatchNormLayer(DenseLayer):
             "Your B[L] shape is not the same as dW/dB[L] shape")
         assert dl_da_prev_layer.shape == self.Ain.shape, (
             "Your dL/dA[L-1] shapes are incomptabile")
-        assert dLdGamma.shape == self.gamma.shape, (
+        assert dl_dgamma.shape == self.gamma.shape, (
             "Your dL/dGamma shape is not the same as gammas shape")
-        assert dLdBeta.shape == self.beta.shape, (
+        assert dl_dbeta.shape == self.beta.shape, (
             "Your dL/dBeta shape is not the same as betas shape")
 
         # Epoch zero and you want to gradient check, do some gradient checks for
@@ -587,7 +591,7 @@ class DenseBatchNormLayer(DenseLayer):
         dl_dw = dl_dw + dreg_dw
         self.W, self.b, self.gamma, self.beta = self.optim.update_params(
             [self.W, self.b, self.gamma, self.beta],
-            [dl_dw, dl_db, dLdGamma, dLdBeta],
+            [dl_dw, dl_db, dl_dgamma, dl_dbeta],
             learn_rate,
             epoch_num=epoch + 1)
         return dl_da_prev_layer
