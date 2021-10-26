@@ -37,8 +37,11 @@ class TestConvolutionalNet(unittest.TestCase):
         return super().setUp()
 
     def test_overfit_smallbatch(self):
-        # We're gonna test if we can overfit the above conv net on a small batch w/ just one layer followed by a softmax classifier
-        # if we can't.. then somethings wrong with the backprop for the conv layer
+        """ We're gonna test if we can overfit a small conv net on a small
+        batch w/ just one layer followed by a softmax classifier.
+        If we can't.. then somethings wrong with the backprop for the conv
+        layer.
+        """
         obj2 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
                                           inputDepth=1)
         paramsLayer1 = {
