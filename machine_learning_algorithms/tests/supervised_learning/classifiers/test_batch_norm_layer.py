@@ -111,11 +111,11 @@ class TestBatchNorm(unittest.TestCase):
             optim=GradientDescentMomentum(),
             learn_rate=0.1)
         print(train_loss)
-        print('\n')
+        print("\n")
         print(valid_loss)
-        print('\n')
+        print("\n")
         print(train_acc)
-        print('\n')
+        print("\n")
         print(valid_acc)
 
     def test_bigger_batch_normal(self):
@@ -140,11 +140,11 @@ class TestBatchNorm(unittest.TestCase):
             optim=GradientDescentMomentum(),
             learn_rate=0.1)
         print(train_loss)
-        print('\n')
+        print("\n")
         print(valid_loss)
-        print('\n')
+        print("\n")
         print(train_acc)
-        print('\n')
+        print("\n")
         print(valid_acc)
 
 
