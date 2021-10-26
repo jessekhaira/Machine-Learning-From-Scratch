@@ -75,8 +75,10 @@ class TestConvolutionalNet(unittest.TestCase):
 
         # Looks good!
 
-    def testOverfitSmallBatch_medNetAvgPool(self):
-        # testing conv layer followed by avg pool layer followed by classifier
+    def test_overfit_smallbatch_mediumnet(self):
+        """ Testing conv layer followed by avg pool layer
+        followed by classifier
+        """
         obj3 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
                                           inputDepth=1)
         paramsLayer1 = {
