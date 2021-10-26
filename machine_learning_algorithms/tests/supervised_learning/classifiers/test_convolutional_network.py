@@ -44,7 +44,7 @@ class TestConvolutionalNet(unittest.TestCase):
         """
         obj2 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
                                           inputDepth=1)
-        paramsLayer1 = {
+        params_layer1 = {
             "filterSize": 3,
             "inputDepth": None,
             "numFilters": 5,
@@ -53,16 +53,16 @@ class TestConvolutionalNet(unittest.TestCase):
             "stride": 1,
             "finalConvLayer": True
         }
-        obj2.addConvNetLayer(Conv2D, **paramsLayer1)
+        obj2.addConvNetLayer(Conv2D, **params_layer1)
 
-        paramsLayer6 = {
+        params_layer6 = {
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
         }
-        obj2.addConvNetLayer(DenseLayer, **paramsLayer6)
+        obj2.addConvNetLayer(DenseLayer, **params_layer6)
 
         train_loss, train_acc = obj2.fit(self.x_mini_train[:32],
                                          self.y_mini_train[:, :32],
@@ -71,17 +71,17 @@ class TestConvolutionalNet(unittest.TestCase):
                                          verbose=True,
                                          learn_rate=0.4,
                                          optim=GradientDescentMomentum())
-        print(train_loss)
-
+        print(train_loss, train_acc)
+        self.assertGreaterEqual(train_acc, 0.90)
         # Looks good!
 
-    def test_overfit_smallbatch_mediumnet(self):
+    def test_overfit_smallbatch_avgpool(self):
         """ Testing conv layer followed by avg pool layer
         followed by classifier
         """
         obj3 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
                                           inputDepth=1)
-        paramsLayer1 = {
+        params_layer1 = {
             "filterSize": 3,
             "inputDepth": None,
             "numFilters": 5,
@@ -90,25 +90,25 @@ class TestConvolutionalNet(unittest.TestCase):
             "stride": 1,
             "finalConvLayer": False
         }
-        obj3.addConvNetLayer(Conv2D, **paramsLayer1)
+        obj3.addConvNetLayer(Conv2D, **params_layer1)
 
-        paramsLayer2 = {
+        params_layer2 = {
             "filterSize": 3,
             "stride": 2,
             "finalConvLayer": True,
             "poolType": "avg",
             "padding": "valid"
         }
-        obj3.addConvNetLayer(Pool, **paramsLayer2)
+        obj3.addConvNetLayer(Pool, **params_layer2)
 
-        paramsLayer6 = {
+        params_layer6 = {
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
         }
-        obj3.addConvNetLayer(DenseLayer, **paramsLayer6)
+        obj3.addConvNetLayer(DenseLayer, **params_layer6)
 
         train_loss, train_acc = obj3.fit(self.x_mini_train[:32],
                                          self.y_mini_train[:, :32],
@@ -117,14 +117,16 @@ class TestConvolutionalNet(unittest.TestCase):
                                          verbose=True,
                                          learn_rate=0.4,
                                          optim=GradientDescentMomentum())
+        print(train_loss, train_acc)
+        self.assertGreaterEqual(train_acc, 0.90)
 
-        # Looks good!
-
-    def testOverfitSmallBatch_medNetMaxPool(self):
-        # testing conv layer followed by avg pool layer followed by classifier
+    def test_overfit_smallbatch_maxpool(self):
+        """ Testing conv layer followed by max pool layer
+        followed by classifier
+        """
         obj3 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
                                           inputDepth=1)
-        paramsLayer1 = {
+        params_layer1 = {
             "filterSize": 3,
             "inputDepth": None,
             "numFilters": 5,
@@ -133,25 +135,25 @@ class TestConvolutionalNet(unittest.TestCase):
             "stride": 1,
             "finalConvLayer": False
         }
-        obj3.addConvNetLayer(Conv2D, **paramsLayer1)
+        obj3.addConvNetLayer(Conv2D, **params_layer1)
 
-        paramsLayer2 = {
+        params_layer2 = {
             "filterSize": 3,
             "stride": 2,
             "finalConvLayer": True,
             "poolType": "max",
             "padding": "valid"
         }
-        obj3.addConvNetLayer(Pool, **paramsLayer2)
+        obj3.addConvNetLayer(Pool, **params_layer2)
 
-        paramsLayer6 = {
+        params_layer6 = {
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
         }
-        obj3.addConvNetLayer(DenseLayer, **paramsLayer6)
+        obj3.addConvNetLayer(DenseLayer, **params_layer6)
 
         train_loss, train_acc = obj3.fit(self.x_mini_train[:32],
                                          self.y_mini_train[:, :32],
@@ -160,16 +162,17 @@ class TestConvolutionalNet(unittest.TestCase):
                                          verbose=True,
                                          learn_rate=0.4,
                                          optim=GradientDescentMomentum())
+        print(train_loss, train_acc)
+        self.assertGreaterEqual(train_acc, 0.90)
 
-        # trains fine but loss goes down way slower than average pooling since we only send the gradient through the maximum neuron
-        # versus every single neuron. Doesn't make a huge difference, just need to train for way longer.
-
-    def testFullNet(self):
-        # train the full net on 60k images - takes a long time to train but gets great performance!
+    def test_full_network(self):
+        """ Train the full net on 60k images - takes a long time to train
+        but gets great performance!
+        """
         obj1 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
                                           inputDepth=1)
 
-        paramsLayer1 = {
+        params_layer1 = {
             "filterSize": 3,
             "inputDepth": None,
             "numFilters": 5,
@@ -178,17 +181,17 @@ class TestConvolutionalNet(unittest.TestCase):
             "stride": 1,
             "finalConvLayer": False
         }
-        obj1.addConvNetLayer(Conv2D, **paramsLayer1)
-        paramsLayer2 = {
+        obj1.addConvNetLayer(Conv2D, **params_layer1)
+        params_layer2 = {
             "filterSize": 3,
             "stride": 2,
             "finalConvLayer": False,
             "poolType": "avg",
             "padding": "valid"
         }
-        obj1.addConvNetLayer(Pool, **paramsLayer2)
+        obj1.addConvNetLayer(Pool, **params_layer2)
 
-        paramsLayer3 = {
+        params_layer3 = {
             "filterSize": 3,
             "inputDepth": None,
             "numFilters": 5,
@@ -197,33 +200,32 @@ class TestConvolutionalNet(unittest.TestCase):
             "stride": 1,
             "finalConvLayer": False
         }
-        obj1.addConvNetLayer(Conv2D, **paramsLayer3)
-        paramsLayer4 = {
+        obj1.addConvNetLayer(Conv2D, **params_layer3)
+        params_layer4 = {
             "filterSize": 3,
             "finalConvLayer": True,
             "stride": 2,
-            "finalConvLayer": True,
             "poolType": "avg",
             "padding": "valid"
         }
-        obj1.addConvNetLayer(Pool, **paramsLayer4)
+        obj1.addConvNetLayer(Pool, **params_layer4)
 
-        paramsLayer5 = {
+        params_layer5 = {
             "num_neurons": 75,
             "activationFunction": ReLU(),
             "regularization": None,
             "reg_parameter": None
         }
-        obj1.addConvNetLayer(DenseLayer, **paramsLayer5)
+        obj1.addConvNetLayer(DenseLayer, **params_layer5)
 
-        paramsLayer6 = {
+        params_layer6 = {
             "num_neurons": 10,
             "activationFunction": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
         }
-        obj1.addConvNetLayer(DenseLayer, **paramsLayer6)
+        obj1.addConvNetLayer(DenseLayer, **params_layer6)
         train_loss, train_acc = obj1.fit(self.x_train,
                                          self.y_train,
                                          xvalid=self.x_test,
@@ -234,6 +236,8 @@ class TestConvolutionalNet(unittest.TestCase):
                                          learn_rate=0.01,
                                          batch_size=128,
                                          optim=AdaGrad())
+
+        self.assertGreaterEqual(train_acc, 0.90)
 
 
 if __name__ == "__main__":
