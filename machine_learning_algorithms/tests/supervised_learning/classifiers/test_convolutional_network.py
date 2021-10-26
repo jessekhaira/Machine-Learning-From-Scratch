@@ -1,3 +1,4 @@
+""" This module contains unit tests for a convolutional network """
 import unittest
 import numpy as np
 import tensorflow as tf
@@ -9,93 +10,33 @@ from machine_learning_algorithms.neural_net_utility.activation_functions import 
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, AdaGrad
 from machine_learning_algorithms.utility.misc import oneHotEncode
 
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-x_train = np.array(x_train, dtype=float)
-x_test = np.array(x_test, dtype=float)
-x_train /= 255
-x_test /= 255
-x_train = x_train
-x_test = x_test
-saved_y = y_train.reshape(1, -1)
-y_train = oneHotEncode(y_train.reshape(1, -1))
-y_test = oneHotEncode(y_test.reshape(1, -1))
 
-x_miniTrain = x_train[:1000, :, :].reshape(1000, 1, 28, 28)
-y_miniTrain = y_train[:, :1000]
-x_miniValid = x_train[:1000, :, :].reshape(1000, 1, 28, 28)
-y_miniValid = y_train[:, 1000:2000]
+class TestConvolutionalNet(unittest.TestCase):
+    """ This class contains unit tests for a convolutional network """
 
-x_train = x_train.reshape(60000, 1, 28, 28)
-x_test = x_test.reshape(10000, 1, 28, 28)
+    def setUp(self):
+        (self.x_train,
+         self.y_train), (self.x_test,
+                         self.y_test) = tf.keras.datasets.mnist.load_data()
+        self.x_train = np.array(self.x_train, dtype=float)
+        self.x_test = np.array(self.x_test, dtype=float)
+        self.x_train /= 255
+        self.x_test /= 255
+        self.x_train = self.x_train
+        self.x_test = self.x_test
+        self.saved_y = self.y_train.reshape(1, -1)
+        self.y_train = oneHotEncode(self.y_train.reshape(1, -1))
+        self.y_test = oneHotEncode(self.y_test.reshape(1, -1))
+        self.x_mini_train = self.x_train[:1000, :, :].reshape(1000, 1, 28, 28)
+        self.y_mini_train = self.y_train[:, :1000]
+        self.x_mini_valid = self.x_train[:1000, :, :].reshape(1000, 1, 28, 28)
+        self.y_mini_valid = self.y_train[:, 1000:2000]
 
-obj1 = ConvolutionalNeuralNetwork(typeSupervised="multiclass", inputDepth=1)
+        self.x_train = self.x_train.reshape(60000, 1, 28, 28)
+        self.x_test = self.x_test.reshape(10000, 1, 28, 28)
+        return super().setUp()
 
-paramsLayer1 = {
-    "filterSize": 3,
-    "inputDepth": None,
-    "numFilters": 5,
-    "activationFunction": ReLU(),
-    "padding": "same",
-    "stride": 1,
-    "finalConvLayer": False
-}
-obj1.addConvNetLayer(Conv2D, **paramsLayer1)
-paramsLayer2 = {
-    "filterSize": 3,
-    "stride": 2,
-    "finalConvLayer": False,
-    "poolType": "avg",
-    "padding": "valid"
-}
-obj1.addConvNetLayer(Pool, **paramsLayer2)
-
-paramsLayer3 = {
-    "filterSize": 3,
-    "inputDepth": None,
-    "numFilters": 5,
-    "activationFunction": ReLU(),
-    "padding": "same",
-    "stride": 1,
-    "finalConvLayer": False
-}
-obj1.addConvNetLayer(Conv2D, **paramsLayer3)
-paramsLayer4 = {
-    "filterSize": 3,
-    "finalConvLayer": True,
-    "stride": 2,
-    "finalConvLayer": True,
-    "poolType": "avg",
-    "padding": "valid"
-}
-obj1.addConvNetLayer(Pool, **paramsLayer4)
-
-paramsLayer5 = {
-    "num_neurons": 75,
-    "activationFunction": ReLU(),
-    "regularization": None,
-    "reg_parameter": None
-}
-obj1.addConvNetLayer(DenseLayer, **paramsLayer5)
-
-paramsLayer6 = {
-    "num_neurons": 10,
-    "activationFunction": Softmax(),
-    "regularization": None,
-    "reg_parameter": None,
-    "isSoftmax": 1
-}
-obj1.addConvNetLayer(DenseLayer, **paramsLayer6)
-
-
-class testConvNet_Mnist(unittest.TestCase):
-
-    def testForwardPass(self):
-        # just making sure that everything connects properly and
-        # making sure that predictions are all 0.1 for every example
-        preds = obj1._forward_propagate(x_miniTrain[:32])
-        print(preds)
-
-    def testOverfitSmallBatch_smallNet(self):
+    def test_overfit_smallbatch(self):
         # We're gonna test if we can overfit the above conv net on a small batch w/ just one layer followed by a softmax classifier
         # if we can't.. then somethings wrong with the backprop for the conv layer
         obj2 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
@@ -120,8 +61,8 @@ class testConvNet_Mnist(unittest.TestCase):
         }
         obj2.addConvNetLayer(DenseLayer, **paramsLayer6)
 
-        train_loss, train_acc = obj2.fit(x_miniTrain[:32],
-                                         y_miniTrain[:, :32],
+        train_loss, train_acc = obj2.fit(self.x_mini_train[:32],
+                                         self.y_mini_train[:, :32],
                                          num_epochs=350,
                                          ret_train_loss=True,
                                          verbose=True,
@@ -164,8 +105,8 @@ class testConvNet_Mnist(unittest.TestCase):
         }
         obj3.addConvNetLayer(DenseLayer, **paramsLayer6)
 
-        train_loss, train_acc = obj3.fit(x_miniTrain[:32],
-                                         y_miniTrain[:, :32],
+        train_loss, train_acc = obj3.fit(self.x_mini_train[:32],
+                                         self.y_mini_train[:, :32],
                                          num_epochs=500,
                                          ret_train_loss=True,
                                          verbose=True,
@@ -207,8 +148,8 @@ class testConvNet_Mnist(unittest.TestCase):
         }
         obj3.addConvNetLayer(DenseLayer, **paramsLayer6)
 
-        train_loss, train_acc = obj3.fit(x_miniTrain[:32],
-                                         y_miniTrain[:, :32],
+        train_loss, train_acc = obj3.fit(self.x_mini_train[:32],
+                                         self.y_mini_train[:, :32],
                                          num_epochs=500,
                                          ret_train_loss=True,
                                          verbose=True,
@@ -220,10 +161,68 @@ class testConvNet_Mnist(unittest.TestCase):
 
     def testFullNet(self):
         # train the full net on 60k images - takes a long time to train but gets great performance!
-        train_loss, train_acc = obj1.fit(x_train,
-                                         y_train,
-                                         xvalid=x_test,
-                                         yvalid=y_test,
+        obj1 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
+                                          inputDepth=1)
+
+        paramsLayer1 = {
+            "filterSize": 3,
+            "inputDepth": None,
+            "numFilters": 5,
+            "activationFunction": ReLU(),
+            "padding": "same",
+            "stride": 1,
+            "finalConvLayer": False
+        }
+        obj1.addConvNetLayer(Conv2D, **paramsLayer1)
+        paramsLayer2 = {
+            "filterSize": 3,
+            "stride": 2,
+            "finalConvLayer": False,
+            "poolType": "avg",
+            "padding": "valid"
+        }
+        obj1.addConvNetLayer(Pool, **paramsLayer2)
+
+        paramsLayer3 = {
+            "filterSize": 3,
+            "inputDepth": None,
+            "numFilters": 5,
+            "activationFunction": ReLU(),
+            "padding": "same",
+            "stride": 1,
+            "finalConvLayer": False
+        }
+        obj1.addConvNetLayer(Conv2D, **paramsLayer3)
+        paramsLayer4 = {
+            "filterSize": 3,
+            "finalConvLayer": True,
+            "stride": 2,
+            "finalConvLayer": True,
+            "poolType": "avg",
+            "padding": "valid"
+        }
+        obj1.addConvNetLayer(Pool, **paramsLayer4)
+
+        paramsLayer5 = {
+            "num_neurons": 75,
+            "activationFunction": ReLU(),
+            "regularization": None,
+            "reg_parameter": None
+        }
+        obj1.addConvNetLayer(DenseLayer, **paramsLayer5)
+
+        paramsLayer6 = {
+            "num_neurons": 10,
+            "activationFunction": Softmax(),
+            "regularization": None,
+            "reg_parameter": None,
+            "isSoftmax": 1
+        }
+        obj1.addConvNetLayer(DenseLayer, **paramsLayer6)
+        train_loss, train_acc = obj1.fit(self.x_train,
+                                         self.y_train,
+                                         xvalid=self.x_test,
+                                         yvalid=self.y_test,
                                          num_epochs=150,
                                          ret_train_loss=True,
                                          verbose=True,
