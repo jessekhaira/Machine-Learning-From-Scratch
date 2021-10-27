@@ -11,24 +11,24 @@ class BaseConvolutionalLayer(BaseNeuralNetworkLayer):
     """ This class represents the base class from which convolutional neural
     network layers will inherit """
 
-    def _pad_input(self, x: np.ndarray, filterSize: int, padding: int):
-        pad_h, pad_w = self._get_padding(filterSize, padding)
+    def _pad_input(self, x: np.ndarray, filter_size: int, padding: int):
+        pad_h, pad_w = self._get_padding(filter_size, padding)
         # x has images first and channels last - dont pad those
         images_padded = np.pad(x, ((0, 0), (0, 0), pad_h, pad_w),
                                mode="constant",
                                constant_values=0)
         return images_padded
 
-    def _get_padding(self, filterSize: int, padding: int):
+    def _get_padding(self, filter_size: int, padding: int):
         # valid means padding is zero
         if padding == "valid":
             return (0, 0), (0, 0)
         # otherwise assume same padding
         else:
-            pad_h1 = int(math.floor((filterSize - 1) / 2))
-            pad_h2 = int(math.ceil((filterSize - 1) / 2))
-            pad_w1 = int(math.floor((filterSize - 1) / 2))
-            pad_w2 = int(math.ceil((filterSize - 1) / 2))
+            pad_h1 = int(math.floor((filter_size - 1) / 2))
+            pad_h2 = int(math.ceil((filter_size - 1) / 2))
+            pad_w1 = int(math.floor((filter_size - 1) / 2))
+            pad_w2 = int(math.ceil((filter_size - 1) / 2))
 
             return (pad_h1, pad_h2), (pad_w1, pad_w2)
 
@@ -37,10 +37,10 @@ class Conv2D(BaseConvolutionalLayer):
     """ This class represents a 2D convolutional layer.
 
     Attributes:
-        filterSize:
+        filter_size:
             Integer representing the size of the filters
 
-        numFilters:
+        num_filters:
             Integer representing the number of filters in this
             layer (indicates how many feature detectors you have,
             and how many features you will be learning)
@@ -58,24 +58,24 @@ class Conv2D(BaseConvolutionalLayer):
             Boolean value indicating whether this is the last convolutional
             layer before fully connected layers
 
-        inputDepth:
+        input_depth:
             Integer representing the depth of the input to this layer, or
             None
     """
 
     def __init__(self,
-                 filterSize: int,
-                 numFilters: int,
+                 filter_size: int,
+                 num_filters: int,
                  activationFunction,
                  padding: Literal["same", "valid"] = "same",
                  stride: int = 1,
                  final_conv_layer: bool = False,
-                 inputDepth: Union[None, int] = None):
-        self.filterSize = filterSize
-        self.numFilters = numFilters
+                 input_depth: Union[None, int] = None):
+        self.filter_size = filter_size
+        self.num_filters = num_filters
         self.padding = padding
         self.stride = stride
-        self.inputDepth = inputDepth
+        self.input_depth = input_depth
         self.filters, self.b = self._initialize_weights()
         self.activationFunction = activationFunction
         self.final_conv_layer = final_conv_layer
@@ -97,43 +97,43 @@ class Conv2D(BaseConvolutionalLayer):
                 mode or validation mode
 
         Returns:
-            A numpy array of shape (numExamples, numFilters, self.filterSize,
-            self.filterSize, self.numFilters) representing the output
+            A numpy array of shape (numExamples, num_filters, self.filter_size,
+            self.filter_size, self.num_filters) representing the output
             from the layer
         """
-        p = 0 if self.padding == "valid" else int((self.filterSize - 1) / 2)
-        output_height = int((x.shape[2] - self.filterSize + 2 * p) /
+        p = 0 if self.padding == "valid" else int((self.filter_size - 1) / 2)
+        output_height = int((x.shape[2] - self.filter_size + 2 * p) /
                             (self.stride) + 1)
-        output_width = int((x.shape[3] - self.filterSize + 2 * p) /
+        output_width = int((x.shape[3] - self.filter_size + 2 * p) /
                            (self.stride) + 1)
         self.Z = np.zeros(
-            (x.shape[0], self.numFilters, output_height, output_width))
+            (x.shape[0], self.num_filters, output_height, output_width))
 
-        padded_input = self._pad_input(x, self.filterSize, self.padding)
+        padded_input = self._pad_input(x, self.filter_size, self.padding)
         self.Ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
             # have to pad image with zeros
-            for curr_filter in range(self.numFilters):
+            for curr_filter in range(self.num_filters):
                 filter_weights = self.filters[curr_filter, :, :, :]
                 bias = self.b[curr_filter]
                 curr_row_example = 0
                 curr_row_neuron = -1
                 # while you haven't seen all the height rows
-                while curr_row_example + self.filterSize <= image.shape[1]:
+                while curr_row_example + self.filter_size <= image.shape[1]:
                     # while you haven't seen the full width of this row
                     curr_row_neuron += 1
                     # reset the column to zero for every single row we are at
                     # for both the picture and neuron
                     curr_col_example = 0
                     curr_col_neuron = 0
-                    while curr_col_example + self.filterSize <= image.shape[2]:
+                    while curr_col_example + self.filter_size <= image.shape[2]:
                         curr_image_slice = image[:, curr_row_example:
                                                  curr_row_example +
-                                                 self.filterSize,
+                                                 self.filter_size,
                                                  curr_col_example:
                                                  curr_col_example +
-                                                 self.filterSize]
+                                                 self.filter_size]
                         # for this image and this curr_filter, we fill
                         # curr_row_neuron and curr_col_neuron with the value
                         # shown
@@ -164,13 +164,13 @@ class Conv2D(BaseConvolutionalLayer):
             return self.A.reshape(-1, x.shape[0])
 
     def _initialize_weights(self):
-        if self.inputDepth is None:
+        if self.input_depth is None:
             return None, None
         # we are going to have F x F x D1 x K total filters in this layer
-        filters = np.random.rand(self.numFilters, self.inputDepth,
-                                 self.filterSize, self.filterSize) * 0.01
+        filters = np.random.rand(self.num_filters, self.input_depth,
+                                 self.filter_size, self.filter_size) * 0.01
         # we have one bias term for each filter
-        bias = np.zeros((self.numFilters, 1))
+        bias = np.zeros((self.num_filters, 1))
         return filters, bias
 
     def update_weights(self,
@@ -199,20 +199,20 @@ class Conv2D(BaseConvolutionalLayer):
         # going to fill in dLdW and dLdB and then update every weight in
         # every filter with the optimizer
         dl_dw = np.zeros_like(self.filters)
-        dl_db = np.zeros((self.numFilters, 1, 1, 1))
+        dl_db = np.zeros((self.num_filters, 1, 1, 1))
         dl_da_prev = np.zeros_like(self.Ain)
 
         for i in range(self.Ain.shape[0]):
             image = self.Ain[i, :, :, :]
             # get dl_dw per each filter
-            for curr_filter in range(self.numFilters):
+            for curr_filter in range(self.num_filters):
                 curr_row_pic = 0
                 curr_row_neuron = -1
-                while curr_row_pic + self.filterSize <= image.shape[1]:
+                while curr_row_pic + self.filter_size <= image.shape[1]:
                     curr_row_neuron += 1
                     curr_col_pic = 0
                     curr_col_neuron = 0
-                    while curr_col_pic + self.filterSize <= image.shape[2]:
+                    while curr_col_pic + self.filter_size <= image.shape[2]:
                         # this image slice is responsible for creating a SINGLE
                         # neuron. In other words, this is a multivariable scalar
                         # function as it takes multiple dimensions in and
@@ -222,9 +222,9 @@ class Conv2D(BaseConvolutionalLayer):
                         # curr_filter over every part of the current image,
                         # AND over every single image that these filters see
                         curr_img_slice = image[:, curr_row_pic:curr_row_pic +
-                                               self.filterSize,
+                                               self.filter_size,
                                                curr_col_pic:curr_col_pic +
-                                               self.filterSize]
+                                               self.filter_size]
                         neuron_gradient_here = dl_dz[i, curr_filter,
                                                      curr_row_neuron,
                                                      curr_col_neuron]
@@ -238,9 +238,9 @@ class Conv2D(BaseConvolutionalLayer):
                         # gradients for the current input for every curr_filter
                         # that sees the ith image
                         dl_da_prev[i, :,
-                                   curr_row_pic:curr_row_pic + self.filterSize,
+                                   curr_row_pic:curr_row_pic + self.filter_size,
                                    curr_col_pic:curr_col_pic +
-                                   self.filterSize] += (
+                                   self.filter_size] += (
                                        self.filters[curr_filter] *
                                        neuron_gradient_here)
 
@@ -266,11 +266,11 @@ class Pool(BaseConvolutionalLayer):
     width while leaving the number of dimensions untouched.
 
     Attributes:
-        filterSize:
+        filter_size:
             Integer representing the size of the filter you will be
             using to scan the input images
 
-        inputDepth:
+        input_depth:
             Integer representing the depth of one slice in the input
 
         padding:
@@ -287,12 +287,12 @@ class Pool(BaseConvolutionalLayer):
     """
 
     def __init__(self,
-                 filterSize: int,
+                 filter_size: int,
                  padding: Literal["valid", "same"] = "valid",
                  stride: int = 1,
                  poolType: Literal["max", "avg"] = "max",
                  final_conv_layer: bool = False):
-        self.filterSize = filterSize
+        self.filter_size = filter_size
         self.type_pool = poolType
         self.padding = padding
         self.stride = stride
@@ -311,19 +311,19 @@ class Pool(BaseConvolutionalLayer):
                 we are computing the forward pass through this layer on
 
         Returns:
-            Numpy array of shape (numExamples, numFilters, self.filterSize,
-            self.filterSize, self.numFilters) representing the spatially
+            Numpy array of shape (numExamples, num_filters, self.filter_size,
+            self.filter_size, self.num_filters) representing the spatially
             downsampled input
         """
-        p = 0 if self.padding == "valid" else (self.filterSize - 1) / 2
-        output_height = int((x.shape[2] - self.filterSize + 2 * p) /
+        p = 0 if self.padding == "valid" else (self.filter_size - 1) / 2
+        output_height = int((x.shape[2] - self.filter_size + 2 * p) /
                             (self.stride) + 1)
-        output_width = int((x.shape[3] - self.filterSize + 2 * p) /
+        output_width = int((x.shape[3] - self.filter_size + 2 * p) /
                            (self.stride) + 1)
         self.Z = np.zeros((x.shape[0], x.shape[1], output_width, output_height))
         # technically it doesn't really make sense to pad in pool layers
         # but the option is still here
-        padded_input = self._pad_input(x, self.filterSize, self.padding)
+        padded_input = self._pad_input(x, self.filter_size, self.padding)
         self.Ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
@@ -334,19 +334,19 @@ class Pool(BaseConvolutionalLayer):
                 curr_row_pic = 0
                 curr_row_neuron = -1
                 # while you haven't seen all the height rows
-                while curr_row_pic + self.filterSize <= image.shape[1]:
+                while curr_row_pic + self.filter_size <= image.shape[1]:
                     # while you haven't seen the full width of this row
                     curr_row_neuron += 1
                     # reset the column to zero for every single row we are at
                     # for both the picture and neuron
                     curr_col_pic = 0
                     curr_col_neuron = 0
-                    while curr_col_pic + self.filterSize <= image.shape[2]:
+                    while curr_col_pic + self.filter_size <= image.shape[2]:
                         curr_img_slice = image[dimension,
                                                curr_row_pic:curr_row_pic +
-                                               self.filterSize,
+                                               self.filter_size,
                                                curr_col_pic:curr_col_pic +
-                                               self.filterSize]
+                                               self.filter_size]
                         # max pool or average pool
                         if self.type_pool == "max":
                             self.Z[i, dimension, curr_row_neuron,
@@ -409,20 +409,20 @@ class Pool(BaseConvolutionalLayer):
             for dimension in range(image.shape[0]):
                 curr_row_pic = 0
                 curr_row_neuron = -1
-                while curr_row_pic + self.filterSize <= image.shape[1]:
+                while curr_row_pic + self.filter_size <= image.shape[1]:
                     curr_row_neuron += 1
                     curr_col_pic = 0
                     curr_col_neuron = 0
-                    while curr_col_pic + self.filterSize <= image.shape[2]:
+                    while curr_col_pic + self.filter_size <= image.shape[2]:
                         # this image slice is responsible for creating a
                         # SINGLE neuron. In other words, this is a multivariable
                         # scalar function as it takes multiple dimensions in
                         # and returns a single value
                         curr_img_slice = image[dimension,
                                                curr_row_pic:curr_row_pic +
-                                               self.filterSize,
+                                               self.filter_size,
                                                curr_col_pic:curr_col_pic +
-                                               self.filterSize]
+                                               self.filter_size]
                         # in max pool, dAout/dA_in is zero everywhere except the
                         # MAX idx
                         if self.type_pool == "max":
@@ -438,9 +438,9 @@ class Pool(BaseConvolutionalLayer):
                         # get averaged
                         else:
                             dl_da_in[i, dimension, curr_row_pic:curr_row_pic +
-                                     self.filterSize,
+                                     self.filter_size,
                                      curr_col_pic:curr_col_pic +
-                                     self.filterSize] += (
+                                     self.filter_size] += (
                                          1 / np.size(curr_img_slice) *
                                          dLdA[i, dimension, curr_row_neuron,
                                               curr_col_neuron])

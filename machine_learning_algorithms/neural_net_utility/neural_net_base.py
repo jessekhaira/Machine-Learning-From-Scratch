@@ -321,7 +321,7 @@ class NeuralNetworkBase(object):
                     layer.runningMean, layer.runningVar = layer._init_running_mean_var(
                     )
             elif (isinstance(layer, Conv2D)) and layer.filters is None:
-                layer.inputDepth = prev_activations.shape[1]
+                layer.input_depth = prev_activations.shape[1]
                 layer.filters, layer.b = layer._initialize_weights()
             activations = layer.compute_forward(prev_activations, train)
             prev_activations = activations

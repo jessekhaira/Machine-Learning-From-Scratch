@@ -9,9 +9,9 @@ class tests(unittest.TestCase):
     def testPadding(self):
         # 10 pictures that are 3 x 5 x 3
         noiseImages = np.random.randn(10, 3, 5, 3)
-        convLayer = Conv2D(filterSize=3,
-                           inputDepth=3,
-                           numFilters=3,
+        convLayer = Conv2D(filter_size=3,
+                           input_depth=3,
+                           num_filters=3,
                            activationFunction=ReLU(),
                            padding="same",
                            stride=1)
@@ -25,9 +25,9 @@ class tests(unittest.TestCase):
         w = np.linspace(-0.2, 0.3, num=np.prod(w_shape)).reshape(w_shape)
         b = np.linspace(-0.1, 0.2, num=3)
 
-        convLayer = Conv2D(filterSize=4,
-                           inputDepth=3,
-                           numFilters=3,
+        convLayer = Conv2D(filter_size=4,
+                           input_depth=3,
+                           num_filters=3,
                            activationFunction=IdentityActivation(),
                            padding="same",
                            stride=2)
@@ -55,7 +55,7 @@ class tests(unittest.TestCase):
         x_shape = (2, 3, 4, 4)
         x = np.linspace(-0.3, 0.4, num=np.prod(x_shape)).reshape(x_shape)
 
-        poolLayer = Pool(filterSize=2, stride=2, poolType="max")
+        poolLayer = Pool(filter_size=2, stride=2, poolType="max")
         poolLayer.compute_forward(x)
 
         correct_out = np.array([[[[-0.26315789, -0.24842105],

@@ -14,13 +14,13 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
             String indicating what kind of classification the network will
             carry out. Should be either "binary", "multiclass" or "regression".
 
-        inputDepth:
+        input_depth:
             Integer representing the depth of the input volume
 
     """
 
     def __init__(self, typeSupervised: Literal["binary", "multiclass",
-                                               "regression"], inputDepth: int):
+                                               "regression"], input_depth: int):
         if typeSupervised == "binary":
             loss_obj = NegativeLogLoss()
         elif typeSupervised == "multiclass":
@@ -29,7 +29,7 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
             loss_obj = MeanSquaredError()
         super(ConvolutionalNeuralNetwork, self).__init__(loss_obj,
                                                          input_features=None)
-        self.inputDepth = inputDepth
+        self.input_depth = input_depth
 
     def addConvNetLayer(self, layer, **kwargs):
         """ This method adds a layer to a Convolutional Neural network object.
@@ -41,19 +41,19 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
         # We have no idea how many activated neurons we have in a conv layer
         # because that depends on what our input is, therefore we have to wait
         # to initialize the filters for every layer except the first layer
-        inputDepth = self.inputDepth if not self.layers else None
-        if "filterSize" in kwargs and "poolType" not in kwargs:
+        input_depth = self.input_depth if not self.layers else None
+        if "filter_size" in kwargs and "poolType" not in kwargs:
             self.layers.append(
-                layer(filterSize=kwargs["filterSize"],
-                      inputDepth=inputDepth,
-                      numFilters=kwargs["numFilters"],
+                layer(filter_size=kwargs["filter_size"],
+                      input_depth=input_depth,
+                      num_filters=kwargs["num_filters"],
                       activationFunction=kwargs["activationFunction"],
                       padding=kwargs["padding"],
                       stride=kwargs["stride"],
                       final_conv_layer=kwargs["final_conv_layer"]))
-        elif "filterSize" in kwargs and "poolType" in kwargs:
+        elif "filter_size" in kwargs and "poolType" in kwargs:
             self.layers.append(
-                layer(filterSize=kwargs["filterSize"],
+                layer(filter_size=kwargs["filter_size"],
                       padding=kwargs["padding"],
                       stride=kwargs["stride"],
                       final_conv_layer=kwargs["final_conv_layer"],

@@ -43,11 +43,11 @@ class TestConvolutionalNet(unittest.TestCase):
         layer.
         """
         obj2 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
-                                          inputDepth=1)
+                                          input_depth=1)
         params_layer1 = {
-            "filterSize": 3,
-            "inputDepth": None,
-            "numFilters": 5,
+            "filter_size": 3,
+            "input_depth": None,
+            "num_filters": 5,
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
@@ -80,11 +80,11 @@ class TestConvolutionalNet(unittest.TestCase):
         followed by classifier
         """
         obj3 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
-                                          inputDepth=1)
+                                          input_depth=1)
         params_layer1 = {
-            "filterSize": 3,
-            "inputDepth": None,
-            "numFilters": 5,
+            "filter_size": 3,
+            "input_depth": None,
+            "num_filters": 5,
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
@@ -93,7 +93,7 @@ class TestConvolutionalNet(unittest.TestCase):
         obj3.addConvNetLayer(Conv2D, **params_layer1)
 
         params_layer2 = {
-            "filterSize": 3,
+            "filter_size": 3,
             "stride": 2,
             "final_conv_layer": True,
             "poolType": "avg",
@@ -125,11 +125,11 @@ class TestConvolutionalNet(unittest.TestCase):
         followed by classifier
         """
         obj3 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
-                                          inputDepth=1)
+                                          input_depth=1)
         params_layer1 = {
-            "filterSize": 3,
-            "inputDepth": None,
-            "numFilters": 5,
+            "filter_size": 3,
+            "input_depth": None,
+            "num_filters": 5,
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
@@ -138,7 +138,7 @@ class TestConvolutionalNet(unittest.TestCase):
         obj3.addConvNetLayer(Conv2D, **params_layer1)
 
         params_layer2 = {
-            "filterSize": 3,
+            "filter_size": 3,
             "stride": 2,
             "final_conv_layer": True,
             "poolType": "max",
@@ -170,12 +170,12 @@ class TestConvolutionalNet(unittest.TestCase):
         but gets great performance!
         """
         obj1 = ConvolutionalNeuralNetwork(typeSupervised="multiclass",
-                                          inputDepth=1)
+                                          input_depth=1)
 
         params_layer1 = {
-            "filterSize": 3,
-            "inputDepth": None,
-            "numFilters": 5,
+            "filter_size": 3,
+            "input_depth": None,
+            "num_filters": 5,
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
@@ -183,7 +183,7 @@ class TestConvolutionalNet(unittest.TestCase):
         }
         obj1.addConvNetLayer(Conv2D, **params_layer1)
         params_layer2 = {
-            "filterSize": 3,
+            "filter_size": 3,
             "stride": 2,
             "final_conv_layer": False,
             "poolType": "avg",
@@ -192,9 +192,9 @@ class TestConvolutionalNet(unittest.TestCase):
         obj1.addConvNetLayer(Pool, **params_layer2)
 
         params_layer3 = {
-            "filterSize": 3,
-            "inputDepth": None,
-            "numFilters": 5,
+            "filter_size": 3,
+            "input_depth": None,
+            "num_filters": 5,
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
@@ -202,7 +202,7 @@ class TestConvolutionalNet(unittest.TestCase):
         }
         obj1.addConvNetLayer(Conv2D, **params_layer3)
         params_layer4 = {
-            "filterSize": 3,
+            "filter_size": 3,
             "final_conv_layer": True,
             "stride": 2,
             "poolType": "avg",
