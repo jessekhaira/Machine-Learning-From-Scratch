@@ -78,16 +78,16 @@ class AutoEncoder(NeuralNetworkBase):
         encoder.append(
             DenseBatchNormLayer(num_in=784,
                                 num_layer=300,
-                                activationFunction=ReLU()))
+                                activation_function=ReLU()))
         encoder.append(
             DenseBatchNormLayer(num_in=300,
                                 num_layer=150,
-                                activationFunction=ReLU()))
+                                activation_function=ReLU()))
         # fully encoded units
         encoder.append(
             DenseBatchNormLayer(num_in=150,
                                 num_layer=self.size_encoding,
-                                activationFunction=ReLU()))
+                                activation_function=ReLU()))
         return encoder
 
     def _build_decoder(self):
@@ -95,18 +95,18 @@ class AutoEncoder(NeuralNetworkBase):
         decoder.append(
             DenseBatchNormLayer(num_in=self.size_encoding,
                                 num_layer=150,
-                                activationFunction=ReLU()))
+                                activation_function=ReLU()))
         decoder.append(
             DenseBatchNormLayer(num_in=150,
                                 num_layer=300,
-                                activationFunction=ReLU()))
+                                activation_function=ReLU()))
         # decoded outputs - sigmoid activation used because
         # inputs are in the range of 0 -1, so our outputs should
         # also be in between the range of 0-1
         decoder.append(
             DenseLayer(num_in=300,
                        num_layer=self.num_input_features,
-                       activationFunction=Sigmoid()))
+                       activation_function=Sigmoid()))
         return decoder
 
     def fit(self,

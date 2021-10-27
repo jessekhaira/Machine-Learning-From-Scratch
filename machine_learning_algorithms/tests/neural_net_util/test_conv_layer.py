@@ -4,7 +4,7 @@ from machine_learning_algorithms.neural_net_utility.convolutional_layers import 
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, IdentityActivation
 
 
-class tests(unittest.TestCase):
+class TestConvolutionalLayers(unittest.TestCase):
 
     def testPadding(self):
         # 10 pictures that are 3 x 5 x 3
@@ -12,7 +12,7 @@ class tests(unittest.TestCase):
         convLayer = Conv2D(filter_size=3,
                            input_depth=3,
                            num_filters=3,
-                           activationFunction=ReLU(),
+                           activation_function=ReLU(),
                            padding="same",
                            stride=1)
         # looks good
@@ -28,7 +28,7 @@ class tests(unittest.TestCase):
         convLayer = Conv2D(filter_size=4,
                            input_depth=3,
                            num_filters=3,
-                           activationFunction=IdentityActivation(),
+                           activation_function=IdentityActivation(),
                            padding="same",
                            stride=2)
         convLayer.filters = w

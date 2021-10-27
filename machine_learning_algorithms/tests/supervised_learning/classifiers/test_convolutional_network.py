@@ -48,7 +48,7 @@ class TestConvolutionalNet(unittest.TestCase):
             "filter_size": 3,
             "input_depth": None,
             "num_filters": 5,
-            "activationFunction": ReLU(),
+            "activation_function": ReLU(),
             "padding": "same",
             "stride": 1,
             "final_conv_layer": True
@@ -57,7 +57,7 @@ class TestConvolutionalNet(unittest.TestCase):
 
         params_layer6 = {
             "num_neurons": 10,
-            "activationFunction": Softmax(),
+            "activation_function": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
@@ -85,7 +85,7 @@ class TestConvolutionalNet(unittest.TestCase):
             "filter_size": 3,
             "input_depth": None,
             "num_filters": 5,
-            "activationFunction": ReLU(),
+            "activation_function": ReLU(),
             "padding": "same",
             "stride": 1,
             "final_conv_layer": False
@@ -103,7 +103,7 @@ class TestConvolutionalNet(unittest.TestCase):
 
         params_layer6 = {
             "num_neurons": 10,
-            "activationFunction": Softmax(),
+            "activation_function": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
@@ -130,7 +130,7 @@ class TestConvolutionalNet(unittest.TestCase):
             "filter_size": 3,
             "input_depth": None,
             "num_filters": 5,
-            "activationFunction": ReLU(),
+            "activation_function": ReLU(),
             "padding": "same",
             "stride": 1,
             "final_conv_layer": False
@@ -148,7 +148,7 @@ class TestConvolutionalNet(unittest.TestCase):
 
         params_layer6 = {
             "num_neurons": 10,
-            "activationFunction": Softmax(),
+            "activation_function": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1
@@ -176,7 +176,7 @@ class TestConvolutionalNet(unittest.TestCase):
             "filter_size": 3,
             "input_depth": None,
             "num_filters": 5,
-            "activationFunction": ReLU(),
+            "activation_function": ReLU(),
             "padding": "same",
             "stride": 1,
             "final_conv_layer": False
@@ -195,7 +195,7 @@ class TestConvolutionalNet(unittest.TestCase):
             "filter_size": 3,
             "input_depth": None,
             "num_filters": 5,
-            "activationFunction": ReLU(),
+            "activation_function": ReLU(),
             "padding": "same",
             "stride": 1,
             "final_conv_layer": False
@@ -212,7 +212,7 @@ class TestConvolutionalNet(unittest.TestCase):
 
         params_layer5 = {
             "num_neurons": 75,
-            "activationFunction": ReLU(),
+            "activation_function": ReLU(),
             "regularization": None,
             "reg_parameter": None
         }
@@ -220,7 +220,7 @@ class TestConvolutionalNet(unittest.TestCase):
 
         params_layer6 = {
             "num_neurons": 10,
-            "activationFunction": Softmax(),
+            "activation_function": Softmax(),
             "regularization": None,
             "reg_parameter": None,
             "isSoftmax": 1

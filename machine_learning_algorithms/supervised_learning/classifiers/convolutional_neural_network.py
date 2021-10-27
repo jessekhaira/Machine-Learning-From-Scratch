@@ -47,7 +47,7 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
                 layer(filter_size=kwargs["filter_size"],
                       input_depth=input_depth,
                       num_filters=kwargs["num_filters"],
-                      activationFunction=kwargs["activationFunction"],
+                      activation_function=kwargs["activation_function"],
                       padding=kwargs["padding"],
                       stride=kwargs["stride"],
                       final_conv_layer=kwargs["final_conv_layer"]))
@@ -64,7 +64,7 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
             keep_prob = 1 if "keep_prob" not in kwargs else kwargs["keep_prob"]
 
             self.add_layer(num_neurons=kwargs["num_neurons"],
-                           activationFunction=kwargs["activationFunction"],
+                           activation_function=kwargs["activation_function"],
                            isSoftmax=isSoftmax,
                            layer=layer,
                            keep_prob=keep_prob)

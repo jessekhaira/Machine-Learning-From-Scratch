@@ -38,10 +38,10 @@ class TestBatchNorm(unittest.TestCase):
             typeSupervised="multiclass", numberInputFeatures=784)
 
         multi_layer_perceptron.add_layer(num_neurons=100,
-                                         activationFunction=ReLU(),
+                                         activation_function=ReLU(),
                                          layer=DenseBatchNormLayer)
         multi_layer_perceptron.add_layer(num_neurons=10,
-                                         activationFunction=Softmax(),
+                                         activation_function=Softmax(),
                                          isSoftmax=True)
 
         train_loss1, train_acc1 = multi_layer_perceptron.fit(
@@ -63,10 +63,10 @@ class TestBatchNorm(unittest.TestCase):
             typeSupervised="multiclass", numberInputFeatures=784)
 
         multi_layer_perceptron2.add_layer(num_neurons=100,
-                                          activationFunction=ReLU(),
+                                          activation_function=ReLU(),
                                           layer=DenseBatchNormLayer)
         multi_layer_perceptron2.add_layer(num_neurons=10,
-                                          activationFunction=Softmax(),
+                                          activation_function=Softmax(),
                                           isSoftmax=True)
 
         train_loss2, train_acc2 = multi_layer_perceptron2.fit(
@@ -92,13 +92,13 @@ class TestBatchNorm(unittest.TestCase):
             reg_parameter=0.01)
 
         multi_layer_perceptron.add_layer(num_neurons=100,
-                                         activationFunction=ReLU(),
+                                         activation_function=ReLU(),
                                          layer=DenseBatchNormLayer)
         multi_layer_perceptron.add_layer(num_neurons=100,
-                                         activationFunction=ReLU(),
+                                         activation_function=ReLU(),
                                          layer=DenseBatchNormLayer)
         multi_layer_perceptron.add_layer(num_neurons=10,
-                                         activationFunction=Softmax(),
+                                         activation_function=Softmax(),
                                          isSoftmax=True)
 
         train_loss, valid_loss, train_acc, valid_acc = multi_layer_perceptron.fit(
@@ -123,11 +123,11 @@ class TestBatchNorm(unittest.TestCase):
             typeSupervised="multiclass", numberInputFeatures=784)
 
         multi_layer_perceptron.add_layer(num_neurons=100,
-                                         activationFunction=ReLU())
+                                         activation_function=ReLU())
         multi_layer_perceptron.add_layer(num_neurons=100,
-                                         activationFunction=ReLU())
+                                         activation_function=ReLU())
         multi_layer_perceptron.add_layer(num_neurons=10,
-                                         activationFunction=Softmax(),
+                                         activation_function=Softmax(),
                                          isSoftmax=True)
 
         train_loss, valid_loss, train_acc, valid_acc = multi_layer_perceptron.fit(

@@ -36,11 +36,11 @@ class testMNIST_DropoutLayers(unittest.TestCase):
         # make sure we get high training loss, low acccuracy when we dropout 99% of activations
         # just sanity checking the implementation of the droput layer
         MLP.add_layer(num_neurons=100,
-                      activationFunction=ReLU(),
+                      activation_function=ReLU(),
                       layer=DenseDropOutLayer,
                       keep_prob=0.01)
         MLP.add_layer(num_neurons=10,
-                      activationFunction=Softmax(),
+                      activation_function=Softmax(),
                       isSoftmax=True)
         print(isinstance(MLP.layers[0], DenseLayer))
 
@@ -63,11 +63,11 @@ class testMNIST_DropoutLayers(unittest.TestCase):
         # make sure we get high training loss, low acccuracy when we dropout 99% of activations
         # just sanity checking the implementation of the droput layer
         MLP.add_layer(num_neurons=100,
-                      activationFunction=ReLU(),
+                      activation_function=ReLU(),
                       layer=DenseDropOutLayer,
                       keep_prob=0.6)
         MLP.add_layer(num_neurons=10,
-                      activationFunction=Softmax(),
+                      activation_function=Softmax(),
                       isSoftmax=True)
 
         train_loss1, train_acc1 = MLP.fit(x_train[:, :100].reshape(784, -1),
@@ -85,15 +85,15 @@ class testMNIST_DropoutLayers(unittest.TestCase):
         MLP = MultiLayerPerceptron(typeSupervised="multiclass",
                                    numberInputFeatures=784)
         MLP.add_layer(num_neurons=25,
-                      activationFunction=ReLU(),
+                      activation_function=ReLU(),
                       layer=DenseDropOutLayer,
                       keep_prob=0.09)
         MLP.add_layer(num_neurons=25,
-                      activationFunction=ReLU(),
+                      activation_function=ReLU(),
                       layer=DenseDropOutLayer,
                       keep_prob=0.09)
         MLP.add_layer(num_neurons=10,
-                      activationFunction=Softmax(),
+                      activation_function=Softmax(),
                       isSoftmax=True)
 
         train_loss1, valid_loss, train_acc, valid_acc = MLP.fit(

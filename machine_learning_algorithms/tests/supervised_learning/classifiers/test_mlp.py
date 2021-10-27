@@ -59,11 +59,11 @@ class test(unittest.TestCase):
                                    numberInputFeatures=X_train.shape[0])
         # Just add Dense Layers
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP.add_layer(10, activationFunction=ReLU())
+        MLP.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP.add_layer(5, activationFunction=ReLU())
+        MLP.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP.add_layer(1, activationFunction=Sigmoid())
+        MLP.add_layer(1, activation_function=Sigmoid())
 
         train_loss, valid_loss, train_acc, valid_acc = MLP.fit(
             X_train,
@@ -94,18 +94,18 @@ class test(unittest.TestCase):
                                     regularization="L2",
                                     reg_parameter=500)
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP1.add_layer(10, activationFunction=ReLU())
+        MLP1.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP1.add_layer(5, activationFunction=ReLU())
+        MLP1.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP1.add_layer(1, activationFunction=Sigmoid())
+        MLP1.add_layer(1, activation_function=Sigmoid())
 
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP2.add_layer(10, activationFunction=ReLU())
+        MLP2.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP2.add_layer(5, activationFunction=ReLU())
+        MLP2.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP2.add_layer(1, activationFunction=Sigmoid())
+        MLP2.add_layer(1, activation_function=Sigmoid())
 
         train_loss1, valid_loss1, train_acc1, valid_acc1 = MLP1.fit(
             X_train,
@@ -155,18 +155,18 @@ class test(unittest.TestCase):
                                     reg_parameter=0.01)
 
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP3.add_layer(10, activationFunction=ReLU())
+        MLP3.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP3.add_layer(5, activationFunction=ReLU())
+        MLP3.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP3.add_layer(1, activationFunction=Sigmoid())
+        MLP3.add_layer(1, activation_function=Sigmoid())
 
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP4.add_layer(10, activationFunction=ReLU())
+        MLP4.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP4.add_layer(5, activationFunction=ReLU())
+        MLP4.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP4.add_layer(1, activationFunction=Sigmoid())
+        MLP4.add_layer(1, activation_function=Sigmoid())
 
         train_loss3, valid_loss3, train_acc3, valid_acc3 = MLP3.fit(
             X_train,
@@ -220,9 +220,9 @@ class test(unittest.TestCase):
         MLP6 = MultiLayerPerceptron(typeSupervised="multiclass",
                                     numberInputFeatures=2)
         # Learn 100 features in first hidden layer
-        MLP6.add_layer(100, activationFunction=ReLU())
+        MLP6.add_layer(100, activation_function=ReLU())
         # Output layer learn 3 features for softmax
-        MLP6.add_layer(3, activationFunction=Softmax(), isSoftmax=1)
+        MLP6.add_layer(3, activation_function=Softmax(), isSoftmax=1)
         train_loss6, train_acc = MLP6.fit(xtrain=X,
                                           ytrain=y,
                                           num_epochs=1000,
@@ -242,9 +242,9 @@ class test(unittest.TestCase):
                                     regularization="L2",
                                     reg_parameter=1e-3)
         # Learn 100 features in first hidden layer
-        MLP7.add_layer(100, activationFunction=ReLU())
+        MLP7.add_layer(100, activation_function=ReLU())
         # Output layer learn 3 features for softmax
-        MLP7.add_layer(3, activationFunction=Softmax(), isSoftmax=1)
+        MLP7.add_layer(3, activation_function=Softmax(), isSoftmax=1)
         train_loss7, train_acc7 = MLP7.fit(xtrain=X,
                                            ytrain=y,
                                            num_epochs=5000,

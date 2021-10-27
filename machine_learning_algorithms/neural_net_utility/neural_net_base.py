@@ -37,7 +37,7 @@ class NeuralNetworkBase(object):
 
     def add_layer(self,
                   num_neurons: int,
-                  activationFunction: BaseActivationFunction,
+                  activation_function: BaseActivationFunction,
                   isSoftmax: int = 0,
                   layer: BaseNeuralNetworkLayer = None,
                   keep_prob: int = 1) -> None:
@@ -48,7 +48,7 @@ class NeuralNetworkBase(object):
                 Integer representing the number of neurons you would like in
                 this dense layer of the neural network.
 
-            activationFunction:
+            activation_function:
                 Object of type BaseActivationFunctionm which will be used to
                 introduce non-linearity into your neural net
 
@@ -63,11 +63,11 @@ class NeuralNetworkBase(object):
         """
         if not self.layers:
             layer_x = DenseLayer(
-                self.num_input, num_neurons, activationFunction,
+                self.num_input, num_neurons, activation_function,
                 self.lossFunction.regularization,
                 self.lossFunction.reg_parameter,
                 isSoftmax) if layer is None else layer(
-                    self.num_input, num_neurons, activationFunction,
+                    self.num_input, num_neurons, activation_function,
                     self.lossFunction.regularization,
                     self.lossFunction.reg_parameter, isSoftmax, keep_prob)
             self.layers.append(layer_x)
@@ -79,11 +79,11 @@ class NeuralNetworkBase(object):
             shape_1 = self.layers[-1].W.shape[0] if (
                 isinstance(self.layers[-1], DenseLayer)
                 and self.layers[-1].W is not None) else None
-            layer_x = DenseLayer(shape_1, num_neurons, activationFunction,
+            layer_x = DenseLayer(shape_1, num_neurons, activation_function,
                                  self.lossFunction.regularization,
                                  self.lossFunction.reg_parameter,
                                  isSoftmax) if layer is None else layer(
-                                     shape_1, num_neurons, activationFunction,
+                                     shape_1, num_neurons, activation_function,
                                      self.lossFunction.regularization,
                                      self.lossFunction.reg_parameter, isSoftmax,
                                      keep_prob)

@@ -47,7 +47,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         num_layer:
             Integer representing the number of neurons in this layer
 
-        activationFunction:
+        activation_function:
             Object of type BaseActivationFunction representing the activation
             function to use within this layer
 
@@ -77,7 +77,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
     def __init__(self,
                  num_in: int,
                  num_layer: int,
-                 activationFunction: BaseActivationFunction,
+                 activation_function: BaseActivationFunction,
                  regularization=None,
                  reg_parameter: float = None,
                  isSoftmax: Literal[0, 1] = 0,
@@ -88,7 +88,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
         self.Z = None
         self.A = None
         self.Ain = None
-        self.activationFunction = activationFunction
+        self.activation_function = activation_function
         self.regularization = regularization
         self.reg_parameter = reg_parameter
         self.isSoftmax = isSoftmax
@@ -143,7 +143,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
             0], "Your weights and inputs shapes are mismatched!"
         self.Ain = prevlayer_activations
         self.Z = np.dot(self.W, prevlayer_activations) + self.b
-        self.A = self.activationFunction.compute_output(self.Z)
+        self.A = self.activation_function.compute_output(self.Z)
         return self.A
 
     def update_weights(self,
@@ -206,7 +206,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
 
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
         if self.isSoftmax == 0:
-            dadz = self.activationFunction.get_derivative_wrt_input(self.Z)
+            dadz = self.activation_function.get_derivative_wrt_input(self.Z)
             dl_dz = dLdA * dadz
         else:
             # Every example produces its own jacobian matrix for the softmax
@@ -216,7 +216,8 @@ class DenseLayer(BaseNeuralNetworkLayer):
             # softmax and the cross entropy and simplify to make more efficient.
             # But this is more explicit of what is actually happening for
             # learning purposes
-            dl_dz = dl_dz_softmax(self.Z, self.A, dLdA, self.activationFunction)
+            dl_dz = dl_dz_softmax(self.Z, self.A, dLdA,
+                                  self.activation_function)
 
         dl_dw = np.dot(dl_dz, self.Ain.T)
         dl_db = np.sum(dl_dz, axis=1, keepdims=True)
@@ -380,13 +381,13 @@ class DenseBatchNormLayer(DenseLayer):
     def __init__(self,
                  num_in: int,
                  num_layer: int,
-                 activationFunction,
+                 activation_function,
                  regularization=None,
                  reg_parameter: Union[float, None] = None,
                  isSoftmax: Literal[0, 1] = 0,
                  p=None):
         super(DenseBatchNormLayer,
-              self).__init__(num_in, num_layer, activationFunction,
+              self).__init__(num_in, num_layer, activation_function,
                              regularization, reg_parameter, isSoftmax)
         # these are learnable parameters
         self.gamma, self.beta = self._init_gamma_beta()
@@ -444,7 +445,7 @@ class DenseBatchNormLayer(DenseLayer):
         # losing expressivity
         self.Z_final = self.gamma * self.Z_norm + self.beta
         # Finally, feed into activation function to activate.
-        self.A = self.activationFunction.compute_output(self.Z_final)
+        self.A = self.activation_function.compute_output(self.Z_final)
         return self.A
 
     def _update_running_avg(self, beta: float = 0.9) -> None:
@@ -465,7 +466,7 @@ class DenseBatchNormLayer(DenseLayer):
                                                          self.eps))
         # multiply by learnable parameter gamma and add beta
         z_final = self.gamma * normalized_z + self.beta
-        return self.activationFunction.compute_output(z_final)
+        return self.activation_function.compute_output(z_final)
 
     def update_weights(self,
                        dLdA: np.ndarray,
@@ -520,12 +521,12 @@ class DenseBatchNormLayer(DenseLayer):
         """
         ## GRADIENT GOING BACKWARDS IN CIRCUIT
         if self.isSoftmax == 0:
-            dadz_final = self.activationFunction.get_derivative_wrt_input(
+            dadz_final = self.activation_function.get_derivative_wrt_input(
                 self.Z_final)
             dl_dzfinal = dLdA * dadz_final
         else:
             dl_dzfinal = dl_dz_softmax(self.Z_final, self.A, dLdA,
-                                       self.activationFunction)
+                                       self.activation_function)
 
         # gradients for learnable parameters - computation step
         # for z_final layer
@@ -602,13 +603,13 @@ class DenseDropOutLayer(DenseLayer):
     def __init__(self,
                  num_in,
                  num_layer,
-                 activationFunction,
+                 activation_function,
                  regularization=None,
                  reg_parameter=None,
                  isSoftmax=0,
                  keepProb=0.5):
         super(DenseDropOutLayer,
-              self).__init__(num_in, num_layer, activationFunction,
+              self).__init__(num_in, num_layer, activation_function,
                              regularization, reg_parameter, isSoftmax)
         self.keepProb = keepProb
         # if keep prob is 1, then every value in matrix will be less
@@ -626,7 +627,7 @@ class DenseDropOutLayer(DenseLayer):
         self.Ain = prevlayer_activations
         self.Z = np.dot(self.W, prevlayer_activations) + self.b
         self.mask = (np.random.rand(*self.Z.shape) < self.keepProb).astype(int)
-        A_undropped = self.activationFunction.compute_output(self.Z)
+        A_undropped = self.activation_function.compute_output(self.Z)
         A_dropped = A_undropped * self.mask
         # have to divide by keepProb because we don't want the
         # activations of the next layer to have lower values just
@@ -641,7 +642,7 @@ class DenseDropOutLayer(DenseLayer):
             0], "Your weights and inputs shapes are mismatched!"
         Ain = prevlayer_activations
         z = np.dot(self.W, prevlayer_activations) + self.b
-        a = self.activationFunction.compute_output(self.Z)
+        a = self.activation_function.compute_output(self.Z)
         return a
 
     def update_weights(self,
@@ -688,7 +689,7 @@ class DenseDropOutLayer(DenseLayer):
 
         # only change between dropout and normal dense layer - you have the
         # boolean mask and /p term when getting dadz
-        dadz = (self.activationFunction.get_derivative_wrt_input(self.Z) *
+        dadz = (self.activation_function.get_derivative_wrt_input(self.Z) *
                 self.mask) / (self.keepProb)
         dl_dz = dLdA * dadz
 

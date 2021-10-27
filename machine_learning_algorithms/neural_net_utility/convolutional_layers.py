@@ -66,7 +66,7 @@ class Conv2D(BaseConvolutionalLayer):
     def __init__(self,
                  filter_size: int,
                  num_filters: int,
-                 activationFunction,
+                 activation_function,
                  padding: Literal["same", "valid"] = "same",
                  stride: int = 1,
                  final_conv_layer: bool = False,
@@ -77,7 +77,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.stride = stride
         self.input_depth = input_depth
         self.filters, self.b = self._initialize_weights()
-        self.activationFunction = activationFunction
+        self.activation_function = activation_function
         self.final_conv_layer = final_conv_layer
         self.optim = None
 
@@ -155,7 +155,7 @@ class Conv2D(BaseConvolutionalLayer):
 
         # apply activation function to the activation maps for every
         # single image elementwise
-        self.A = self.activationFunction.compute_output(self.Z)
+        self.A = self.activation_function.compute_output(self.Z)
         # if its the final conv layer, then return a flattened vector
         # as output otherwise, return it as is
         if not self.final_conv_layer:
@@ -193,7 +193,7 @@ class Conv2D(BaseConvolutionalLayer):
                                   self.Z.shape[2], self.Z.shape[3])
 
         # get dAdZ to get dLdZ
-        da_dz = self.activationFunction.get_derivative_wrt_input(self.Z)
+        da_dz = self.activation_function.get_derivative_wrt_input(self.Z)
         dl_dz = dl_da * da_dz
 
         # going to fill in dLdW and dLdB and then update every weight in
