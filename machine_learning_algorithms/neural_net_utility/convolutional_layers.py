@@ -106,11 +106,11 @@ class Conv2D(BaseConvolutionalLayer):
                             (self.stride) + 1)
         output_width = int((x.shape[3] - self.filter_size + 2 * p) /
                            (self.stride) + 1)
-        self.Z = np.zeros(
+        self.z = np.zeros(
             (x.shape[0], self.num_filters, output_height, output_width))
 
         padded_input = self._pad_input(x, self.filter_size, self.padding)
-        self.Ain = padded_input
+        self.ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
             # have to pad image with zeros
@@ -137,7 +137,7 @@ class Conv2D(BaseConvolutionalLayer):
                         # for this image and this curr_filter, we fill
                         # curr_row_neuron and curr_col_neuron with the value
                         # shown
-                        self.Z[i, curr_filter, curr_row_neuron,
+                        self.z[i, curr_filter, curr_row_neuron,
                                curr_col_neuron] = np.sum(
                                    curr_image_slice * filter_weights) + bias
 
@@ -155,13 +155,13 @@ class Conv2D(BaseConvolutionalLayer):
 
         # apply activation function to the activation maps for every
         # single image elementwise
-        self.A = self.activation_function.compute_output(self.Z)
+        self.aout = self.activation_function.compute_output(self.z)
         # if its the final conv layer, then return a flattened vector
         # as output otherwise, return it as is
         if not self.final_conv_layer:
-            return self.A
+            return self.aout
         else:
-            return self.A.reshape(-1, x.shape[0])
+            return self.aout.reshape(-1, x.shape[0])
 
     def _initialize_weights(self):
         if self.input_depth is None:
@@ -181,7 +181,7 @@ class Conv2D(BaseConvolutionalLayer):
                        curr_x: np.ndarray,
                        curr_y: np.ndarray,
                        layer,
-                       gradCheck: bool = False) -> np.ndarray:
+                       grad_check: bool = False) -> np.ndarray:
         # if this is the last conv layer, then we reshape our output
         # in the forward pass to be a N features by M examples matrix
 
@@ -189,21 +189,21 @@ class Conv2D(BaseConvolutionalLayer):
         # (num ex, num dim, H, W) IE same shape as the output of the layer.
         # Basically reverse of the flattening to a single vector step :D
         if self.final_conv_layer:
-            dl_da = dl_da.reshape(self.Z.shape[0], self.Z.shape[1],
-                                  self.Z.shape[2], self.Z.shape[3])
+            dl_da = dl_da.reshape(self.z.shape[0], self.z.shape[1],
+                                  self.z.shape[2], self.z.shape[3])
 
         # get dAdZ to get dLdZ
-        da_dz = self.activation_function.get_derivative_wrt_input(self.Z)
+        da_dz = self.activation_function.get_derivative_wrt_input(self.z)
         dl_dz = dl_da * da_dz
 
         # going to fill in dLdW and dLdB and then update every weight in
         # every filter with the optimizer
         dl_dw = np.zeros_like(self.filters)
         dl_db = np.zeros((self.num_filters, 1, 1, 1))
-        dl_da_prev = np.zeros_like(self.Ain)
+        dl_da_prev = np.zeros_like(self.ain)
 
-        for i in range(self.Ain.shape[0]):
-            image = self.Ain[i, :, :, :]
+        for i in range(self.ain.shape[0]):
+            image = self.ain[i, :, :, :]
             # get dl_dw per each filter
             for curr_filter in range(self.num_filters):
                 curr_row_pic = 0
@@ -320,11 +320,11 @@ class Pool(BaseConvolutionalLayer):
                             (self.stride) + 1)
         output_width = int((x.shape[3] - self.filter_size + 2 * p) /
                            (self.stride) + 1)
-        self.Z = np.zeros((x.shape[0], x.shape[1], output_width, output_height))
+        self.z = np.zeros((x.shape[0], x.shape[1], output_width, output_height))
         # technically it doesn't really make sense to pad in pool layers
         # but the option is still here
         padded_input = self._pad_input(x, self.filter_size, self.padding)
-        self.Ain = padded_input
+        self.ain = padded_input
         for i in range(padded_input.shape[0]):
             image = padded_input[i, :, :, :]
             # for every single image, you apply the spatial downsampling
@@ -349,10 +349,10 @@ class Pool(BaseConvolutionalLayer):
                                                self.filter_size]
                         # max pool or average pool
                         if self.type_pool == "max":
-                            self.Z[i, dimension, curr_row_neuron,
+                            self.z[i, dimension, curr_row_neuron,
                                    curr_col_neuron] = np.max(curr_img_slice)
                         else:
-                            self.Z[i, dimension, curr_row_neuron,
+                            self.z[i, dimension, curr_row_neuron,
                                    curr_col_neuron] = np.average(curr_img_slice)
 
                         # slide the filter horizontally with a step size equal
@@ -371,9 +371,9 @@ class Pool(BaseConvolutionalLayer):
         # if its the last conv layer, then flatten to a vector
         # otherwise, return as is
         if not self.final_conv_layer:
-            return self.Z
+            return self.z
         else:
-            return self.Z.reshape(-1, x.shape[0])
+            return self.z.reshape(-1, x.shape[0])
 
     def update_weights(self,
                        dLdA: np.ndarray,
@@ -383,7 +383,7 @@ class Pool(BaseConvolutionalLayer):
                        curr_x: np.ndarray,
                        curr_y: np.ndarray,
                        layer,
-                       gradCheck: bool = False):
+                       grad_check: bool = False):
         # Pooling layer has no weights to update but we still
         # need to get dL/d(A_layer-1) to pass back to the layer
         # before
@@ -396,16 +396,16 @@ class Pool(BaseConvolutionalLayer):
         # layer. Basically reverse of the flattening to a single vector
         # step :D
         if self.final_conv_layer:
-            dLdA = dLdA.reshape(self.Z.shape[0], self.Z.shape[1],
-                                self.Z.shape[2], self.Z.shape[3])
+            dLdA = dLdA.reshape(self.z.shape[0], self.z.shape[1],
+                                self.z.shape[2], self.z.shape[3])
 
         # get dAout_dAin and chain it together with dLdA_out to get
         # dl_da_in to pass back
-        dl_da_in = np.zeros((self.Ain.shape[0], self.Ain.shape[1],
-                             self.Ain.shape[2], self.Ain.shape[3]))
+        dl_da_in = np.zeros((self.ain.shape[0], self.ain.shape[1],
+                             self.ain.shape[2], self.ain.shape[3]))
 
-        for i in range(self.Ain.shape[0]):
-            image = self.Ain[i, :, :, :]
+        for i in range(self.ain.shape[0]):
+            image = self.ain[i, :, :, :]
             for dimension in range(image.shape[0]):
                 curr_row_pic = 0
                 curr_row_neuron = -1

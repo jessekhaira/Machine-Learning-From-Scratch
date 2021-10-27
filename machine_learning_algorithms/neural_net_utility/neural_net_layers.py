@@ -154,7 +154,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                        curr_x: np.ndarray,
                        curr_y: np.ndarray,
                        layer: int,
-                       gradCheck: bool = False) -> np.ndarray:
+                       grad_check: bool = False) -> np.ndarray:
         """ This method computes the backward pass through this layer. In
         the gradient circuit, this layers job is to recieve the jacobian
         matrix of the loss function with respect to this layers activations,
@@ -195,7 +195,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
                 An integer representing the layer in the network we are
                 currently updating
 
-            gradCheck:
+            grad_check:
                 Variable of type boolean representing whether we are performing
                 gradient checking in the layer
 
@@ -232,7 +232,7 @@ class DenseLayer(BaseNeuralNetworkLayer):
 
         # Epoch zero and you want to gradient check, do some gradient checks
         # for params W and b
-        if epoch == 0 and gradCheck:
+        if epoch == 0 and grad_check:
             self._gradient_check("W", dl_dw, curr_x, curr_y, prediction_obj,
                                  layer)
             self._gradient_check("b", dl_db, curr_x, curr_y, prediction_obj,
@@ -476,7 +476,7 @@ class DenseBatchNormLayer(DenseLayer):
                        curr_x: np.ndarray,
                        curr_y: np.ndarray,
                        layer: int,
-                       gradCheck: bool = False) -> np.ndarray:
+                       grad_check: bool = False) -> np.ndarray:
         """ This method computes the backward pass through this layer.
         In the gradient circuit, this layers job is to recieve the
         jacobian matrix of the loss function with respect to this
@@ -577,7 +577,7 @@ class DenseBatchNormLayer(DenseLayer):
 
         # Epoch zero and you want to gradient check, do some gradient checks for
         # params W and b
-        if epoch == 0 and gradCheck:
+        if epoch == 0 and grad_check:
             self._gradient_check("W", dl_dw, curr_x, curr_y, prediction_obj,
                                  layer)
             self._gradient_check("b", dl_db, curr_x, curr_y, prediction_obj,
@@ -653,7 +653,7 @@ class DenseDropOutLayer(DenseLayer):
                        curr_x,
                        curr_y,
                        layer,
-                       gradCheck=False):
+                       grad_check=False):
         """
         This method computes the backward pass through this layer. In the gradient circuit,
         this layers job is to recieve the jacobian matrix of the loss function with respect
@@ -706,7 +706,7 @@ class DenseDropOutLayer(DenseLayer):
 
         # Epoch zero and you want to gradient check, do some gradient checks
         # for params W and b
-        if epoch == 0 and gradCheck:
+        if epoch == 0 and grad_check:
             self._gradient_check("W", dl_dw, curr_x, curr_y, prediction_obj,
                                  layer)
             self._gradient_check("b", dl_db, curr_x, curr_y, prediction_obj,

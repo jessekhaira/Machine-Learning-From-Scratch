@@ -12,7 +12,7 @@ class BaseActivationFunction(object):
     input x. Every function will have some derivative/partial
     derivative with respect to its input.
 
-    Lastly, a quick gradCheck method will be implemented for
+    Lastly, a quick grad_check method will be implemented for
     every class to ensure the gradient calculation is correct.
 
     Thus, it made sense to make an abstract class which all the
