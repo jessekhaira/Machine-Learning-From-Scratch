@@ -51,7 +51,7 @@ class TestConvolutionalNet(unittest.TestCase):
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
-            "finalConvLayer": True
+            "final_conv_layer": True
         }
         obj2.addConvNetLayer(Conv2D, **params_layer1)
 
@@ -88,14 +88,14 @@ class TestConvolutionalNet(unittest.TestCase):
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
-            "finalConvLayer": False
+            "final_conv_layer": False
         }
         obj3.addConvNetLayer(Conv2D, **params_layer1)
 
         params_layer2 = {
             "filterSize": 3,
             "stride": 2,
-            "finalConvLayer": True,
+            "final_conv_layer": True,
             "poolType": "avg",
             "padding": "valid"
         }
@@ -133,14 +133,14 @@ class TestConvolutionalNet(unittest.TestCase):
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
-            "finalConvLayer": False
+            "final_conv_layer": False
         }
         obj3.addConvNetLayer(Conv2D, **params_layer1)
 
         params_layer2 = {
             "filterSize": 3,
             "stride": 2,
-            "finalConvLayer": True,
+            "final_conv_layer": True,
             "poolType": "max",
             "padding": "valid"
         }
@@ -179,13 +179,13 @@ class TestConvolutionalNet(unittest.TestCase):
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
-            "finalConvLayer": False
+            "final_conv_layer": False
         }
         obj1.addConvNetLayer(Conv2D, **params_layer1)
         params_layer2 = {
             "filterSize": 3,
             "stride": 2,
-            "finalConvLayer": False,
+            "final_conv_layer": False,
             "poolType": "avg",
             "padding": "valid"
         }
@@ -198,12 +198,12 @@ class TestConvolutionalNet(unittest.TestCase):
             "activationFunction": ReLU(),
             "padding": "same",
             "stride": 1,
-            "finalConvLayer": False
+            "final_conv_layer": False
         }
         obj1.addConvNetLayer(Conv2D, **params_layer3)
         params_layer4 = {
             "filterSize": 3,
-            "finalConvLayer": True,
+            "final_conv_layer": True,
             "stride": 2,
             "poolType": "avg",
             "padding": "valid"

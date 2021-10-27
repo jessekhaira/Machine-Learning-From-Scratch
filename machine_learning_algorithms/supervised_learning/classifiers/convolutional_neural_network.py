@@ -50,13 +50,13 @@ class ConvolutionalNeuralNetwork(NeuralNetworkBase):
                       activationFunction=kwargs["activationFunction"],
                       padding=kwargs["padding"],
                       stride=kwargs["stride"],
-                      finalConvLayer=kwargs["finalConvLayer"]))
+                      final_conv_layer=kwargs["final_conv_layer"]))
         elif "filterSize" in kwargs and "poolType" in kwargs:
             self.layers.append(
                 layer(filterSize=kwargs["filterSize"],
                       padding=kwargs["padding"],
                       stride=kwargs["stride"],
-                      finalConvLayer=kwargs["finalConvLayer"],
+                      final_conv_layer=kwargs["final_conv_layer"],
                       poolType=kwargs["poolType"]))
         else:
             # adding densee layer - dealing with default arguments defined in the original add_layer method

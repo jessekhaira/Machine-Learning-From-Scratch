@@ -54,7 +54,7 @@ class Conv2D(BaseConvolutionalLayer):
             Integer representing how far the filter will slide each
             step
 
-        finalConvLayer:
+        final_conv_layer:
             Boolean value indicating whether this is the last convolutional
             layer before fully connected layers
 
@@ -69,7 +69,7 @@ class Conv2D(BaseConvolutionalLayer):
                  activationFunction,
                  padding: Literal["same", "valid"] = "same",
                  stride: int = 1,
-                 finalConvLayer: bool = False,
+                 final_conv_layer: bool = False,
                  inputDepth: Union[None, int] = None):
         self.filterSize = filterSize
         self.numFilters = numFilters
@@ -78,7 +78,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.inputDepth = inputDepth
         self.filters, self.b = self._initialize_weights()
         self.activationFunction = activationFunction
-        self.finalConvLayer = finalConvLayer
+        self.final_conv_layer = final_conv_layer
         self.optim = None
 
     def compute_forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
@@ -158,7 +158,7 @@ class Conv2D(BaseConvolutionalLayer):
         self.A = self.activationFunction.compute_output(self.Z)
         # if its the final conv layer, then return a flattened vector
         # as output otherwise, return it as is
-        if not self.finalConvLayer:
+        if not self.final_conv_layer:
             return self.A
         else:
             return self.A.reshape(-1, x.shape[0])
@@ -188,7 +188,7 @@ class Conv2D(BaseConvolutionalLayer):
         # so when we're coming back, we have to reshape that to be
         # (num ex, num dim, H, W) IE same shape as the output of the layer.
         # Basically reverse of the flattening to a single vector step :D
-        if self.finalConvLayer:
+        if self.final_conv_layer:
             dl_da = dl_da.reshape(self.Z.shape[0], self.Z.shape[1],
                                   self.Z.shape[2], self.Z.shape[3])
 
@@ -291,12 +291,12 @@ class Pool(BaseConvolutionalLayer):
                  padding: Literal["valid", "same"] = "valid",
                  stride: int = 1,
                  poolType: Literal["max", "avg"] = "max",
-                 finalConvLayer: bool = False):
+                 final_conv_layer: bool = False):
         self.filterSize = filterSize
-        self.typePool = poolType
+        self.type_pool = poolType
         self.padding = padding
         self.stride = stride
-        self.finalConvLayer = finalConvLayer
+        self.final_conv_layer = final_conv_layer
         self.optim = None
 
     def compute_forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
@@ -348,7 +348,7 @@ class Pool(BaseConvolutionalLayer):
                                                curr_col_pic:curr_col_pic +
                                                self.filterSize]
                         # max pool or average pool
-                        if self.typePool == "max":
+                        if self.type_pool == "max":
                             self.Z[i, dimension, curr_row_neuron,
                                    curr_col_neuron] = np.max(curr_img_slice)
                         else:
@@ -370,7 +370,7 @@ class Pool(BaseConvolutionalLayer):
         # return input that has been downsampled spatially
         # if its the last conv layer, then flatten to a vector
         # otherwise, return as is
-        if not self.finalConvLayer:
+        if not self.final_conv_layer:
             return self.Z
         else:
             return self.Z.reshape(-1, x.shape[0])
@@ -395,7 +395,7 @@ class Pool(BaseConvolutionalLayer):
         # (num ex, num dim, H, W) IE same shape as the output of the
         # layer. Basically reverse of the flattening to a single vector
         # step :D
-        if self.finalConvLayer:
+        if self.final_conv_layer:
             dLdA = dLdA.reshape(self.Z.shape[0], self.Z.shape[1],
                                 self.Z.shape[2], self.Z.shape[3])
 
@@ -425,7 +425,7 @@ class Pool(BaseConvolutionalLayer):
                                                self.filterSize]
                         # in max pool, dAout/dA_in is zero everywhere except the
                         # MAX idx
-                        if self.typePool == "max":
+                        if self.type_pool == "max":
                             max_idx_row, max_idx_col = findRowColMaxElem(
                                 curr_img_slice)
                             dl_da_in[i, dimension, max_idx_row,
