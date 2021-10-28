@@ -1,3 +1,4 @@
+""" This module contains unit tests for dropout layers """
 import unittest
 import numpy as np
 import tensorflow as tf
@@ -7,27 +8,31 @@ from machine_learning_algorithms.neural_net_utility.activation_functions import 
 from machine_learning_algorithms.neural_net_utility.optimizer import RMSProp
 from machine_learning_algorithms.utility.misc import oneHotEncode
 
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-x_train = np.array(x_train, dtype=float)
-x_test = np.array(x_test, dtype=float)
-x_train /= 255
-x_test /= 255
-x_train = x_train.reshape(784, -1)
-x_test = x_test.reshape(784, -1)
-saved_y = y_train.reshape(1, -1)
-y_train = oneHotEncode(y_train.reshape(1, -1))
-y_test = oneHotEncode(y_test.reshape(1, -1))
-print(y_train.shape)
-print(y_test.shape)
-print(x_train[:, :5])
 
-x_miniTrain = x_train[:, :1000].reshape(784, -1)
-y_miniTrain = y_train[:, :1000]
-x_miniValid = x_train[:, 1000:2000].reshape(784, -1)
-y_miniValid = y_train[:, 1000:2000]
+class TestDropoutLayers(unittest.TestCase):
+    """ This class contains unit tests for dropout layers """
 
+    def setUp(self):
+        (x_train, y_train), (x_test,
+                             y_test) = tf.keras.datasets.mnist.load_data()
+        x_train = np.array(x_train, dtype=float)
+        x_test = np.array(x_test, dtype=float)
+        x_train /= 255
+        x_test /= 255
+        x_train = x_train.reshape(784, -1)
+        x_test = x_test.reshape(784, -1)
+        saved_y = y_train.reshape(1, -1)
+        y_train = oneHotEncode(y_train.reshape(1, -1))
+        y_test = oneHotEncode(y_test.reshape(1, -1))
+        print(y_train.shape)
+        print(y_test.shape)
+        print(x_train[:, :5])
 
-class testMNIST_DropoutLayers(unittest.TestCase):
+        x_miniTrain = x_train[:, :1000].reshape(784, -1)
+        y_miniTrain = y_train[:, :1000]
+        x_miniValid = x_train[:, 1000:2000].reshape(784, -1)
+        y_miniValid = y_train[:, 1000:2000]
+        return super().setUp()
 
     def testLowKeepProb(self):
         MLP = MultiLayerPerceptron(typeSupervised="multiclass",
