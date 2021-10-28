@@ -31,27 +31,27 @@ class TestDropoutLayers(unittest.TestCase):
         return super().setUp()
 
     def test_1(self):
-        MLP = MultiLayerPerceptron(typeSupervised="multiclass",
-                                   numberInputFeatures=784)
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=784)
 
         # make sure we get high training loss, low acccuracy when we
         # dropout 99% of activations. Just sanity checking the implementation
         # of the droput layer
-        MLP.add_layer(num_neurons=100,
-                      activation_function=ReLU(),
-                      layer=DenseDropOutLayer,
-                      keep_prob=0.01)
-        MLP.add_layer(num_neurons=10,
-                      activation_function=Softmax(),
-                      isSoftmax=True)
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activation_function=ReLU(),
+                                         layer=DenseDropOutLayer,
+                                         keep_prob=0.01)
+        multi_layer_perceptron.add_layer(num_neurons=10,
+                                         activation_function=Softmax(),
+                                         isSoftmax=True)
 
-        train_loss1, train_acc1 = MLP.fit(self.x_train[:, :100].reshape(
-            784, -1),
-                                          self.y_train[:, :100],
-                                          num_epochs=500,
-                                          ret_train_loss=True,
-                                          optim=RMSProp(),
-                                          learn_rate=0.001)
+        train_loss1, train_acc1 = multi_layer_perceptron.fit(
+            self.x_train[:, :100].reshape(784, -1),
+            self.y_train[:, :100],
+            num_epochs=500,
+            ret_train_loss=True,
+            optim=RMSProp(),
+            learn_rate=0.001)
         train_acc1 = np.average(train_acc1)
         self.assertLessEqual(train_acc1, 0.40)
 
@@ -60,27 +60,27 @@ class TestDropoutLayers(unittest.TestCase):
         batch of data so it looks like everything is wired correctly
         """
 
-        MLP = MultiLayerPerceptron(typeSupervised="multiclass",
-                                   numberInputFeatures=784)
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=784)
 
         # make sure we get high training loss, low acccuracy when we dropout
         # 99% of activations. Just sanity checking the implementation of the
         # dropout layer
-        MLP.add_layer(num_neurons=100,
-                      activation_function=ReLU(),
-                      layer=DenseDropOutLayer,
-                      keep_prob=0.6)
-        MLP.add_layer(num_neurons=10,
-                      activation_function=Softmax(),
-                      isSoftmax=True)
+        multi_layer_perceptron.add_layer(num_neurons=100,
+                                         activation_function=ReLU(),
+                                         layer=DenseDropOutLayer,
+                                         keep_prob=0.6)
+        multi_layer_perceptron.add_layer(num_neurons=10,
+                                         activation_function=Softmax(),
+                                         isSoftmax=True)
 
-        train_loss1, train_acc1 = MLP.fit(self.x_train[:, :100].reshape(
-            784, -1),
-                                          self.y_train[:, :100],
-                                          num_epochs=500,
-                                          ret_train_loss=True,
-                                          optim=RMSProp(),
-                                          learn_rate=0.001)
+        train_loss1, train_acc1 = multi_layer_perceptron.fit(
+            self.x_train[:, :100].reshape(784, -1),
+            self.y_train[:, :100],
+            num_epochs=500,
+            ret_train_loss=True,
+            optim=RMSProp(),
+            learn_rate=0.001)
         train_acc1 = np.average(train_acc1)
         self.assertGreaterEqual(train_acc1, 0.89)
 
@@ -89,25 +89,25 @@ class TestDropoutLayers(unittest.TestCase):
         when keep_prob is low, to underfitting when keep prob is high.
         So overall we could remedy the overfitting by training on more examples
         and adding L2 regularization.
-        
+
         But the dropout layer itself seems to be implemented fine
         """
 
-        MLP = MultiLayerPerceptron(typeSupervised="multiclass",
-                                   numberInputFeatures=784)
-        MLP.add_layer(num_neurons=25,
-                      activation_function=ReLU(),
-                      layer=DenseDropOutLayer,
-                      keep_prob=0.09)
-        MLP.add_layer(num_neurons=25,
-                      activation_function=ReLU(),
-                      layer=DenseDropOutLayer,
-                      keep_prob=0.09)
-        MLP.add_layer(num_neurons=10,
-                      activation_function=Softmax(),
-                      isSoftmax=True)
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=784)
+        multi_layer_perceptron.add_layer(num_neurons=25,
+                                         activation_function=ReLU(),
+                                         layer=DenseDropOutLayer,
+                                         keep_prob=0.09)
+        multi_layer_perceptron.add_layer(num_neurons=25,
+                                         activation_function=ReLU(),
+                                         layer=DenseDropOutLayer,
+                                         keep_prob=0.09)
+        multi_layer_perceptron.add_layer(num_neurons=10,
+                                         activation_function=Softmax(),
+                                         isSoftmax=True)
 
-        train_loss1, valid_loss, train_acc, valid_acc = MLP.fit(
+        train_loss1, valid_loss, train_acc, valid_acc = multi_layer_perceptron.fit(
             self.x_mini_train,
             self.y_mini_train,
             self.x_mini_valid,
