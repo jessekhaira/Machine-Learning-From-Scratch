@@ -13,28 +13,24 @@ class TestDropoutLayers(unittest.TestCase):
     """ This class contains unit tests for dropout layers """
 
     def setUp(self):
-        (x_train, y_train), (x_test,
-                             y_test) = tf.keras.datasets.mnist.load_data()
-        x_train = np.array(x_train, dtype=float)
-        x_test = np.array(x_test, dtype=float)
-        x_train /= 255
-        x_test /= 255
-        x_train = x_train.reshape(784, -1)
-        x_test = x_test.reshape(784, -1)
-        saved_y = y_train.reshape(1, -1)
-        y_train = oneHotEncode(y_train.reshape(1, -1))
-        y_test = oneHotEncode(y_test.reshape(1, -1))
-        print(y_train.shape)
-        print(y_test.shape)
-        print(x_train[:, :5])
-
-        x_miniTrain = x_train[:, :1000].reshape(784, -1)
-        y_miniTrain = y_train[:, :1000]
-        x_miniValid = x_train[:, 1000:2000].reshape(784, -1)
-        y_miniValid = y_train[:, 1000:2000]
+        (self.x_train,
+         self.y_train), (self.x_test,
+                         self.y_test) = tf.keras.datasets.mnist.load_data()
+        self.x_train = np.array(self.x_train, dtype=float)
+        self.x_test = np.array(self.x_test, dtype=float)
+        self.x_train /= 255
+        self.x_test /= 255
+        self.x_train = self.x_train.reshape(784, -1)
+        self.x_test = self.x_test.reshape(784, -1)
+        self.y_train = oneHotEncode(self.y_train.reshape(1, -1))
+        self.y_test = oneHotEncode(self.y_test.reshape(1, -1))
+        self.x_mini_train = self.x_train[:, :1000].reshape(784, -1)
+        self.y_mini_train = self.y_train[:, :1000]
+        self.x_mini_valid = self.x_train[:, 1000:2000].reshape(784, -1)
+        self.y_mini_valid = self.y_train[:, 1000:2000]
         return super().setUp()
 
-    def testLowKeepProb(self):
+    def test_1(self):
         MLP = MultiLayerPerceptron(typeSupervised="multiclass",
                                    numberInputFeatures=784)
 
@@ -49,8 +45,9 @@ class TestDropoutLayers(unittest.TestCase):
                       isSoftmax=True)
         print(isinstance(MLP.layers[0], DenseLayer))
 
-        train_loss1, train_acc1 = MLP.fit(x_train[:, :100].reshape(784, -1),
-                                          y_train[:, :100],
+        train_loss1, train_acc1 = MLP.fit(self.x_train[:, :100].reshape(
+            784, -1),
+                                          self.y_train[:, :100],
                                           num_epochs=500,
                                           ret_train_loss=True,
                                           optim=RMSProp(),
@@ -58,15 +55,17 @@ class TestDropoutLayers(unittest.TestCase):
         print(train_loss1)
         print(train_acc1)
 
-        ## predictions basically don't change from 0.1 for each class for every example so the loss for every epoch is
-        ## -ln(0.1) = 2.302, which makes sense because the regularization is so strong that the network isn't learning anything
+    def test_2(self):
+        """ With a reasonable dropout probability, we can overfit to a small
+        batch of data so it looks like everything is wired correctly
+        """
 
-    def testOverFitSmallBatch(self):
         MLP = MultiLayerPerceptron(typeSupervised="multiclass",
                                    numberInputFeatures=784)
 
-        # make sure we get high training loss, low acccuracy when we dropout 99% of activations
-        # just sanity checking the implementation of the droput layer
+        # make sure we get high training loss, low acccuracy when we dropout
+        # 99% of activations. Just sanity checking the implementation of the
+        # dropout layer
         MLP.add_layer(num_neurons=100,
                       activation_function=ReLU(),
                       layer=DenseDropOutLayer,
@@ -75,8 +74,9 @@ class TestDropoutLayers(unittest.TestCase):
                       activation_function=Softmax(),
                       isSoftmax=True)
 
-        train_loss1, train_acc1 = MLP.fit(x_train[:, :100].reshape(784, -1),
-                                          y_train[:, :100],
+        train_loss1, train_acc1 = MLP.fit(self.x_train[:, :100].reshape(
+            784, -1),
+                                          self.y_train[:, :100],
                                           num_epochs=500,
                                           ret_train_loss=True,
                                           optim=RMSProp(),
@@ -84,9 +84,15 @@ class TestDropoutLayers(unittest.TestCase):
         print(train_loss1)
         print(train_acc1)
 
-    #     # With a reasonable dropout probability, we can overfit to a small batch of data so it looks like everything is wired correctly
+    def test_3(self):
+        """ The architecture goes between overfitting to the training set
+        when keep_prob is low, to underfitting when keep prob is high.
+        So overall we could remedy the overfitting by training on more examples
+        and adding L2 regularization.
+        
+        But the dropout layer itself seems to be implemented fine
+        """
 
-    def testFitBigBatch(self):
         MLP = MultiLayerPerceptron(typeSupervised="multiclass",
                                    numberInputFeatures=784)
         MLP.add_layer(num_neurons=25,
@@ -102,25 +108,21 @@ class TestDropoutLayers(unittest.TestCase):
                       isSoftmax=True)
 
         train_loss1, valid_loss, train_acc, valid_acc = MLP.fit(
-            x_miniTrain,
-            y_miniTrain,
-            x_miniValid,
-            y_miniValid,
+            self.x_mini_train,
+            self.y_mini_train,
+            self.x_mini_valid,
+            self.y_mini_valid,
             num_epochs=800,
             ret_train_loss=True,
             optim=RMSProp(),
             learn_rate=0.001)
         print(train_loss1)
-        print('\n')
+        print("\n")
         print(valid_loss)
-        print('\n')
+        print("\n")
         print(train_acc)
-        print('\n')
+        print("\n")
         print(valid_acc)
-
-        # The architecture goes between overfitting to the training set when keep_prob is low, to underfitting when keep prob is high.
-        # So overall we could remedy the overfitting by training on more examples and adding L2 regularization
-        # But the dropout layer itself seems to be implemented fine
 
 
 if __name__ == "__main__":
