@@ -34,8 +34,9 @@ class TestDropoutLayers(unittest.TestCase):
         MLP = MultiLayerPerceptron(typeSupervised="multiclass",
                                    numberInputFeatures=784)
 
-        # make sure we get high training loss, low acccuracy when we dropout 99% of activations
-        # just sanity checking the implementation of the droput layer
+        # make sure we get high training loss, low acccuracy when we
+        # dropout 99% of activations. Just sanity checking the implementation
+        # of the droput layer
         MLP.add_layer(num_neurons=100,
                       activation_function=ReLU(),
                       layer=DenseDropOutLayer,
@@ -43,7 +44,6 @@ class TestDropoutLayers(unittest.TestCase):
         MLP.add_layer(num_neurons=10,
                       activation_function=Softmax(),
                       isSoftmax=True)
-        print(isinstance(MLP.layers[0], DenseLayer))
 
         train_loss1, train_acc1 = MLP.fit(self.x_train[:, :100].reshape(
             784, -1),
@@ -52,8 +52,8 @@ class TestDropoutLayers(unittest.TestCase):
                                           ret_train_loss=True,
                                           optim=RMSProp(),
                                           learn_rate=0.001)
-        print(train_loss1)
-        print(train_acc1)
+        train_acc1 = np.average(train_acc1)
+        self.assertLessEqual(train_acc1, 0.40)
 
     def test_2(self):
         """ With a reasonable dropout probability, we can overfit to a small
@@ -81,8 +81,8 @@ class TestDropoutLayers(unittest.TestCase):
                                           ret_train_loss=True,
                                           optim=RMSProp(),
                                           learn_rate=0.001)
-        print(train_loss1)
-        print(train_acc1)
+        train_acc1 = np.average(train_acc1)
+        self.assertGreaterEqual(train_acc1, 0.89)
 
     def test_3(self):
         """ The architecture goes between overfitting to the training set
