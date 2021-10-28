@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_perceptron import MultiLayerPerceptron
-from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseDropOutLayer, DenseLayer
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseDropOutLayer
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import RMSProp
 from machine_learning_algorithms.utility.misc import oneHotEncode
