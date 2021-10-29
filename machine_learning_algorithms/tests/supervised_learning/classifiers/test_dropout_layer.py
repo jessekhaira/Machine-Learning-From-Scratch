@@ -116,6 +116,10 @@ class TestDropoutLayers(unittest.TestCase):
             ret_train_loss=True,
             optim=RMSProp(),
             learn_rate=0.001)
+
+        self.assertGreaterEqual(train_acc, 0.85)
+        self.assertGreaterEqual(valid_acc, 0.80)
+
         print(train_loss1)
         print("\n")
         print(valid_loss)
