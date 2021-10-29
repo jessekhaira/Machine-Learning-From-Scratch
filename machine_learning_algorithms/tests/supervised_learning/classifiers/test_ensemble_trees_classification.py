@@ -27,7 +27,7 @@ class TestEnsembleTreesClassification(unittest.TestCase):
         self.y1 = None
         self.y2 = None
 
-    def testBinaryRF(self):
+    def test_binary_randomforest(self):
         # Use 5 random bootstrapped samples to train each tree and
         # then get OOB acc and error should be quite low
         mod2 = RandomForestClassifier(criterion="entropy",
@@ -75,7 +75,7 @@ class TestEnsembleTreesClassification(unittest.TestCase):
         self.assertGreaterEqual(acc5, acc4)
         self.assertLessEqual(err5, err4)
 
-    def testMultiClassRF(self):
+    def test_multiclass_randomforest(self):
         # Use 5 random bootstrapped samples to train each tree and then get
         # OOB acc and error should be quite low
         mod2 = RandomForestClassifier(criterion="entropy",
@@ -122,7 +122,7 @@ class TestEnsembleTreesClassification(unittest.TestCase):
         self.assertGreaterEqual(acc5, acc4)
         self.assertLessEqual(err5, err4)
 
-    def testBaggedForestBinary(self):
+    def test_binary_baggedforest(self):
         # Diff b/w bagged forest and random forest - bagged forests sees every
         # single feature at every single split point can achieve lower bias
         # since there is naturally less stochasiticy in the training procedure
@@ -167,7 +167,7 @@ class TestEnsembleTreesClassification(unittest.TestCase):
         self.assertGreaterEqual(acc5, acc4)
         self.assertLessEqual(err5, err4)
 
-    def testBaggedForestMutliclass(self):
+    def test_baggedforest_multiclass(self):
         ## Diff b/w bagged forest and random forest - bagged forests sees every
         # single feature at every single split point can achieve lower bias
         # since there is naturally less stochasiticy in the training procedure,
