@@ -107,15 +107,15 @@ class TestDropoutLayers(unittest.TestCase):
                                          activation_function=Softmax(),
                                          isSoftmax=True)
 
-        train_loss1, valid_loss, train_acc, valid_acc = multi_layer_perceptron.fit(
-            self.x_mini_train,
-            self.y_mini_train,
-            self.x_mini_valid,
-            self.y_mini_valid,
-            num_epochs=800,
-            ret_train_loss=True,
-            optim=RMSProp(),
-            learn_rate=0.001)
+        train_loss1, valid_loss, train_acc, valid_acc = (
+            multi_layer_perceptron.fit(self.x_mini_train,
+                                       self.y_mini_train,
+                                       self.x_mini_valid,
+                                       self.y_mini_valid,
+                                       num_epochs=800,
+                                       ret_train_loss=True,
+                                       optim=RMSProp(),
+                                       learn_rate=0.001))
 
         self.assertGreaterEqual(train_acc, 0.85)
         self.assertGreaterEqual(valid_acc, 0.80)
