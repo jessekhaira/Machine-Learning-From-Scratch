@@ -101,7 +101,6 @@ class TestLogisticRegression(unittest.TestCase):
                                   reg_parameter=1)
         obj4.fit(self.x_train, self.y_train, num_epochs=50, learn_rate=0.1)
         preds_model = obj4.predict(self.x_test)
-        (accuracy(self.y_test, preds_sk))
 
     def test5(self):
         sklearn_mode = LR(C=0.0021)
@@ -115,7 +114,6 @@ class TestLogisticRegression(unittest.TestCase):
                                   reg_parameter=476)
         obj5.fit(self.x_train, self.y_train, num_epochs=50, learn_rate=0.1)
         preds_model = obj5.predict(self.x_test)
-        (accuracy(self.y_test, preds_sk))
 
 
 if __name__ == "__main__":
