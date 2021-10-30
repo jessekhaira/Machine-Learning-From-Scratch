@@ -1,3 +1,5 @@
+""" This module contains unit tests for the logistic regression
+algorithm """
 import unittest
 import numpy as np
 from sklearn.datasets import load_breast_cancer
@@ -9,6 +11,8 @@ from machine_learning_algorithms.supervised_learning.classifiers.logistic_regres
 
 
 class TestLogisticRegression(unittest.TestCase):
+    """ This class contains unit tests for the logistic regression
+    algorithm """
 
     def setUp(self):
         ##-- MANUAL TEST W/ Step through debugging----
