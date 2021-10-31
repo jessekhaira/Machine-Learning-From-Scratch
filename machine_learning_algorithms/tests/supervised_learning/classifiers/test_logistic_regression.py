@@ -98,20 +98,22 @@ class TestLogisticRegression(unittest.TestCase):
         sklearn_mode = LR(C=1)
         sklearn_mode.fit(self.x_train.T, self.y_train.ravel())
         preds_sk = sklearn_mode.predict(self.x_test.T)
-        (accuracy(self.y_test, preds_sk))
+        accuracy_sklearn = accuracy(self.y_test, preds_sk)
 
         obj4 = LogisticRegression(self.x_train.shape[0],
                                   classificationThreshold=0.5,
                                   regularization="L2",
                                   reg_parameter=1)
-        obj4.fit(self.x_train, self.y_train, num_epochs=50, learn_rate=0.1)
+        obj4.fit(self.x_train, self.y_train, num_epochs=200, learn_rate=0.1)
         preds_model = obj4.predict(self.x_test)
+        accuracy_model = accuracy(self.y_test, preds_model)
+        self.assertLessEqual(abs(accuracy_model - accuracy_sklearn), 0.1)
 
     def test5(self):
         sklearn_mode = LR(C=0.0021)
         sklearn_mode.fit(self.x_train.T, self.y_train.ravel())
         preds_sk = sklearn_mode.predict(self.x_test.T)
-        (accuracy(self.y_test, preds_sk))
+        accuracy_sklearn = accuracy(self.y_test, preds_sk)
 
         obj5 = LogisticRegression(self.x_train.shape[0],
                                   classificationThreshold=0.5,
@@ -119,6 +121,8 @@ class TestLogisticRegression(unittest.TestCase):
                                   reg_parameter=476)
         obj5.fit(self.x_train, self.y_train, num_epochs=50, learn_rate=0.1)
         preds_model = obj5.predict(self.x_test)
+        accuracy_model = accuracy(self.y_test, preds_model)
+        self.assertLessEqual(abs(accuracy_model - accuracy_sklearn), 0.1)
 
 
 if __name__ == "__main__":
