@@ -11,46 +11,48 @@ from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_per
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, TanH, Sigmoid, Softmax
 
-# Binary Classif Data that is easily linearaly separable - should expect some overfitting
-# since the capacity of our model is much higher than needed
-X, Y = load_breast_cancer(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(X,
-                                                    Y,
-                                                    test_size=0.15,
-                                                    random_state=42)
-X_train = preprocessing.scale(X_train)
-X_test = preprocessing.scale(X_test).T
-y_test = y_test.T.reshape(1, -1)
 
-X_train, X_valid, y_train, y_valid = train_test_split(X_train,
-                                                      y_train,
-                                                      test_size=0.15,
-                                                      random_state=42)
+class TestMultiLayerPerceptron(unittest.TestCase):
 
-X_train = X_train.T
-X_valid = X_valid.T
-y_train = y_train.T.reshape(1, -1)
-y_valid = y_valid.T.reshape(1, -1)
+    def setUp(self) -> None:
+        X, Y = load_breast_cancer(return_X_y=True)
+        X_train, X_test, y_train, y_test = train_test_split(X,
+                                                            Y,
+                                                            test_size=0.15,
+                                                            random_state=42)
+        X_train = preprocessing.scale(X_train)
+        X_test = preprocessing.scale(X_test).T
+        y_test = y_test.T.reshape(1, -1)
 
-# Spiral Dataset from CS231N
-N = 100    # number of points per class
-D = 2    # dimensionality
-K = 3    # number of classes
-X = np.zeros((N * K, D))    # data matrix (each row = single example)
-y = np.zeros(N * K, dtype='uint8')    # class labels
-for j in range(K):
-    ix = range(N * j, N * (j + 1))
-    r = np.linspace(0.0, 1, N)    # radius
-    t = np.linspace(j * 4, (j + 1) * 4, N) + np.random.randn(N) * 0.2    # theta
-    X[ix] = np.c_[r * np.sin(t), r * np.cos(t)]
-    y[ix] = j
+        X_train, X_valid, y_train, y_valid = train_test_split(X_train,
+                                                              y_train,
+                                                              test_size=0.15,
+                                                              random_state=42)
 
-X = X.T
-notEncodedy = y
-y = oneHotEncode(y.reshape(1, -1))
+        X_train = X_train.T
+        X_valid = X_valid.T
+        y_train = y_train.T.reshape(1, -1)
+        y_valid = y_valid.T.reshape(1, -1)
 
+        # Spiral Dataset from CS231N
+        N = 100    # number of points per class
+        D = 2    # dimensionality
+        K = 3    # number of classes
+        X = np.zeros((N * K, D))    # data matrix (each row = single example)
+        y = np.zeros(N * K, dtype='uint8')    # class labels
+        for j in range(K):
+            ix = range(N * j, N * (j + 1))
+            r = np.linspace(0.0, 1, N)    # radius
+            t = np.linspace(j * 4, (j + 1) * 4,
+                            N) + np.random.randn(N) * 0.2    # theta
+            X[ix] = np.c_[r * np.sin(t), r * np.cos(t)]
+            y[ix] = j
 
-class test(unittest.TestCase):
+        X = X.T
+        notEncodedy = y
+        y = oneHotEncode(y.reshape(1, -1))
+
+        return super().setUp()
 
     def testBinaryUnregularized(self):
         # Learning rate KEY: If its set to high, you will diverge. If its set to low,
