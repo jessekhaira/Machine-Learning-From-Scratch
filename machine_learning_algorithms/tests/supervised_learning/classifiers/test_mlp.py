@@ -1,6 +1,3 @@
-from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_perceptron import MultiLayerPerceptron
-from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
-from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, TanH, Sigmoid, Softmax
 import unittest
 import numpy as np
 from sklearn import preprocessing
@@ -8,6 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_breast_cancer
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.misc import oneHotEncode
+from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_perceptron import MultiLayerPerceptron
+from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
+from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, TanH, Sigmoid, Softmax
 
 # Binary Classif Data that is easily linearaly separable - should expect some overfitting
 # since the capacity of our model is much higher than needed
