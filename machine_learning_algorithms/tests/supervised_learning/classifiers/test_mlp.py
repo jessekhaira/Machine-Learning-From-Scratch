@@ -141,7 +141,7 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         self.assertLessEqual(acc1, 0.69)
         self.assertLessEqual(acc2, 0.69)
 
-    def testNormalRegBinary(self):
+    def test_binaryclassifcation_regularized2(self):
         """ You have to be really careful with the reg parameter. If its to high
         (past 0.1), your network won't learn anything. With softmax regression
         and logistic regression, there existed leeway to make the reg parameter
@@ -149,30 +149,32 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         layers deep.
         """
         # normal regularization
-        MLP3 = MultiLayerPerceptron(typeSupervised="binary",
-                                    numberInputFeatures=self.x_train.shape[0],
-                                    regularization="L1",
-                                    reg_parameter=0.01)
-        MLP4 = MultiLayerPerceptron(typeSupervised="binary",
-                                    numberInputFeatures=self.x_train.shape[0],
-                                    regularization="L2",
-                                    reg_parameter=0.01)
+        multi_layer_perceptron3 = MultiLayerPerceptron(
+            typeSupervised="binary",
+            numberInputFeatures=self.x_train.shape[0],
+            regularization="L1",
+            reg_parameter=0.01)
+        multi_layer_perceptron4 = MultiLayerPerceptron(
+            typeSupervised="binary",
+            numberInputFeatures=self.x_train.shape[0],
+            regularization="L2",
+            reg_parameter=0.01)
 
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP3.add_layer(10, activation_function=ReLU())
+        multi_layer_perceptron3.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP3.add_layer(5, activation_function=ReLU())
+        multi_layer_perceptron3.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP3.add_layer(1, activation_function=Sigmoid())
+        multi_layer_perceptron3.add_layer(1, activation_function=Sigmoid())
 
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP4.add_layer(10, activation_function=ReLU())
+        multi_layer_perceptron4.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP4.add_layer(5, activation_function=ReLU())
+        multi_layer_perceptron4.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP4.add_layer(1, activation_function=Sigmoid())
+        multi_layer_perceptron4.add_layer(1, activation_function=Sigmoid())
 
-        train_loss3, valid_loss3, train_acc3, valid_acc3 = MLP3.fit(
+        train_loss3, valid_loss3, train_acc3, valid_acc3 = multi_layer_perceptron3.fit(
             self.x_train,
             self.y_train,
             self.x_valid,
@@ -180,7 +182,8 @@ class TestMultiLayerPerceptron(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=100,
             learn_rate=2.8)
-        preds3 = MLP3.predict_multi_layer_perceptron(self.x_test, 0.5)
+        preds3 = multi_layer_perceptron3.predict_multi_layer_perceptron(
+            self.x_test, 0.5)
         acc3 = accuracy(self.y_test, preds3)
         print(acc3)
         print("\n")
@@ -189,7 +192,7 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         print(valid_loss3)
         print("\n")
 
-        train_loss4, valid_loss4, train_acc4, valid_acc4 = MLP4.fit(
+        train_loss4, valid_loss4, train_acc4, valid_acc4 = multi_layer_perceptron4.fit(
             self.x_train,
             self.y_train,
             self.x_valid,
@@ -197,7 +200,8 @@ class TestMultiLayerPerceptron(unittest.TestCase):
             ret_train_loss=True,
             num_epochs=100,
             learn_rate=2.6)
-        preds4 = MLP4.predict_multi_layer_perceptron(self.x_test, 0.5)
+        preds4 = multi_layer_perceptron4.predict_multi_layer_perceptron(
+            self.x_test, 0.5)
         acc4 = accuracy(self.y_test, preds4)
         print(acc4)
         print(train_loss4)
