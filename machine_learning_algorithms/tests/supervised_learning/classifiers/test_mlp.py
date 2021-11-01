@@ -116,37 +116,30 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         # # Output layer sigmoid activation
         multi_layer_perceptron2.add_layer(1, activation_function=Sigmoid())
 
-        train_loss1, valid_loss1, train_acc1, valid_acc1 = (
-            multi_layer_perceptron1.fit(self.x_train,
-                                        self.y_train,
-                                        self.x_valid,
-                                        self.y_valid,
-                                        ret_train_loss=True,
-                                        num_epochs=10,
-                                        learn_rate=2.6))
+        multi_layer_perceptron1.fit(self.x_train,
+                                    self.y_train,
+                                    self.x_valid,
+                                    self.y_valid,
+                                    ret_train_loss=True,
+                                    num_epochs=10,
+                                    learn_rate=2.6)
         preds1 = multi_layer_perceptron1.predict_multi_layer_perceptron(
             self.x_test, 0.5)
-        acc1 = accuracy(self.y_test, preds1)
-        print(acc1)
-        print(train_loss1)
-        print("\n")
-        print(valid_loss1)
 
-        train_loss2, valid_loss2, train_acc2, valid_acc2 = (
-            multi_layer_perceptron2.fit(self.x_train,
-                                        self.y_train,
-                                        self.x_valid,
-                                        self.y_valid,
-                                        ret_train_loss=True,
-                                        num_epochs=10,
-                                        learn_rate=3))
+        multi_layer_perceptron2.fit(self.x_train,
+                                    self.y_train,
+                                    self.x_valid,
+                                    self.y_valid,
+                                    ret_train_loss=True,
+                                    num_epochs=10,
+                                    learn_rate=3)
         preds2 = multi_layer_perceptron2.predict_multi_layer_perceptron(
             self.x_test, 0.5)
+
+        acc1 = accuracy(self.y_test, preds1)
         acc2 = accuracy(self.y_test, preds2)
-        print(acc2)
-        print(train_loss2)
-        print("\n")
-        print(valid_loss2)
+        self.assertLessEqual(acc1, 0.69)
+        self.assertLessEqual(acc2, 0.69)
 
     def testNormalRegBinary(self):
         """ You have to be really careful with the reg parameter. If its to high
