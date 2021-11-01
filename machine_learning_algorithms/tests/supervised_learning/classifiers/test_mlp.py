@@ -90,54 +90,58 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         # Can get 99.75% w/ a normal logistic regresssion model
         # on this dataset, get 98.83% with this model
 
-    def testHighRegBinary(self):
+    def test_binaryclassification_regularized(self):
         # Sanity check - high regularization leads to very high losses.
-        MLP1 = MultiLayerPerceptron(typeSupervised="binary",
-                                    numberInputFeatures=self.x_train.shape[0],
-                                    regularization="L1",
-                                    reg_parameter=500)
-        MLP2 = MultiLayerPerceptron(typeSupervised="binary",
-                                    numberInputFeatures=self.x_train.shape[0],
-                                    regularization="L2",
-                                    reg_parameter=500)
+        multi_layer_perceptron1 = MultiLayerPerceptron(
+            typeSupervised="binary",
+            numberInputFeatures=self.x_train.shape[0],
+            regularization="L1",
+            reg_parameter=500)
+        multi_layer_perceptron2 = MultiLayerPerceptron(
+            typeSupervised="binary",
+            numberInputFeatures=self.x_train.shape[0],
+            regularization="L2",
+            reg_parameter=500)
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP1.add_layer(10, activation_function=ReLU())
+        multi_layer_perceptron1.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP1.add_layer(5, activation_function=ReLU())
+        multi_layer_perceptron1.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP1.add_layer(1, activation_function=Sigmoid())
+        multi_layer_perceptron1.add_layer(1, activation_function=Sigmoid())
 
         # 10 features learnt in first hidden layer w/ ReLU
-        MLP2.add_layer(10, activation_function=ReLU())
+        multi_layer_perceptron2.add_layer(10, activation_function=ReLU())
         # # 5 features learnt in second hidden layer w/ ReLU
-        MLP2.add_layer(5, activation_function=ReLU())
+        multi_layer_perceptron2.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
-        MLP2.add_layer(1, activation_function=Sigmoid())
+        multi_layer_perceptron2.add_layer(1, activation_function=Sigmoid())
 
-        train_loss1, valid_loss1, train_acc1, valid_acc1 = MLP1.fit(
-            self.x_train,
-            self.y_train,
-            self.x_valid,
-            self.y_valid,
-            ret_train_loss=True,
-            num_epochs=10,
-            learn_rate=2.6)
-        preds1 = MLP1.predict_multi_layer_perceptron(self.x_test, 0.5)
+        train_loss1, valid_loss1, train_acc1, valid_acc1 = (
+            multi_layer_perceptron1.fit(self.x_train,
+                                        self.y_train,
+                                        self.x_valid,
+                                        self.y_valid,
+                                        ret_train_loss=True,
+                                        num_epochs=10,
+                                        learn_rate=2.6))
+        preds1 = multi_layer_perceptron1.predict_multi_layer_perceptron(
+            self.x_test, 0.5)
         acc1 = accuracy(self.y_test, preds1)
         print(acc1)
         print(train_loss1)
         print("\n")
         print(valid_loss1)
 
-        train_loss2, valid_loss2, train_acc2, valid_acc2 = MLP2.fit(
-            self.x_train,
-            self.y_train,
-            self.x_valid,
-            self.y_valid,
-            ret_train_loss=True,
-            num_epochs=10,
-            learn_rate=3)
-        preds2 = MLP2.predict_multi_layer_perceptron(self.x_test, 0.5)
+        train_loss2, valid_loss2, train_acc2, valid_acc2 = (
+            multi_layer_perceptron2.fit(self.x_train,
+                                        self.y_train,
+                                        self.x_valid,
+                                        self.y_valid,
+                                        ret_train_loss=True,
+                                        num_epochs=10,
+                                        learn_rate=3))
+        preds2 = multi_layer_perceptron2.predict_multi_layer_perceptron(
+            self.x_test, 0.5)
         acc2 = accuracy(self.y_test, preds2)
         print(acc2)
         print(train_loss2)
