@@ -174,14 +174,13 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         # # Output layer sigmoid activation
         multi_layer_perceptron4.add_layer(1, activation_function=Sigmoid())
 
-        train_loss3, valid_loss3, train_acc3, valid_acc3 = multi_layer_perceptron3.fit(
-            self.x_train,
-            self.y_train,
-            self.x_valid,
-            self.y_valid,
-            ret_train_loss=True,
-            num_epochs=100,
-            learn_rate=2.8)
+        multi_layer_perceptron3.fit(self.x_train,
+                                    self.y_train,
+                                    self.x_valid,
+                                    self.y_valid,
+                                    ret_train_loss=True,
+                                    num_epochs=100,
+                                    learn_rate=2.8)
         preds3 = multi_layer_perceptron3.predict_multi_layer_perceptron(
             self.x_test, 0.5)
         acc3 = accuracy(self.y_test, preds3)
@@ -192,14 +191,13 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         print(valid_loss3)
         print("\n")
 
-        train_loss4, valid_loss4, train_acc4, valid_acc4 = multi_layer_perceptron4.fit(
-            self.x_train,
-            self.y_train,
-            self.x_valid,
-            self.y_valid,
-            ret_train_loss=True,
-            num_epochs=100,
-            learn_rate=2.6)
+        multi_layer_perceptron4.fit(self.x_train,
+                                    self.y_train,
+                                    self.x_valid,
+                                    self.y_valid,
+                                    ret_train_loss=True,
+                                    num_epochs=100,
+                                    learn_rate=2.6)
         preds4 = multi_layer_perceptron4.predict_multi_layer_perceptron(
             self.x_test, 0.5)
         acc4 = accuracy(self.y_test, preds4)
