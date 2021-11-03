@@ -9,7 +9,7 @@ from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.misc import oneHotEncode
 from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_perceptron import MultiLayerPerceptron
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
-from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, TanH, Sigmoid, Softmax
+from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Sigmoid, Softmax
 
 
 def create_spiral_dataset():
