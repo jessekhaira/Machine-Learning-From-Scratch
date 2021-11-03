@@ -8,7 +8,7 @@ from machine_learning_algorithms.neural_net_utility.convolutional_layers import 
 from machine_learning_algorithms.supervised_learning.classifiers.convolutional_neural_network import ConvolutionalNeuralNetwork
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, AdaGrad
-from machine_learning_algorithms.utility.misc import oneHotEncode
+from machine_learning_algorithms.utility.misc import one_hot_encode
 
 
 class TestConvolutionalNet(unittest.TestCase):
@@ -25,8 +25,8 @@ class TestConvolutionalNet(unittest.TestCase):
         self.x_train = self.x_train
         self.x_test = self.x_test
         self.saved_y = self.y_train.reshape(1, -1)
-        self.y_train = oneHotEncode(self.y_train.reshape(1, -1))
-        self.y_test = oneHotEncode(self.y_test.reshape(1, -1))
+        self.y_train = one_hot_encode(self.y_train.reshape(1, -1))
+        self.y_test = one_hot_encode(self.y_test.reshape(1, -1))
         self.x_mini_train = self.x_train[:1000, :, :].reshape(1000, 1, 28, 28)
         self.y_mini_train = self.y_train[:, :1000]
         self.x_mini_valid = self.x_train[:1000, :, :].reshape(1000, 1, 28, 28)

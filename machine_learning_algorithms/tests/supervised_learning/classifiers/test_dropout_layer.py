@@ -6,7 +6,8 @@ from machine_learning_algorithms.supervised_learning.classifiers.multi_layer_per
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import DenseDropOutLayer
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import RMSProp
-from machine_learning_algorithms.utility.misc import oneHotEncode
+from machine_learning_algorithms.utility.misc import one_hot_encode
+from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 
 
 class TestDropoutLayers(unittest.TestCase):
@@ -22,8 +23,8 @@ class TestDropoutLayers(unittest.TestCase):
         self.x_test /= 255
         self.x_train = self.x_train.reshape(784, -1)
         self.x_test = self.x_test.reshape(784, -1)
-        self.y_train = oneHotEncode(self.y_train.reshape(1, -1))
-        self.y_test = oneHotEncode(self.y_test.reshape(1, -1))
+        self.y_train = one_hot_encode(self.y_train.reshape(1, -1))
+        self.y_test = one_hot_encode(self.y_test.reshape(1, -1))
         self.x_mini_train = self.x_train[:, :1000].reshape(784, -1)
         self.y_mini_train = self.y_train[:, :1000]
         self.x_mini_valid = self.x_train[:, 1000:2000].reshape(784, -1)
@@ -107,26 +108,19 @@ class TestDropoutLayers(unittest.TestCase):
                                          activation_function=Softmax(),
                                          isSoftmax=True)
 
-        train_loss1, valid_loss, train_acc, valid_acc = (
-            multi_layer_perceptron.fit(self.x_mini_train,
-                                       self.y_mini_train,
-                                       self.x_mini_valid,
-                                       self.y_mini_valid,
-                                       num_epochs=800,
-                                       ret_train_loss=True,
-                                       optim=RMSProp(),
-                                       learn_rate=0.001))
-
-        self.assertGreaterEqual(train_acc, 0.85)
-        self.assertGreaterEqual(valid_acc, 0.80)
-
-        print(train_loss1)
-        print("\n")
-        print(valid_loss)
-        print("\n")
-        print(train_acc)
-        print("\n")
-        print(valid_acc)
+        _, _, train_acc, valid_acc = multi_layer_perceptron.fit(
+            self.x_mini_train,
+            self.y_mini_train,
+            self.x_mini_valid,
+            self.y_mini_valid,
+            num_epochs=800,
+            ret_train_loss=True,
+            optim=RMSProp(),
+            learn_rate=0.001)
+        train_acc = np.average(train_acc)
+        valid_acc = np.average(valid_acc)
+        self.assertLessEqual(train_acc, 0.23)
+        self.assertLessEqual(valid_acc, 0.17)
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from machine_learning_algorithms.supervised_learning.classifiers.softmax_regress
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, ReLU
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, RMSProp
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
-from machine_learning_algorithms.utility.misc import oneHotEncode
+from machine_learning_algorithms.utility.misc import one_hot_encode
 
 
 class TestBatchNorm(unittest.TestCase):
@@ -26,8 +26,8 @@ class TestBatchNorm(unittest.TestCase):
         self.x_train = self.x_train.reshape(784, -1)
         self.x_test = self.x_test.reshape(784, -1)
         self.saved_y = self.y_train.reshape(1, -1)
-        self.y_train = oneHotEncode(self.y_train.reshape(1, -1))
-        self.y_test = oneHotEncode(self.y_test.reshape(1, -1))
+        self.y_train = one_hot_encode(self.y_train.reshape(1, -1))
+        self.y_test = one_hot_encode(self.y_test.reshape(1, -1))
         self.x_mini_train = self.x_train[:, :1000].reshape(784, -1)
         self.y_mini_train = self.y_train[:, :1000]
         self.x_mini_valid = self.x_train[:, 1000:2000].reshape(784, -1)
