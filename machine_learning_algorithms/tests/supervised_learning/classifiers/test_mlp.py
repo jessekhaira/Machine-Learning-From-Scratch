@@ -13,7 +13,10 @@ from machine_learning_algorithms.neural_net_utility.activation_functions import 
 
 
 def create_spiral_dataset():
-    # Spiral Dataset from CS231N
+    """ Function creates a 2 dimensional spiral dataset, returning
+    100 feature vectors and encoded and unencoded labels for those
+    vectors.
+    """
     num_points = 100    # number of points per class
     dimensions = 2    # dimensionality
     num_classes = 3    # number of classes
