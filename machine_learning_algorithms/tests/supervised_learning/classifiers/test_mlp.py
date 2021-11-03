@@ -82,13 +82,7 @@ class TestMultiLayerPerceptron(unittest.TestCase):
             learn_rate=2.6)
         preds = MLP.predict_multi_layer_perceptron(self.x_test, 0.5)
         acc = accuracy(self.y_test, preds)
-        print(acc)
-        print(train_loss)
-        print("\n")
-        print(valid_loss)
-
-        # Can get 99.75% w/ a normal logistic regresssion model
-        # on this dataset, get 98.83% with this model
+        self.assertGreaterEqual(acc, 0.95)
 
     def test_binaryclassification_regularized(self):
         # Sanity check - high regularization leads to very high losses.
@@ -183,14 +177,6 @@ class TestMultiLayerPerceptron(unittest.TestCase):
                                     learn_rate=2.8)
         preds3 = multi_layer_perceptron3.predict_multi_layer_perceptron(
             self.x_test, 0.5)
-        acc3 = accuracy(self.y_test, preds3)
-        print(acc3)
-        print("\n")
-        print(train_loss3)
-        print("\n")
-        print(valid_loss3)
-        print("\n")
-
         multi_layer_perceptron4.fit(self.x_train,
                                     self.y_train,
                                     self.x_valid,
@@ -200,12 +186,11 @@ class TestMultiLayerPerceptron(unittest.TestCase):
                                     learn_rate=2.6)
         preds4 = multi_layer_perceptron4.predict_multi_layer_perceptron(
             self.x_test, 0.5)
+
+        acc3 = accuracy(self.y_test, preds3)
         acc4 = accuracy(self.y_test, preds4)
-        print(acc4)
-        print(train_loss4)
-        print("\n")
-        print(valid_loss4)
-        print("\n")
+        self.assertGreaterEqual(acc3, 0.95)
+        self.assertGreaterEqual(acc4, 0.95)
 
     def testMultiClass(self):
         # replicating results from CS231N on this dataset
