@@ -80,13 +80,13 @@ class TestLogisticRegression(unittest.TestCase):
                                   regularization="L1",
                                   reg_parameter=50)
 
-        _, __, train_acc, valid_acc = obj3.fit(self.x_train,
-                                               self.y_train,
-                                               self.x_valid,
-                                               self.y_valid,
-                                               ret_train_loss=True,
-                                               num_epochs=100,
-                                               learn_rate=0.1)
+        _, _, train_acc, valid_acc = obj3.fit(self.x_train,
+                                              self.y_train,
+                                              self.x_valid,
+                                              self.y_valid,
+                                              ret_train_loss=True,
+                                              num_epochs=100,
+                                              learn_rate=0.1)
 
         train_acc = np.average(train_acc)
         valid_acc = np.average(valid_acc)
