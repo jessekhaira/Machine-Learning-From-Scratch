@@ -71,15 +71,13 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         MLP.add_layer(5, activation_function=ReLU())
         # # Output layer sigmoid activation
         MLP.add_layer(1, activation_function=Sigmoid())
-
-        train_loss, valid_loss, train_acc, valid_acc = MLP.fit(
-            self.x_train,
-            self.y_train,
-            self.x_valid,
-            self.y_valid,
-            ret_train_loss=True,
-            num_epochs=100,
-            learn_rate=2.6)
+        MLP.fit(self.x_train,
+                self.y_train,
+                self.x_valid,
+                self.y_valid,
+                ret_train_loss=True,
+                num_epochs=100,
+                learn_rate=2.6)
         preds = MLP.predict_multi_layer_perceptron(self.x_test, 0.5)
         acc = accuracy(self.y_test, preds)
         self.assertGreaterEqual(acc, 0.95)
