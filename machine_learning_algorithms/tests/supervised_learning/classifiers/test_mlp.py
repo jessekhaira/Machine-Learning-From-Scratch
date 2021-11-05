@@ -196,7 +196,7 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         self.assertGreaterEqual(acc4, 0.95)
 
     def test_multiclass_1(self):
-        x, y, notEncodedy = create_spiral_dataset()
+        x, y, not_encoded_y = create_spiral_dataset()
         sm = SoftmaxRegression(inLayerNeuron=2, numClasses=3)
         train_loss_sm, _ = sm.fit(x,
                                   y,
@@ -204,45 +204,50 @@ class TestMultiLayerPerceptron(unittest.TestCase):
                                   num_epochs=190,
                                   learn_rate=1)
         preds_sm = sm.predict(x)
-        acc_sm = accuracy(notEncodedy, preds_sm)
+        acc_sm = accuracy(not_encoded_y, preds_sm)
         self.assertLessEqual(train_loss_sm[-1], 0.786302)
         self.assertGreaterEqual(acc_sm, 0.40)
 
     def test_multi_class2(self):
-        x, y, notEncodedy = create_spiral_dataset()
-        MLP6 = MultiLayerPerceptron(typeSupervised="multiclass",
-                                    numberInputFeatures=2)
-        MLP6.add_layer(100, activation_function=ReLU())
-        MLP6.add_layer(3, activation_function=Softmax(), isSoftmax=1)
-        train_loss6, train_acc = MLP6.fit(xtrain=x,
-                                          ytrain=y,
-                                          num_epochs=1000,
-                                          learn_rate=1,
-                                          ret_train_loss=True)
-        preds_MLP6 = MLP6.predict_multi_layer_perceptron(x)
-        acc_6 = accuracy(notEncodedy, preds_MLP6)
+        x, y, not_encoded_y = create_spiral_dataset()
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass", numberInputFeatures=2)
+        multi_layer_perceptron.add_layer(100, activation_function=ReLU())
+        multi_layer_perceptron.add_layer(3,
+                                         activation_function=Softmax(),
+                                         isSoftmax=1)
+        train_loss6, _ = multi_layer_perceptron.fit(xtrain=x,
+                                                    ytrain=y,
+                                                    num_epochs=1000,
+                                                    learn_rate=1,
+                                                    ret_train_loss=True)
+        preds = multi_layer_perceptron.predict_multi_layer_perceptron(x)
+        acc_6 = accuracy(not_encoded_y, preds)
         # Performance without regularization should be above 90%
         self.assertLessEqual(train_loss6[-1], 0.245)
         self.assertGreaterEqual(acc_6, 0.90)
 
     def test_multi_class3(self):
         # Performance with L2 regularization should be much better
-        x, y, notEncodedy = create_spiral_dataset()
-        MLP7 = MultiLayerPerceptron(typeSupervised="multiclass",
-                                    numberInputFeatures=2,
-                                    regularization="L2",
-                                    reg_parameter=1e-3)
+        x, y, not_encoded_y = create_spiral_dataset()
+        multi_layer_perceptron = MultiLayerPerceptron(
+            typeSupervised="multiclass",
+            numberInputFeatures=2,
+            regularization="L2",
+            reg_parameter=1e-3)
         # Learn 100 features in first hidden layer
-        MLP7.add_layer(100, activation_function=ReLU())
+        multi_layer_perceptron.add_layer(100, activation_function=ReLU())
         # Output layer learn 3 features for softmax
-        MLP7.add_layer(3, activation_function=Softmax(), isSoftmax=1)
-        train_loss7, _ = MLP7.fit(xtrain=x,
-                                  ytrain=y,
-                                  num_epochs=5000,
-                                  learn_rate=1,
-                                  ret_train_loss=True)
-        preds_MLP7 = MLP7.predict_multi_layer_perceptron(x)
-        acc_7 = accuracy(notEncodedy, preds_MLP7)
+        multi_layer_perceptron.add_layer(3,
+                                         activation_function=Softmax(),
+                                         isSoftmax=1)
+        train_loss7, _ = multi_layer_perceptron.fit(xtrain=x,
+                                                    ytrain=y,
+                                                    num_epochs=5000,
+                                                    learn_rate=1,
+                                                    ret_train_loss=True)
+        preds = multi_layer_perceptron.predict_multi_layer_perceptron(x)
+        acc_7 = accuracy(not_encoded_y, preds)
         self.assertLessEqual(train_loss7[-1], 0.40)
         self.assertGreaterEqual(acc_7, 0.98)
 
