@@ -7,7 +7,6 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Den
 from machine_learning_algorithms.neural_net_utility.activation_functions import ReLU, Softmax
 from machine_learning_algorithms.neural_net_utility.optimizer import RMSProp
 from machine_learning_algorithms.utility.misc import one_hot_encode
-from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 
 
 class TestDropoutLayers(unittest.TestCase):
