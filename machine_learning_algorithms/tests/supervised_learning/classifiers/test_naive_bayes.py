@@ -19,7 +19,7 @@ kObj = k_fold_CV()
 naiveBayes = GaussianNaiveBayes()
 
 
-class tests(unittest.TestCase):
+class TestNaiveBayes(unittest.TestCase):
 
     def test1(self):
         # achieves a k-fold validated score of 96.6% -> very good.
