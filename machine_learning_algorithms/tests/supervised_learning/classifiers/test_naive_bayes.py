@@ -20,6 +20,7 @@ naiveBayes = GaussianNaiveBayes()
 
 
 class TestNaiveBayes(unittest.TestCase):
+    """ This class contains unit tests for the naive bayes algorithm"""
 
     def test1(self):
         # achieves a k-fold validated score of 96.6% -> very good.
