@@ -195,43 +195,39 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         self.assertGreaterEqual(acc3, 0.95)
         self.assertGreaterEqual(acc4, 0.95)
 
-    def testMultiClass(self):
-        # replicating results from CS231N on this dataset
+    def test_multiclass_1(self):
         x, y, notEncodedy = create_spiral_dataset()
         sm = SoftmaxRegression(inLayerNeuron=2, numClasses=3)
-        train_loss_sm, train_acc_sm = sm.fit(x,
-                                             y,
-                                             ret_train_loss=True,
-                                             num_epochs=190,
-                                             learn_rate=1)
-        print(train_loss_sm)
+        train_loss_sm, _ = sm.fit(x,
+                                  y,
+                                  ret_train_loss=True,
+                                  num_epochs=190,
+                                  learn_rate=1)
         preds_sm = sm.predict(x)
         acc_sm = accuracy(notEncodedy, preds_sm)
-        print(acc_sm)
-        # Loss obtained from CS231N - ours should hopefully be better!
         self.assertLessEqual(train_loss_sm[-1], 0.786302)
-        self.assertGreaterEqual(acc_sm, 0.49)
+        self.assertGreaterEqual(acc_sm, 0.40)
 
+    def test_multi_class2(self):
+        x, y, notEncodedy = create_spiral_dataset()
         MLP6 = MultiLayerPerceptron(typeSupervised="multiclass",
                                     numberInputFeatures=2)
-        # Learn 100 features in first hidden layer
         MLP6.add_layer(100, activation_function=ReLU())
-        # Output layer learn 3 features for softmax
         MLP6.add_layer(3, activation_function=Softmax(), isSoftmax=1)
         train_loss6, train_acc = MLP6.fit(xtrain=x,
                                           ytrain=y,
                                           num_epochs=1000,
                                           learn_rate=1,
                                           ret_train_loss=True)
-        print(train_loss6)
         preds_MLP6 = MLP6.predict_multi_layer_perceptron(x)
         acc_6 = accuracy(notEncodedy, preds_MLP6)
-        print(acc_6)
         # Performance without regularization should be above 90%
         self.assertLessEqual(train_loss6[-1], 0.245)
         self.assertGreaterEqual(acc_6, 0.90)
 
+    def test_multi_class3(self):
         # Performance with L2 regularization should be much better
+        x, y, notEncodedy = create_spiral_dataset()
         MLP7 = MultiLayerPerceptron(typeSupervised="multiclass",
                                     numberInputFeatures=2,
                                     regularization="L2",
@@ -240,22 +236,15 @@ class TestMultiLayerPerceptron(unittest.TestCase):
         MLP7.add_layer(100, activation_function=ReLU())
         # Output layer learn 3 features for softmax
         MLP7.add_layer(3, activation_function=Softmax(), isSoftmax=1)
-        train_loss7, train_acc7 = MLP7.fit(xtrain=x,
-                                           ytrain=y,
-                                           num_epochs=5000,
-                                           learn_rate=1,
-                                           ret_train_loss=True)
-        print(train_loss7, train_acc7)
+        train_loss7, _ = MLP7.fit(xtrain=x,
+                                  ytrain=y,
+                                  num_epochs=5000,
+                                  learn_rate=1,
+                                  ret_train_loss=True)
         preds_MLP7 = MLP7.predict_multi_layer_perceptron(x)
         acc_7 = accuracy(notEncodedy, preds_MLP7)
-        print(acc_7)
-
-        # Performance with regularization should be approx 99%
         self.assertLessEqual(train_loss7[-1], 0.40)
         self.assertGreaterEqual(acc_7, 0.98)
-
-        # Checked the implemmentation of our MLP against the reference
-        # implementation on CS231N and looks fine!
 
 
 if __name__ == "__main__":
