@@ -27,15 +27,13 @@ class TestNaiveBayes(unittest.TestCase):
 
     def test1(self):
         # achieves a k-fold validated score of 96.6% -> very good.
-        kScore = self.k_obj.getKScore(self.x, self.y, accuracy,
-                                      self.naive_bayes)
-        print(kScore)
+        k_score = self.k_obj.getKScore(self.x, self.y, accuracy,
+                                       self.naive_bayes)
 
     def test2(self):
         # achieves a k-fold validated score of 100% -> very good
-        kScore = self.k_obj.getKScore(self.x1, self.y1, accuracy,
-                                      self.naive_bayes)
-        print(kScore)
+        k_score = self.k_obj.getKScore(self.x1, self.y1, accuracy,
+                                       self.naive_bayes)
 
 
 if __name__ == "__main__":
