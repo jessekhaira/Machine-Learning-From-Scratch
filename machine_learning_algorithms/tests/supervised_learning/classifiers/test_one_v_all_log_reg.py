@@ -1,3 +1,5 @@
+""" This module contains unit tests for the one vs all logistic regression
+algorithm """
 import unittest
 import numpy as np
 from sklearn.datasets import load_iris
