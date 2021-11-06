@@ -37,14 +37,3 @@ print(kScore)
 sklearn_log = LR(penalty='none', multi_class='ovr')
 
 print(cross_val_score(sklearn_log, X.T, Y.ravel()))
-"""
-My OneVAll log reg achieves a cross val score of 0.96 by training for 450 epochs with a learning rate of 0.3, which 
-comparable to sklearns implementation of this model. 
-
-KEY thing learned: These tests showed the importance of the hyperparameter learning rate AND the number of epochs you want to train for on
-the results. 
-Setting learning rate to 0.01 -> awful results. Cross validation score of 81%. The parameters just update to slow for each model, and we have a lot
-of models to train. 
-Learning rate 0.15 -> Better results. Cross val score 93%
-Learning rate 0.3 -> 0.96% cross val score. 
-"""
