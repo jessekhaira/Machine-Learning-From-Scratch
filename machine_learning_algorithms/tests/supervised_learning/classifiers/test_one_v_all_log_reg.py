@@ -10,30 +10,30 @@ from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
 from machine_learning_algorithms.supervised_learning.classifiers.logistic_regression import OneVsAllLogisticRegression
 
-##-- MANUAL TEST W/ Step through debugging----
-X, Y = load_iris(return_X_y=True)
 
-X = preprocessing.scale(X).T
-Y = Y.T.reshape(1, -1)
+class TestOneVAll(unittest.TestCase):
 
-num_classes = len(np.unique(Y))
+    def setUp(self) -> None:
+        self.x, self.y = load_iris(return_X_y=True)
 
-# In order to train the weights for every logistic regression
-# model, you have to train for a tonne of epochs -
-# training for 10 epochs gets cross val score of 0.78
+        self.x = preprocessing.scale(self.x).T
+        self.y = self.y.T.reshape(1, -1)
 
-# Training for 350 epochs gets ~0.95. 450 epochs ~0.96
+        return super().setUp()
 
-OneVAll = OneVsAllLogisticRegression(num_classes,
-                                     X.shape[0],
-                                     num_epochs=450,
-                                     learn_rate=0.3)
+    def test1(self):
+        num_classes = len(np.unique(self.y))
 
-crossVal = k_fold_CV()
-kScore = crossVal.getKScore(X, Y, accuracy, OneVAll)
+        OneVAll = OneVsAllLogisticRegression(num_classes,
+                                             self.x.shape[0],
+                                             num_epochs=450,
+                                             learn_rate=0.3)
 
-print(kScore)
+        crossVal = k_fold_CV()
+        kScore = crossVal.getKScore(self.x, self.y, accuracy, OneVAll)
 
-sklearn_log = LR(penalty='none', multi_class='ovr')
+        print(kScore)
 
-print(cross_val_score(sklearn_log, X.T, Y.ravel()))
+        sklearn_log = LR(penalty='none', multi_class='ovr')
+
+        print(cross_val_score(sklearn_log, self.x.T, self.y.ravel()))
