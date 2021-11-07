@@ -2,6 +2,7 @@
 algorithm """
 import unittest
 import numpy as np
+from numpy.lib.function_base import diff
 from sklearn.datasets import load_iris
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
@@ -32,16 +33,21 @@ class TestOneVAll(unittest.TestCase):
         """
         num_classes = len(np.unique(self.y))
 
-        OneVAll = OneVsAllLogisticRegression(num_classes,
-                                             self.x.shape[0],
-                                             num_epochs=450,
-                                             learn_rate=0.3)
+        one_vs_all_logistic_regression = OneVsAllLogisticRegression(
+            num_classes, self.x.shape[0], num_epochs=450, learn_rate=0.3)
 
-        crossVal = k_fold_CV()
-        kScore = crossVal.getKScore(self.x, self.y, accuracy, OneVAll)
-
-        print(kScore)
+        cross_val = k_fold_CV()
+        k_score = cross_val.getKScore(self.x, self.y, accuracy,
+                                      one_vs_all_logistic_regression)
 
         sklearn_log = LR(penalty='none', multi_class='ovr')
 
-        print(cross_val_score(sklearn_log, self.x.T, self.y.ravel()))
+        sklearn_score = np.average(
+            cross_val_score(sklearn_log, self.x.T, self.y.ravel()))
+
+        difference = abs(sklearn_score - k_score)
+        self.assertLessEqual(difference, 0.1)
+
+
+if __name__ == "__main__":
+    unittest.main()
