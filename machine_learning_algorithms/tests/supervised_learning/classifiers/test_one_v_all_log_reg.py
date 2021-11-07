@@ -12,6 +12,8 @@ from machine_learning_algorithms.supervised_learning.classifiers.logistic_regres
 
 
 class TestOneVAll(unittest.TestCase):
+    """ This class contains unit tests for the one vs all
+    logistic regression algorithm """
 
     def setUp(self) -> None:
         self.x, self.y = load_iris(return_X_y=True)
