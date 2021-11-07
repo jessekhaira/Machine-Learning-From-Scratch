@@ -22,6 +22,12 @@ class TestOneVAll(unittest.TestCase):
         return super().setUp()
 
     def test1(self):
+        """ In order to train the weights for every logistic regression
+        model, you have to train for a tonne of epochs.
+
+        Training for 10 epochs gets cross val score of 0.78
+        Training for 350 epochs gets ~0.95. 450 epochs ~0.96
+        """
         num_classes = len(np.unique(self.y))
 
         OneVAll = OneVsAllLogisticRegression(num_classes,
