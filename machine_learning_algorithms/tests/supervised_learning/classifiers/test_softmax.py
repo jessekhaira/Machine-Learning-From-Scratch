@@ -1,4 +1,6 @@
 """ This module contains tests for the softmax regression algorithm """
+import unittest
+import numpy as np
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.optimizer import Adam, RMSProp
 from machine_learning_algorithms.utility.ScoreFunctions import accuracy
@@ -6,8 +8,6 @@ from machine_learning_algorithms.utility.misc import one_hot_encode
 from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
 from sklearn.datasets import load_iris
 from sklearn import preprocessing
-import unittest
-import numpy as np
 
 
 class SoftmaxTests(unittest.TestCase):
