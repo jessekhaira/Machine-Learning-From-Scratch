@@ -8,8 +8,7 @@ from machine_learning_algorithms.utility.ScoreFunctions import accuracy
 
 
 class KNNClassifierTests(unittest.TestCase):
-    """
-    This class contains unit tests for each of the methods
+    """ This class contains unit tests for each of the methods
     defined for the kNN class.
     """
 
