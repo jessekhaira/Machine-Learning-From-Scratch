@@ -39,6 +39,8 @@ def create_spiral_dataset():
 
 
 class TestMultiLayerPerceptron(unittest.TestCase):
+    """ This class contains unit tests for the multi layer
+    perceptron algorithm"""
 
     def setUp(self) -> None:
         self.x, self.y = load_breast_cancer(return_X_y=True)
