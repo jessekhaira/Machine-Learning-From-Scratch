@@ -40,7 +40,7 @@ class TestOneVAll(unittest.TestCase):
         k_score = cross_val.getKScore(self.x, self.y, accuracy,
                                       one_vs_all_logistic_regression)
 
-        sklearn_log = LR(penalty='none', multi_class='ovr')
+        sklearn_log = LR(penalty="none", multi_class="ovr")
 
         sklearn_score = np.average(
             cross_val_score(sklearn_log, self.x.T, self.y.ravel()))
