@@ -2,7 +2,6 @@
 algorithm """
 import unittest
 import numpy as np
-from numpy.lib.function_base import diff
 from sklearn.datasets import load_iris
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
