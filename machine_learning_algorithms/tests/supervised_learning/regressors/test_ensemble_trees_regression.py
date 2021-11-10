@@ -44,8 +44,10 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
 
-        # allow each tree to see a large bootstrapped sample and get mse and rmse - should perform quite well
-        # may not perform as well as just one decision tree on this particular dataset since the training procedure has so much stochasiticy in it
+        # allow each tree to see a large bootstrapped sample and get mse
+        # and rmse - should perform quite well. May not perform as well
+        # as just one decision tree on this particular dataset since
+        # the training procedure has so much stochasiticy in it
         # and it is already difficult to overfit to this dataset
         mod5 = RandomForestRegressor(verbose=True,
                                      bootstrap=True,
