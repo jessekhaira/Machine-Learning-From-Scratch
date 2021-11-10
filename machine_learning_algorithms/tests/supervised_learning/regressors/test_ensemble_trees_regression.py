@@ -17,8 +17,9 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         return super().setUp()
 
     def testRF_Regressor(self):
-        # Use 5 random bootstrapped samples to train each tree and then get OOB mse and rmse
-        # should be quite low
+        """ Use 5 random bootstrapped samples to train each tree and then
+        get OOB mean squared error and root mean squared error should
+        be quite low """
         mod2 = RandomForestRegressor(verbose=True,
                                      bootstrap=True,
                                      max_samples=5,
@@ -30,7 +31,8 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.assertGreaterEqual(mse2, 20)
         self.assertLessEqual(rmse2, 10)
 
-        # fit on a slightly bigger portion and see what happens - should be better than before
+        # fit on a slightly bigger portion and see what happens - should be
+        # better than before
         mod4 = RandomForestRegressor(verbose=True,
                                      bootstrap=True,
                                      max_samples=15,
