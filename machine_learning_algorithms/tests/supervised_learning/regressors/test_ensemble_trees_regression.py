@@ -16,7 +16,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.y = self.y.T.reshape(1, -1)
         return super().setUp()
 
-    def test1(self):
+    def test_random_forest(self):
         """ Use 5 random bootstrapped samples to train each tree and then
         get OOB mean squared error and root mean squared error should
         be quite low """
@@ -60,7 +60,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)
 
-    def testBaggedForestRegressor(self):
+    def test_bagged_forest(self):
         """ Diff between bagged forest and random forest - bagged forests see
         every single feature at every single split point, and can therefore
         achieve lower bias since there is naturally less stochasiticy in the
