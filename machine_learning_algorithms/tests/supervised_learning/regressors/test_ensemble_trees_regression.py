@@ -27,7 +27,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                      maxFeatures=int(self.x.shape[0]**0.5))
         mod2.fit(self.x, self.y)
         mse2, rmse2 = mod2.get_oob_score(self.x, self.y)
-        print(mse2, rmse2)
+
         self.assertGreaterEqual(mse2, 20)
         self.assertLessEqual(rmse2, 10)
 
@@ -40,7 +40,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                      maxFeatures=int(self.x.shape[0]**0.5))
         mod4.fit(self.x, self.y)
         mse4, rmse4 = mod4.get_oob_score(self.x, self.y)
-        print(mse4, rmse4)
+
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
 
@@ -58,7 +58,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                      min_impurity_decrease=0.25)
         mod5.fit(self.x, self.y)
         mse5, rmse5 = mod5.get_oob_score(self.x, self.y)
-        print(mse5, rmse5)
+
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)
 
@@ -72,7 +72,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                       minSamplesSplit=1)
         mod2.fit(self.x, self.y)
         mse2, rmse2 = mod2.get_oob_score(self.x, self.y)
-        print(mse2, rmse2)
+
         self.assertGreaterEqual(mse2, 0.90)
         self.assertGreaterEqual(rmse2, 0.05)
 
@@ -83,7 +83,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                       minSamplesSplit=3)
         mod4.fit(self.x, self.y)
         mse4, rmse4 = mod4.get_oob_score(self.x, self.y)
-        print(mse4, rmse4)
+
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
 
@@ -96,7 +96,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                       minSamplesSplit=20)
         mod5.fit(self.x, self.y)
         mse5, rmse5 = mod5.get_oob_score(self.x, self.y)
-        print(mse5, rmse5)
+
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)
 
