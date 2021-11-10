@@ -5,14 +5,16 @@ from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.bagged_forest_regressor import BaggedForestRegression
 from machine_learning_algorithms.supervised_learning.regression.random_forest_regressor import RandomForestRegressor
 
-X1, Y1 = load_boston(return_X_y=True)
-X1 = X1.T
-Y1 = Y1.T.reshape(1, -1)
-
 
 class TestEnsembleTreesRegression(unittest.TestCase):
     """ This class contains unit tests for ensemble tree models 
     performing regression """
+
+    def setUp(self) -> None:
+        self.x, self.y = load_boston(return_X_y=True)
+        self.x = self.x.T
+        self.y = self.y.T.reshape(1, -1)
+        return super().setUp()
 
     def testRF_Regressor(self):
         # Use 5 random bootstrapped samples to train each tree and then get OOB mse and rmse
@@ -21,9 +23,9 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                      bootstrap=True,
                                      max_samples=5,
                                      minSamplesSplit=1,
-                                     maxFeatures=int(X1.shape[0]**0.5))
-        mod2.fit(X1, Y1)
-        mse2, rmse2 = mod2.get_oob_score(X1, Y1)
+                                     maxFeatures=int(self.x.shape[0]**0.5))
+        mod2.fit(self.x, self.y)
+        mse2, rmse2 = mod2.get_oob_score(self.x, self.y)
         print(mse2, rmse2)
         self.assertGreaterEqual(mse2, 20)
         self.assertLessEqual(rmse2, 10)
@@ -33,9 +35,9 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                      bootstrap=True,
                                      max_samples=15,
                                      minSamplesSplit=3,
-                                     maxFeatures=int(X1.shape[0]**0.5))
-        mod4.fit(X1, Y1)
-        mse4, rmse4 = mod4.get_oob_score(X1, Y1)
+                                     maxFeatures=int(self.x.shape[0]**0.5))
+        mod4.fit(self.x, self.y)
+        mse4, rmse4 = mod4.get_oob_score(self.x, self.y)
         print(mse4, rmse4)
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
@@ -47,11 +49,11 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                      bootstrap=True,
                                      max_samples=300,
                                      minSamplesSplit=25,
-                                     maxFeatures=int(X1.shape[0]**0.5),
+                                     maxFeatures=int(self.x.shape[0]**0.5),
                                      maxDepth=4,
                                      min_impurity_decrease=0.25)
-        mod5.fit(X1, Y1)
-        mse5, rmse5 = mod5.get_oob_score(X1, Y1)
+        mod5.fit(self.x, self.y)
+        mse5, rmse5 = mod5.get_oob_score(self.x, self.y)
         print(mse5, rmse5)
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)
@@ -64,8 +66,8 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                       bootstrap=True,
                                       max_samples=5,
                                       minSamplesSplit=1)
-        mod2.fit(X1, Y1)
-        mse2, rmse2 = mod2.get_oob_score(X1, Y1)
+        mod2.fit(self.x, self.y)
+        mse2, rmse2 = mod2.get_oob_score(self.x, self.y)
         print(mse2, rmse2)
         self.assertGreaterEqual(mse2, 0.90)
         self.assertGreaterEqual(rmse2, 0.05)
@@ -75,8 +77,8 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                       bootstrap=True,
                                       max_samples=15,
                                       minSamplesSplit=3)
-        mod4.fit(X1, Y1)
-        mse4, rmse4 = mod4.get_oob_score(X1, Y1)
+        mod4.fit(self.x, self.y)
+        mse4, rmse4 = mod4.get_oob_score(self.x, self.y)
         print(mse4, rmse4)
         self.assertLessEqual(mse4, mse2)
         self.assertLessEqual(rmse4, rmse2)
@@ -88,8 +90,8 @@ class TestEnsembleTreesRegression(unittest.TestCase):
                                       bootstrap=True,
                                       max_samples=150,
                                       minSamplesSplit=20)
-        mod5.fit(X1, Y1)
-        mse5, rmse5 = mod5.get_oob_score(X1, Y1)
+        mod5.fit(self.x, self.y)
+        mse5, rmse5 = mod5.get_oob_score(self.x, self.y)
         print(mse5, rmse5)
         self.assertLessEqual(mse5, mse4)
         self.assertLessEqual(rmse5, rmse4)
