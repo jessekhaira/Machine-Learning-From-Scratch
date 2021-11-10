@@ -16,7 +16,7 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.y = self.y.T.reshape(1, -1)
         return super().setUp()
 
-    def testRF_Regressor(self):
+    def test1(self):
         """ Use 5 random bootstrapped samples to train each tree and then
         get OOB mean squared error and root mean squared error should
         be quite low """
