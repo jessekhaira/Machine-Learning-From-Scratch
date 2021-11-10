@@ -31,8 +31,6 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.assertGreaterEqual(mse2, 20)
         self.assertLessEqual(rmse2, 10)
 
-        # fit on a slightly bigger portion and see what happens - should be
-        # better than before
         mod4 = RandomForestRegressor(verbose=True,
                                      bootstrap=True,
                                      max_samples=15,
@@ -63,9 +61,11 @@ class TestEnsembleTreesRegression(unittest.TestCase):
         self.assertLessEqual(rmse5, rmse4)
 
     def testBaggedForestRegressor(self):
-        ## Diff b/w bagged forest and random forest - bagged forests sees every single feature at every single split point
-        # can achieve lower bias since there is naturally less stochasiticy in the training procedure, but will struggle with overfitting
-        # and lack of variety in the ensemble
+        """ Diff between bagged forest and random forest - bagged forests see
+        every single feature at every single split point, and can therefore
+        achieve lower bias since there is naturally less stochasiticy in the
+        training procedure, but will struggle with overfitting and lack of
+        variety in the ensemble """
         mod2 = BaggedForestRegression(verbose=True,
                                       bootstrap=True,
                                       max_samples=5,
