@@ -13,11 +13,6 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
     defined for the kNN class.
     """
 
-    def testAttributes(self):
-        obj1 = KNearestNeighboursRegressor()
-        self.assertEqual(obj1.k, 10)
-        self.assertEqual(obj1.similarity_metric, "L2")
-
     def test_xy_fit(self):
         #generate a np matrix for x_train and y_train and test if it fits properly
         x_train = np.random.randn(10, 20)
