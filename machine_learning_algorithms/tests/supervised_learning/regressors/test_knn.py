@@ -14,7 +14,8 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
     """
 
     def test_xy_fit(self):
-        #generate a np matrix for x_train and y_train and test if it fits properly
+        """ Generate a numpy matrix for x_train and y_train and test
+        if it fits properly """
         x_train = np.random.randn(10, 20)
         y_train = np.random.randn(10, 1)
         obj2 = KNearestNeighboursRegressor()
