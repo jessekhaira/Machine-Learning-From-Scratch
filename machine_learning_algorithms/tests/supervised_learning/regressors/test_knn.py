@@ -29,9 +29,9 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
         """ This implementation of k nearest neighbours should be
         able to achieve MAE <=10, MSE <= 50 and RMSE <=10 if everything
         is wired correctly """
-        X, y = sklearn.datasets.load_boston(return_X_y=True)
+        x, y = sklearn.datasets.load_boston(return_X_y=True)
         xtrain, xtest, ytrain, ytest = sklearn.model_selection.train_test_split(
-            X, y)
+            x, y)
         ytest = ytest.reshape(-1, 1)
         test_obj = KNearestNeighboursRegressor()
         test_obj.fit(xtrain, ytrain)
@@ -40,9 +40,6 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
         mean_abs = MAE(ytest, prediction_test)
         mean_sq = MSE(ytest, prediction_test)
         root_meansq = RMSE(ytest, prediction_test)
-        print(mean_abs)
-        print(mean_sq)
-        print(root_meansq)
         self.assertLessEqual(mean_abs, 10)
         self.assertLessEqual(mean_sq, 65)
         self.assertLessEqual(root_meansq, 10)
