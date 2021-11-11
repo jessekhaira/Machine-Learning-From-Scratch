@@ -1,12 +1,12 @@
 """ This module contains unit tests for the k nearest neighbour
 algorithm for regression """
-from machine_learning_algorithms.supervised_learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
-from machine_learning_algorithms.utility.ScoreFunctions import MSE, MAE, RMSE
 import unittest
 import numpy as np
 import sklearn.metrics
 import sklearn.model_selection
 import sklearn.datasets
+from machine_learning_algorithms.supervised_learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
+from machine_learning_algorithms.utility.ScoreFunctions import MSE, MAE, RMSE
 
 
 class KNearestNeighboursRegressorTests(unittest.TestCase):
