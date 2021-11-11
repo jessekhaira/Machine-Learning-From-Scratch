@@ -26,9 +26,9 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
         self.assertEqual(np.sum(obj2.model_y - y_train), 0)
 
     def test_overall_model(self):
-        # This minimal implementation of kNN
-        # should be able to achieve MAE <=10, MSE <= 50 and RMSE <=10 if
-        # everything is wired correctly
+        """ This implementation of k nearest neighbours should be
+        able to achieve MAE <=10, MSE <= 50 and RMSE <=10 if everything
+        is wired correctly """
         X, y = sklearn.datasets.load_boston(return_X_y=True)
         xtrain, xtest, ytrain, ytest = sklearn.model_selection.train_test_split(
             X, y)
