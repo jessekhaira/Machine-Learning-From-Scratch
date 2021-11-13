@@ -15,10 +15,10 @@ from sklearn import preprocessing
 class TestLinearRegression(unittest.TestCase):
 
     def setUp(self) -> None:
-        X, Y = sklearn.datasets.load_boston(return_X_y=True)
+        x, y = sklearn.datasets.load_boston(return_X_y=True)
 
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
-            X, Y, test_size=0.10, random_state=42)
+            x, y, test_size=0.10, random_state=42)
 
         self.x_train = preprocessing.scale(self.x_train)
         self.x_test = preprocessing.scale(self.x_test).T
