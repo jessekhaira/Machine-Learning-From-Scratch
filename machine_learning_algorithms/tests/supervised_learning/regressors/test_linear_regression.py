@@ -23,8 +23,11 @@ class TestLinearRegression(unittest.TestCase):
         self.x_train = preprocessing.scale(self.x_train)
         self.x_test = preprocessing.scale(self.x_test).T
         self.y_test = self.y_test.T.reshape(1, -1)
-        self.x_train, self.x_valid, self.y_train, self.y_valid = train_test_split(
-            self.x_train, self.y_train, test_size=0.10, random_state=42)
+        self.x_train, self.x_valid, self.y_train, self.y_valid = (
+            train_test_split(self.x_train,
+                             self.y_train,
+                             test_size=0.10,
+                             random_state=42))
         self.x_train = self.x_train.T
         self.x_valid = self.x_valid.T
         self.y_train = self.y_train.T.reshape(1, -1)
@@ -33,25 +36,20 @@ class TestLinearRegression(unittest.TestCase):
 
     def test1(self) -> None:
         lr_obj = LinearRegression(degree=1)
+        lr_obj.fit_iterative_optimizer(xtrain=self.x_train,
+                                       ytrain=self.y_train,
+                                       xvalid=self.x_valid,
+                                       yvalid=self.y_valid,
+                                       num_epochs=100,
+                                       ret_train_loss=True,
+                                       learn_rate=0.1)
+        preds = lr_obj.predict_linear_regression(self.x_test)
+        r_squared_val = R_squared(self.y_test, preds)
+        self.assertGreaterEqual(r_squared_val, 0.5)
+
+    def test2(self):
         lasso_obj = LassoRegression(degree=1, regParam=1000)
         ridge_obj = RidgeRegression(degree=1, regParam=1000)
-
-        print('\n')
-        train_loss1, valid_loss1, train_acc1, valid_acc1 = lr_obj.fit_iterative_optimizer(
-            xtrain=self.x_train,
-            ytrain=self.y_train,
-            xvalid=self.x_valid,
-            yvalid=self.y_valid,
-            num_epochs=100,
-            ret_train_loss=True,
-            learn_rate=0.1)
-        print(train_loss1, valid_loss1)
-        print(lr_obj.layers[0].W.T)
-        preds = lr_obj.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds))
-        print(np.linalg.norm(lr_obj.layers[0].W)**2)
-        print('\n')
-
         train_loss2, valid_loss2, train_acc2, valid_acc2 = lasso_obj.fit_iterative_optimizer(
             xtrain=self.x_train,
             ytrain=self.y_train,
