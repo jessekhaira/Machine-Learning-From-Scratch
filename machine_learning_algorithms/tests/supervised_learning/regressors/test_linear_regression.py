@@ -1,13 +1,13 @@
-from machine_learning_algorithms.supervised_learning.regression.linear_regression import LinearRegression
-from machine_learning_algorithms.supervised_learning.regression.linear_regression import LassoRegression
-from machine_learning_algorithms.supervised_learning.regression.linear_regression import RidgeRegression
-from machine_learning_algorithms.utility.ScoreFunctions import RMSE, R_squared
 import unittest
 import numpy as np
 import sklearn.datasets
 import sklearn.metrics
 import sklearn.model_selection
 import sklearn.linear_model
+from machine_learning_algorithms.supervised_learning.regression.linear_regression import LinearRegression
+from machine_learning_algorithms.supervised_learning.regression.linear_regression import LassoRegression
+from machine_learning_algorithms.supervised_learning.regression.linear_regression import RidgeRegression
+from machine_learning_algorithms.utility.ScoreFunctions import RMSE, R_squared
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 
