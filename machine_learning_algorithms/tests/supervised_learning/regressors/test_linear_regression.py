@@ -1,3 +1,5 @@
+""" This module contains unit tests for the linear regression
+algorithm """
 import unittest
 import numpy as np
 import sklearn.datasets
