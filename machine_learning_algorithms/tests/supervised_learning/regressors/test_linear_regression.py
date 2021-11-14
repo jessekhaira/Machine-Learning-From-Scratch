@@ -49,23 +49,19 @@ class TestLinearRegression(unittest.TestCase):
 
     def test2(self):
         lasso_obj = LassoRegression(degree=1, regParam=1000)
-        ridge_obj = RidgeRegression(degree=1, regParam=1000)
-        train_loss2, valid_loss2, train_acc2, valid_acc2 = lasso_obj.fit_iterative_optimizer(
-            xtrain=self.x_train,
-            ytrain=self.y_train,
-            xvalid=self.x_valid,
-            yvalid=self.y_valid,
-            num_epochs=100,
-            ret_train_loss=True,
-            learn_rate=0.1)
-        print(train_loss2, valid_loss2)
-        print(lasso_obj.layers[0].W.T)
-        preds1 = lasso_obj.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds1))
-        print(np.linalg.norm(lasso_obj.layers[0].W, ord=1))
-        print(np.linalg.norm(lasso_obj.layers[0].W)**2)
-        print('\n')
+        lasso_obj.fit_iterative_optimizer(xtrain=self.x_train,
+                                          ytrain=self.y_train,
+                                          xvalid=self.x_valid,
+                                          yvalid=self.y_valid,
+                                          num_epochs=100,
+                                          ret_train_loss=True,
+                                          learn_rate=0.1)
+        preds = lasso_obj.predict_linear_regression(self.x_test)
+        r_squared_val = R_squared(self.y_test, preds)
+        self.assertGreaterEqual(r_squared_val, 0.5)
 
+    def test3(self):
+        ridge_obj = RidgeRegression(degree=1, regParam=1000)
         train_loss3, valid_loss3, train_acc3, valid_acc3 = ridge_obj.fit_iterative_optimizer(
             xtrain=self.x_train,
             ytrain=self.y_train,
