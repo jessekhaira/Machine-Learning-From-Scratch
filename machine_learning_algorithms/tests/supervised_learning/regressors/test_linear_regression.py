@@ -15,6 +15,8 @@ from sklearn import preprocessing
 
 
 class TestLinearRegression(unittest.TestCase):
+    """ This class contains unit tests for the linear regression
+    algorithm """
 
     def setUp(self) -> None:
         x, y = sklearn.datasets.load_boston(return_X_y=True)
