@@ -1,17 +1,14 @@
 """ This module contains unit tests for the linear regression
 algorithm """
 import unittest
-import numpy as np
 import sklearn.datasets
 import sklearn.metrics
 import sklearn.model_selection
 import sklearn.linear_model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from machine_learning_algorithms.supervised_learning.regression.linear_regression import LinearRegression
-from machine_learning_algorithms.supervised_learning.regression.linear_regression import LassoRegression
-from machine_learning_algorithms.supervised_learning.regression.linear_regression import RidgeRegression
-from machine_learning_algorithms.utility.ScoreFunctions import RMSE, R_squared
+from machine_learning_algorithms.supervised_learning.regression.linear_regression import LinearRegression, LassoRegression, RidgeRegression
+from machine_learning_algorithms.utility.ScoreFunctions import R_squared
 
 
 class TestLinearRegression(unittest.TestCase):
