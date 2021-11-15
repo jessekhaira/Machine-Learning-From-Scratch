@@ -91,15 +91,13 @@ class TestLinearRegression(unittest.TestCase):
         preds_lrOwn = lin_regOwn.predict_linear_regression(self.x_test)
         r_squared_own = R_squared(self.y_test, preds_lrOwn)
 
-        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.1)
+        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.05)
 
-        # These models are estimated differently and hence can't be compared exactly
-        # but with a reg paramter of 1 and training for 15 epochs at a leaerning rate of 15,
-        # my implementation out performs the implementation from sklearn by a significant margin: 0.703 sklearn, 0.757 own
+    def test5(self):
         lasso_sk = sklearn.linear_model.Lasso(alpha=1)
         lasso_sk.fit(self.x_train.T, self.y_train.ravel())
         preds_lassosk = lasso_sk.predict(self.x_test.T)
-        print(R_squared(self.y_test, preds_lassosk))
+        r_squared_sk = R_squared(self.y_test, preds_lassosk)
 
         lasso_obj2 = LassoRegression(degree=1, regParam=1)
         lasso_obj2.fit_iterative_optimizer(xtrain=self.x_train,
@@ -107,13 +105,10 @@ class TestLinearRegression(unittest.TestCase):
                                            num_epochs=15,
                                            learn_rate=0.15)
         preds_lasso = lasso_obj2.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds_lasso))
+        r_squared_own = R_squared(self.y_test, preds_lasso)
+        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.05)
 
-        print('\n')
-        ##SKLEARN RIDGE##
-
-        # setting alpha = 1000 and training for 200 epochs with a learning
-        # rate of 0.1 gets the exact same R2 score for both models of 0.624. Pretty cool!
+    def test6(self):
         ridge_sk = sklearn.linear_model.Ridge(alpha=1000)
         ridge_sk.fit(self.x_train.T, self.y_train.ravel())
         preds_ridgesk = ridge_sk.predict(self.x_test.T)
