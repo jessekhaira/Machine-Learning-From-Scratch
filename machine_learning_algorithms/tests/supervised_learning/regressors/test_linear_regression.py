@@ -91,7 +91,7 @@ class TestLinearRegression(unittest.TestCase):
         preds_lrOwn = lin_regOwn.predict_linear_regression(self.x_test)
         r_squared_own = R_squared(self.y_test, preds_lrOwn)
 
-        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.05)
+        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.07)
 
     def test5(self):
         lasso_sk = sklearn.linear_model.Lasso(alpha=1)
@@ -106,7 +106,7 @@ class TestLinearRegression(unittest.TestCase):
                                            learn_rate=0.15)
         preds_lasso = lasso_obj2.predict_linear_regression(self.x_test)
         r_squared_own = R_squared(self.y_test, preds_lasso)
-        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.05)
+        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.07)
 
     def test6(self):
         ridge_sk = sklearn.linear_model.Ridge(alpha=1000)
@@ -122,25 +122,19 @@ class TestLinearRegression(unittest.TestCase):
         preds_ridge = ridge_obj2.predict_linear_regression(self.x_test)
         print(R_squared(self.y_test, preds_ridge))
 
-        ## Polynomial Regression ##
-        # Exact same as other models, except instead of fitting a linear function, we can fit polynomial
-        # functions with an abritrary degree
-
-        # You have to be super careful with the learning rate here or else you will diverge.
-        print('\n')
+    def test7(self):
         degree_2 = LinearRegression(degree=2)
-        train_loss = degree_2.fit_iterative_optimizer(xtrain=self.x_train,
-                                                      ytrain=self.y_train,
-                                                      num_epochs=275,
-                                                      learn_rate=0.01,
-                                                      ret_train_loss=True)
-        print(train_loss)
+        degree_2.fit_iterative_optimizer(xtrain=self.x_train,
+                                         ytrain=self.y_train,
+                                         num_epochs=275,
+                                         learn_rate=0.01,
+                                         ret_train_loss=True)
         deg_2 = degree_2.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, deg_2))
+        r_squared_val = R_squared(self.y_test, deg_2)
+        self.assertGreaterEqual(r_squared_val, 0.8)
 
-        print(RMSE(self.y_test, deg_2))
+    def test8(self):
 
-        print('\n')
         lasso_objd2 = LassoRegression(degree=2, regParam=55)
         lasso_objd2.fit_iterative_optimizer(xtrain=self.x_train,
                                             ytrain=self.y_train,
