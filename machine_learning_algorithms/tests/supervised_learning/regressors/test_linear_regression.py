@@ -66,32 +66,22 @@ class TestLinearRegression(unittest.TestCase):
 
     def test3(self):
         ridge_obj = RidgeRegression(degree=1, regParam=1000)
-        train_loss3, valid_loss3, train_acc3, valid_acc3 = ridge_obj.fit_iterative_optimizer(
-            xtrain=self.x_train,
-            ytrain=self.y_train,
-            xvalid=self.x_valid,
-            yvalid=self.y_valid,
-            num_epochs=100,
-            ret_train_loss=True,
-            learn_rate=0.1)
-        print(train_loss3, valid_loss3)
-        print(ridge_obj.layers[0].W.T)
+        ridge_obj.fit_iterative_optimizer(xtrain=self.x_train,
+                                          ytrain=self.y_train,
+                                          xvalid=self.x_valid,
+                                          yvalid=self.y_valid,
+                                          num_epochs=100,
+                                          ret_train_loss=True,
+                                          learn_rate=0.1)
         preds2 = ridge_obj.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds2))
-        print(np.linalg.norm(ridge_obj.layers[0].W, ord=1))
-        print(np.linalg.norm(ridge_obj.layers[0].W, ord=2)**2)
-        print('\n')
+        r_squared_val = R_squared(self.y_test, preds2)
+        self.assertGreaterEqual(r_squared_val, 0.5)
 
-        ## Linear Reg ##
-
-        ##SKLEARN LASSO##
-        # Training for 100 epochs w/ a learning rate of 0.15 gets the exact same R2 score between the models.
-        # With a bit hyperparameter tuning, only training for 50 epochs with a learning rate of 0.15, the
-        # R2 score performance increases and my model outperforms the sklearn model slightly (0.692 to 0.687).
+    def test4(self):
         lin_reg = sklearn.linear_model.LinearRegression()
         lin_reg.fit(self.x_train.T, self.y_train.ravel())
         preds_linreg = lin_reg.predict(self.x_test.T)
-        print(R_squared(self.y_test, preds_linreg))
+        r_squared_sk = R_squared(self.y_test, preds_linreg)
 
         lin_regOwn = LinearRegression(degree=1)
         lin_regOwn.fit_iterative_optimizer(xtrain=self.x_train,
@@ -99,9 +89,9 @@ class TestLinearRegression(unittest.TestCase):
                                            num_epochs=50,
                                            learn_rate=0.15)
         preds_lrOwn = lin_regOwn.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds_lrOwn))
+        r_squared_own = R_squared(self.y_test, preds_lrOwn)
 
-        print('\n')
+        self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.1)
 
         # These models are estimated differently and hence can't be compared exactly
         # but with a reg paramter of 1 and training for 15 epochs at a leaerning rate of 15,
