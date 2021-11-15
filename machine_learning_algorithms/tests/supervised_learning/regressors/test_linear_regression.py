@@ -144,15 +144,14 @@ class TestLinearRegression(unittest.TestCase):
         self.assertGreaterEqual(r_squared_val, 0.85)
 
     def test9(self):
-
-        ridge_objd2 = RidgeRegression(degree=2, regParam=55)
-        ridge_objd2.fit_iterative_optimizer(xtrain=self.x_train,
-                                            ytrain=self.y_train,
-                                            num_epochs=275,
-                                            learn_rate=0.01)
-        preds_ridged2 = ridge_objd2.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds_ridged2))
-        print(RMSE(self.y_test, preds_ridged2))
+        ridge_estimator = RidgeRegression(degree=2, regParam=55)
+        ridge_estimator.fit_iterative_optimizer(xtrain=self.x_train,
+                                                ytrain=self.y_train,
+                                                num_epochs=275,
+                                                learn_rate=0.01)
+        preds = ridge_estimator.predict_linear_regression(self.x_test)
+        r_squared_val = R_squared(self.y_test, preds)
+        self.assertGreaterEqual(r_squared_val, 0.85)
 
 
 if __name__ == "__main__":
