@@ -134,17 +134,17 @@ class TestLinearRegression(unittest.TestCase):
         self.assertGreaterEqual(r_squared_val, 0.8)
 
     def test8(self):
+        lasso_estimator = LassoRegression(degree=2, regParam=55)
+        lasso_estimator.fit_iterative_optimizer(xtrain=self.x_train,
+                                                ytrain=self.y_train,
+                                                num_epochs=275,
+                                                learn_rate=0.01)
+        preds = lasso_estimator.predict_linear_regression(self.x_test)
+        r_squared_val = R_squared(self.y_test, preds)
+        self.assertGreaterEqual(r_squared_val, 0.85)
 
-        lasso_objd2 = LassoRegression(degree=2, regParam=55)
-        lasso_objd2.fit_iterative_optimizer(xtrain=self.x_train,
-                                            ytrain=self.y_train,
-                                            num_epochs=275,
-                                            learn_rate=0.01)
-        preds_lassod2 = lasso_objd2.predict_linear_regression(self.x_test)
-        print(R_squared(self.y_test, preds_lassod2))
-        print(RMSE(self.y_test, preds_lassod2))
+    def test9(self):
 
-        print('\n')
         ridge_objd2 = RidgeRegression(degree=2, regParam=55)
         ridge_objd2.fit_iterative_optimizer(xtrain=self.x_train,
                                             ytrain=self.y_train,
