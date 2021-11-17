@@ -21,14 +21,14 @@ class AutoEncoderTests(unittest.TestCase):
 
     def test1(self):
         # works fine, but takes a really long time to train
-        autoencoderObj = AutoEncoder(size_encoding=150)
-        autoencoderObj.fit(self.x_train,
-                           num_epochs=10000,
-                           optim=GradientDescentMomentum(),
-                           ret_train_loss=True,
-                           verbose=True,
-                           learn_rate=0.1,
-                           batch_size=512)
+        autoencoder_object = AutoEncoder(size_encoding=150)
+        autoencoder_object.fit(self.x_train,
+                               num_epochs=10000,
+                               optim=GradientDescentMomentum(),
+                               ret_train_loss=True,
+                               verbose=True,
+                               learn_rate=0.1,
+                               batch_size=512)
 
 
 if __name__ == "__main__":
