@@ -6,7 +6,7 @@ import unittest
 import matplotlib.pyplot as plt
 
 
-class tests(unittest.TestCase):
+class TestPCA(unittest.TestCase):
 
     def setUp(self) -> None:
         (x, _), (_, _) = tf.keras.datasets.mnist.load_data()
