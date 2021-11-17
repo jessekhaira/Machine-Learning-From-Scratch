@@ -1,8 +1,8 @@
-from machine_learning_algorithms.unsupervised_learning.auto_encoder import AutoEncoder
-from machine_learning_algorithms.unsupervised_learning.auto_encoder import Adam, GradientDescentMomentum
 import unittest
 import numpy as np
 import tensorflow as tf
+from machine_learning_algorithms.unsupervised_learning.auto_encoder import AutoEncoder
+from machine_learning_algorithms.unsupervised_learning.auto_encoder import Adam, GradientDescentMomentum
 
 (x_train, _), (_, _) = tf.keras.datasets.mnist.load_data()
 x_train = np.array(x_train, dtype=float)
