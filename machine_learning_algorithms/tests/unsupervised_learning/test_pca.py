@@ -1,3 +1,4 @@
+""" This module contains unit tests for the pca algorithm """
 import tensorflow as tf
 import numpy as np
 from machine_learning_algorithms.unsupervised_learning.principal_component_analysis import PrincipalComponentAnalysis
