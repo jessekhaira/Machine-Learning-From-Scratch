@@ -8,6 +8,8 @@ from machine_learning_algorithms.unsupervised_learning.auto_encoder import Gradi
 
 
 class AutoEncoderTests(unittest.TestCase):
+    """ This class contains unit tests for the auto encoder
+    algorithm """
 
     def setUp(self) -> None:
         (self.x_train, _), (_, _) = tf.keras.datasets.mnist.load_data()
