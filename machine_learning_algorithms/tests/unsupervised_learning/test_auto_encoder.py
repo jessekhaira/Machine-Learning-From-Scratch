@@ -1,8 +1,10 @@
+""" This module contains unit tests for the auto encoder
+algorithm """
 import unittest
 import numpy as np
 import tensorflow as tf
 from machine_learning_algorithms.unsupervised_learning.auto_encoder import AutoEncoder
-from machine_learning_algorithms.unsupervised_learning.auto_encoder import Adam, GradientDescentMomentum
+from machine_learning_algorithms.unsupervised_learning.auto_encoder import GradientDescentMomentum
 
 (x_train, _), (_, _) = tf.keras.datasets.mnist.load_data()
 x_train = np.array(x_train, dtype=float)
