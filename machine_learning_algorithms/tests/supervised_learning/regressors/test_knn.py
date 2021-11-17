@@ -10,10 +10,8 @@ from machine_learning_algorithms.utility.ScoreFunctions import MSE, MAE, RMSE
 
 
 class KNearestNeighboursRegressorTests(unittest.TestCase):
-    """
-    This class contains unit tests for each of the methods
-    defined for the kNN class.
-    """
+    """ This class contains unit tests for the k nearest
+    neighbours algorithm for regression """
 
     def test_xy_fit(self):
         """ Generate a numpy matrix for x_train and y_train and test
