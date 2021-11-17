@@ -48,7 +48,8 @@ class RegressionTreeTests(unittest.TestCase):
         self.assertEqual(kScoreMAE, 0)
 
     def test_sanityChecks(self):
-        # If we regularize the tree, we should get a higher error than if we don't
+        # If we regularize the tree, we should get a higher
+        # error than if we don't
         regression_obj2 = RegressionTree(minSamplesSplit=5,
                                          maxDepth=3,
                                          min_impurity_decrease=0.15)
@@ -58,7 +59,8 @@ class RegressionTreeTests(unittest.TestCase):
 
         # Sanity checks - regularization is so high all we get is one leaf
         # meaning all predictions are equal to mean of labels
-        # meaning that the RSS of the predictions should be equal to TSS of the label
+        # meaning that the RSS of the predictions should be equal to
+        # TSS of the label
         regression_obj3 = RegressionTree(minSamplesSplit=10,
                                          maxDepth=0,
                                          min_impurity_decrease=0.15)
