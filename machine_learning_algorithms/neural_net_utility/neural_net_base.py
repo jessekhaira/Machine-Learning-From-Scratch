@@ -8,7 +8,7 @@ from machine_learning_algorithms.neural_net_utility.optimizer import GradientDes
 from machine_learning_algorithms.neural_net_utility.loss_functions import LossFunction
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
 from machine_learning_algorithms.utility.misc import convertToHighestPred
-from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.score_functions import accuracy
 from typing import Union, Tuple, List
 import copy
 

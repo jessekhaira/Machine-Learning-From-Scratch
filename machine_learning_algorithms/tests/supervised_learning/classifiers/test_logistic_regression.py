@@ -6,7 +6,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
-from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.score_functions import accuracy
 from machine_learning_algorithms.supervised_learning.classifiers.logistic_regression import LogisticRegression
 
 

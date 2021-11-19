@@ -6,7 +6,7 @@ import sklearn.metrics
 import sklearn.model_selection
 import sklearn.datasets
 from machine_learning_algorithms.supervised_learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
-from machine_learning_algorithms.utility.ScoreFunctions import MSE, MAE, RMSE
+from machine_learning_algorithms.utility.score_functions import MSE, MAE, RMSE
 
 
 class KNearestNeighboursRegressorTests(unittest.TestCase):

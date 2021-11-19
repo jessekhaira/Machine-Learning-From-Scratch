@@ -8,7 +8,7 @@ import sklearn.linear_model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from machine_learning_algorithms.supervised_learning.regression.linear_regression import LinearRegression, LassoRegression, RidgeRegression
-from machine_learning_algorithms.utility.ScoreFunctions import R_squared
+from machine_learning_algorithms.utility.score_functions import R_squared
 
 
 class TestLinearRegression(unittest.TestCase):

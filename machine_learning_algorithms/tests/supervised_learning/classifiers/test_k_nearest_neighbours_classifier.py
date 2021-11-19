@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from machine_learning_algorithms.supervised_learning.classifiers.k_nearest_neighbours_classifier import KNearestNeighboursClassifier
-from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.score_functions import accuracy
 
 
 class KNNClassifierTests(unittest.TestCase):

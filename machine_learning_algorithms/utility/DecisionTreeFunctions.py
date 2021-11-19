@@ -1,7 +1,7 @@
 import numpy as np
-from machine_learning_algorithms.utility.ScoreFunctions import TSS
-from machine_learning_algorithms.utility.ScoreFunctions import entropy
-from machine_learning_algorithms.utility.ScoreFunctions import giniIndex
+from machine_learning_algorithms.utility.score_functions import TSS
+from machine_learning_algorithms.utility.score_functions import entropy
+from machine_learning_algorithms.utility.score_functions import giniIndex
 
 
 def predictionClassification(labels):

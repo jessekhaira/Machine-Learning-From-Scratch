@@ -7,7 +7,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import Den
 from machine_learning_algorithms.supervised_learning.classifiers.softmax_regression import SoftmaxRegression
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, ReLU
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescentMomentum, RMSProp
-from machine_learning_algorithms.utility.ScoreFunctions import accuracy
+from machine_learning_algorithms.utility.score_functions import accuracy
 from machine_learning_algorithms.utility.misc import one_hot_encode
 
 
