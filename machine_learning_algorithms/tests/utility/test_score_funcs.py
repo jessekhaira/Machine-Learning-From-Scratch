@@ -9,10 +9,7 @@ from machine_learning_algorithms.utility.DecisionTreeFunctions import giniIndex
 
 
 class TestScoreFunctions(unittest.TestCase):
-    """
-    This class contains unit tests for each of the methods
-    defined for the kNN class.
-    """
+    """ This class contains unit tests for score functions """
 
     def testEntropy1(self):
         a = np.array([0, 3, 0, 1, 0]).reshape(1, -1)
