@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 
 
 class TestPCA(unittest.TestCase):
+    """ This class contains unit tests for the pca
+    algorithm """
 
     def setUp(self) -> None:
         (x, _), (_, _) = tf.keras.datasets.mnist.load_data()
