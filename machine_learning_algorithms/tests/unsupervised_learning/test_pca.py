@@ -18,8 +18,8 @@ class TestPCA(unittest.TestCase):
 
     def test1(self):
         pca = PrincipalComponentAnalysis()
-        transformed_X = pca.fit_transform(self.x_train, 10)
-        plt.scatter(transformed_X[0, :200], transformed_X[1, :200])
+        transformed_x = pca.fit_transform(self.x_train, 10)
+        plt.scatter(transformed_x[0, :200], transformed_x[1, :200])
 
 
 if __name__ == "__main__":
