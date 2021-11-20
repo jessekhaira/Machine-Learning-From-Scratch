@@ -5,7 +5,7 @@ from machine_learning_algorithms.supervised_learning.classifiers.softmax_regress
 from machine_learning_algorithms.neural_net_utility.optimizer import Adam, RMSProp
 from machine_learning_algorithms.utility.score_functions import accuracy
 from machine_learning_algorithms.utility.misc import one_hot_encode
-from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 from sklearn.datasets import load_iris
 from sklearn import preprocessing
 
@@ -41,7 +41,7 @@ class SoftmaxTests(unittest.TestCase):
             regularization="L2",
             reg_parameter=0.01)
 
-        self.k_fold_obj = k_fold_CV()
+        self.k_fold_obj = KFoldCrossValidation()
 
     def test_softmax_no_reg(self):
 

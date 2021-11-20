@@ -4,7 +4,7 @@ from machine_learning_algorithms.utility.misc import convertToHighestPred
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
 
 
-class k_fold_CV(object):
+class KFoldCrossValidation(object):
 
     def getKScore(self,
                   x,

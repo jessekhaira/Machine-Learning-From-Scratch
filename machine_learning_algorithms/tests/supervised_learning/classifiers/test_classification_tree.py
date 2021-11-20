@@ -4,7 +4,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
 from machine_learning_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
 from machine_learning_algorithms.utility.score_functions import accuracy
-from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
 class TestsClassificationTree(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestsClassificationTree(unittest.TestCase):
         self.x2, self.y2 = load_iris(return_X_y=True)
         self.x2 = self.x2.T
         self.y2 = self.y2.T.reshape(1, -1)
-        self.k_cv = k_fold_CV()
+        self.k_cv = KFoldCrossValidation()
 
     def tearDown(self):
         self.x1 = None

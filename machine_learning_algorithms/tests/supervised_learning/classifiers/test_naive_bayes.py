@@ -5,7 +5,7 @@ from sklearn.datasets import load_iris, load_wine
 from sklearn import preprocessing
 from machine_learning_algorithms.supervised_learning.classifiers.gaussian_naive_bayes import GaussianNaiveBayes
 from machine_learning_algorithms.utility.score_functions import accuracy
-from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
 class TestNaiveBayes(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestNaiveBayes(unittest.TestCase):
         self.x1, self.y1 = load_wine(return_X_y=True)
         self.x1 = self.x1.T
         self.y1 = self.y1.reshape(1, -1)
-        self.k_obj = k_fold_CV()
+        self.k_obj = KFoldCrossValidation()
         self.naive_bayes = GaussianNaiveBayes()
 
         return super().setUp()

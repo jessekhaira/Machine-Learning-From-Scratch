@@ -4,7 +4,7 @@ from sklearn import preprocessing
 from sklearn.datasets import load_breast_cancer
 from machine_learning_algorithms.supervised_learning.classifiers.logistic_regression import LogisticRegression
 from machine_learning_algorithms.utility.score_functions import accuracy
-from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
 class TestKFoldCV(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestKFoldCV(unittest.TestCase):
 
         LR1 = LogisticRegression(X.shape[0], classificationThreshold=0.5)
 
-        output = k_fold_CV().getKScore(X, Y, accuracy, LR1)
+        output = KFoldCrossValidation().getKScore(X, Y, accuracy, LR1)
 
         self.assertGreaterEqual(output, 0.95)
 

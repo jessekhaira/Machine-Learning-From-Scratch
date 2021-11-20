@@ -4,7 +4,7 @@ import unittest
 from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
 from machine_learning_algorithms.utility.score_functions import RMSE, MSE, MAE, TSS, RSS
-from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
 class RegressionTreeTests(unittest.TestCase):
@@ -15,7 +15,7 @@ class RegressionTreeTests(unittest.TestCase):
         self.x1, self.y1 = load_boston(return_X_y=True)
         self.x1 = self.x1.T
         self.y1 = self.y1.T.reshape(1, -1)
-        self.k_cv = k_fold_CV()
+        self.k_cv = KFoldCrossValidation()
 
     def tearDown(self):
         self.x1 = None
