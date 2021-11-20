@@ -4,7 +4,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
 from machine_learning_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
 from machine_learning_algorithms.utility.score_functions import accuracy
-from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
 
 
 class TestsClassificationTree(unittest.TestCase):

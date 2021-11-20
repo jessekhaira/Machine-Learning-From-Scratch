@@ -7,7 +7,7 @@ from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.model_selection import cross_val_score
 from machine_learning_algorithms.utility.score_functions import accuracy
-from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
 from machine_learning_algorithms.supervised_learning.classifiers.logistic_regression import OneVsAllLogisticRegression
 
 

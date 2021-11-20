@@ -4,7 +4,7 @@ import unittest
 from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
 from machine_learning_algorithms.utility.score_functions import RMSE, MSE, MAE, TSS, RSS
-from machine_learning_algorithms.utility.k_Fold_CV import k_fold_CV
+from machine_learning_algorithms.utility.k_fold_cross_validation import k_fold_CV
 
 
 class RegressionTreeTests(unittest.TestCase):
