@@ -1,3 +1,5 @@
+""" This module contains code for a class representing the
+k fold cross validation algorithm """
 import copy
 import numpy as np
 from machine_learning_algorithms.utility.misc import convertToHighestPred
