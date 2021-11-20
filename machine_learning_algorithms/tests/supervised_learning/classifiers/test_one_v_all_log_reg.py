@@ -36,8 +36,8 @@ class TestOneVAll(unittest.TestCase):
             num_classes, self.x.shape[0], num_epochs=450, learn_rate=0.3)
 
         cross_val = KFoldCrossValidation()
-        k_score = cross_val.getKScore(self.x, self.y, accuracy,
-                                      one_vs_all_logistic_regression)
+        k_score = cross_val.get_k_score(self.x, self.y, accuracy,
+                                        one_vs_all_logistic_regression)
 
         sklearn_log = LR(penalty="none", multi_class="ovr")
 

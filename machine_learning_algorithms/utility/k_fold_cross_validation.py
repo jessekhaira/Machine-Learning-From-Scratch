@@ -6,15 +6,15 @@ from machine_learning_algorithms.neural_net_utility.optimizer import GradientDes
 
 class KFoldCrossValidation(object):
 
-    def getKScore(self,
-                  x,
-                  y,
-                  scoreFunc,
-                  model,
-                  k=5,
-                  numEpochs=None,
-                  learn_rate=None,
-                  optim=GradientDescent()):
+    def get_k_score(self,
+                    x,
+                    y,
+                    scoreFunc,
+                    model,
+                    k=5,
+                    numEpochs=None,
+                    learn_rate=None,
+                    optim=GradientDescent()):
         """
         This function implements k-fold cross validation. This function should be used
         when your dataset is to small for a train/validation/test split to yield 

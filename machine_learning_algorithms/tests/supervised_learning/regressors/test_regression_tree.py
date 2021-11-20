@@ -38,10 +38,12 @@ class RegressionTreeTests(unittest.TestCase):
 
         # test generalization of regression tree
         regression_obj2 = RegressionTree(minSamplesSplit=1)
-        kScoreRMSE = self.k_cv.getKScore(self.x1, self.y1, RMSE,
-                                         regression_obj2)
-        kScoreMSE = self.k_cv.getKScore(self.x1, self.y1, MSE, regression_obj2)
-        kScoreMAE = self.k_cv.getKScore(self.x1, self.y1, MAE, regression_obj2)
+        kScoreRMSE = self.k_cv.get_k_score(self.x1, self.y1, RMSE,
+                                           regression_obj2)
+        kScoreMSE = self.k_cv.get_k_score(self.x1, self.y1, MSE,
+                                          regression_obj2)
+        kScoreMAE = self.k_cv.get_k_score(self.x1, self.y1, MAE,
+                                          regression_obj2)
         # Dataset is easy so we should expect 0 error
         self.assertEqual(kScoreRMSE, 0)
         self.assertEqual(kScoreMSE, 0)

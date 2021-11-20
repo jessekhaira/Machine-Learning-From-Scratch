@@ -18,7 +18,7 @@ class TestKFoldCV(unittest.TestCase):
 
         LR1 = LogisticRegression(X.shape[0], classificationThreshold=0.5)
 
-        output = KFoldCrossValidation().getKScore(X, Y, accuracy, LR1)
+        output = KFoldCrossValidation().get_k_score(X, Y, accuracy, LR1)
 
         self.assertGreaterEqual(output, 0.95)
 

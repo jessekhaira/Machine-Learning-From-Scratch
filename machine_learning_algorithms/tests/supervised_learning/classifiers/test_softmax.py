@@ -47,7 +47,7 @@ class SoftmaxTests(unittest.TestCase):
 
         # Strength of RMSProp shown - get a 6% increase in accuracy w/ it. 99.3%
         # RMSprop and 93.7% normal gradient descent
-        cross_val_score_gradient_descent = self.k_fold_obj.getKScore(
+        cross_val_score_gradient_descent = self.k_fold_obj.get_k_score(
             self.x,
             self.y_encoded,
             accuracy,
@@ -56,7 +56,7 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.2,
             k=8)
 
-        cross_val_score_rms_prop = self.k_fold_obj.getKScore(
+        cross_val_score_rms_prop = self.k_fold_obj.get_k_score(
             self.x,
             self.y_encoded,
             accuracy,
@@ -76,7 +76,7 @@ class SoftmaxTests(unittest.TestCase):
             optim=Adam(),
             ret_train_loss=True)
 
-        cross_val_score_adam = self.k_fold_obj.getKScore(
+        cross_val_score_adam = self.k_fold_obj.get_k_score(
             self.x,
             self.y_encoded,
             accuracy,
@@ -93,7 +93,7 @@ class SoftmaxTests(unittest.TestCase):
 
     def test_softmax_reg(self):
 
-        cross_val_score_l1_reg = self.k_fold_obj.getKScore(
+        cross_val_score_l1_reg = self.k_fold_obj.get_k_score(
             self.x,
             self.y_encoded,
             accuracy,
@@ -102,7 +102,7 @@ class SoftmaxTests(unittest.TestCase):
             learn_rate=0.01,
             k=8)
 
-        cross_val_score_l2_reg = self.k_fold_obj.getKScore(
+        cross_val_score_l2_reg = self.k_fold_obj.get_k_score(
             self.x,
             self.y_encoded,
             accuracy,

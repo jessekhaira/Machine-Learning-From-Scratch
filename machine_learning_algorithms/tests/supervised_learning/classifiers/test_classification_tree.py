@@ -42,8 +42,8 @@ class TestsClassificationTree(unittest.TestCase):
 
         classification_obj2 = ClassificationTree(entropy=False,
                                                  minSamplesSplit=1)
-        kScore = self.k_cv.getKScore(self.x2, self.y2, accuracy,
-                                     classification_obj2)
+        kScore = self.k_cv.get_k_score(self.x2, self.y2, accuracy,
+                                       classification_obj2)
         self.assertEqual(kScore, 1)
 
     def test_binary(self):
@@ -57,8 +57,8 @@ class TestsClassificationTree(unittest.TestCase):
         self.assertEqual(acc, 1)
         classification_obj2 = ClassificationTree(entropy=False,
                                                  minSamplesSplit=1)
-        kScore = self.k_cv.getKScore(self.x1, self.y1, accuracy,
-                                     classification_obj2)
+        kScore = self.k_cv.get_k_score(self.x1, self.y1, accuracy,
+                                       classification_obj2)
         self.assertEqual(kScore, 1)
 
     def test_sanity_checks(self):
