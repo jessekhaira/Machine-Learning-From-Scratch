@@ -123,8 +123,9 @@ class KFoldCrossValidation(object):
                 List containing tuples of examples. Ex. list[i] = (x_traini,
                 y_traini)
         """
-        # set a seed for random so you don't get different results every time you run the function
-        ## extend capabilities of getBatches to one hot encoded target
+        # set a seed for random so you don't get different results every time
+        # you run the function, extend capabilities of getBatches to one hot
+        # encoded target
         np.random.seed(seed=21)
         batches = []
         matrix_x = x.T
