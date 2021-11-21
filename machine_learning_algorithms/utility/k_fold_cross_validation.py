@@ -67,7 +67,8 @@ class KFoldCrossValidation(object):
         prediction_scores = []
         for i in range(k):
             hold_out_set = batches[i][0]
-            # IE - one hotted labels need to be converted to a 1D array of predictions
+            # IE - one hotted labels need to be converted to a 1D array
+            # of predictions
             if y.shape[0] > 1:
                 hold_out_labels = convertToHighestPred(batches[i][1]).reshape(
                     1, -1)
