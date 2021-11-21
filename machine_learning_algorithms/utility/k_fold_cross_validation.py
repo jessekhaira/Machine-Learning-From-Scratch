@@ -43,22 +43,22 @@ class KFoldCrossValidation(object):
             k:
                 Integer representing how many folds total you would like to
                 have in your estimation
-            
+
             numEpochs:
                 Value of type integer or None representing the number of epochs
                 to train the algorithm, or None
-            
+
             learn_rate:
-                Floating point value representing the learning rate to use inside
-                the optimization algorithm, or None
+                Floating point value representing the learning rate to use
+                inside the optimization algorithm, or None
 
             optim:
-                Object representing the optimization algorithm to use during training
-                or None
+                Object representing the optimization algorithm to use during
+                training, or None
 
         Returns:
-                Floating point value representing the average value of the score
-                function over all the folds
+            Floating point value representing the average value of the score
+            function over all the folds
         """
         batches = self.getBatches(x, y, k)
         # Loop over all k batches, and designate one batch to be the test set
