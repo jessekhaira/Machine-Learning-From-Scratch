@@ -81,10 +81,10 @@ class KFoldCrossValidation(object):
             # For every set that is not the test set, include the labels and the
             # examples and concatenate it all at the end to get the overall
             # train set
-            xToTrain = [batches[i][0] for j in range(len(batches)) if j != i]
-            yToTrain = [batches[i][1] for j in range(len(batches)) if j != i]
-            curr_train = np.concatenate((xToTrain), axis=1)
-            curr_labels = np.concatenate((yToTrain), axis=1)
+            x_to_train = [batches[i][0] for j in range(len(batches)) if j != i]
+            y_to_train = [batches[i][1] for j in range(len(batches)) if j != i]
+            curr_train = np.concatenate((x_to_train), axis=1)
+            curr_labels = np.concatenate((y_to_train), axis=1)
             if not numEpochs and not learn_rate:
                 new_model.fit(curr_train, curr_labels)
             else:
@@ -97,9 +97,10 @@ class KFoldCrossValidation(object):
             # preds are shape (examples,). Incorrect to check the accuracy so we
             # reshape it to be (1, examples) which is what our labels are.
             preds = new_model.predict(hold_out_set).reshape(1, -1)
-            assert hold_out_labels.shape == preds.shape, "hold out labels shape (%s, %s), preds shape is (%s, %s)" % (
-                hold_out_labels.shape[0], hold_out_labels.shape[1],
-                preds.shape[0], preds.shape[1])
+            assert hold_out_labels.shape == preds.shape, (
+                "hold out labels shape (%s, %s), preds shape is (%s, %s)") % (
+                    hold_out_labels.shape[0], hold_out_labels.shape[1],
+                    preds.shape[0], preds.shape[1])
             prediction_scores.append(scoreFunc(hold_out_labels, preds))
         return np.mean(prediction_scores)
 
