@@ -1,6 +1,7 @@
 """ This module contains code for a class representing the
 k fold cross validation algorithm """
 import copy
+from typing import Union
 import numpy as np
 from machine_learning_algorithms.utility.misc import convertToHighestPred
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
@@ -11,13 +12,13 @@ class KFoldCrossValidation(object):
     algorithm """
 
     def get_k_score(self,
-                    x,
-                    y,
+                    x: np.ndarray,
+                    y: np.ndarray,
                     scoreFunc,
                     model,
-                    k=5,
-                    numEpochs=None,
-                    learn_rate=None,
+                    k: int = 5,
+                    numEpochs: Union[int, None] = None,
+                    learn_rate: Union[float, None] = None,
                     optim=GradientDescent()):
         """ This function implements k-fold cross validation. This function
         should be used when your dataset is to small for a train/validation/test
@@ -42,6 +43,18 @@ class KFoldCrossValidation(object):
             k:
                 Integer representing how many folds total you would like to
                 have in your estimation
+            
+            numEpochs:
+                Value of type integer or None representing the number of epochs
+                to train the algorithm, or None
+            
+            learn_rate:
+                Floating point value representing the learning rate to use inside
+                the optimization algorithm, or None
+
+            optim:
+                Object representing the optimization algorithm to use during training
+                or None
 
         Returns:
                 Floating point value representing the average value of the score
