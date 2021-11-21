@@ -7,6 +7,8 @@ from machine_learning_algorithms.neural_net_utility.optimizer import GradientDes
 
 
 class KFoldCrossValidation(object):
+    """ This class represents the k fold cross validation
+    algorithm """
 
     def get_k_score(self,
                     x,
