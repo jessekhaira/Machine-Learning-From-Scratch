@@ -75,10 +75,12 @@ class KFoldCrossValidation(object):
             else:
                 hold_out_labels = batches[i][1]
             # Discard the current model. Need to make a deepcopy to avoid
-            # carrying around one set of learned weights from one iteration to another
+            # carrying around one set of learned weights from one iteration
+            # to another
             new_model = copy.deepcopy(orig_object)
-            # For every set that is not the test set, include the labels and the examples and concatenate
-            # it all at the end to get the overall train set
+            # For every set that is not the test set, include the labels and the
+            # examples and concatenate it all at the end to get the overall
+            # train set
             xToTrain = [batches[i][0] for j in range(len(batches)) if j != i]
             yToTrain = [batches[i][1] for j in range(len(batches)) if j != i]
             curr_train = np.concatenate((xToTrain), axis=1)
