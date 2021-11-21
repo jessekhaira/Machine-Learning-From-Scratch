@@ -104,18 +104,24 @@ class KFoldCrossValidation(object):
             prediction_scores.append(scoreFunc(hold_out_labels, preds))
         return np.mean(prediction_scores)
 
-    def getBatches(self, x, y, k):
-        """
-        This function randomly shuffles the data and then batches it into k
-        batches with equal number of examples to use for k-fold CV. 
+    def getBatches(self, x: np.ndarray, y: np.ndarray, k: int):
+        """ This function randomly shuffles the data and then batches it into k
+        batches with equal number of examples to use for k-fold CV.
 
-        Parameters: 
-        - x (NumPy matrix) -> NumPy matrix of shape (features, examples) 
+        Args:
+            x:
+                Numpy array of shape (num_features, num_examples)
+                containing feature vectors for the algorithm to train on
 
-        - y (NumPy vector) -> NumPy vector of shape (1, examples)
+            y:
+                NumPy vector of shape (1, num_examples)
 
-        Returns: Output (list[tuples]) -> List containing tuples of examples. Ex.
-        list[i] = (x_traini, y_traini)
+            k:
+                Integer representing the number of folds to be used
+
+        Returns:
+                List containing tuples of examples. Ex. list[i] = (x_traini,
+                y_traini)
         """
         # set a seed for random so you don't get different results every time you run the function
         ## extend capabilities of getBatches to one hot encoded target
