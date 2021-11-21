@@ -19,25 +19,33 @@ class KFoldCrossValidation(object):
                     numEpochs=None,
                     learn_rate=None,
                     optim=GradientDescent()):
-        """
-        This function implements k-fold cross validation. This function should be used
-        when your dataset is to small for a train/validation/test split to yield 
-        accurate estimates of generalizability.
+        """ This function implements k-fold cross validation. This function
+        should be used when your dataset is to small for a train/validation/test
+        split to yield accurate estimates of generalizability.
 
-        Parameters: 
-        - x (NumPy matrix) -> NumPy matrix of shape (features, examples) 
+        Args:
+            x:
+                Numpy array of shape (num_features, num_examples) containing
+                feature vectors the algorithm is meant to train on
 
-        - y (NumPy vector) -> NumPy vector of shape (1, examples)
+            y:
+                Numpy array of shape (1, num_examples)
 
-        - scoreFunc (Function) -> Function indicating how you would like to score your model
-        Ex. Regression: MSE, MAE. Classification: Acccuracy, Precision, etc
+            scoreFunc:
+                Function indicating how you would like to score your model
+                Ex. Regression: MSE, MAE. Classification: Acccuracy,
+                Precision, etc
 
-        - model (Object) -> model object that has a .fit() method and a .predict() method
+            model:
+                Model object that has a .fit() method and a .predict() method
 
-        - k (int) -> integer representing how many folds total you would like to have in your 
-        estimation
+            k:
+                Integer representing how many folds total you would like to
+                have in your estimation
 
-        Returns: Output (int) -> Average value of the score function over all the folds
+        Returns:
+                Floating point value representing the average value of the score
+                function over all the folds
         """
         batches = self.getBatches(x, y, k)
         # Loop over all k batches, and designate one batch to be the test set
