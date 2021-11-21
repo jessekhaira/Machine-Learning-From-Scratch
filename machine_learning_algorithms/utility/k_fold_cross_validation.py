@@ -132,8 +132,8 @@ class KFoldCrossValidation(object):
         y_exRow = y.T
         matrix = np.hstack((matrix_x, y_exRow))
         size_batch = x.shape[1] // k
-        # np.random.shuffle only works for (M, N) matrices so after vertically stacking the two
-        # matrices we tranpose and then shuffle
+        # np.random.shuffle only works for (M, N) matrices so after vertically
+        # stacking the two  matrices we tranpose and then shuffle
         np.random.shuffle(matrix)
         x_shuffled = matrix[:, :x.shape[0]].T
         if y.shape[0] == 1:
@@ -144,9 +144,10 @@ class KFoldCrossValidation(object):
         for i in range(k):
             batch_start = batch_end
             batch_end = batch_start + size_batch
-            # Notation [:, batch_start: batch_start + batch_end] means to get all the rows for the current batch
-            # of examples out of the matrix, since our matrix is of shape [features, examples] so we need to slice the
-            # examples out
+            # Notation [:, batch_start: batch_start + batch_end] means to get
+            # all the rows for the current batch of examples out of the matrix,
+            # since our matrix is of shape [features, examples] so we need to
+            # slice the examples out
             batches.append((x_shuffled[:, batch_start:batch_end],
                             y_shuffled[:, batch_start:batch_end]))
         return batches
