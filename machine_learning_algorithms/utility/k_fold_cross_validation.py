@@ -11,15 +11,16 @@ class KFoldCrossValidation(object):
     """ This class represents the k fold cross validation
     algorithm """
 
-    def get_k_score(self,
-                    x: np.ndarray,
-                    y: np.ndarray,
-                    scoreFunc,
-                    model,
-                    k: int = 5,
-                    numEpochs: Union[int, None] = None,
-                    learn_rate: Union[float, None] = None,
-                    optim=GradientDescent()):
+    def get_k_score(
+        self,
+        x: np.ndarray,
+        y: np.ndarray,
+        scoreFunc,
+        model,
+        k: int = 5,
+        numEpochs: Union[int, None] = None,
+        learn_rate: Union[float, None] = None,
+        optim=GradientDescent()) -> float:
         """ This function implements k-fold cross validation. This function
         should be used when your dataset is to small for a train/validation/test
         split to yield accurate estimates of generalizability.
