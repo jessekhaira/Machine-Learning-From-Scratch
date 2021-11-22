@@ -1,3 +1,5 @@
+""" This module contains miscellaneous utility functions used
+throughout the package"""
 import numpy as np
 
 
