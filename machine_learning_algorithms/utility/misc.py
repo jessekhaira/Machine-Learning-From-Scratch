@@ -22,7 +22,7 @@ def convertToHighestPred(arr):
     return arr
 
 
-def euclideanDistance(x, y):
+def euclidean_distance(x, y):
     # euclidean distance is the l2 norm of the vector x- y
     return np.linalg.norm(x - y, ord=2)
 

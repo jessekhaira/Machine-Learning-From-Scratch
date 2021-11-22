@@ -1,7 +1,7 @@
 """ This module contains code representing the unsupervised
 machine learning algorithm K-Means """
 import numpy as np
-from machine_learning_algorithms.utility.misc import euclideanDistance
+from machine_learning_algorithms.utility.misc import euclidean_distance
 import copy
 
 
@@ -34,7 +34,7 @@ class KMeansClustering:
     def fit_predict(self,
                     data: np.ndarray,
                     num_clusters: int,
-                    similarity_metric=euclideanDistance,
+                    similarity_metric=euclidean_distance,
                     seed: int = 21):
         """ This method computes cluster centroids for every vector in the data
         and returns them.
