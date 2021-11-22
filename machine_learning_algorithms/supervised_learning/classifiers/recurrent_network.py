@@ -1,7 +1,7 @@
 """ This module contains code representing a reccurrent neural network used for
 the natural language processing task of language modelling."""
 import numpy as np
-from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
+from machine_learning_algorithms.utility.misc import one_hot_encode_feature
 from machine_learning_algorithms.neural_net_utility.reccurent_neural_net_layers import ReccurentNetCellGeneration
 from machine_learning_algorithms.neural_net_utility.optimizer import AdaGrad, Optimizer
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
@@ -170,7 +170,7 @@ class ReccurentNetLanguageModel:
             text generated from the RNN.
         """
         seed_idx = np.random.randint(0, high=self.number_features)
-        seed_vector = oneHotEncodeFeature(self.number_features, seed_idx)
+        seed_vector = one_hot_encode_feature(self.number_features, seed_idx)
         a_prev = np.zeros((self.number_neurons, 1))
         return self.model.generate(seed_vector, a_prev, total_generating_steps,
                                    self.idx_to_char, self.temperature)

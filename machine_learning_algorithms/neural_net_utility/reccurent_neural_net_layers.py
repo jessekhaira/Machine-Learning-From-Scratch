@@ -4,7 +4,7 @@ import numpy as np
 from typing import Dict, Tuple
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import gradientClipping
-from machine_learning_algorithms.utility.misc import oneHotEncodeFeature
+from machine_learning_algorithms.utility.misc import one_hot_encode_feature
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, BaseActivationFunction
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 
@@ -81,8 +81,8 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
             index_train = char_to_idx[char]
             index_label = char_to_idx[label]
             # now generate one hot vector w/ this char
-            x_t = oneHotEncodeFeature(self.num_input_features, index_train)
-            y_t = oneHotEncodeFeature(self.num_input_features, index_label)
+            x_t = one_hot_encode_feature(self.num_input_features, index_train)
+            y_t = one_hot_encode_feature(self.num_input_features, index_label)
             # feed the vector into the net
             a, predictions, a_prev, x_t, z_activ = self._compute_one_step_forward(
                 x_t, a_prev)
