@@ -1,7 +1,7 @@
 """ This module contains code for a class representing the
 k fold cross validation algorithm """
 import copy
-from typing import Union
+from typing import Union, List, Tuple
 import numpy as np
 from machine_learning_algorithms.utility.misc import convertToHighestPred
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
@@ -105,7 +105,8 @@ class KFoldCrossValidation(object):
             prediction_scores.append(scoreFunc(hold_out_labels, preds))
         return np.mean(prediction_scores)
 
-    def get_batches(self, x: np.ndarray, y: np.ndarray, k: int):
+    def get_batches(self, x: np.ndarray, y: np.ndarray,
+                    k: int) -> List[Tuple[np.ndarray, np.ndarray]]:
         """ This function randomly shuffles the data and then batches it into k
         batches with equal number of examples to use for k-fold CV.
 
