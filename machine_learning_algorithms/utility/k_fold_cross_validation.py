@@ -60,7 +60,7 @@ class KFoldCrossValidation(object):
             Floating point value representing the average value of the score
             function over all the folds
         """
-        batches = self.getBatches(x, y, k)
+        batches = self.get_batches(x, y, k)
         # Loop over all k batches, and designate one batch to be the test set
         # and train on the other k-1 batches
         orig_object = model
@@ -104,7 +104,7 @@ class KFoldCrossValidation(object):
             prediction_scores.append(scoreFunc(hold_out_labels, preds))
         return np.mean(prediction_scores)
 
-    def getBatches(self, x: np.ndarray, y: np.ndarray, k: int):
+    def get_batches(self, x: np.ndarray, y: np.ndarray, k: int):
         """ This function randomly shuffles the data and then batches it into k
         batches with equal number of examples to use for k-fold CV.
 
@@ -124,7 +124,7 @@ class KFoldCrossValidation(object):
                 y_traini)
         """
         # set a seed for random so you don't get different results every time
-        # you run the function, extend capabilities of getBatches to one hot
+        # you run the function, extend capabilities of get_batches to one hot
         # encoded target
         np.random.seed(seed=21)
         batches = []
