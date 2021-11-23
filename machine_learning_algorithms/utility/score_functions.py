@@ -1,3 +1,6 @@
+""" This module contains score functions used to assess
+the performance of a machine learning algorithm performing
+supervised learning """
 import numpy as np
 
 
