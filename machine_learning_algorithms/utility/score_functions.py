@@ -12,7 +12,7 @@ def mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return np.square(np.subtract(ylabel, yhat)).mean()
 
 
-def MAE(ylabel, yhat):
+def mean_absolute_error(ylabel, yhat):
     return np.abs(ylabel - yhat).mean()
 
 
