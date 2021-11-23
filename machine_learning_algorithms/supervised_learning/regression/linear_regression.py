@@ -22,7 +22,7 @@ class BaseLinearRegression(NeuralNetworkBase):
         # function features we will fit
         self.degree = degree
         # Loss function for regression tasks is RSS averaged over all
-        # examples = MSE
+        # examples = mean_squared_error
         loss_function = MeanSquaredError(regularization, reg_parameter)
         super(BaseLinearRegression, self).__init__(lossFunction=loss_function,
                                                    input_features=None)

@@ -6,7 +6,7 @@ import sklearn.metrics
 import sklearn.model_selection
 import sklearn.datasets
 from machine_learning_algorithms.supervised_learning.regression.k_nearest_neighbours_regressor import KNearestNeighboursRegressor
-from machine_learning_algorithms.utility.score_functions import MSE, MAE, RMSE
+from machine_learning_algorithms.utility.score_functions import mean_squared_error, MAE, RMSE
 
 
 class KNearestNeighboursRegressorTests(unittest.TestCase):
@@ -25,7 +25,7 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
 
     def test_overall_model(self):
         """ This implementation of k nearest neighbours should be
-        able to achieve MAE <=10, MSE <= 50 and RMSE <=10 if everything
+        able to achieve MAE <=10, mean_squared_error <= 50 and RMSE <=10 if everything
         is wired correctly """
         x, y = sklearn.datasets.load_boston(return_X_y=True)
         xtrain, xtest, ytrain, ytest = sklearn.model_selection.train_test_split(
@@ -36,7 +36,7 @@ class KNearestNeighboursRegressorTests(unittest.TestCase):
         prediction_test = test_obj.predict(xtest)
         self.assertEqual(prediction_test.shape, ytest.shape)
         mean_abs = MAE(ytest, prediction_test)
-        mean_sq = MSE(ytest, prediction_test)
+        mean_sq = mean_squared_error(ytest, prediction_test)
         root_meansq = RMSE(ytest, prediction_test)
         self.assertLessEqual(mean_abs, 10)
         self.assertLessEqual(mean_sq, 65)

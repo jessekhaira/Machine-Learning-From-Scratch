@@ -8,7 +8,7 @@ def accuracy(ylabel, yhat):
     return np.mean(ylabel == yhat)
 
 
-def MSE(ylabel, yhat):
+def mean_squared_error(ylabel, yhat):
     return np.square(np.subtract(ylabel, yhat)).mean()
 
 
@@ -17,7 +17,7 @@ def MAE(ylabel, yhat):
 
 
 def RMSE(ylabel, yhat):
-    output = MSE(ylabel, yhat)
+    output = mean_squared_error(ylabel, yhat)
     return output**0.5
 
 

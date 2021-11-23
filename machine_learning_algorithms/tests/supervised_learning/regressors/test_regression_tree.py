@@ -3,7 +3,7 @@ algorithm """
 import unittest
 from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
-from machine_learning_algorithms.utility.score_functions import RMSE, MSE, MAE, TSS, RSS
+from machine_learning_algorithms.utility.score_functions import RMSE, mean_squared_error, MAE, TSS, RSS
 from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
@@ -30,7 +30,7 @@ class RegressionTreeTests(unittest.TestCase):
         predictions = regression_obj.predict(self.x1)
         rmse = RMSE(self.y1, predictions)
         mae = MAE(self.y1, predictions)
-        mse = MSE(self.y1, predictions)
+        mse = mean_squared_error(self.y1, predictions)
         rmse = RMSE(self.y1, predictions)
         self.assertEqual(mae, 0)
         self.assertEqual(mse, 0)
@@ -40,7 +40,7 @@ class RegressionTreeTests(unittest.TestCase):
         regression_obj2 = RegressionTree(minSamplesSplit=1)
         kScoreRMSE = self.k_cv.get_k_score(self.x1, self.y1, RMSE,
                                            regression_obj2)
-        kScoreMSE = self.k_cv.get_k_score(self.x1, self.y1, MSE,
+        kScoreMSE = self.k_cv.get_k_score(self.x1, self.y1, mean_squared_error,
                                           regression_obj2)
         kScoreMAE = self.k_cv.get_k_score(self.x1, self.y1, MAE,
                                           regression_obj2)
