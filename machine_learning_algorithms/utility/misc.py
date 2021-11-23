@@ -3,7 +3,7 @@ throughout the package"""
 import numpy as np
 
 
-def one_hot_encode(y):
+def one_hot_encode(y: np.ndarray) -> np.ndarray:
     # Squish y to be one row
     y_use = y.reshape(-1)
     num_labels = len(np.unique(y_use))
