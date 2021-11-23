@@ -8,7 +8,7 @@ def accuracy(ylabel, yhat):
     return np.mean(ylabel == yhat)
 
 
-def mean_squared_error(ylabel, yhat):
+def mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return np.square(np.subtract(ylabel, yhat)).mean()
 
 
