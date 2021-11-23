@@ -28,9 +28,10 @@ def R_squared(ylabel, yhat):
 
 
 def R_SquaredAdj(ylabel, yhat, num_features):
-    # You can just add more polynomial features and fit a super complex function with linear
-    # regression models to inflate R2. This score gives a better representation of how well
-    # your model explains the variance in the response variable.
+    """ You can just add more polynomial features and fit a super complex
+    function with linear regression models to inflate the R2 score
+    [ie. overfitting]. This score gives a better representation of how
+    well your model explains the variance in the response variable """
     num_examples = ylabel.shape[1]
     RSS_norm = RSS(ylabel, yhat) / (num_examples - num_features - 1)
     TSS_norm = TSS(ylabel) / (num_examples - 1)
