@@ -1,5 +1,5 @@
 import numpy as np
-from machine_learning_algorithms.utility.score_functions import TSS
+from machine_learning_algorithms.utility.score_functions import total_sum_of_squares
 from machine_learning_algorithms.utility.score_functions import entropy
 from machine_learning_algorithms.utility.score_functions import giniIndex
 
@@ -56,9 +56,9 @@ def varianceReduction(root, left, right):
     # In a regression tree, at any node, the expected value of all of the examples that fall in the node
     # IS the prediction. So getting the variance is like calculating the RSS, except our prediction for every
     # example is the same of the mean value
-    varianceRoot = TSS(root)
-    varianceLeft = TSS(left)
-    varianceRight = TSS(right)
+    varianceRoot = total_sum_of_squares(root)
+    varianceLeft = total_sum_of_squares(left)
+    varianceRight = total_sum_of_squares(right)
     numExamplesLeft = left.shape[1]
     numExamplesRight = right.shape[1]
     fracL, fracR = getFractions(numExamplesLeft, numExamplesRight)

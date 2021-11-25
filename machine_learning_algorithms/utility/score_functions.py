@@ -23,7 +23,7 @@ def root_mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 def r_squared(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     calced_RSS = residual_sum_of_squares(ylabel, yhat)
-    calced_TSS = TSS(ylabel)
+    calced_TSS = total_sum_of_squares(ylabel)
     return 1 - (calced_RSS / calced_TSS)
 
 
@@ -36,7 +36,8 @@ def r_squared_adjusted(ylabel: np.ndarray, yhat: np.ndarray,
     num_examples = ylabel.shape[1]
     adjusted_residual_sum_of_squares = residual_sum_of_squares(
         ylabel, yhat) / (num_examples - num_features - 1)
-    adjusted_total_sum_of_squares = TSS(ylabel) / (num_examples - 1)
+    adjusted_total_sum_of_squares = total_sum_of_squares(ylabel) / (
+        num_examples - 1)
     return 1 - (adjusted_residual_sum_of_squares /
                 adjusted_total_sum_of_squares)
 
@@ -47,8 +48,9 @@ def residual_sum_of_squares(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return np.sum(np.square(np.subtract(ylabel, yhat)))
 
 
-def TSS(ylabel):
-    # Get the total variance in the response variable, not averaged over the examples
+def total_sum_of_squares(ylabel):
+    """ Get the total variance in the response variable, not averaged
+    over the examples """
     labels_mean = np.mean(ylabel)
     return np.sum(np.square(np.subtract(ylabel, labels_mean)))
 
