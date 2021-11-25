@@ -16,7 +16,7 @@ def mean_absolute_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return np.abs(ylabel - yhat).mean()
 
 
-def RMSE(ylabel, yhat):
+def root_mean_squared_error(ylabel, yhat):
     output = mean_squared_error(ylabel, yhat)
     return output**0.5
 

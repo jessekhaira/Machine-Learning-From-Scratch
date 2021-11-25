@@ -5,7 +5,7 @@ from machine_learning_algorithms.supervised_learning.regression.regression_tree 
 from machine_learning_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
 from machine_learning_algorithms.utility.DecisionTreeFunctions import predictionClassification
 from machine_learning_algorithms.utility.DecisionTreeFunctions import predictionRegression
-from machine_learning_algorithms.utility.score_functions import mean_squared_error, RMSE, accuracy
+from machine_learning_algorithms.utility.score_functions import mean_squared_error, root_mean_squared_error, accuracy
 from typing import Literal, Union, Tuple
 
 
@@ -262,5 +262,5 @@ class BaggedForest(object):
             return acc, error
         else:
             mse = mean_squared_error(ytrain, predictions)
-            rmse = RMSE(ytrain, predictions)
+            rmse = root_mean_squared_error(ytrain, predictions)
             return mse, rmse

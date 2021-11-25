@@ -3,7 +3,7 @@ algorithm """
 import unittest
 from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
-from machine_learning_algorithms.utility.score_functions import RMSE, mean_squared_error, mean_absolute_error, TSS, RSS
+from machine_learning_algorithms.utility.score_functions import root_mean_squared_error, mean_squared_error, mean_absolute_error, TSS, RSS
 from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
@@ -28,17 +28,18 @@ class RegressionTreeTests(unittest.TestCase):
         regression_obj = RegressionTree(minSamplesSplit=1)
         regression_obj.fit(self.x1, self.y1)
         predictions = regression_obj.predict(self.x1)
-        rmse = RMSE(self.y1, predictions)
+        rmse = root_mean_squared_error(self.y1, predictions)
         mae = mean_absolute_error(self.y1, predictions)
         mse = mean_squared_error(self.y1, predictions)
-        rmse = RMSE(self.y1, predictions)
+        rmse = root_mean_squared_error(self.y1, predictions)
         self.assertEqual(mae, 0)
         self.assertEqual(mse, 0)
         self.assertEqual(rmse, 0)
 
         # test generalization of regression tree
         regression_obj2 = RegressionTree(minSamplesSplit=1)
-        kScoreRMSE = self.k_cv.get_k_score(self.x1, self.y1, RMSE,
+        kScoreRMSE = self.k_cv.get_k_score(self.x1, self.y1,
+                                           root_mean_squared_error,
                                            regression_obj2)
         kScoreMSE = self.k_cv.get_k_score(self.x1, self.y1, mean_squared_error,
                                           regression_obj2)
@@ -57,7 +58,7 @@ class RegressionTreeTests(unittest.TestCase):
                                          min_impurity_decrease=0.15)
         regression_obj2.fit(self.x1, self.y1)
         predictions2 = regression_obj2.predict(self.x1)
-        error2 = RMSE(self.y1, predictions2)
+        error2 = root_mean_squared_error(self.y1, predictions2)
 
         # Sanity checks - regularization is so high all we get is one leaf
         # meaning all predictions are equal to mean of labels
