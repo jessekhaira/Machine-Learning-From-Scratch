@@ -34,9 +34,11 @@ def r_squared_adjusted(ylabel: np.ndarray, yhat: np.ndarray,
     [ie. overfitting]. This score gives a better representation of how
     well your model explains the variance in the response variable """
     num_examples = ylabel.shape[1]
-    RSS_norm = RSS(ylabel, yhat) / (num_examples - num_features - 1)
-    TSS_norm = TSS(ylabel) / (num_examples - 1)
-    return 1 - (RSS_norm / TSS_norm)
+    adjusted_residual_sum_of_squares = RSS(
+        ylabel, yhat) / (num_examples - num_features - 1)
+    adjusted_total_sum_of_squares = TSS(ylabel) / (num_examples - 1)
+    return 1 - (adjusted_residual_sum_of_squares /
+                adjusted_total_sum_of_squares)
 
 
 def RSS(ylabel, yhat):
