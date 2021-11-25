@@ -27,7 +27,7 @@ def r_squared(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return 1 - (calced_RSS / calced_TSS)
 
 
-def R_SquaredAdj(ylabel, yhat, num_features):
+def r_squared_adjusted(ylabel, yhat, num_features):
     """ You can just add more polynomial features and fit a super complex
     function with linear regression models to inflate the R2 score
     [ie. overfitting]. This score gives a better representation of how
