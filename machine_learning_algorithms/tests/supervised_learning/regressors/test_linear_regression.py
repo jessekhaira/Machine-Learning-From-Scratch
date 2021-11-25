@@ -8,7 +8,7 @@ import sklearn.linear_model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from machine_learning_algorithms.supervised_learning.regression.linear_regression import LinearRegression, LassoRegression, RidgeRegression
-from machine_learning_algorithms.utility.score_functions import R_squared
+from machine_learning_algorithms.utility.score_functions import r_squared
 
 
 class TestLinearRegression(unittest.TestCase):
@@ -45,7 +45,7 @@ class TestLinearRegression(unittest.TestCase):
                                        ret_train_loss=True,
                                        learn_rate=0.1)
         preds = lr_obj.predict_linear_regression(self.x_test)
-        r_squared_val = R_squared(self.y_test, preds)
+        r_squared_val = r_squared(self.y_test, preds)
         self.assertGreaterEqual(r_squared_val, 0.5)
 
     def test2(self):
@@ -58,7 +58,7 @@ class TestLinearRegression(unittest.TestCase):
                                           ret_train_loss=True,
                                           learn_rate=0.1)
         preds = lasso_obj.predict_linear_regression(self.x_test)
-        r_squared_val = R_squared(self.y_test, preds)
+        r_squared_val = r_squared(self.y_test, preds)
         self.assertGreaterEqual(r_squared_val, 0.5)
 
     def test3(self):
@@ -71,14 +71,14 @@ class TestLinearRegression(unittest.TestCase):
                                           ret_train_loss=True,
                                           learn_rate=0.1)
         preds2 = ridge_obj.predict_linear_regression(self.x_test)
-        r_squared_val = R_squared(self.y_test, preds2)
+        r_squared_val = r_squared(self.y_test, preds2)
         self.assertGreaterEqual(r_squared_val, 0.5)
 
     def test4(self):
         lin_reg = sklearn.linear_model.LinearRegression()
         lin_reg.fit(self.x_train.T, self.y_train.ravel())
         preds_linreg = lin_reg.predict(self.x_test.T)
-        r_squared_sk = R_squared(self.y_test, preds_linreg)
+        r_squared_sk = r_squared(self.y_test, preds_linreg)
 
         lin_regOwn = LinearRegression(degree=1)
         lin_regOwn.fit_iterative_optimizer(xtrain=self.x_train,
@@ -86,7 +86,7 @@ class TestLinearRegression(unittest.TestCase):
                                            num_epochs=50,
                                            learn_rate=0.15)
         preds_lrOwn = lin_regOwn.predict_linear_regression(self.x_test)
-        r_squared_own = R_squared(self.y_test, preds_lrOwn)
+        r_squared_own = r_squared(self.y_test, preds_lrOwn)
 
         self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.07)
 
@@ -94,7 +94,7 @@ class TestLinearRegression(unittest.TestCase):
         lasso_sk = sklearn.linear_model.Lasso(alpha=1)
         lasso_sk.fit(self.x_train.T, self.y_train.ravel())
         preds_lassosk = lasso_sk.predict(self.x_test.T)
-        r_squared_sk = R_squared(self.y_test, preds_lassosk)
+        r_squared_sk = r_squared(self.y_test, preds_lassosk)
 
         lasso_obj2 = LassoRegression(degree=1, regParam=1)
         lasso_obj2.fit_iterative_optimizer(xtrain=self.x_train,
@@ -102,14 +102,14 @@ class TestLinearRegression(unittest.TestCase):
                                            num_epochs=15,
                                            learn_rate=0.15)
         preds_lasso = lasso_obj2.predict_linear_regression(self.x_test)
-        r_squared_own = R_squared(self.y_test, preds_lasso)
+        r_squared_own = r_squared(self.y_test, preds_lasso)
         self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.08)
 
     def test6(self):
         ridge_sk = sklearn.linear_model.Ridge(alpha=1000)
         ridge_sk.fit(self.x_train.T, self.y_train.ravel())
         preds_ridgesk = ridge_sk.predict(self.x_test.T)
-        r_squared_sk = R_squared(self.y_test, preds_ridgesk)
+        r_squared_sk = r_squared(self.y_test, preds_ridgesk)
 
         ridge_obj2 = RidgeRegression(degree=1, regParam=1000)
         ridge_obj2.fit_iterative_optimizer(xtrain=self.x_train,
@@ -117,7 +117,7 @@ class TestLinearRegression(unittest.TestCase):
                                            num_epochs=200,
                                            learn_rate=0.1)
         preds_ridge = ridge_obj2.predict_linear_regression(self.x_test)
-        r_squared_own = R_squared(self.y_test, preds_ridge)
+        r_squared_own = r_squared(self.y_test, preds_ridge)
         self.assertLessEqual(abs(r_squared_own - r_squared_sk), 0.07)
 
     def test7(self):
@@ -128,7 +128,7 @@ class TestLinearRegression(unittest.TestCase):
                                          learn_rate=0.01,
                                          ret_train_loss=True)
         deg_2 = degree_2.predict_linear_regression(self.x_test)
-        r_squared_val = R_squared(self.y_test, deg_2)
+        r_squared_val = r_squared(self.y_test, deg_2)
         self.assertGreaterEqual(r_squared_val, 0.8)
 
     def test8(self):
@@ -138,7 +138,7 @@ class TestLinearRegression(unittest.TestCase):
                                                 num_epochs=275,
                                                 learn_rate=0.01)
         preds = lasso_estimator.predict_linear_regression(self.x_test)
-        r_squared_val = R_squared(self.y_test, preds)
+        r_squared_val = r_squared(self.y_test, preds)
         self.assertGreaterEqual(r_squared_val, 0.85)
 
     def test9(self):
@@ -148,7 +148,7 @@ class TestLinearRegression(unittest.TestCase):
                                                 num_epochs=275,
                                                 learn_rate=0.01)
         preds = ridge_estimator.predict_linear_regression(self.x_test)
-        r_squared_val = R_squared(self.y_test, preds)
+        r_squared_val = r_squared(self.y_test, preds)
         self.assertGreaterEqual(r_squared_val, 0.85)
 
 
