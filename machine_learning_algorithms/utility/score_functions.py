@@ -42,7 +42,8 @@ def r_squared_adjusted(ylabel: np.ndarray, yhat: np.ndarray,
 
 
 def RSS(ylabel, yhat):
-    # Find the sum of all the residuals over every single example, not averaged over the examples
+    """ Find the sum of all the residuals over every single example,
+    not averaged over the examples """
     return np.sum(np.square(np.subtract(ylabel, yhat)))
 
 
