@@ -3,7 +3,7 @@ algorithm """
 import unittest
 from sklearn.datasets import load_boston
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
-from machine_learning_algorithms.utility.score_functions import root_mean_squared_error, mean_squared_error, mean_absolute_error, TSS, RSS
+from machine_learning_algorithms.utility.score_functions import root_mean_squared_error, mean_squared_error, mean_absolute_error, TSS, residual_sum_of_squares
 from machine_learning_algorithms.utility.k_fold_cross_validation import KFoldCrossValidation
 
 
@@ -83,9 +83,12 @@ class RegressionTreeTests(unittest.TestCase):
         predictions5 = regression_obj4.predict(self.x1)
 
         self.assertGreaterEqual(error2, 0)
-        self.assertAlmostEqual(RSS(self.y1, predictions3), TSS(self.y1))
-        self.assertAlmostEqual(RSS(self.y1, predictions4), TSS(self.y1))
-        self.assertAlmostEqual(RSS(self.y1, predictions5), TSS(self.y1))
+        self.assertAlmostEqual(residual_sum_of_squares(self.y1, predictions3),
+                               TSS(self.y1))
+        self.assertAlmostEqual(residual_sum_of_squares(self.y1, predictions4),
+                               TSS(self.y1))
+        self.assertAlmostEqual(residual_sum_of_squares(self.y1, predictions5),
+                               TSS(self.y1))
 
 
 if __name__ == "__main__":
