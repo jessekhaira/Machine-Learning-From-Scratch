@@ -41,7 +41,7 @@ def r_squared_adjusted(ylabel: np.ndarray, yhat: np.ndarray,
                 adjusted_total_sum_of_squares)
 
 
-def residual_sum_of_squares(ylabel, yhat):
+def residual_sum_of_squares(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     """ Find the sum of all the residuals over every single example,
     not averaged over the examples """
     return np.sum(np.square(np.subtract(ylabel, yhat)))
