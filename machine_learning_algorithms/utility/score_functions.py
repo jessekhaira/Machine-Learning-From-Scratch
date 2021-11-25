@@ -4,7 +4,7 @@ supervised learning """
 import numpy as np
 
 
-def accuracy(ylabel, yhat):
+def accuracy(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return np.mean(ylabel == yhat)
 
 
