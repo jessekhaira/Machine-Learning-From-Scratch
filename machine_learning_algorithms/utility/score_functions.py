@@ -21,7 +21,7 @@ def root_mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return output**0.5
 
 
-def r_squared(ylabel, yhat):
+def r_squared(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     calced_RSS = RSS(ylabel, yhat)
     calced_TSS = TSS(ylabel)
     return 1 - (calced_RSS / calced_TSS)
