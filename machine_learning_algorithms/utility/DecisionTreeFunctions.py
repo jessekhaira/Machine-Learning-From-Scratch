@@ -1,7 +1,7 @@
 import numpy as np
 from machine_learning_algorithms.utility.score_functions import total_sum_of_squares
 from machine_learning_algorithms.utility.score_functions import entropy
-from machine_learning_algorithms.utility.score_functions import giniIndex
+from machine_learning_algorithms.utility.score_functions import gini_index
 
 
 def predictionClassification(labels):
@@ -40,9 +40,9 @@ def getFractions(numExamplesLeft, numExamplesRight):
 
 
 def giniGain(root, left, right):
-    giniCurr = giniIndex(root)
-    giniL = giniIndex(left)
-    giniR = giniIndex(right)
+    giniCurr = gini_index(root)
+    giniL = gini_index(left)
+    giniR = gini_index(right)
     numExamplesLeft = left.shape[1]
     numExamplesRight = right.shape[1]
     fracL, fracR = getFractions(numExamplesLeft, numExamplesRight)

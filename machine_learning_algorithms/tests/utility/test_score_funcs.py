@@ -5,7 +5,7 @@ import numpy as np
 from machine_learning_algorithms.utility.DecisionTreeFunctions import entropy
 from machine_learning_algorithms.utility.DecisionTreeFunctions import entropyGain
 from machine_learning_algorithms.utility.DecisionTreeFunctions import varianceReduction
-from machine_learning_algorithms.utility.DecisionTreeFunctions import giniIndex
+from machine_learning_algorithms.utility.DecisionTreeFunctions import gini_index
 
 
 class TestScoreFunctions(unittest.TestCase):
@@ -37,7 +37,7 @@ class TestScoreFunctions(unittest.TestCase):
 
     def testGini(self):
         root = np.array([0, 3, 0, 1, 0]).reshape(1, -1)
-        self.assertAlmostEqual(giniIndex(root), 0.56)
+        self.assertAlmostEqual(gini_index(root), 0.56)
 
 
 if __name__ == "__main__":
