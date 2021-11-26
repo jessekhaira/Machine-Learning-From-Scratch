@@ -62,7 +62,7 @@ def entropy(labels: np.ndarray) -> float:
         for i in probability_each_class)
 
 
-def gini_index(labels):
+def gini_index(labels: np.ndarray) -> float:
     probability_each_class = getCounts(labels)
     sumEachSquared = sum(
         probability_each_class[i]**2 for i in probability_each_class)
