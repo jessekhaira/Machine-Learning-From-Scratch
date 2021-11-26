@@ -48,7 +48,7 @@ def residual_sum_of_squares(ylabel: np.ndarray, yhat: np.ndarray) -> float:
     return np.sum(np.square(np.subtract(ylabel, yhat)))
 
 
-def total_sum_of_squares(ylabel):
+def total_sum_of_squares(ylabel: np.ndarray) -> float:
     """ Get the total variance in the response variable, not averaged
     over the examples """
     labels_mean = np.mean(ylabel)
