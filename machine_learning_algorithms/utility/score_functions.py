@@ -55,7 +55,7 @@ def total_sum_of_squares(ylabel: np.ndarray) -> float:
     return np.sum(np.square(np.subtract(ylabel, labels_mean)))
 
 
-def entropy(labels):
+def entropy(labels: np.ndarray) -> float:
     probabilityEachClass = getCounts(labels)
     return -1 * sum(probabilityEachClass[i] * np.log(probabilityEachClass[i])
                     for i in probabilityEachClass)
