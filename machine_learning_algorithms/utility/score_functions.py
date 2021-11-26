@@ -22,9 +22,9 @@ def root_mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 
 def r_squared(ylabel: np.ndarray, yhat: np.ndarray) -> float:
-    calced_RSS = residual_sum_of_squares(ylabel, yhat)
-    calced_TSS = total_sum_of_squares(ylabel)
-    return 1 - (calced_RSS / calced_TSS)
+    residual_sum_of_squares_val = residual_sum_of_squares(ylabel, yhat)
+    total_sum_of_squares_val = total_sum_of_squares(ylabel)
+    return 1 - (residual_sum_of_squares_val / total_sum_of_squares_val)
 
 
 def r_squared_adjusted(ylabel: np.ndarray, yhat: np.ndarray,
@@ -64,9 +64,9 @@ def entropy(labels: np.ndarray) -> float:
 
 def gini_index(labels: np.ndarray) -> float:
     probability_each_class = getCounts(labels)
-    sumEachSquared = sum(
+    sum_each_squared = sum(
         probability_each_class[i]**2 for i in probability_each_class)
-    return 1 - sumEachSquared
+    return 1 - sum_each_squared
 
 
 def getCounts(labels):
