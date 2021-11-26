@@ -56,20 +56,21 @@ def total_sum_of_squares(ylabel: np.ndarray) -> float:
 
 
 def entropy(labels: np.ndarray) -> float:
-    probabilityEachClass = getCounts(labels)
-    return -1 * sum(probabilityEachClass[i] * np.log(probabilityEachClass[i])
-                    for i in probabilityEachClass)
+    probability_each_class = getCounts(labels)
+    return -1 * sum(
+        probability_each_class[i] * np.log(probability_each_class[i])
+        for i in probability_each_class)
 
 
 def giniIndex(labels):
-    probabilityEachClass = getCounts(labels)
+    probability_each_class = getCounts(labels)
     sumEachSquared = sum(
-        probabilityEachClass[i]**2 for i in probabilityEachClass)
+        probability_each_class[i]**2 for i in probability_each_class)
     return 1 - sumEachSquared
 
 
 def getCounts(labels):
     unique, counts = np.unique(labels, return_counts=True)
     totalCount = np.sum(counts)
-    probabilityEachClass = dict(zip(unique, counts / totalCount))
-    return probabilityEachClass
+    probability_each_class = dict(zip(unique, counts / totalCount))
+    return probability_each_class
