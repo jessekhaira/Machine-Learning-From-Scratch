@@ -7,7 +7,7 @@ from machine_learning_algorithms.neural_net_utility.convolutional_layers import 
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 from machine_learning_algorithms.neural_net_utility.loss_functions import LossFunction
 from machine_learning_algorithms.neural_net_utility.activation_functions import BaseActivationFunction
-from machine_learning_algorithms.utility.misc import convertToHighestPred
+from machine_learning_algorithms.utility.misc import convert_to_highest_pred
 from machine_learning_algorithms.utility.score_functions import accuracy
 from typing import Union, Tuple, List
 import copy
@@ -197,7 +197,7 @@ class NeuralNetworkBase(object):
             train_loss.append(np.mean(loss_epoch))
 
             if ytrain.shape[0] > 1:
-                accuracy_train_set = accuracy(convertToHighestPred(ytrain),
+                accuracy_train_set = accuracy(convert_to_highest_pred(ytrain),
                                               self.predict(xtrain))
             else:
                 accuracy_train_set = accuracy(ytrain, self.predict(xtrain))
@@ -206,7 +206,7 @@ class NeuralNetworkBase(object):
             if xvalid is not None:
                 if ytrain.shape[0] > 1:
                     accuracy_validation_set = accuracy(
-                        convertToHighestPred(yvalid), self.predict(xvalid))
+                        convert_to_highest_pred(yvalid), self.predict(xvalid))
                     val_loss = self._calculateLoss(
                         yvalid, self._forward_propagate(xvalid), self.layers)
                 else:
@@ -253,7 +253,7 @@ class NeuralNetworkBase(object):
         # if more than one class, then compute the highest value as the
         # prediction
         if output.shape[0] > 1 and supervised:
-            output = convertToHighestPred(output)
+            output = convert_to_highest_pred(output)
         return output
 
     def _convertToHighestPred(self, predictions):

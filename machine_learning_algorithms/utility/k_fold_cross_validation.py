@@ -3,7 +3,7 @@ k fold cross validation algorithm """
 import copy
 from typing import Union, List, Tuple
 import numpy as np
-from machine_learning_algorithms.utility.misc import convertToHighestPred
+from machine_learning_algorithms.utility.misc import convert_to_highest_pred
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent
 
 
@@ -71,8 +71,8 @@ class KFoldCrossValidation(object):
             # IE - one hotted labels need to be converted to a 1D array
             # of predictions
             if y.shape[0] > 1:
-                hold_out_labels = convertToHighestPred(batches[i][1]).reshape(
-                    1, -1)
+                hold_out_labels = convert_to_highest_pred(
+                    batches[i][1]).reshape(1, -1)
             else:
                 hold_out_labels = batches[i][1]
             # Discard the current model. Need to make a deepcopy to avoid
