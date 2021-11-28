@@ -35,8 +35,8 @@ class KFoldCrossValidation(object):
 
             scoreFunc:
                 Function indicating how you would like to score your model
-                Ex. Regression: mean_squared_error, mean_absolute_error. Classification: Acccuracy,
-                Precision, etc
+                Ex. Regression: mean_squared_error, mean_absolute_error.
+                Classification: Acccuracy, Precision, etc
 
             model:
                 Model object that has a .fit() method and a .predict() method
