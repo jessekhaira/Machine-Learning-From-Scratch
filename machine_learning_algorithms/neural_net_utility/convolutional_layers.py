@@ -3,7 +3,7 @@ neural network layers """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 import math
-from machine_learning_algorithms.utility.misc import findRowColMaxElem
+from machine_learning_algorithms.utility.misc import find_row_column_max_element
 from typing import Literal, Union
 
 
@@ -426,7 +426,7 @@ class Pool(BaseConvolutionalLayer):
                         # in max pool, dAout/dA_in is zero everywhere except the
                         # MAX idx
                         if self.type_pool == "max":
-                            max_idx_row, max_idx_col = findRowColMaxElem(
+                            max_idx_row, max_idx_col = find_row_column_max_element(
                                 curr_img_slice)
                             dl_da_in[i, dimension, max_idx_row,
                                      max_idx_col] += 1 * dLdA[i, dimension,

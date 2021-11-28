@@ -29,7 +29,7 @@ def euclidean_distance(x: np.ndarray, y: np.ndarray) -> float:
     return np.linalg.norm(x - y, ord=2)
 
 
-def findRowColMaxElem(tensor):
+def find_row_column_max_element(tensor):
     idxs = np.unravel_index(np.nanargmax(tensor), tensor.shape)
     return idxs
 
