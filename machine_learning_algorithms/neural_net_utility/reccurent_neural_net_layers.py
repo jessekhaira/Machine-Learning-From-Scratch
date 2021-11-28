@@ -3,7 +3,7 @@ for charracter level language modelling """
 import numpy as np
 from typing import Dict, Tuple
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
-from machine_learning_algorithms.utility.misc import gradientClipping
+from machine_learning_algorithms.utility.misc import gradient_clipping
 from machine_learning_algorithms.utility.misc import one_hot_encode_feature
 from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax, BaseActivationFunction
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
@@ -191,7 +191,7 @@ class ReccurentNetCellGeneration(BaseNeuralNetworkLayer):
         # the params we are going to do gradient clipping
         params = [self.way, self.waa, self.wax, self.ba, self.by]
         dparams = [dl_dway, dl_dwaa, dl_dwax, dl_dba, dl_dby]
-        gradientClipping(dparams)
+        gradient_clipping(dparams)
         self.way, self.waa, self.wax, self.ba, self.by = optim.update_params(
             params, dparams, learn_rate, epoch_num)
 

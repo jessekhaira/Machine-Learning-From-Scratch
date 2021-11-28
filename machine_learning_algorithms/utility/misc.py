@@ -34,7 +34,7 @@ def find_row_column_max_element(tensor: np.ndarray):
     return idxs
 
 
-def gradientClipping(dparams):
+def gradient_clipping(dparams):
     for gradient_tensor in dparams:
         np.clip(gradient_tensor, -5, 5, out=gradient_tensor)
 
