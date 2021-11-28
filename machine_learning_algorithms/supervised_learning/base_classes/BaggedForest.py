@@ -3,8 +3,8 @@ bagged forest supervised machine learning algorithm """
 import numpy as np
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
 from machine_learning_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
-from machine_learning_algorithms.utility.DecisionTreeFunctions import predictionClassification
-from machine_learning_algorithms.utility.DecisionTreeFunctions import predictionRegression
+from machine_learning_algorithms.utility.decision_tree_functions import predictionClassification
+from machine_learning_algorithms.utility.decision_tree_functions import predictionRegression
 from machine_learning_algorithms.utility.score_functions import mean_squared_error, root_mean_squared_error, accuracy
 from typing import Literal, Union, Tuple
 

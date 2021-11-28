@@ -1,9 +1,9 @@
 """ This module contains code representing the classification decision
 tree algorithm """
 from machine_learning_algorithms.supervised_learning.base_classes.DecisionTree import BaseDecisionTree
-from machine_learning_algorithms.utility.DecisionTreeFunctions import entropyGain
-from machine_learning_algorithms.utility.DecisionTreeFunctions import giniGain
-from machine_learning_algorithms.utility.DecisionTreeFunctions import predictionClassification
+from machine_learning_algorithms.utility.decision_tree_functions import entropyGain
+from machine_learning_algorithms.utility.decision_tree_functions import giniGain
+from machine_learning_algorithms.utility.decision_tree_functions import predictionClassification
 from typing import Union
 
 

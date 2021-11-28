@@ -1,6 +1,6 @@
 """ This module contains code for testing the base decision tree class """
 import numpy as np
-from machine_learning_algorithms.utility.DecisionTreeFunctions import entropyGain, predictionClassification, predictionRegression
+from machine_learning_algorithms.utility.decision_tree_functions import entropyGain, predictionClassification, predictionRegression
 from machine_learning_algorithms.supervised_learning.base_classes.DecisionTree import BaseDecisionTree
 
 import unittest
