@@ -69,8 +69,8 @@ def gini_index(labels: np.ndarray) -> float:
     return 1 - sum_each_squared
 
 
-def get_counts(labels):
+def get_counts(labels: np.ndarray):
     unique, counts = np.unique(labels, return_counts=True)
-    totalCount = np.sum(counts)
-    probability_each_class = dict(zip(unique, counts / totalCount))
+    total_count = np.sum(counts)
+    probability_each_class = dict(zip(unique, counts / total_count))
     return probability_each_class
