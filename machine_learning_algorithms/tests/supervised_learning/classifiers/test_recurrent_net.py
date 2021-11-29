@@ -4,7 +4,7 @@ import unittest
 import sys
 import os
 from machine_learning_algorithms.supervised_learning.classifiers.recurrent_network import ReccurentNetLanguageModel
-from machine_learning_algorithms.utility.misc import getUniqueChars, mapcharToIdx, mapidxToChar
+from machine_learning_algorithms.utility.misc import get_unique_chars, mapcharToIdx, mapidxToChar
 from machine_learning_algorithms.neural_net_utility.activation_functions import TanH
 
 
@@ -14,7 +14,7 @@ class TestRecurrentNetwork(unittest.TestCase):
 
     def setUp(self):
         self.data = open(os.path.join(sys.path[0], "shake.txt"), "r").read()
-        self.chars = getUniqueChars(self.data)
+        self.chars = get_unique_chars(self.data)
         self.idx_char_map = mapidxToChar(self.chars)
         self.char_idx_map = mapcharToIdx(self.chars)
 

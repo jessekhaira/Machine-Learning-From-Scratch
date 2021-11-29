@@ -39,7 +39,7 @@ def gradient_clipping(dparams: np.ndarray) -> None:
         np.clip(gradient_tensor, -5, 5, out=gradient_tensor)
 
 
-def getUniqueChars(txtFile):
+def get_unique_chars(txtFile):
     return list(set(txtFile))
 
 
