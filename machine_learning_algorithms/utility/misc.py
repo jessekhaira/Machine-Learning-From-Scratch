@@ -53,7 +53,8 @@ def map_char_to_idx(chars):
 
 def get_covariance_matrix(matrix):
     mean_features = np.mean(matrix, axis=1, keepdims=True)
-    # vectorize operation to get covariance matrix - don't want to do an expensive python for loop
+    # vectorize operation to get covariance matrix - don't want to do
+    # an expensive python for loop
     num_examples = matrix.shape[1]
     return 1 / (num_examples - 1) * (matrix - mean_features).dot(
         (matrix - mean_features).T)
