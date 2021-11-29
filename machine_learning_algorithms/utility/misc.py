@@ -47,7 +47,7 @@ def map_idx_to_char(chars):
     return {i: char for i, char in enumerate(chars)}
 
 
-def mapcharToIdx(chars):
+def map_char_to_idx(chars):
     return {char: idx for idx, char in enumerate(chars)}
 
 
