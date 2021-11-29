@@ -43,7 +43,7 @@ def get_unique_chars(txtFile):
     return list(set(txtFile))
 
 
-def mapidxToChar(chars):
+def map_idx_to_char(chars):
     return {i: char for i, char in enumerate(chars)}
 
 
