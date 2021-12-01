@@ -5,8 +5,7 @@ from typing import Literal, Union
 
 
 class BaggedForestClassifier(BaggedForest):
-    """
-    This class represents bootstrap aggregated (bagged) decision trees
+    """ This class represents bootstrap aggregated (bagged) decision trees
     performing the task of classification.
 
     Attributes:
