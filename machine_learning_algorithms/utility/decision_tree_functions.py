@@ -11,7 +11,7 @@ def prediction_classification(labels):
     return vals[idx]
 
 
-def prediction_regression(labels):
+def prediction_regression(labels: np.ndarray) -> float:
     # Just predict the average of the values that fall in this leaf!
     return np.mean(labels)
 
