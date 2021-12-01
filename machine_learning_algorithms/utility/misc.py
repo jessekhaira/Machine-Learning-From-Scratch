@@ -13,9 +13,9 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     return output_matrix.T
 
 
-def one_hot_encode_feature(numFeatures, idxOne):
-    vector = np.zeros((numFeatures, 1))
-    vector[idxOne] = 1
+def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
+    vector = np.zeros((num_features, 1))
+    vector[idx_one] = 1
     return vector
 
 
