@@ -24,11 +24,13 @@ def entropyGain(root, left, right):
     numExamplesRight = right.shape[1]
     fractionOfDataLeft, fractionOfDataRight = getFractions(
         numExamplesLeft, numExamplesRight)
-    assert (
-        fractionOfDataLeft + fractionOfDataRight
-    ) == 1, "Somethings wrong with how your data is splitting into left and right datasets"
-    # Intuitively, we want a feature that splits the data perfectly into pure nodes on the left and right side
-    # meaning that going from the root node to the left nodes and right nodes, we gain a lot of information
+    assert (fractionOfDataLeft + fractionOfDataRight) == 1, (
+        "Somethings wrong with how your data is splitting into " +
+        "left and right datasets")
+    # Intuitively, we want a feature that splits the data perfectly into
+    # pure nodes on the left and right side, meaning that going from
+    # the root node to the left nodes and right nodes, we gain a
+    # lot of information
     return entropyRoot - (fractionOfDataLeft * entropyLeftNode +
                           fractionOfDataRight * entropyRightNode)
 
