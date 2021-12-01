@@ -4,7 +4,7 @@ import numpy as np
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
 from machine_learning_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
 from machine_learning_algorithms.utility.decision_tree_functions import predictionClassification
-from machine_learning_algorithms.utility.decision_tree_functions import predictionRegression
+from machine_learning_algorithms.utility.decision_tree_functions import prediction_regression
 from machine_learning_algorithms.utility.score_functions import mean_squared_error, root_mean_squared_error, accuracy
 from typing import Literal, Union, Tuple
 
@@ -197,7 +197,7 @@ class BaggedForest(object):
                 single_prediction = predictionClassification(
                     feature_vector_predictions)
             else:
-                single_prediction = predictionRegression(
+                single_prediction = prediction_regression(
                     feature_vector_predictions)
             predictions[:, i] = single_prediction
             if self.verbose:
@@ -254,7 +254,7 @@ class BaggedForest(object):
             if self.typeSupervised == 0:
                 overall_prediction = predictionClassification(preds_curr_vector)
             else:
-                overall_prediction = predictionRegression(preds_curr_vector)
+                overall_prediction = prediction_regression(preds_curr_vector)
             predictions[:, i] = overall_prediction
         if self.typeSupervised == 0:
             acc = accuracy(ytrain, predictions)

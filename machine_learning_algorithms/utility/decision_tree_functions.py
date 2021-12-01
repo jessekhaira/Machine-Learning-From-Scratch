@@ -11,7 +11,7 @@ def predictionClassification(labels):
     return vals[idx]
 
 
-def predictionRegression(labels):
+def prediction_regression(labels):
     # Just predict the average of the values that fall in this leaf!
     return np.mean(labels)
 

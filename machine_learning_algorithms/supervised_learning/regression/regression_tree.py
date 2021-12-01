@@ -1,7 +1,7 @@
 """ This module contains code representing the regression decision
 tree algorithm """
 from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import BaseDecisionTree
-from machine_learning_algorithms.utility.decision_tree_functions import predictionRegression
+from machine_learning_algorithms.utility.decision_tree_functions import prediction_regression
 from machine_learning_algorithms.utility.decision_tree_functions import varianceReduction
 
 
@@ -34,7 +34,7 @@ class RegressionTree(BaseDecisionTree):
                  min_impurity_decrease=0):
         super(RegressionTree,
               self).__init__(trainingFunction=varianceReduction,
-                             predictionFunc=predictionRegression,
+                             predictionFunc=prediction_regression,
                              minSamplesSplit=minSamplesSplit,
                              maxDepth=maxDepth,
                              maxFeatures=maxFeatures,

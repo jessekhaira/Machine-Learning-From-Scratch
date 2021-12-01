@@ -1,6 +1,6 @@
 """ This module contains code for testing the base decision tree class """
 import numpy as np
-from machine_learning_algorithms.utility.decision_tree_functions import entropyGain, predictionClassification, predictionRegression
+from machine_learning_algorithms.utility.decision_tree_functions import entropyGain, predictionClassification, prediction_regression
 from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import BaseDecisionTree
 
 import unittest
@@ -25,7 +25,7 @@ class TestBaseDecisionTree(unittest.TestCase):
 
     def testFindingFeature_SplitPtPairOneFeature(self):
         np.random.seed(21)
-        obj1 = BaseDecisionTree(entropyGain, predictionRegression)
+        obj1 = BaseDecisionTree(entropyGain, prediction_regression)
         # Single feature test if we find the best split pt
         # made it so that split pt 3 is clearly the best
         xtr = np.array(
@@ -40,7 +40,7 @@ class TestBaseDecisionTree(unittest.TestCase):
 
     def testFindingFeature_SplitPtPairTwoFeatures(self):
         np.random.seed(21)
-        obj1 = BaseDecisionTree(entropyGain, predictionRegression)
+        obj1 = BaseDecisionTree(entropyGain, prediction_regression)
         # Double feature test
         # With a string feature and a numeric feature
         # the second featuree split with cloudy and the first feature split
@@ -64,7 +64,7 @@ class TestBaseDecisionTree(unittest.TestCase):
 
     def testFitAndPredict(self):
         np.random.seed(21)
-        obj1 = BaseDecisionTree(entropyGain, predictionRegression)
+        obj1 = BaseDecisionTree(entropyGain, prediction_regression)
         f1 = np.array(
             [2, 3, 3.5, 3, 1, 2, 1, 5, 8, 3, 2, 4, 5, 3, 1, 3.2, 2.8, 2.5],
             dtype=object).reshape(1, -1)
