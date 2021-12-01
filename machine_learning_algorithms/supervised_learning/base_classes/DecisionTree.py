@@ -251,9 +251,10 @@ class BaseDecisionTree(object):
         # Stack them up horizontally so we can filter the matrix appropriately
         # IE so the labels stay attached to the correct feature vectors
         matrix = np.hstack((xtrain, ytrain))
-        # Have to use isinstance here instead of checking type(x) is int or float
-        # because we have np.float64 or np.int64 not base python ints
-        # but those objects inherited from the base python ints so they will be instances of it
+        # Have to use isinstance here instead of checking type(x) is int
+        # or float because we have np.float64 or np.int64 not base python ints
+        # but those objects inherited from the base python ints so they will
+        # be instances of it
         if isinstance(split_pt,
                       (int, np.integer)) or isinstance(split_pt,
                                                        (float, np.float)):
