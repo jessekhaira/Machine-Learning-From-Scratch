@@ -4,7 +4,7 @@ from machine_learning_algorithms.utility.score_functions import entropy
 from machine_learning_algorithms.utility.score_functions import gini_index
 
 
-def predictionClassification(labels):
+def prediction_classification(labels):
     # Just predict the most commonly occurring class AKA the mode of the labels
     vals, counts = np.unique(labels, return_counts=True)
     idx = np.argmax(counts)

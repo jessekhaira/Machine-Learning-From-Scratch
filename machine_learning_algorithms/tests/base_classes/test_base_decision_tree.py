@@ -1,6 +1,6 @@
 """ This module contains code for testing the base decision tree class """
 import numpy as np
-from machine_learning_algorithms.utility.decision_tree_functions import entropyGain, predictionClassification, prediction_regression
+from machine_learning_algorithms.utility.decision_tree_functions import entropyGain, prediction_classification, prediction_regression
 from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import BaseDecisionTree
 
 import unittest
@@ -13,7 +13,7 @@ class TestBaseDecisionTree(unittest.TestCase):
 
     def testSplit(self):
         np.random.seed(21)
-        obj1 = BaseDecisionTree(entropyGain, predictionClassification)
+        obj1 = BaseDecisionTree(entropyGain, prediction_classification)
         xtr = np.random.randint(8, size=(5, 10))
         ytr = np.random.randint(4, size=(1, 10))
         feature_row = 4

@@ -3,7 +3,7 @@ bagged forest supervised machine learning algorithm """
 import numpy as np
 from machine_learning_algorithms.supervised_learning.regression.regression_tree import RegressionTree
 from machine_learning_algorithms.supervised_learning.classifiers.classification_tree import ClassificationTree
-from machine_learning_algorithms.utility.decision_tree_functions import predictionClassification
+from machine_learning_algorithms.utility.decision_tree_functions import prediction_classification
 from machine_learning_algorithms.utility.decision_tree_functions import prediction_regression
 from machine_learning_algorithms.utility.score_functions import mean_squared_error, root_mean_squared_error, accuracy
 from typing import Literal, Union, Tuple
@@ -194,7 +194,7 @@ class BaggedForest(object):
                 prediction_ith_tree = self.forest[i].predict(feature_vector)
                 feature_vector_predictions[:, i] = prediction_ith_tree
             if self.typeSupervised == 0:
-                single_prediction = predictionClassification(
+                single_prediction = prediction_classification(
                     feature_vector_predictions)
             else:
                 single_prediction = prediction_regression(
@@ -252,7 +252,8 @@ class BaggedForest(object):
                 prediction = self.forest[j].predict(feature_vector)
                 preds_curr_vector.append(prediction)
             if self.typeSupervised == 0:
-                overall_prediction = predictionClassification(preds_curr_vector)
+                overall_prediction = prediction_classification(
+                    preds_curr_vector)
             else:
                 overall_prediction = prediction_regression(preds_curr_vector)
             predictions[:, i] = overall_prediction
