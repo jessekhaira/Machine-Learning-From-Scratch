@@ -19,7 +19,7 @@ def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
     return vector
 
 
-def convert_to_highest_pred(arr: np.ndarray):
+def convert_to_highest_pred(arr: np.ndarray) -> np.ndarray:
     arr = np.argmax(arr, axis=0)
     return arr
 
