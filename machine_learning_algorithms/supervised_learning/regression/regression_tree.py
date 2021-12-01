@@ -1,6 +1,6 @@
 """ This module contains code representing the regression decision
 tree algorithm """
-from machine_learning_algorithms.supervised_learning.base_classes.DecisionTree import BaseDecisionTree
+from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import BaseDecisionTree
 from machine_learning_algorithms.utility.decision_tree_functions import predictionRegression
 from machine_learning_algorithms.utility.decision_tree_functions import varianceReduction
 
