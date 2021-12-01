@@ -17,22 +17,22 @@ def prediction_regression(labels: np.ndarray) -> float:
 
 
 def entropyGain(root, left, right):
-    entropyRoot = entropy(root)
-    entropyLeftNode = entropy(left)
-    entropyRightNode = entropy(right)
-    numExamplesLeft = left.shape[1]
-    numExamplesRight = right.shape[1]
-    fractionOfDataLeft, fractionOfDataRight = getFractions(
-        numExamplesLeft, numExamplesRight)
-    assert (fractionOfDataLeft + fractionOfDataRight) == 1, (
+    entropy_root = entropy(root)
+    entropy_left_node = entropy(left)
+    entropy_right_node = entropy(right)
+    num_examples_left = left.shape[1]
+    num_examples_right = right.shape[1]
+    fraction_of_data_left, fraction_of_data_right = getFractions(
+        num_examples_left, num_examples_right)
+    assert (fraction_of_data_left + fraction_of_data_right) == 1, (
         "Somethings wrong with how your data is splitting into " +
         "left and right datasets")
     # Intuitively, we want a feature that splits the data perfectly into
     # pure nodes on the left and right side, meaning that going from
     # the root node to the left nodes and right nodes, we gain a
     # lot of information
-    return entropyRoot - (fractionOfDataLeft * entropyLeftNode +
-                          fractionOfDataRight * entropyRightNode)
+    return entropy_root - (fraction_of_data_left * entropy_left_node +
+                           fraction_of_data_right * entropy_right_node)
 
 
 def getFractions(numExamplesLeft, numExamplesRight):
