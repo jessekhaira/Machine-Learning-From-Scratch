@@ -257,24 +257,24 @@ class BaseDecisionTree(object):
         if isinstance(split_pt,
                       (int, np.integer)) or isinstance(split_pt,
                                                        (float, np.float)):
-            matrixTrue = matrix[matrix[:, feature_row] >= split_pt]
-            xtrainR = matrixTrue[:, :-1].T
-            ytrainR = matrixTrue[:, -1].T.reshape(1, -1)
+            matrix_true = matrix[matrix[:, feature_row] >= split_pt]
+            xtrain_r = matrix_true[:, :-1].T
+            ytrain_r = matrix_true[:, -1].T.reshape(1, -1)
 
-            matrixFalse = matrix[matrix[:, feature_row] < split_pt]
-            xtrainL = matrixFalse[:, :-1].T
-            ytrainL = matrixFalse[:, -1].T.reshape(1, -1)
-            return xtrainL, ytrainL, xtrainR, ytrainR
+            matrix_false = matrix[matrix[:, feature_row] < split_pt]
+            xtrain_l = matrix_false[:, :-1].T
+            ytrain_l = matrix_false[:, -1].T.reshape(1, -1)
+            return xtrain_l, ytrain_l, xtrain_r, ytrain_r
         else:
-            matrixTrue = matrix[matrix[:, feature_row] == split_pt]
-            xtrainR = matrixTrue[:, :-1].T
-            ytrainR = matrixTrue[:, -1].T.reshape(1, -1)
+            matrix_true = matrix[matrix[:, feature_row] == split_pt]
+            xtrain_r = matrix_true[:, :-1].T
+            ytrain_r = matrix_true[:, -1].T.reshape(1, -1)
 
-            matrixFalse = matrix[matrix[:, feature_row] != split_pt]
-            xtrainL = matrixFalse[:, :-1].T
-            ytrainL = matrixFalse[:, -1].T.reshape(1, -1)
+            matrix_false = matrix[matrix[:, feature_row] != split_pt]
+            xtrain_l = matrix_false[:, :-1].T
+            ytrain_l = matrix_false[:, -1].T.reshape(1, -1)
 
-            return xtrainL, ytrainL, xtrainR, ytrainR
+            return xtrain_l, ytrain_l, xtrain_r, ytrain_r
 
     def _find_best_feature(
             self,
