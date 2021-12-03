@@ -16,7 +16,7 @@ def prediction_regression(labels: np.ndarray) -> float:
     return np.mean(labels)
 
 
-def entropyGain(root, left, right):
+def entropy_gain(root, left, right):
     entropy_root = entropy(root)
     entropy_left_node = entropy(left)
     entropy_right_node = entropy(right)

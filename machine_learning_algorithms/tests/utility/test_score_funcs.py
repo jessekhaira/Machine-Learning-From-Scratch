@@ -3,7 +3,7 @@ package """
 import unittest
 import numpy as np
 from machine_learning_algorithms.utility.decision_tree_functions import entropy
-from machine_learning_algorithms.utility.decision_tree_functions import entropyGain
+from machine_learning_algorithms.utility.decision_tree_functions import entropy_gain
 from machine_learning_algorithms.utility.decision_tree_functions import varianceReduction
 from machine_learning_algorithms.utility.decision_tree_functions import gini_index
 
@@ -25,7 +25,7 @@ class TestScoreFunctions(unittest.TestCase):
         self.assertAlmostEqual(entropyRoot, 0.9502705392)
         self.assertEqual(entropyL, 0)
         self.assertAlmostEqual(entropyR, 0.6931471805)
-        self.assertAlmostEqual(entropyGain(root, left, right), 0.6730116670092)
+        self.assertAlmostEqual(entropy_gain(root, left, right), 0.6730116670092)
 
     def testVarianceReduction(self):
         root = np.array([0.32, 0.72, 0.51, 0.63, 0.92, 0.82,

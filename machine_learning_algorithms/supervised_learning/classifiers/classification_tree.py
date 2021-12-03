@@ -1,7 +1,7 @@
 """ This module contains code representing the classification decision
 tree algorithm """
 from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import BaseDecisionTree
-from machine_learning_algorithms.utility.decision_tree_functions import entropyGain
+from machine_learning_algorithms.utility.decision_tree_functions import entropy_gain
 from machine_learning_algorithms.utility.decision_tree_functions import giniGain
 from machine_learning_algorithms.utility.decision_tree_functions import prediction_classification
 from typing import Union
@@ -39,7 +39,7 @@ class ClassificationTree(BaseDecisionTree):
                  maxDepth: Union[None, int] = None,
                  maxFeatures: Union[None, int] = None,
                  min_impurity_decrease: int = 0):
-        train_function = entropyGain if entropy else giniGain
+        train_function = entropy_gain if entropy else giniGain
         prediction_func = prediction_classification
         super(ClassificationTree,
               self).__init__(trainingFunction=train_function,
