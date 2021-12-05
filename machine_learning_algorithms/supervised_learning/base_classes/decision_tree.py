@@ -53,7 +53,7 @@ class BaseDecisionTree(object):
             decision tree
 
         trainingFunction:
-            For classification, can either be giniGain or entropyGain,
+            For classification, can either be gini_gain or entropyGain,
             for regression should be variance reduction. This function
             will be used to construct the tree.
 

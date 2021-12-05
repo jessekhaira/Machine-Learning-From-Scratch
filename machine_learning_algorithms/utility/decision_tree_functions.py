@@ -43,7 +43,7 @@ def get_fractions(num_examples_left: int,
     return fraction_left, fraction_right
 
 
-def giniGain(root, left, right):
+def gini_gain(root, left, right):
     giniCurr = gini_index(root)
     giniL = gini_index(left)
     giniR = gini_index(right)
