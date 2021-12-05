@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Tuple
 from machine_learning_algorithms.utility.score_functions import total_sum_of_squares
 from machine_learning_algorithms.utility.score_functions import entropy
 from machine_learning_algorithms.utility.score_functions import gini_index
@@ -35,7 +36,8 @@ def entropy_gain(root, left, right) -> float:
                            fraction_of_data_right * entropy_right_node)
 
 
-def get_fractions(num_examples_left, num_examples_right):
+def get_fractions(num_examples_left: int,
+                  num_examples_right: int) -> Tuple[float, float]:
     fraction_left = num_examples_left / (num_examples_left + num_examples_right)
     fraction_right = 1 - fraction_left
     return fraction_left, fraction_right
