@@ -22,7 +22,7 @@ def entropy_gain(root, left, right) -> float:
     entropy_right_node = entropy(right)
     num_examples_left = left.shape[1]
     num_examples_right = right.shape[1]
-    fraction_of_data_left, fraction_of_data_right = getFractions(
+    fraction_of_data_left, fraction_of_data_right = get_fractions(
         num_examples_left, num_examples_right)
     assert (fraction_of_data_left + fraction_of_data_right) == 1, (
         "Somethings wrong with how your data is splitting into " +
@@ -35,23 +35,24 @@ def entropy_gain(root, left, right) -> float:
                            fraction_of_data_right * entropy_right_node)
 
 
-def getFractions(numExamplesLeft, numExamplesRight):
-    fracL = numExamplesLeft / (numExamplesLeft + numExamplesRight)
-    fracR = 1 - fracL
-    return fracL, fracR
+def get_fractions(num_examples_left, num_examples_right):
+    fraction_left = num_examples_left / (num_examples_left + num_examples_right)
+    fraction_right = 1 - fraction_left
+    return fraction_left, fraction_right
 
 
 def giniGain(root, left, right):
     giniCurr = gini_index(root)
     giniL = gini_index(left)
     giniR = gini_index(right)
-    numExamplesLeft = left.shape[1]
-    numExamplesRight = right.shape[1]
-    fracL, fracR = getFractions(numExamplesLeft, numExamplesRight)
+    num_examples_left = left.shape[1]
+    num_examples_right = right.shape[1]
+    fraction_left, fraction_right = get_fractions(num_examples_left,
+                                                  num_examples_right)
     assert (
-        fracL + fracR
+        fraction_left + fraction_right
     ) == 1, "Somethings  wrong with how your data is splitting into left and right datasets"
-    return giniCurr - (fracL * giniL + fracR * giniR)
+    return giniCurr - (fraction_left * giniL + fraction_right * giniR)
 
 
 def varianceReduction(root, left, right):
@@ -61,11 +62,13 @@ def varianceReduction(root, left, right):
     varianceRoot = total_sum_of_squares(root)
     varianceLeft = total_sum_of_squares(left)
     varianceRight = total_sum_of_squares(right)
-    numExamplesLeft = left.shape[1]
-    numExamplesRight = right.shape[1]
-    fracL, fracR = getFractions(numExamplesLeft, numExamplesRight)
+    num_examples_left = left.shape[1]
+    num_examples_right = right.shape[1]
+    fraction_left, fraction_right = get_fractions(num_examples_left,
+                                                  num_examples_right)
     assert (
-        fracL + fracR
+        fraction_left + fraction_right
     ) == 1, "Somethings  wrong with how your data is splitting into left and right datasets"
     # Ideally you have 0 variance in left node and 0 variance in right node since your predictions are just perfect! :D
-    return varianceRoot - (fracL * varianceLeft + fracR * varianceRight)
+    return varianceRoot - (fraction_left * varianceLeft +
+                           fraction_right * varianceRight)
