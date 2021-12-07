@@ -44,17 +44,18 @@ def get_fractions(num_examples_left: int,
 
 
 def gini_gain(root, left, right):
-    giniCurr = gini_index(root)
-    giniL = gini_index(left)
-    giniR = gini_index(right)
+    gini_curr = gini_index(root)
+    gini_left_node = gini_index(left)
+    gini_right_node = gini_index(right)
     num_examples_left = left.shape[1]
     num_examples_right = right.shape[1]
     fraction_left, fraction_right = get_fractions(num_examples_left,
                                                   num_examples_right)
-    assert (
-        fraction_left + fraction_right
-    ) == 1, "Somethings  wrong with how your data is splitting into left and right datasets"
-    return giniCurr - (fraction_left * giniL + fraction_right * giniR)
+    assert (fraction_left + fraction_right) == 1, (
+        "Somethings  wrong with how your data is splitting into " +
+        "left and right datasets")
+    return gini_curr - (fraction_left * gini_left_node +
+                        fraction_right * gini_right_node)
 
 
 def varianceReduction(root, left, right):
