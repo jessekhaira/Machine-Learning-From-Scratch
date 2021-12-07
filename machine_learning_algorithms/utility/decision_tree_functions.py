@@ -59,9 +59,10 @@ def gini_gain(root, left, right):
 
 
 def varianceReduction(root, left, right):
-    # In a regression tree, at any node, the expected value of all of the examples that fall in the node
-    # IS the prediction. So getting the variance is like calculating the RSS, except our prediction for every
-    # example is the same of the mean value
+    # In a regression tree, at any node, the expected value of all
+    # of the examples that fall in the node IS the prediction. So
+    # getting the variance is like calculating the RSS, except our
+    # prediction for every example is the same of the mean value
     varianceRoot = total_sum_of_squares(root)
     varianceLeft = total_sum_of_squares(left)
     varianceRight = total_sum_of_squares(right)
