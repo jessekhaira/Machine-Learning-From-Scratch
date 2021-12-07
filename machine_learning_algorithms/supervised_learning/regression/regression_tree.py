@@ -2,7 +2,7 @@
 tree algorithm """
 from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import BaseDecisionTree
 from machine_learning_algorithms.utility.decision_tree_functions import prediction_regression
-from machine_learning_algorithms.utility.decision_tree_functions import varianceReduction
+from machine_learning_algorithms.utility.decision_tree_functions import variance_reduction
 
 
 class RegressionTree(BaseDecisionTree):
@@ -33,7 +33,7 @@ class RegressionTree(BaseDecisionTree):
                  maxFeatures=None,
                  min_impurity_decrease=0):
         super(RegressionTree,
-              self).__init__(trainingFunction=varianceReduction,
+              self).__init__(trainingFunction=variance_reduction,
                              predictionFunc=prediction_regression,
                              minSamplesSplit=minSamplesSplit,
                              maxDepth=maxDepth,

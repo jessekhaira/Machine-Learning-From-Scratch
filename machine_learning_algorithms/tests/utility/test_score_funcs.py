@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 from machine_learning_algorithms.utility.decision_tree_functions import entropy
 from machine_learning_algorithms.utility.decision_tree_functions import entropy_gain
-from machine_learning_algorithms.utility.decision_tree_functions import varianceReduction
+from machine_learning_algorithms.utility.decision_tree_functions import variance_reduction
 from machine_learning_algorithms.utility.decision_tree_functions import gini_index
 
 
@@ -32,7 +32,7 @@ class TestScoreFunctions(unittest.TestCase):
                          0.4]).reshape(1, -1)
         left = np.array([0.32, 0.72, 0.51]).reshape(1, -1)
         right = np.array([0.63, 0.92, 0.82, 0.4]).reshape(1, -1)
-        self.assertAlmostEqual(varianceReduction(root, left, right),
+        self.assertAlmostEqual(variance_reduction(root, left, right),
                                0.166242857)
 
     def testGini(self):
