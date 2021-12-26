@@ -1,3 +1,5 @@
+"""This module contains a bunch of utility functions
+related to building and using decision trees"""
 import numpy as np
 from typing import Tuple
 from machine_learning_algorithms.utility.score_functions import total_sum_of_squares
