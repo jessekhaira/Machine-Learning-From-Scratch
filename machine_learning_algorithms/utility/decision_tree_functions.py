@@ -45,7 +45,8 @@ def get_fractions(num_examples_left: int,
     return fraction_left, fraction_right
 
 
-def gini_gain(root, left, right):
+def gini_gain(root: DecisionTreeNode, left: DecisionTreeNode,
+              right: DecisionTreeNode) -> float:
     gini_curr = gini_index(root)
     gini_left_node = gini_index(left)
     gini_right_node = gini_index(right)
