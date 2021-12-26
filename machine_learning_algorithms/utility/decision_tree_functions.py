@@ -3,9 +3,10 @@ from typing import Tuple
 from machine_learning_algorithms.utility.score_functions import total_sum_of_squares
 from machine_learning_algorithms.utility.score_functions import entropy
 from machine_learning_algorithms.utility.score_functions import gini_index
+from machine_learning_algorithms.supervised_learning.base_classes.decision_tree import DecisionTreeNode
 
 
-def prediction_classification(labels):
+def prediction_classification(labels: np.ndarray) -> int:
     # Just predict the most commonly occurring class AKA the mode of the labels
     vals, counts = np.unique(labels, return_counts=True)
     idx = np.argmax(counts)
@@ -17,7 +18,8 @@ def prediction_regression(labels: np.ndarray) -> float:
     return np.mean(labels)
 
 
-def entropy_gain(root, left, right) -> float:
+def entropy_gain(root: DecisionTreeNode, left: DecisionTreeNode,
+                 right: DecisionTreeNode) -> float:
     entropy_root = entropy(root)
     entropy_left_node = entropy(left)
     entropy_right_node = entropy(right)
