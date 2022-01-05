@@ -76,9 +76,10 @@ def variance_reduction(root: DecisionTreeNode, left: DecisionTreeNode,
     num_examples_right = right.shape[1]
     fraction_left, fraction_right = get_fractions(num_examples_left,
                                                   num_examples_right)
-    assert (
-        fraction_left + fraction_right
-    ) == 1, "Somethings  wrong with how your data is splitting into left and right datasets"
-    # Ideally you have 0 variance in left node and 0 variance in right node since your predictions are just perfect! :D
+    assert (fraction_left + fraction_right) == 1, (
+        "Somethings wrong with how your data is splitting into " +
+        "left and right datasets")
+    # Ideally you have 0 variance in left node and 0 variance in right
+    # node since your predictions are just perfect! :D
     return varianceRoot - (fraction_left * varianceLeft +
                            fraction_right * varianceRight)
