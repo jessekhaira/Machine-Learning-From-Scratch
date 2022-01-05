@@ -63,7 +63,8 @@ def gini_gain(root: DecisionTreeNode, left: DecisionTreeNode,
                         fraction_right * gini_right_node)
 
 
-def variance_reduction(root, left, right):
+def variance_reduction(root: DecisionTreeNode, left: DecisionTreeNode,
+                       right: DecisionTreeNode) -> float:
     # In a regression tree, at any node, the expected value of all
     # of the examples that fall in the node IS the prediction. So
     # getting the variance is like calculating the RSS, except our
