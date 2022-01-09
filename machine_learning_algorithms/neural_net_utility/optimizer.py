@@ -85,7 +85,11 @@ class AdaGrad(Optimizer):
         self.running_gradients = []
         self.eps = 1e-8
 
-    def update_params(self, params, dparams, learn_rate, epoch_num=None):
+    def update_params(self,
+                      params: np.ndarray,
+                      dparams: np.ndarray,
+                      learn_rate: float,
+                      epoch_num: Union[None, int] = None) -> np.ndarray:
         if not self.running_gradients:
             for i in range(len(params)):
                 self.running_gradients.append(np.zeros_like(dparams[i]))
