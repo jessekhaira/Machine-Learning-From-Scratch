@@ -105,12 +105,16 @@ class AdaGrad(Optimizer):
 class RMSProp(Optimizer):
     """ This class represents the RMSProp optimization algorithm """
 
-    def __init__(self, beta=0.9, eps=1e-8):
+    def __init__(self, beta: float = 0.9, eps: float = 1e-8):
         self.running_gradients = []
         self.beta = beta
         self.eps = eps
 
-    def update_params(self, params, dparams, learn_rate, epoch_num=None):
+    def update_params(self,
+                      params: np.ndarray,
+                      dparams: np.ndarray,
+                      learn_rate: float,
+                      epoch_num: Union[None, int] = None):
         # epoch zero, initialize running gradients for every single
         # parameter in this layer
         if not self.running_gradients:
