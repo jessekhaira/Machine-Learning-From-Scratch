@@ -69,9 +69,9 @@ def variance_reduction(root: DecisionTreeNode, left: DecisionTreeNode,
     # of the examples that fall in the node IS the prediction. So
     # getting the variance is like calculating the RSS, except our
     # prediction for every example is the same of the mean value
-    varianceRoot = total_sum_of_squares(root)
-    varianceLeft = total_sum_of_squares(left)
-    varianceRight = total_sum_of_squares(right)
+    variance_root = total_sum_of_squares(root)
+    variance_left = total_sum_of_squares(left)
+    variance_right = total_sum_of_squares(right)
     num_examples_left = left.shape[1]
     num_examples_right = right.shape[1]
     fraction_left, fraction_right = get_fractions(num_examples_left,
@@ -81,5 +81,5 @@ def variance_reduction(root: DecisionTreeNode, left: DecisionTreeNode,
         "left and right datasets")
     # Ideally you have 0 variance in left node and 0 variance in right
     # node since your predictions are just perfect! :D
-    return varianceRoot - (fraction_left * varianceLeft +
-                           fraction_right * varianceRight)
+    return variance_root - (fraction_left * variance_left +
+                            fraction_right * variance_right)
