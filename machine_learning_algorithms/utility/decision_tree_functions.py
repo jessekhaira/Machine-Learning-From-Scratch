@@ -65,6 +65,10 @@ def gini_gain(root: DecisionTreeNode, left: DecisionTreeNode,
 
 def variance_reduction(root: DecisionTreeNode, left: DecisionTreeNode,
                        right: DecisionTreeNode) -> float:
+    """This function represents the variance reduction algorithm
+    used to train decision trees performing regression, helping
+    to choose the optimal feature + split point pair to split
+    a node"""
     # In a regression tree, at any node, the expected value of all
     # of the examples that fall in the node IS the prediction. So
     # getting the variance is like calculating the RSS, except our
