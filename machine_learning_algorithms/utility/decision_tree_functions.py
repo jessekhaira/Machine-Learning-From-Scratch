@@ -19,6 +19,9 @@ def prediction_classification(labels: np.ndarray) -> int:
 
 
 def prediction_regression(labels: np.ndarray) -> float:
+    """ This function is meant to be used to predict a label at a
+    leaf node inside of a regression tree, which will be
+    the average of all the labels inside this node"""
     # Just predict the average of the values that fall in this leaf!
     return np.mean(labels)
 
