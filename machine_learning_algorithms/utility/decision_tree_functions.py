@@ -9,6 +9,9 @@ from machine_learning_algorithms.supervised_learning.base_classes.decision_tree 
 
 
 def prediction_classification(labels: np.ndarray) -> int:
+    """ This function is meant to be used to predict a label at a
+    leaf node inside of a classification tree, which will be
+    the most commonly occurring label inside this node"""
     # Just predict the most commonly occurring class AKA the mode of the labels
     vals, counts = np.unique(labels, return_counts=True)
     idx = np.argmax(counts)
