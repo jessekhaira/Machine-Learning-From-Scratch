@@ -9,7 +9,7 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     vector created from the input vector y, where the number of unique
     values inside of the input vector y determine the number of columns
     inside the output matrix.
-    
+
     Typically used to create the label matrix when training a 
     multiclass classification algorithm"""
     # Squish y to be one row
@@ -22,6 +22,10 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
 
 
 def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
+    """ This functions purpose is to create a one hot encoded vector
+    of shape (n, 1) where n is the num_feature argument, and the value
+    that has a 1 is determined by the idx_one argumnet 
+    """
     vector = np.zeros((num_features, 1))
     vector[idx_one] = 1
     return vector
