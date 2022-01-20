@@ -10,8 +10,8 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     values inside of the input vector y determine the number of columns
     inside the output matrix.
 
-    Typically used to create the label matrix when training a 
-    multiclass classification algorithm"""
+    Typically used to create the label matrix when training a
+    multiclass classification algorithm """
     # Squish y to be one row
     y_use = y.reshape(-1)
     num_labels = len(np.unique(y_use))
@@ -24,8 +24,7 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
 def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
     """ This functions purpose is to create a one hot encoded vector
     of shape (n, 1) where n is the num_feature argument, and the value
-    that has a 1 is determined by the idx_one argumnet 
-    """
+    that has a 1 is determined by the idx_one argumnet """
     vector = np.zeros((num_features, 1))
     vector[idx_one] = 1
     return vector
@@ -56,6 +55,9 @@ def get_unique_chars(text_file):
 
 
 def map_idx_to_char(chars):
+    """ This function is often used during the preprocessing phase
+    in natural language processing to map each of the tokens inside
+    of the chars argument to an index in a vocabulary """
     return {i: char for i, char in enumerate(chars)}
 
 
