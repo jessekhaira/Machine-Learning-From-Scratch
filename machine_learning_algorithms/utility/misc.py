@@ -4,6 +4,14 @@ import numpy as np
 
 
 def one_hot_encode(y: np.ndarray) -> np.ndarray:
+    """ This functions purpose is to create a (m, n) matrix
+    where each column in the matrix contains a one hot encoded
+    vector created from the input vector y, where the number of unique
+    values inside of the input vector y determine the number of columns
+    inside the output matrix.
+    
+    Typically used to create the label matrix when training a 
+    multiclass classification algorithm"""
     # Squish y to be one row
     y_use = y.reshape(-1)
     num_labels = len(np.unique(y_use))
