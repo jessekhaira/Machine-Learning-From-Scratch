@@ -68,6 +68,9 @@ def map_idx_to_char(chars):
 
 
 def map_char_to_idx(chars):
+    """ This function is often used during the preprocessing phase
+    in natural language processing to map each of the tokens inside
+    of the chars argument to an index in a vocabulary """
     return {char: idx for idx, char in enumerate(chars)}
 
 
