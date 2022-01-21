@@ -54,6 +54,9 @@ def gradient_clipping(dparams: np.ndarray) -> None:
 
 
 def get_unique_chars(text_file):
+    """ This function produces a basic vocabulary for a text file
+    through tokenizing by splitting on white space, and returning
+    a set of all the tokens found """
     return list(set(text_file))
 
 
