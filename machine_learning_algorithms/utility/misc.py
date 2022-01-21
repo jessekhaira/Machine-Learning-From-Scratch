@@ -31,11 +31,14 @@ def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
 
 
 def convert_to_highest_pred(arr: np.ndarray) -> np.ndarray:
+
     arr = np.argmax(arr, axis=0)
     return arr
 
 
 def euclidean_distance(x: np.ndarray, y: np.ndarray) -> float:
+    """ This function computes the euclidean distance between
+    two N dimensional vectors"""
     # euclidean distance is the l2 norm of the vector x- y
     return np.linalg.norm(x - y, ord=2)
 
