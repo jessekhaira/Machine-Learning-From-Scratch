@@ -22,6 +22,9 @@ def root_mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 
 def r_squared(ylabel: np.ndarray, yhat: np.ndarray) -> float:
+    """ This function computes the r squared metric, typically used to
+    assess the performance of machine learning algorithms performing
+    regression """
     residual_sum_of_squares_val = residual_sum_of_squares(ylabel, yhat)
     total_sum_of_squares_val = total_sum_of_squares(ylabel)
     return 1 - (residual_sum_of_squares_val / total_sum_of_squares_val)
