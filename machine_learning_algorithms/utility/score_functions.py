@@ -56,6 +56,9 @@ def total_sum_of_squares(ylabel: np.ndarray) -> float:
 
 
 def entropy(labels: np.ndarray) -> float:
+    """ This function computes the entropy of the input tensor,
+    which should be a vector of probabilities with every value
+    between 0 and 1 and the sum of the vector equating to 1"""
     probability_each_class = get_counts(labels)
     return -1 * sum(
         probability_each_class[i] * np.log(probability_each_class[i])
