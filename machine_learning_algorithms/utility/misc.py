@@ -49,6 +49,10 @@ def find_row_column_max_element(tensor: np.ndarray):
 
 
 def gradient_clipping(dparams: np.ndarray) -> None:
+    """ The purpose of this function is to perform gradient clipping to
+    help avoid exploding gradients when training neural networks.
+    Specifically, every value in the input matrix will be clipped to
+    be between a minimum of -5, and maximum of 5 """
     for gradient_tensor in dparams:
         np.clip(gradient_tensor, -5, 5, out=gradient_tensor)
 
