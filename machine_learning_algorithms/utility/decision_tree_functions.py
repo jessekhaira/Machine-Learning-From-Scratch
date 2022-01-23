@@ -28,6 +28,9 @@ def prediction_regression(labels: np.ndarray) -> float:
 
 def entropy_gain(root: DecisionTreeNode, left: DecisionTreeNode,
                  right: DecisionTreeNode) -> float:
+    """ This function represents the information gain criterion 
+    based on entropy, used to train decision trees by helping choose
+    which feature + split point should be used within a given node"""
     entropy_root = entropy(root)
     entropy_left_node = entropy(left)
     entropy_right_node = entropy(right)
