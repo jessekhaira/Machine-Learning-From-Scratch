@@ -29,34 +29,26 @@ class KFoldCrossValidation(object):
             x:
                 Numpy array of shape (num_features, num_examples) containing
                 feature vectors the algorithm is meant to train on
-
             y:
                 Numpy array of shape (1, num_examples)
-
             scoreFunc:
                 Function indicating how you would like to score your model
                 Ex. Regression: mean_squared_error, mean_absolute_error.
                 Classification: Acccuracy, Precision, etc
-
             model:
                 Model object that has a .fit() method and a .predict() method
-
             k:
                 Integer representing how many folds total you would like to
                 have in your estimation
-
             numEpochs:
                 Value of type integer or None representing the number of epochs
                 to train the algorithm, or None
-
             learn_rate:
                 Floating point value representing the learning rate to use
                 inside the optimization algorithm, or None
-
             optim:
                 Object representing the optimization algorithm to use during
                 training, or None
-
         Returns:
             Floating point value representing the average value of the score
             function over all the folds
@@ -114,13 +106,10 @@ class KFoldCrossValidation(object):
             x:
                 Numpy array of shape (num_features, num_examples)
                 containing feature vectors for the algorithm to train on
-
             y:
                 NumPy vector of shape (1, num_examples)
-
             k:
                 Integer representing the number of folds to be used
-
         Returns:
                 List containing tuples of examples. Ex. list[i] = (x_traini,
                 y_traini)
@@ -143,7 +132,7 @@ class KFoldCrossValidation(object):
         else:
             y_shuffled = matrix[:, x.shape[0]:].T
         batch_end = 0
-        for i in range(k):
+        for _ in range(k):
             batch_start = batch_end
             batch_end = batch_start + size_batch
             # Notation [:, batch_start: batch_start + batch_end] means to get
