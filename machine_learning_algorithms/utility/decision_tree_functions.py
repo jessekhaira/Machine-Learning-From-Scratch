@@ -28,7 +28,7 @@ def prediction_regression(labels: np.ndarray) -> float:
 
 def entropy_gain(root: DecisionTreeNode, left: DecisionTreeNode,
                  right: DecisionTreeNode) -> float:
-    """ This function represents the information gain criterion 
+    """ This function represents the information gain criterion
     based on entropy, used to train decision trees by helping choose
     which feature + split point should be used within a given node"""
     entropy_root = entropy(root)
@@ -51,6 +51,8 @@ def entropy_gain(root: DecisionTreeNode, left: DecisionTreeNode,
 
 def get_fractions(num_examples_left: int,
                   num_examples_right: int) -> Tuple[float, float]:
+    """ This function returns the fraction of examples that landed in the
+    left node, and the right node"""
     fraction_left = num_examples_left / (num_examples_left + num_examples_right)
     fraction_right = 1 - fraction_left
     return fraction_left, fraction_right
@@ -58,6 +60,9 @@ def get_fractions(num_examples_left: int,
 
 def gini_gain(root: DecisionTreeNode, left: DecisionTreeNode,
               right: DecisionTreeNode) -> float:
+    """ This function represents the information gain criterion
+    based on the gini index, used to train decision trees by helping choose
+    which feature + split point should be used within a given node"""
     gini_curr = gini_index(root)
     gini_left_node = gini_index(left)
     gini_right_node = gini_index(right)
