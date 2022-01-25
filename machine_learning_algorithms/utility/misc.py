@@ -31,6 +31,8 @@ def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
 
 
 def convert_to_highest_pred(arr: np.ndarray) -> np.ndarray:
+    """ This function accepts an array as input, and produces the indices
+    where the maximum value occurs within this array """
     arr = np.argmax(arr, axis=0)
     return arr
 
