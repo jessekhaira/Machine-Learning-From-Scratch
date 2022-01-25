@@ -31,7 +31,6 @@ def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
 
 
 def convert_to_highest_pred(arr: np.ndarray) -> np.ndarray:
-
     arr = np.argmax(arr, axis=0)
     return arr
 
@@ -79,6 +78,8 @@ def map_char_to_idx(chars):
 
 
 def get_covariance_matrix(matrix: np.ndarray) -> np.ndarray:
+    """ This function accepts a matrix as input, and produces a
+    covariance matrix for the input matrix as output"""
     mean_features = np.mean(matrix, axis=1, keepdims=True)
     # vectorize operation to get covariance matrix - don't want to do
     # an expensive python for loop
