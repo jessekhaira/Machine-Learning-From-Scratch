@@ -9,15 +9,16 @@ def accuracy(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 
 def mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
-    """This function represents the mean squared error score function
-    used to assess the performance of a machine learning algorithm
-    performing regression"""
+    """This function represents the mean squared error function, often
+    used to assess the performance of machine learning algorithms
+    performing regression, and also used as the objective function to train
+    regression algorithms iteratively"""
     return np.square(np.subtract(ylabel, yhat)).mean()
 
 
 def mean_absolute_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
-    """This function represents the mean absolute error score function
-    used to assess the performance of a machine learning algorithm
+    """This function represents the mean absolute error function
+    often used to assess the performance of a machine learning algorithm
     performing regression"""
     return np.abs(ylabel - yhat).mean()
 
@@ -52,8 +53,10 @@ def r_squared_adjusted(ylabel: np.ndarray, yhat: np.ndarray,
 
 
 def residual_sum_of_squares(ylabel: np.ndarray, yhat: np.ndarray) -> float:
-    """ Find the sum of all the residuals over every single example,
-    not averaged over the examples """
+    """ This function represents the residual sum of squares score function
+    used often to assess the performance of a machine learning algorithm
+    performing regression, and also used as the objective function to train
+    regression algorithms"""
     return np.sum(np.square(np.subtract(ylabel, yhat)))
 
 
