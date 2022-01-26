@@ -16,6 +16,9 @@ def mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 
 def mean_absolute_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
+    """This function represents the mean absolute error score function
+    used to assess the performance of a machine learning algorithm
+    performing regression"""
     return np.abs(ylabel - yhat).mean()
 
 
