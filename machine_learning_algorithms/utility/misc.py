@@ -81,7 +81,15 @@ def map_char_to_idx(chars):
 
 def get_covariance_matrix(matrix: np.ndarray) -> np.ndarray:
     """ This function accepts a matrix as input, and produces a
-    covariance matrix for the input matrix as output"""
+    covariance matrix for the input matrix as output
+
+    Args:
+        matrix:
+            A numpy matrix
+    Returns:
+        A matrix which represents the covariance matrix of the
+        input matrix
+    """
     mean_features = np.mean(matrix, axis=1, keepdims=True)
     # vectorize operation to get covariance matrix - don't want to do
     # an expensive python for loop
