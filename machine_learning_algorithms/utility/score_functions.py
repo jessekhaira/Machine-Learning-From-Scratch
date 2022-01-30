@@ -81,6 +81,7 @@ def entropy(labels: np.ndarray) -> float:
 
 
 def gini_index(labels: np.ndarray) -> float:
+    """ This function computes the gini index of the input tensor."""
     probability_each_class = get_counts(labels)
     sum_each_squared = sum(
         probability_each_class[i]**2 for i in probability_each_class)
