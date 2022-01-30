@@ -9,7 +9,7 @@ def accuracy(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 
 def mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
-    """This function represents the mean squared error function, often
+    """ This function represents the mean squared error function, often
     used to assess the performance of machine learning algorithms
     performing regression, and also used as the objective function to train
     regression algorithms iteratively"""
@@ -17,13 +17,16 @@ def mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
 
 
 def mean_absolute_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
-    """This function represents the mean absolute error function
-    often used to assess the performance of a machine learning algorithm
-    performing regression"""
+    """ This function represents the mean absolute error function
+    often used as a metric to assess the performance of a machine
+    learning algorithm performing regression"""
     return np.abs(ylabel - yhat).mean()
 
 
 def root_mean_squared_error(ylabel: np.ndarray, yhat: np.ndarray) -> float:
+    """ This function computes the root mean squared error, a function often
+    used as a metric to assess the performance of a machine learning
+    algorithm performing regression"""
     output = mean_squared_error(ylabel, yhat)
     return output**0.5
 
