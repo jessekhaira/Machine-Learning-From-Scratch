@@ -34,7 +34,18 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
 def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
     """ This functions purpose is to create a one hot encoded vector
     of shape (n, 1) where n is the num_feature argument, and the value
-    that has a 1 is determined by the idx_one argumnet """
+    that has a 1 is determined by the idx_one argumnet.
+    
+    Args:
+        num_features:
+            Integer representing the number of features that should be in the
+            output vector
+        idx_one:
+            Integer representing which one of the dimensions in the output
+            vector should be encoded with a one
+    Returns:
+        A numpy vector of shape (n,1), where all the values are zero except one
+    """
     vector = np.zeros((num_features, 1))
     vector[idx_one] = 1
     return vector
