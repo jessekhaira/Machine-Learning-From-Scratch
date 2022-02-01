@@ -11,7 +11,17 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     inside the output matrix.
 
     Typically used to create the label matrix when training a
-    multiclass classification algorithm """
+    multiclass classification algorithm using minibatch/batch methods
+
+    Args:
+        y:
+            Numpy array containing integers that represent classes
+            for a classification problem
+    Returns:
+        A numpy matrix of shape (M,C) where M is the number of examples for
+        a classification task, and C is the number of classes, where
+        every column vector is one hot encoded
+    """
     # Squish y to be one row
     y_use = y.reshape(-1)
     num_labels = len(np.unique(y_use))
