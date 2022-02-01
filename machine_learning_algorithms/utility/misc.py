@@ -35,7 +35,7 @@ def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
     """ This functions purpose is to create a one hot encoded vector
     of shape (n, 1) where n is the num_feature argument, and the value
     that has a 1 is determined by the idx_one argumnet.
-    
+
     Args:
         num_features:
             Integer representing the number of features that should be in the
@@ -60,7 +60,17 @@ def convert_to_highest_pred(arr: np.ndarray) -> np.ndarray:
 
 def euclidean_distance(x: np.ndarray, y: np.ndarray) -> float:
     """ This function computes the euclidean distance between
-    two N dimensional vectors"""
+    two N dimensional vectors
+    
+    Args:
+        x:
+            An N dimensional numpy vector
+        y:
+            An N dimensional numpy vector
+    Returns:
+        A floating point value representing the euclidean distance between
+        the vectors
+    """
     # euclidean distance is the l2 norm of the vector x- y
     return np.linalg.norm(x - y, ord=2)
 
