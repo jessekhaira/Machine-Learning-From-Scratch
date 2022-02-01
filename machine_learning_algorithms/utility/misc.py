@@ -61,7 +61,7 @@ def convert_to_highest_pred(arr: np.ndarray) -> np.ndarray:
 def euclidean_distance(x: np.ndarray, y: np.ndarray) -> float:
     """ This function computes the euclidean distance between
     two N dimensional vectors
-    
+
     Args:
         x:
             An N dimensional numpy vector
