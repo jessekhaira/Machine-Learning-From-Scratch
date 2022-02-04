@@ -3,6 +3,7 @@ machine learning algorithm """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.activation_functions import Sigmoid
 import matplotlib.pyplot as plt
+from typing import Tuple
 
 
 class RBM(object):
@@ -87,7 +88,8 @@ class RBM(object):
         self.is_img = is_img
         self.ret_train = ret_train
 
-    def _init_weights(self, n_visible, n_hidden):
+    def _init_weights(self, n_visible: int,
+                      n_hidden: int) -> Tuple[np.ndarray, np.ndarray]:
         """This method initialize and returns parameters initialized to small
         random values chosen from a zero-mean gaussian distribution w/
         a standard deviation of 0.01"""
