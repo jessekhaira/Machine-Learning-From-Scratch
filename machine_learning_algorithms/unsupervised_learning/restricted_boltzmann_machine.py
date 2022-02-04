@@ -92,7 +92,17 @@ class RBM(object):
                       n_hidden: int) -> Tuple[np.ndarray, np.ndarray]:
         """This method initialize and returns parameters initialized to small
         random values chosen from a zero-mean gaussian distribution w/
-        a standard deviation of 0.01"""
+        a standard deviation of 0.01
+
+        Args:
+            n_visible:
+                Integer representing the number of visible units
+            n_hidden:
+                Integer representing the number of hidden units
+        Returns:
+            A tuple containing two numpy arrays, representing the parameters
+            for the hidden and visible layers
+        """
         w = np.random.normal(0, 0.01, (n_visible, n_hidden))
         # init biases to zeros
         b_v = np.zeros((1, n_visible))
