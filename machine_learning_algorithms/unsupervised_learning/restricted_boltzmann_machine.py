@@ -88,8 +88,9 @@ class RBM(object):
         self.ret_train = ret_train
 
     def _init_weights(self, n_visible, n_hidden):
-        # initialize weights to small random values chosen from a zero-mean
-        # Gaussian distribution w/ std dev of 0.01
+        """This method initialize and returns parameters initialized to small
+        random values chosen from a zero-mean gaussian distribution w/
+        a standard deviation of 0.01"""
         w = np.random.normal(0, 0.01, (n_visible, n_hidden))
         # init biases to zeros
         b_v = np.zeros((1, n_visible))
