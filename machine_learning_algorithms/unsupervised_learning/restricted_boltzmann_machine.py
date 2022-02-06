@@ -109,11 +109,12 @@ class RBM(object):
         b_h = np.zeros((1, n_hidden))
         return w, b_v, b_h
 
-    def _get_reconstruct_error(self, real, reconstruct):
+    def _get_reconstruct_error(self, real: np.ndarray,
+                               reconstruct: np.ndarray) -> float:
         # avg squared error of real x and reconstructed x from the hidden units
         return np.mean((real - reconstruct)**2)
 
-    def v_to_h(self, vis):
+    def v_to_h(self, vis: np.ndarray):
         hidden_probabilities = self.sigmoid.compute_output(
             vis.dot(self.w) + self.b_h)
 
