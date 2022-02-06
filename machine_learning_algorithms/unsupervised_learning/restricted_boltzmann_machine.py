@@ -111,6 +111,9 @@ class RBM(object):
 
     def _get_reconstruct_error(self, real: np.ndarray,
                                reconstruct: np.ndarray) -> float:
+        """This function can be used to assess the performance of the RBM
+        by obtaining the mean squared error between label values and reconstructed
+        values """
         # avg squared error of real x and reconstructed x from the hidden units
         return np.mean((real - reconstruct)**2)
 
