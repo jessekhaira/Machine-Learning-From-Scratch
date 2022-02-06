@@ -3,7 +3,7 @@ machine learning algorithm """
 import numpy as np
 from machine_learning_algorithms.neural_net_utility.activation_functions import Sigmoid
 import matplotlib.pyplot as plt
-from typing import Tuple
+from typing import Tuple, Union, List
 
 
 class RBM(object):
@@ -112,8 +112,8 @@ class RBM(object):
     def _get_reconstruct_error(self, real: np.ndarray,
                                reconstruct: np.ndarray) -> float:
         """This function can be used to assess the performance of the RBM
-        by obtaining the mean squared error between label values and reconstructed
-        values """
+        by obtaining the mean squared error between label values and
+        reconstructed values """
         # avg squared error of real x and reconstructed x from the hidden units
         return np.mean((real - reconstruct)**2)
 
@@ -136,10 +136,12 @@ class RBM(object):
             sampled_h.dot(self.w.T) + self.b_v)
         return x_reconstruct
 
-    def train(self,
-              data: np.ndarray,
-              verbose: bool = True,
-              sampling_epochs: int = 10):
+    def train(
+        self,
+        data: np.ndarray,
+        verbose: bool = True,
+        sampling_epochs: int = 10
+    ) -> Union[None, Tuple[List[float], List[np.ndarray]]]:
         """This method is used to train the RBM on data of shape (M, n_visible),
         where M is the number of examples in the dataset and n_visible is the
         number of features.
