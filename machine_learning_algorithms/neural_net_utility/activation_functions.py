@@ -73,7 +73,6 @@ class Sigmoid(BaseActivationFunction):
                 Scalar or matrix input to get da/dz for, where a is the
                 activation produced by this function and z is the input
                 value
-
         Returns:
             A scalar value or matrix representing da/dz, where a is the
             activation produced by this function and z is the input
@@ -134,7 +133,6 @@ class Softmax(BaseActivationFunction):
             a:
                 Vector of shape (C,1) representing one of the activations
                 in the fully activated matrix
-
         Returns:
             A numpy array of shape (C,C) representing the Jacobian matrix
             for the function.
@@ -161,14 +159,12 @@ class ReLU(BaseActivationFunction):
     def compute_output(
             self, x: Union[int, float,
                            np.ndarray]) -> Union[int, float, np.ndarray]:
-        """
-        This function computes the ReLU function elementwise
+        """ This function computes the ReLU function elementwise
         over the input x
 
         Args:
             x:
                 Integer, floating point value or tensor
-
         Returns:
             Integer, floating point value or tensor. Just returns the same
             data type that was input
@@ -184,7 +180,6 @@ class ReLU(BaseActivationFunction):
         Args:
             x:
                 Integer, floating point value or tensor
-
         Returns:
             A value of the same data type that was input representing
             da/dz
@@ -206,7 +201,6 @@ class TanH(BaseActivationFunction):
         Args:
             x:
                 Integer, floating point value or tensor
-
         Returns:
             A value of the same data type that was input representing
             da/dz
@@ -222,7 +216,6 @@ class TanH(BaseActivationFunction):
         Args:
             x:
                 Integer, floating point value or tensor
-
         Returns:
             A value of the same data type that was input representing
             da/dz
