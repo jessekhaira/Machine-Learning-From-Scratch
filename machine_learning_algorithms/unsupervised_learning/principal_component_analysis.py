@@ -26,19 +26,17 @@ class PrincipalComponentAnalysis:
         """ This method extracts num_principal principal components
         from the input data and returns them.
 
-        Arguments:
+        Args:
             data:
                 NumPy array of shape (num_features, num_examples) representing
                 the data to find principal components for
-
             num_principal:
                 Integer representing the number of dimensions that the user
                 would like to reduce the data to
-
         Returns:
             NumPy array of shape (num_principal, num_examples) where
             num_principal is the number of features in the reduced
-            dimensionality dataset. 
+            dimensionality dataset.
         """
         # perform PCA by doing eigen decomposition on the covariance matrix
         cov_matrix = get_covariance_matrix(data)
