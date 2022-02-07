@@ -129,7 +129,7 @@ class RBM(object):
 
         return hidden_probabilities, sampled_h
 
-    def h_to_v(self, sampled_h):
+    def h_to_v(self, sampled_h: np.ndarray) -> np.ndarray:
         # assuming the visible units use the logistic function - use real-valued
         # probabilities for both the data and the reconstructions
         x_reconstruct = self.sigmoid.compute_output(
