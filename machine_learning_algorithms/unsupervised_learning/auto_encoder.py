@@ -7,6 +7,7 @@ from machine_learning_algorithms.neural_net_utility.loss_functions import MeanSq
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 from machine_learning_algorithms.neural_net_utility.optimizer import GradientDescent, Optimizer
 import matplotlib.pyplot as plt
+from typing import List, Union
 
 
 class AutoEncoder(NeuralNetworkBase):
@@ -116,7 +117,7 @@ class AutoEncoder(NeuralNetworkBase):
             ret_train_loss: bool = False,
             learn_rate: float = 0.1,
             optim: Optimizer = GradientDescent(),
-            verbose: bool = False):
+            verbose: bool = False) -> Union[List[float], None]:
         num_batches = xtrain.shape[1] // batch_size
         train_loss = []
         for epoch in range(num_epochs):
