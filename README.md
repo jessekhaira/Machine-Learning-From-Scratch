@@ -25,7 +25,7 @@ Base Classes (abstract classes which concrete classes implement, keeps code DRY)
 - [k-Nearest Neighbours (kNN)](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/base_classes/k_nearest_neighbours_base.py)
 - [Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/neural_net_utility/neural_net_base.py)
 - [Decision Tree](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/base_classes/decision_tree.py)
-- [Bagged Forest](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/base_classes/BaggedForest.py)
+- [Bagged Forest](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/base_classes/bagged_forest.py)
 
 Deep Learning:
 

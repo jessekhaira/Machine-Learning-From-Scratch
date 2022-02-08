@@ -1,6 +1,6 @@
 """ This module contains code representing the bagged forest ensemble
 classification algorithm """
-from machine_learning_algorithms.supervised_learning.base_classes.BaggedForest import BaggedForest
+from machine_learning_algorithms.supervised_learning.base_classes.bagged_forest import BaggedForest
 from typing import Literal, Union
 
 

@@ -1,6 +1,6 @@
 """ This module contains code for the supervised ensemble machine learning
 algorithm random forests, implemented specifically for regression """
-from machine_learning_algorithms.supervised_learning.base_classes.BaggedForest import BaggedForest
+from machine_learning_algorithms.supervised_learning.base_classes.bagged_forest import BaggedForest
 
 
 class RandomForestRegressor(BaggedForest):

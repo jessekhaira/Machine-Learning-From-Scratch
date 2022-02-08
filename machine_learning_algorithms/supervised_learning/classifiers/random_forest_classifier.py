@@ -1,6 +1,6 @@
 """ This module contains code representing an implementation of the
 random forest algorithm for classification """
-from machine_learning_algorithms.supervised_learning.base_classes.BaggedForest import BaggedForest
+from machine_learning_algorithms.supervised_learning.base_classes.bagged_forest import BaggedForest
 from typing import Literal, Union
 
 
