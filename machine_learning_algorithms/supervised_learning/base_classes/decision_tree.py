@@ -122,11 +122,11 @@ class BaseDecisionTree(object):
                 vectors
         """
         node = self.root
-        self._recursiveTreeConstruction(node, xtrain, ytrain, 0)
+        self._recursive_tree_construction(node, xtrain, ytrain, 0)
 
-    def _recursiveTreeConstruction(self, node: DecisionTreeNode,
-                                   xtrain: np.ndarray, ytrain: np.ndarray,
-                                   depth: int) -> None:
+    def _recursive_tree_construction(self, node: DecisionTreeNode,
+                                     xtrain: np.ndarray, ytrain: np.ndarray,
+                                     depth: int) -> None:
         """ This method recursively builds the tree out in a depth first manner.
 
         N - number of features
@@ -205,8 +205,10 @@ class BaseDecisionTree(object):
             xtrain, ytrain, feature_row, split_pt)
         node.left = DecisionTreeNode()
         node.right = DecisionTreeNode()
-        self._recursiveTreeConstruction(node.left, xtrainL, ytrainL, depth + 1)
-        self._recursiveTreeConstruction(node.right, xtrainR, ytrainR, depth + 1)
+        self._recursive_tree_construction(node.left, xtrainL, ytrainL,
+                                          depth + 1)
+        self._recursive_tree_construction(node.right, xtrainR, ytrainR,
+                                          depth + 1)
 
     def _split_data(
             self, xtrain: np.ndarray, ytrain: np.ndarray, feature_row: int,
