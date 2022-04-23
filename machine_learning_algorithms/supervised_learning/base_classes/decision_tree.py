@@ -201,13 +201,13 @@ class BaseDecisionTree(object):
         node.feature_row = feature_row
         node.split_pt_feature = split_pt
         node.gain = decrease_impurity
-        xtrainL, ytrainL, xtrainR, ytrainR = self._split_data(
+        xtrain_l, ytrain_l, xtrain_r, ytrain_r = self._split_data(
             xtrain, ytrain, feature_row, split_pt)
         node.left = DecisionTreeNode()
         node.right = DecisionTreeNode()
-        self._recursive_tree_construction(node.left, xtrainL, ytrainL,
+        self._recursive_tree_construction(node.left, xtrain_l, ytrain_l,
                                           depth + 1)
-        self._recursive_tree_construction(node.right, xtrainR, ytrainR,
+        self._recursive_tree_construction(node.right, xtrain_r, ytrain_r,
                                           depth + 1)
 
     def _split_data(
