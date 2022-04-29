@@ -34,7 +34,7 @@ class RegressionTree(BaseDecisionTree):
                  min_impurity_decrease=0):
         super(RegressionTree,
               self).__init__(trainingFunction=variance_reduction,
-                             predictionFunc=prediction_regression,
+                             prediction_func=prediction_regression,
                              minSamplesSplit=minSamplesSplit,
                              maxDepth=maxDepth,
                              maxFeatures=maxFeatures,

@@ -43,7 +43,7 @@ class ClassificationTree(BaseDecisionTree):
         prediction_func = prediction_classification
         super(ClassificationTree,
               self).__init__(trainingFunction=train_function,
-                             predictionFunc=prediction_func,
+                             prediction_func=prediction_func,
                              minSamplesSplit=minSamplesSplit,
                              maxDepth=maxDepth,
                              maxFeatures=maxFeatures,

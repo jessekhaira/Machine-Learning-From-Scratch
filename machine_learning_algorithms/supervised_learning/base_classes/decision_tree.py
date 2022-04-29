@@ -57,7 +57,7 @@ class BaseDecisionTree(object):
             for regression should be variance reduction. This function
             will be used to construct the tree.
 
-        predictionFunc:
+        prediction_func:
             Function used to get predictions. For classification, will
             be the mode of the labels that lie in a given node. For
             regression, will be the average of the labels that lie in
@@ -83,7 +83,7 @@ class BaseDecisionTree(object):
                  trainingFunction: Callable[
                      [DecisionTreeNode, DecisionTreeNode, DecisionTreeNode],
                      float],
-                 predictionFunc: Callable[[np.ndarray], float],
+                 prediction_func: Callable[[np.ndarray], float],
                  minSamplesSplit: int = 2,
                  maxDepth: int = None,
                  maxFeatures: int = None,
@@ -91,7 +91,7 @@ class BaseDecisionTree(object):
 
         self.root = DecisionTreeNode()
         self.train_func = trainingFunction
-        self.predictionFunc = predictionFunc
+        self.prediction_func = prediction_func
         self.minSamplesSplit = minSamplesSplit
         self.maxDepth = maxDepth
         self.maxFeatures = maxFeatures
@@ -152,20 +152,20 @@ class BaseDecisionTree(object):
         # If your depth is equal to the maximum depth allowed, just get the
         # prediction for this node and return
         if self.maxDepth is not None and depth == self.maxDepth:
-            node.prediction = self.predictionFunc(ytrain)
+            node.prediction = self.prediction_func(ytrain)
             return
 
         # If the number of labels at this node is <= to the minimum number of
         # samples needed to justify a split then we set this node as a leaf
         # node and leave it with a prediction
         if ytrain.shape[1] <= self.minSamplesSplit:
-            node.prediction = self.predictionFunc(ytrain)
+            node.prediction = self.prediction_func(ytrain)
             return
 
         # If there is only one unique label in this node, then we just predict
         # that label. No need to keep splitting further
         if len(np.unique(ytrain)) == 1:
-            node.prediction = self.predictionFunc(ytrain)
+            node.prediction = self.prediction_func(ytrain)
             return
 
         # If we are doing feature bagging, then maxFeatures will not be None
@@ -194,7 +194,7 @@ class BaseDecisionTree(object):
         # if the decrease in impurity doesn't justify a split at this node,
         # then we set this node as a leaf node and return.
         if decrease_impurity <= self.min_impurity_decrease:
-            node.prediction = self.predictionFunc(ytrain)
+            node.prediction = self.prediction_func(ytrain)
             return
         # Otherwise assign this node the feature col and split pt and
         # continue on
