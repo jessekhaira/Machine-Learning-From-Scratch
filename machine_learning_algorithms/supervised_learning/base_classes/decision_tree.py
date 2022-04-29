@@ -90,7 +90,7 @@ class BaseDecisionTree(object):
                  min_impurity_decrease: float = 0):
 
         self.root = DecisionTreeNode()
-        self.trainFunc = trainingFunction
+        self.train_func = trainingFunction
         self.predictionFunc = predictionFunc
         self.minSamplesSplit = minSamplesSplit
         self.maxDepth = maxDepth
@@ -325,7 +325,7 @@ class BaseDecisionTree(object):
                 # pt as valid
                 if ytrain_l.shape[1] == 0 or ytrain_r.shape[1] == 0:
                     continue
-                gain = self.trainFunc(ytrain, ytrain_l, ytrain_r)
+                gain = self.train_func(ytrain, ytrain_l, ytrain_r)
                 if gain > curr_gain:
                     curr_gain = gain
                     split_pt = threshold_val
