@@ -2,7 +2,7 @@
 
 ## Description
 
-This project implements a variety of fundamental machine learning algorithms in Python using only NumPy.
+This project implements a variety of fundamental machine learning algorithms in Python with NumPy.
 
 After implementing the supervised models, I tested them on simple datasets (datasets obtained from sklearn, tensorflow, etc) using the python framework unittest and expected the algorithms to perform up to par. When available, I compared the performance of my implementations to the standard implementations of an algorithm to ensure correctness. The directory containing the tests for the classifiers is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/machine_learning_algorithms/supervised_learning/classifiers/Tests). The directory containing tests for the regressors is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/machine_learning_algorithms/supervised_learning/regression/Tests).
 
