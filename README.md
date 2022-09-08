@@ -4,9 +4,9 @@
 
 This project implements a variety of fundamental machine learning algorithms in Python with NumPy.
 
-After implementing the supervised models, I tested them on simple datasets (datasets obtained from sklearn, tensorflow, etc) using the python framework unittest and expected the algorithms to perform up to par. When available, I compared the performance of my implementations to the standard implementations of an algorithm to ensure correctness. The directory containing the tests for the classifiers is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/machine_learning_algorithms/supervised_learning/classifiers/Tests). The directory containing tests for the regressors is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/machine_learning_algorithms/supervised_learning/regression/Tests).
+After implementing the supervised models, I tested them on simple datasets (datasets obtained from sklearn, tensorflow, etc) using the python framework unittest and expected the algorithms to perform up to par. When available, I compared the performance of my implementations to the standard implementations of an algorithm to ensure correctness. 
 
-For testing the unsupervised models, I visually examined the output of the models and ensured they were feasible. For k-means clustering, this involved using the classic Iris Setosa dataset and assessing the output clusters that were produced by the model when k=3. For the graphical models, model outputs were produced during training which were verified (ie: as the model continues to train, it should produce better and better outputs). The directory containing the tests for the unsupervised models is [here](https://github.com/13jk59/Machine-Learning-From-Scratch/tree/master/machine_learning_algorithms/unsupervised_learning/Tests).
+For testing the unsupervised models, I visually examined the output of the models and ensured they were feasible. For k-means clustering, this involved using the classic Iris Setosa dataset and assessing the output clusters that were produced by the model when k=3. For the graphical models, model outputs were produced during training which were verified (ie: as the model continues to train, it should produce better and better outputs). 
 
 ## Installation
 
@@ -20,7 +20,7 @@ $ pip3 install .
 
 ### Supervised Learning
 
-Base Classes (abstract classes which concrete classes implement, keeps code DRY):
+Base Abstract Classes:
 
 - [k-Nearest Neighbours (kNN)](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/supervised_learning/base_classes/k_nearest_neighbours_base.py)
 - [Neural Network](https://github.com/13jk59/MachineLearning_Scratch/blob/master/machine_learning_algorithms/neural_net_utility/neural_net_base.py)
