@@ -51,7 +51,7 @@ class TestConvolutionalLayers(unittest.TestCase):
                                  [[2.36270298, 2.36904306],
                                   [2.38090835, 2.38247847]]]])
 
-        xd = rel_error(conv_layer.Z, correct_out)
+        xd = rel_error(conv_layer.z, correct_out)
         print(xd)
         # manually replacing some of the parameters w/ the given in the conv
         # object leads to the correct ouput
@@ -76,8 +76,8 @@ class TestConvolutionalLayers(unittest.TestCase):
                                  [[0.32631579, 0.34105263], [0.38526316,
                                                              0.4]]]])
 
-        xd = rel_error(pool_layer.Z, correct_out)
-        print(xd)
+        xd = rel_error(pool_layer.z, correct_out)
+        self.assertLessEqual(xd, 0.01)
 
 
 def rel_error(x, y):
