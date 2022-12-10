@@ -4,5 +4,6 @@
     "python.linting.pydocstyleEnabled": false,
     "python.linting.pycodestyleEnabled": false,
     "editor.formatOnSave": true,
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "python.defaultInterpreterPath": "~/.pyenv/versions/ML_Scratch1/bin/python"
 }
