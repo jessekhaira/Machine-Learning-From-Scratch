@@ -18,11 +18,14 @@ class TestActivationFunctions(unittest.TestCase):
         cls.cross_entropy = CrossEntropy()
 
     def test_softmax1(self):
-        # logits represent 4 examples, 5 classes
+        # logits represent 4 classes, 5 examples
+        np.random.seed(32)
         z = np.random.randn(4, 5)
         a = TestActivationFunctions.softmax.compute_output(z)
         self.assertTrue(isinstance(a, np.ndarray))
-        self.assertTrue(np.all(np.max(a, axis=1) <= 1))
+        # every example should sum up to 1
+        self.assertTrue(
+            np.all(np.sum(a, axis=0, keepdims=True).astype(np.int64) == 1))
 
 
 if __name__ == "__main__":
