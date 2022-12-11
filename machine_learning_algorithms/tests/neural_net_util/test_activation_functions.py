@@ -10,26 +10,19 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_
 class TestActivationFunctions(unittest.TestCase):
     """ This class contain unit tests for activation functions """
 
-    def test1(self):
-        #test with single example first
-        np.random.seed(21)
-        softmax_predictor = Softmax()
-        ce = CrossEntropy()
+    @classmethod
+    def setUpClass(cls):
+        # these functions are completely stateless so we can initialize
+        # them inside the class and reuse them among tests
+        cls.softmax = Softmax()
+        cls.cross_entropy = CrossEntropy()
+
+    def test_softmax1(self):
+        # logits represent 4 examples, 5 classes
         z = np.random.randn(4, 5)
-        a = softmax_predictor.compute_output(z)
-        print(a)
-        y = np.array([[0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1], [1, 0, 0, 0],
-                      [0, 1, 0, 0]]).T
-        print(ce.get_loss(y, a))
-        print(y)
-        dl_da = ce.get_gradient_pred(y, a)
-        print(dl_da)
-        dl_dz = dl_dz_softmax(z, a, dl_da, softmax_predictor)
-        # Only one value in each column should be negative,
-        # the rest should be positive and the values should
-        # be easily correlated with (a-1)/m (if y =1) else
-        # (a)/m
-        print(dl_dz)
+        a = TestActivationFunctions.softmax.compute_output(z)
+        self.assertTrue(isinstance(a, np.ndarray))
+        self.assertTrue(np.all(np.max(a, axis=1) <= 1))
 
 
 if __name__ == "__main__":

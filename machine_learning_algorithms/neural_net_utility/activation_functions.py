@@ -116,7 +116,7 @@ class Softmax(BaseActivationFunction):
     That means its gradient is a matrix called a Jacobian matrix.
     """
 
-    def compute_output(self, x: np.ndarray):
+    def compute_output(self, x: np.ndarray) -> np.ndarray:
         # Numerically stable softmax - subtract max(x) input vector x
         # before computing softmax
         max_pred_per_ex = np.amax(x, axis=0)
