@@ -16,16 +16,15 @@ class TestActivationFunctions(unittest.TestCase):
         # them inside the class and reuse them among tests
         cls.softmax = Softmax()
         cls.cross_entropy = CrossEntropy()
+        cls.rs = np.random.RandomState(32)
 
     def test_softmax1(self):
         # logits represent 4 classes, 5 examples
-        np.random.seed(32)
-        z = np.random.randn(4, 5)
+        z = TestActivationFunctions.rs.randn(4, 5)
         a = TestActivationFunctions.softmax.compute_output(z)
         self.assertTrue(isinstance(a, np.ndarray))
         # every example should sum up to 1
-        self.assertTrue(
-            np.all(np.sum(a, axis=0, keepdims=True).astype(np.int64) == 1))
+        self.assertTrue(np.all(np.isclose(np.sum(a, axis=0, keepdims=True), 1)))
 
 
 if __name__ == "__main__":
