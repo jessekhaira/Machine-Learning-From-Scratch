@@ -123,7 +123,7 @@ class Softmax(BaseActivationFunction):
         x -= max_pred_per_ex
         return np.exp(x) / np.sum(np.exp(x), axis=0)
 
-    def get_derivative_wrt_input(self, a: np.ndarray):
+    def get_derivative_wrt_input(self, a: np.ndarray) -> np.ndarray:
         """ This function computes da/dZ, which will be chained
         together with dL/da to produce the gradient da/dZ.
 
