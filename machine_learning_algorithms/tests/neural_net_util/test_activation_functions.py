@@ -70,7 +70,13 @@ class TestGradientChecking(unittest.TestCase):
         x = TestGradientChecking.rs.randn(3, 1)
         output_arr = TestGradientChecking.softmax.gradient_checking(
             x, num_checks=5)
-        self.assertTrue(np.all(output_arr <= 1e-10))
+        self.assertTrue(np.all(output_arr <= 1e-8))
+
+    def test_softmax2(self):
+        x = TestGradientChecking.rs.randn(30, 1)
+        output_arr = TestGradientChecking.softmax.gradient_checking(
+            x, num_checks=21)
+        self.assertTrue(np.all(output_arr <= 1e-8))
 
 
 class TestSigmoid(unittest.TestCase):
