@@ -23,7 +23,13 @@ class TestSoftmaxActivation(unittest.TestCase):
         z = TestSoftmaxActivation.rs.randn(4, 5)
         a = TestSoftmaxActivation.softmax.compute_output(z)
         self.assertTrue(isinstance(a, np.ndarray))
-        # every example should sum up to 1
+        # sum of every examples activated values should sum up to 1
+        # according to softmax
+        self.assertTrue(np.all(np.isclose(np.sum(a, axis=0, keepdims=True), 1)))
+
+    def test_softmax2(self):
+        z = TestSoftmaxActivation.rs.randn(55, 128)
+        a = TestSoftmaxActivation.softmax.compute_output(z)
         self.assertTrue(np.all(np.isclose(np.sum(a, axis=0, keepdims=True), 1)))
 
     def test_softmax_backward1(self):
