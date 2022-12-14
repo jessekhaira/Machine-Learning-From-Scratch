@@ -8,6 +8,7 @@ from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_
 
 
 class TestSoftmaxActivation(unittest.TestCase):
+    """ This class contains tests for the softmax activation function"""
 
     @classmethod
     def setUpClass(cls):
