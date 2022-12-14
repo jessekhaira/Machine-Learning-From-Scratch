@@ -5,7 +5,7 @@ import random
 from typing import Union
 
 
-class BaseActivationFunction(object):
+class BaseActivationFunction:
     """ This is meant to be an abstract class that every single
     activation function will inherit from. Specifically, every
     activation function will be computing some output given some
