@@ -2,8 +2,8 @@
 activation functions """
 import numpy as np
 import unittest
-from machine_learning_algorithms.neural_net_utility.activation_functions import Softmax,\
-    BaseActivationFunction, Sigmoid, TanH, ReLU, IdentityActivation
+from machine_learning_algorithms.neural_net_utility.activation_functions import (
+    Softmax, Sigmoid, TanH, ReLU, IdentityActivation)
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_dz_softmax
 
@@ -58,7 +58,22 @@ class TestSoftmaxActivation(unittest.TestCase):
                    TestSoftmaxActivation.softmax.get_derivative_wrt_input(a)))
 
 
-class TestSigmoid:
+class TestGradientChecking(unittest.TestCase):
+    """ This class tests the gradient checking method for some activation functions"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.softmax = Softmax()
+        cls.rs = np.random.RandomState(32)
+
+    def test_softmax1(self):
+        x = TestGradientChecking.rs.randn(3, 1)
+        output_arr = TestGradientChecking.softmax.gradient_checking(
+            x, num_checks=5)
+        self.assertTrue(np.all(output_arr <= 1e-10))
+
+
+class TestSigmoid(unittest.TestCase):
     """ This class tests the forward and backward pass for the sigmoid
     activation function"""
 
@@ -66,8 +81,7 @@ class TestSigmoid:
     def setUpClass(cls):
         # completely stateless so we can initialize
         # them inside the class and reuse them among tests
-        cls.BaseActivationFunction = Softmax()
-        cls.cross_entropy = CrossEntropy()
+        cls.Sigmoid = Sigmoid()
         cls.rs = np.random.RandomState(32)
 
     def test_forward1(self):

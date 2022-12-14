@@ -25,14 +25,13 @@ class BaseActivationFunction:
     def get_derivative_wrt_input(self, x: np.ndarray):
         raise NotImplementedError
 
-    def _gradient_checking(self, x: np.ndarray, num_checks: int = 10) -> None:
+    def gradient_checking(self, x: np.ndarray, num_checks: int = 10) -> None:
         """ This method does a quick gradient check to ensure the
-        da/dz is indeed correct.
+        da/dz for a given activation function is indeed correct.
 
         Args:
             x:
-                Numpy array of shape (m,1) representing the
-                predictions (prob between 0 and 1) for m examples
+                Numpy array of shape (m,1) 
 
             num_checks:
                 Integer representing the number of times to check the
@@ -41,14 +40,14 @@ class BaseActivationFunction:
         eps = 1e-5
         random.seed(21)
         for _ in range(num_checks):
-            change_idx = random.randrange(0, len(x))
-            x = x[change_idx, change_idx]
             x_upeps = x + eps
             activ_higher = self.compute_output(x_upeps)
             x_downeps = x - eps
             activ_lower = self.compute_output(x_downeps)
-            grad_analytic = self.get_derivative_wrt_x(x)
+            grad_analytic = self.get_derivative_wrt_input(x)
             grad_numeric = (activ_higher - activ_lower) / (2 * eps)
+            print(grad_analytic)
+            print(grad_numeric)
             rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
                                                                 grad_numeric)
             print('rel error is %s' % (rel_error))
@@ -146,8 +145,39 @@ class Softmax(BaseActivationFunction):
         # to do an element by element subtraction
         return jacobian_mat - np.dot(a, a.T)
 
-    def _gradient_checking(self, input, num_checks=10):
-        raise NotImplementedError
+    def gradient_checking(self,
+                          x: np.ndarray,
+                          num_checks: int = 10) -> np.ndarray:
+        """ Softmax is a vector valued function so we're going to have to change
+        implementation of gradient check
+
+        Args:
+            x:
+                Numpy array of shape (L, 1), where L represents the
+                number of logits to be activated
+        """
+        eps = 1e-5
+        output_array = np.zeros((num_checks, x.shape[0]))
+        for i in range(num_checks):
+            inputidx_modifying_by_eps = np.random.randint(0, x.shape[0])
+            x_upeps = np.copy(x)
+            x_upeps[inputidx_modifying_by_eps, 0] += eps
+            x_downeps = np.copy(x)
+            x_downeps[inputidx_modifying_by_eps, 0] -= eps
+            output_xupeps = self.compute_output(x_upeps)
+            output_xdowneps = self.compute_output(x_downeps)
+            output_x = self.compute_output(x)
+            analytical_gradient_wrt_idx_checking = self.get_derivative_wrt_input(
+                output_x)[:, inputidx_modifying_by_eps].reshape(-1, 1)
+            numerical_gradient_all_outputs = (output_xupeps -
+                                              output_xdowneps) / (2 * eps)
+
+            rel_error = abs(analytical_gradient_wrt_idx_checking -
+                            numerical_gradient_all_outputs) / abs(
+                                numerical_gradient_all_outputs +
+                                analytical_gradient_wrt_idx_checking)
+            output_array[i, :] = rel_error.reshape(1, -1)
+        return output_array
 
 
 class ReLU(BaseActivationFunction):
