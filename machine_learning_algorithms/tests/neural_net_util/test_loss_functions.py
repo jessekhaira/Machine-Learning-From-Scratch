@@ -4,9 +4,9 @@ import unittest
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 
 
-class TestObjectiveFunctions(unittest.TestCase):
-    """ This class contains unit tests for a variety of objective
-    functions """
+class TestCrossEntropy(unittest.TestCase):
+    """ This class contains unit tests for the cross entropy
+    function """
 
     def setUp(self):
         self.cross_entropy_object = CrossEntropy()
