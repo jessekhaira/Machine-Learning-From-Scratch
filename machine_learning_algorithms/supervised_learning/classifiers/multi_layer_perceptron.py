@@ -1,7 +1,7 @@
 """ This module contains code representing an implementation of the
 multi layer perceptron algorithm for supervised learning """
 from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
-from machine_learning_algorithms.neural_net_utility.loss_functions import NegativeLogLoss, CrossEntropy, MeanSquaredError
+from machine_learning_algorithms.neural_net_utility.loss_functions import construct_loss_object
 from typing import Literal, Union
 import numpy as np
 
@@ -12,7 +12,7 @@ class MultiLayerPerceptron(NeuralNetworkBase):
     layers desired to this layer accordingly.
 
     Attributes:
-        typeSupervised:
+        type_supervised_learning:
             String that should either be "binary", "multiclass",
             or "regression", indicating the specific type of supervised
             learning task this algorithm is going to be used for
@@ -30,19 +30,13 @@ class MultiLayerPerceptron(NeuralNetworkBase):
     """
 
     def __init__(self,
-                 typeSupervised: Literal["binary", "multiclass", "regression"],
+                 type_supervised_learning: Literal["binary", "multiclass",
+                                                   "regression"],
                  numberInputFeatures: int,
                  regularization: Union[Literal["L1", "L2"], None] = None,
-                 reg_parameter: float = None):
-        if typeSupervised == "binary":
-            loss_obj = NegativeLogLoss(regularization=regularization,
-                                       reg_parameter=reg_parameter)
-        elif typeSupervised == "multiclass":
-            loss_obj = CrossEntropy(regularization=regularization,
-                                    reg_parameter=reg_parameter)
-        else:
-            loss_obj = MeanSquaredError(regularization=regularization,
-                                        reg_parameter=reg_parameter)
+                 reg_parameter: Union[float, None] = None):
+        loss_obj = construct_loss_object(type_supervised_learning,
+                                         regularization, reg_parameter)
         super(MultiLayerPerceptron,
               self).__init__(loss_obj, input_features=numberInputFeatures)
 

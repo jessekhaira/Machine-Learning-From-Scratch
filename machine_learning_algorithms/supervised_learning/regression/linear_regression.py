@@ -24,7 +24,7 @@ class BaseLinearRegression(NeuralNetworkBase):
         # Loss function for regression tasks is RSS averaged over all
         # examples = mean_squared_error
         loss_function = MeanSquaredError(regularization, reg_parameter)
-        super(BaseLinearRegression, self).__init__(lossFunction=loss_function,
+        super(BaseLinearRegression, self).__init__(loss_function=loss_function,
                                                    input_features=None)
 
     def fit_iterative_optimizer(

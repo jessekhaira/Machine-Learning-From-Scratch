@@ -35,12 +35,12 @@ class LogisticRegression(NeuralNetworkBase):
     def __init__(self,
                  inLayerNeuron: int,
                  classificationThreshold: Union[None, float] = None,
-                 regularization: Literal["L2", "L1"] = None,
-                 reg_parameter: float = None):
+                 regularization: Union[Literal["L2", "L1"], None] = None,
+                 reg_parameter: Union[None, float] = None):
         loss_obj = NegativeLogLoss(regularization, reg_parameter)
         activ = Sigmoid()
         super(LogisticRegression, self).__init__(input_features=inLayerNeuron,
-                                                 lossFunction=loss_obj)
+                                                 loss_function=loss_obj)
         # Logistic regression has one fully connected layer, with a
         # single neuron, with the sigmoid activation function
         self.add_layer(1, activ)

@@ -18,7 +18,7 @@ class NeuralNetworkBase(object):
     for supervised learning and unsupervised learning (autoencoders).
 
     Attributes:
-        lossFunction:
+        loss_function:
             The objective to optimize during training
 
         input_features:
@@ -30,16 +30,16 @@ class NeuralNetworkBase(object):
             network
     """
 
-    def __init__(self, lossFunction: LossFunction, input_features: int):
+    def __init__(self, loss_function: LossFunction, input_features: int):
         self.layers = []
-        self.lossFunction = lossFunction
+        self.loss_function = loss_function
         self.num_input = input_features
 
     def add_layer(self,
                   num_neurons: int,
                   activation_function: BaseActivationFunction,
                   isSoftmax: int = 0,
-                  layer: BaseNeuralNetworkLayer = None,
+                  layer: Union[BaseNeuralNetworkLayer, None] = None,
                   keep_prob: int = 1) -> None:
         """ This method adds a dense layer to your neural network.
 
@@ -64,12 +64,12 @@ class NeuralNetworkBase(object):
         if not self.layers:
             layer_x = DenseLayer(
                 self.num_input, num_neurons, activation_function,
-                self.lossFunction.regularization,
-                self.lossFunction.reg_parameter,
+                self.loss_function.regularization,
+                self.loss_function.reg_parameter,
                 isSoftmax) if layer is None else layer(
                     self.num_input, num_neurons, activation_function,
-                    self.lossFunction.regularization,
-                    self.lossFunction.reg_parameter, isSoftmax, keep_prob)
+                    self.loss_function.regularization,
+                    self.loss_function.reg_parameter, isSoftmax, keep_prob)
             self.layers.append(layer_x)
         else:
             # if the layeer beforee this is a dense layer, then get its weight
@@ -80,13 +80,13 @@ class NeuralNetworkBase(object):
                 isinstance(self.layers[-1], DenseLayer)
                 and self.layers[-1].W is not None) else None
             layer_x = DenseLayer(shape_1, num_neurons, activation_function,
-                                 self.lossFunction.regularization,
-                                 self.lossFunction.reg_parameter,
+                                 self.loss_function.regularization,
+                                 self.loss_function.reg_parameter,
                                  isSoftmax) if layer is None else layer(
                                      shape_1, num_neurons, activation_function,
-                                     self.lossFunction.regularization,
-                                     self.lossFunction.reg_parameter, isSoftmax,
-                                     keep_prob)
+                                     self.loss_function.regularization,
+                                     self.loss_function.reg_parameter,
+                                     isSoftmax, keep_prob)
             self.layers.append(layer_x)
 
     def fit(
@@ -189,7 +189,7 @@ class NeuralNetworkBase(object):
                 loss = self._calculateLoss(curr_y, predictions_mini_batch,
                                            self.layers)
                 loss_epoch.append(loss)
-                backprop_init = self.lossFunction.get_gradient_pred(
+                backprop_init = self.loss_function.get_gradient_pred(
                     curr_y, predictions_mini_batch)
                 self._backward_propagate(backprop_init, learn_rate, optim,
                                          epoch, curr_x, curr_y)
@@ -261,7 +261,7 @@ class NeuralNetworkBase(object):
         return predictions
 
     def _calculateLoss(self, curr_y: np.ndarray, pred_minibatch: np.ndarray,
-                       layersNet: List[BaseNeuralNetworkLayer]) -> float:
+                       layers_net: List[BaseNeuralNetworkLayer]) -> float:
         """ This method is used to calculate the loss of the neural network
         on a batch of examples.
 
@@ -280,7 +280,7 @@ class NeuralNetworkBase(object):
             Floating point value indicating the loss of the neural network on
             the given batch of examples
         """
-        return self.lossFunction.get_loss(curr_y, pred_minibatch, layersNet)
+        return self.loss_function.get_loss(curr_y, pred_minibatch, layers_net)
 
     def _forward_propagate(self,
                            X: np.ndarray,

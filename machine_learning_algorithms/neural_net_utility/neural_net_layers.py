@@ -8,7 +8,52 @@ if TYPE_CHECKING:
     from machine_learning_algorithms.neural_net_utility.neural_net_base import NeuralNetworkBase
 
 
-class BaseNeuralNetworkLayer(object):
+class BaseNeuralNetworkLayer:
+
+    def __init__(self,
+                 num_in: int,
+                 num_layer: int,
+                 activation_function: BaseActivationFunction,
+                 regularization: Union[Literal["L1", "L2"], None] = None,
+                 reg_parameter: Union[float, None] = None,
+                 isSoftmax: Literal[0, 1] = 0,
+                 keepProb: Union[float, None] = None):
+        self.num_in = num_in
+        self.num_layer = num_layer
+        self.W, self.b = self._initialize_weights(self.num_layer, self.num_in)
+        self.Z = None
+        self.A = None
+        self.Ain = None
+        self.activation_function = activation_function
+        self.regularization = regularization
+        self.reg_parameter = reg_parameter
+        self.isSoftmax = isSoftmax
+        self.optim = None
+
+    def _initialize_weights(
+        self, num_layer: int, num_prev_layer: int
+    ) -> Union[Tuple[None, None], Tuple[np.ndarray, np.ndarray]]:
+        """ This method will initialize the weights used in this layer. For the
+        bias vector, a simple zeros initialization will be used. For the weight
+        matrix, the values will be sampled from a standard normal distribution
+        and then multiplied by 0.01 to prevent the issue of exploding and
+        vanishing gradients.
+
+        Args:
+            num_layer:
+                Integer representing the number of neurons present in the
+                current dense layer
+
+            num_prev_layer:
+                Integer representing the number of neurons present in the
+                previous dense layer
+        """
+        if num_prev_layer is None:
+            return None, None
+        else:
+            w = np.random.randn(num_layer, num_prev_layer) * 0.01
+            b = np.zeros((num_layer, 1))
+            return w, b
 
     def compute_forward(self):
         raise NotImplementedError
@@ -73,51 +118,6 @@ class DenseLayer(BaseNeuralNetworkLayer):
         reg_parameter:
             Floating point value representing the strength of the regularization
     """
-
-    def __init__(self,
-                 num_in: int,
-                 num_layer: int,
-                 activation_function: BaseActivationFunction,
-                 regularization=None,
-                 reg_parameter: float = None,
-                 isSoftmax: Literal[0, 1] = 0,
-                 keepProb: float = None):
-        self.num_in = num_in
-        self.num_layer = num_layer
-        self.W, self.b = self._initialize_weights(self.num_layer, self.num_in)
-        self.Z = None
-        self.A = None
-        self.Ain = None
-        self.activation_function = activation_function
-        self.regularization = regularization
-        self.reg_parameter = reg_parameter
-        self.isSoftmax = isSoftmax
-        self.optim = None
-
-    def _initialize_weights(
-        self, num_layer: int, num_prev_layer: int
-    ) -> Union[Tuple[None, None], Tuple[np.ndarray, np.ndarray]]:
-        """ This method will initialize the weights used in this layer. For the
-        bias vector, a simple zeros initialization will be used. For the weight
-        matrix, the values will be sampled from a standard normal distribution
-        and then multiplied by 0.01 to prevent the issue of exploding and
-        vanishing gradients.
-
-        Args:
-            num_layer:
-                Integer representing the number of neurons present in the
-                current dense layer
-
-            num_prev_layer:
-                Integer representing the number of neurons present in the
-                previous dense layer
-        """
-        if num_prev_layer is None:
-            return None, None
-        else:
-            w = np.random.randn(num_layer, num_prev_layer) * 0.01
-            b = np.zeros((num_layer, 1))
-            return w, b
 
     def compute_forward(self,
                         prevlayer_activations: np.ndarray,

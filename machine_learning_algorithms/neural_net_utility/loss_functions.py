@@ -1,30 +1,33 @@
 """ This module contains a variety of objective functions """
 import numpy as np
 import random
-from typing import Union, Literal
+from typing import Union, Literal, List, Any
+from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 
 
-def regularization_loss(layers_of_weights: np.ndarray, type_reg: str) -> float:
-    reg_loss = 0
-    if type_reg == "L2":
-        for i in range(len(layers_of_weights)):
-            reg_loss += (np.linalg.norm(layers_of_weights[i].W, ord=2)**2)
-
-    elif type_reg == "L1":
-        for i in range(len(layers_of_weights)):
-            reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
-
-    return reg_loss
-
-
-class LossFunction(object):
+class LossFunction:
     """ This is the base class which all loss functions will inherit from.
 
     Every loss function will have a method of get_loss,
     get_gradient_pred, and _gradient_checking, therefore it made
     sense to make an abstract class from which all these related classes will
     inherit from.
+
+    Attributes:
+        regularization:
+            String that is restricted to being either "L2" or "L1" indicating
+            the type of regularization to be used, or None
+
+        reg_parameter:
+            Floating point value indicating the strength of the regularization
+            if being used
     """
+
+    def __init__(self,
+                 regularization: Union[Literal["L1", "L2"], None] = None,
+                 reg_parameter: Union[None, float] = None):
+        self.regularization = regularization
+        self.reg_parameter = reg_parameter
 
     def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
                  layers_of_weights: np.ndarray):
@@ -32,6 +35,23 @@ class LossFunction(object):
 
     def get_gradient_pred(self, labels: np.ndarray, predictions: np.ndarray):
         raise NotImplementedError
+
+    def data_loss_with_regularization(
+        self, data_loss: np.ndarray,
+        layers_of_weights: Union[np.ndarray, List[BaseNeuralNetworkLayer]]
+    ) -> np.float32:
+        assert self.reg_parameter is not None, (
+            "The regularization parameter must be specified" +
+            "to get a regularized loss")
+        reg_loss = 0
+        if self.regularization == "L2":
+            for i in range(len(layers_of_weights)):
+                reg_loss += (np.linalg.norm(layers_of_weights[i].W, ord=2)**2)
+
+        elif self.regularization == "L1":
+            for i in range(len(layers_of_weights)):
+                reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
+        return np.mean(data_loss + self.reg_parameter * reg_loss)
 
     def _gradient_checking(self,
                            labels: np.ndarray,
@@ -51,14 +71,14 @@ class LossFunction(object):
         we just compute, our loss with a single example at a time
         as this seems to preserve accuracy much better.
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (m,1), representing the labels
                 for all input examples
 
             predictions:
                 Numpy array of shape (m,1), representing the predictions
-                (probability between 0 and 1) for m examples
+                for m examples
 
             num_checks:
                 Integer representing the number of times to check the
@@ -83,36 +103,25 @@ class LossFunction(object):
             rel_error = abs(grad_analytic -
                             grad_numeric) / abs(grad_analytic + grad_numeric +
                                                 eps)
-            print("rel error is %s" % (rel_error))
+            print(f"rel error is {rel_error}")
 
 
 class NegativeLogLoss(LossFunction):
     """ This class represents the negative log loss function,
     which is typically the cost function to be optimized
     in binary classification tasks.
-
-    Attributes:
-        regularization:
-            String that is restricted to being either "L2" or "L1" indicating
-            the type of regularization to be used, or None
-
-        reg_parameter:
-            Floating point value indicating the strength of the regularization
-            if being used
     """
 
-    def __init__(self,
-                 regularization: Union[Literal["L1", "L2"], None] = None,
-                 reg_parameter: Union[None, float] = None):
-        self.regularization = regularization
-        self.reg_parameter = reg_parameter
-
-    def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
-                 layers_of_weights: np.ndarray) -> float:
+    def get_loss(
+            self,
+            labels: np.ndarray,
+            predictions: np.ndarray,
+            layers_of_weights: Union[np.ndarray, Any,
+                                     None] = None) -> np.float32:
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (C,m), representing the labels for
                 all of the inputs
@@ -131,21 +140,9 @@ class NegativeLogLoss(LossFunction):
         predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         data_loss = -(labels * np.log(predictions) +
                       (1 - labels) * np.log(1 - predictions))
-        # Cost is averaged overall all examples so we get
-        # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
-        # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        reg_loss = regularization_loss(layers_of_weights, self.regularization)
-        if self.regularization == "L2":
-            return np.mean(data_loss + (self.reg_parameter / 2) * reg_loss)
-
-        # One examples loss, say zeroth, is:
-        # -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
-        # The entire loss is this summed up over the entire vector
-        # of predictions, and is done in a vectorized manner
-        elif self.regularization == "L1":
-            return np.mean(data_loss + self.reg_parameter * reg_loss)
-
-        # no regularization, just return mean of data loss
+        if self.regularization and layers_of_weights:
+            return self.data_loss_with_regularization(data_loss,
+                                                      layers_of_weights)
         return np.mean(data_loss)
 
     def get_gradient_pred(self, labels: np.ndarray,
@@ -159,7 +156,7 @@ class NegativeLogLoss(LossFunction):
         C - number of classes
         m - number of examples
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (C,m), representing the labels for
                 all of the inputs
@@ -184,29 +181,18 @@ class MeanSquaredError(LossFunction):
     """ This class represents the mean squared error loss,
     which is typically the cost function to be optimized
     in regression tasks.
-
-    Attributes:
-        regularization:
-            String that is restricted to being either "L2" or "L1" indicating
-            the type of regularization to be used, or None
-
-        reg_parameter:
-            Floating point value indicating the strength of the regularization
-            if being used
     """
 
-    def __init__(self,
-                 regularization: Union[Literal["L1", "L2"], None] = None,
-                 reg_parameter: Union[None, float] = None):
-        self.regularization = regularization
-        self.reg_parameter = reg_parameter
-
-    def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
-                 layers_of_weights: np.ndarray) -> float:
+    def get_loss(
+            self,
+            labels: np.ndarray,
+            predictions: np.ndarray,
+            layers_of_weights: Union[np.ndarray, Any,
+                                     None] = None) -> np.float32:
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (C,m), representing the labels for
                 all of the inputs
@@ -220,25 +206,10 @@ class MeanSquaredError(LossFunction):
         assert labels.shape == predictions.shape, (
             "Somethings wrong, your labels have to be the same shape " +
             "as the predictions!")
-        # Numerical stability issues -> we never want to take the log of 0 so we
-        # clip our predictions at a lowest val of 1e-10
         data_loss = (1 / 2) * np.square(np.subtract(labels, predictions))
-        # Cost is averaged overall all examples so we get
-        # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
-        # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        reg_loss = regularization_loss(layers_of_weights, self.regularization)
-        if self.regularization == "L2":
-            return np.mean(data_loss + (self.reg_parameter / 2) * reg_loss)
-
-        # One examples loss, say zeroth, is:
-        # -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
-        # The entire loss is this summed up over the entire vector of
-        # predictions. This operations has beeen vectorized to allow
-        # this to happen
-        elif self.regularization == "L1":
-            return np.mean(data_loss + self.reg_parameter * reg_loss)
-
-        # no regularization, just return mean of data loss
+        if self.regularization and layers_of_weights:
+            return self.data_loss_with_regularization(data_loss,
+                                                      layers_of_weights)
         return np.mean(data_loss)
 
     def get_gradient_pred(self, labels: np.ndarray,
@@ -252,7 +223,7 @@ class MeanSquaredError(LossFunction):
         C - number of classes
         m - number of examples
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (C,m), representing the labels for
                 all of the inputs
@@ -278,31 +249,18 @@ class CrossEntropy(LossFunction):
     distribution as the same shape as the labels, where C is the
     number of classes you have in your data and m is the number
     of examples.
-
-    Attributes:
-        regularization:
-            String that is restricted to being either "L2" or "L1" indicating
-            the type of regularization to be used, or None
-
-        reg_parameter:
-            Floating point value indicating the strength of the regularization
-            if being used
     """
 
-    def __init__(self,
-                 regularization: Union[Literal["L1", "L2"], None] = None,
-                 reg_parameter: Union[None, float] = None):
-        self.regularization = regularization
-        self.reg_parameter = reg_parameter
-
-    def get_loss(self,
-                 labels: np.ndarray,
-                 predictions: np.ndarray,
-                 layers_of_weights: Union[None, np.ndarray] = None) -> float:
+    def get_loss(
+            self,
+            labels: np.ndarray,
+            predictions: np.ndarray,
+            layers_of_weights: Union[np.ndarray, Any,
+                                     None] = None) -> np.float32:
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (C,m), representing the labels for
                 all of the inputs
@@ -317,23 +275,9 @@ class CrossEntropy(LossFunction):
         # so we clip our predictions at a lowest val of 1e-10
         predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         data_loss = -(labels * np.log(predictions))
-        # Cost is averaged overall all examples so we get
-        # Tot_cost_batch = 1/m * (loss_examples_batch + reg_loss_batch)
-        # Tot_cost_batch = (1/m) * loss_examples_batch + (1/m)*reg_loss_batch
-        reg_loss = regularization_loss(layers_of_weights, self.regularization)
-        if self.regularization == "L2":
-            return np.mean(data_loss + (self.reg_parameter / 2) * reg_loss)
-
-        # One examples loss, say zeroth, is:
-        # -(y0*log(yhat0) + (1-y0)*log(1-yhat0) + lambda*(L1 norm or L2 norm))
-        # The entire loss is this summed up over the entire vector of
-        # predictions. This operations has beeen vectorized to allow
-        # this to happen
-        elif self.regularization == "L1":
-            return np.mean(data_loss + self.reg_parameter * reg_loss)
-
-        # sum up all the losses for every single example (column wise sum) and
-        # then average them and return
+        if self.regularization and layers_of_weights:
+            return self.data_loss_with_regularization(data_loss,
+                                                      layers_of_weights)
         return np.mean(np.sum(data_loss, axis=0))
 
     def get_gradient_pred(self, labels: np.ndarray,
@@ -347,7 +291,7 @@ class CrossEntropy(LossFunction):
         C - number of classes
         m - number of examples
 
-        Arguments:
+        Args:
             labels:
                 Numpy array of shape (C,m), representing the labels for
                 all of the inputs
@@ -364,3 +308,17 @@ class CrossEntropy(LossFunction):
         # -1/m dont forget in gradient!
         dl_da = -(1 / labels.shape[1]) * (labels / predictions)
         return dl_da
+
+
+def construct_loss_object(type_supervised_learning: str, regularization,
+                          reg_parameter) -> LossFunction:
+    if type_supervised_learning == "binary":
+        loss_obj = NegativeLogLoss(regularization=regularization,
+                                   reg_parameter=reg_parameter)
+    elif type_supervised_learning == "multiclass":
+        loss_obj = CrossEntropy(regularization=regularization,
+                                reg_parameter=reg_parameter)
+    else:
+        loss_obj = MeanSquaredError(regularization=regularization,
+                                    reg_parameter=reg_parameter)
+    return loss_obj

@@ -33,9 +33,9 @@ class TestBatchNorm(unittest.TestCase):
         self.x_mini_valid = self.x_train[:, 1000:2000].reshape(784, -1)
         self.y_mini_valid = self.y_train[:, 1000:2000]
 
-    def test_overfit_small_batch(self):
+    def test_overfit_small_batch1(self):
         multi_layer_perceptron = MultiLayerPerceptron(
-            typeSupervised="multiclass", numberInputFeatures=784)
+            type_supervised_learning="multiclass", numberInputFeatures=784)
 
         multi_layer_perceptron.add_layer(num_neurons=100,
                                          activation_function=ReLU(),
@@ -44,7 +44,7 @@ class TestBatchNorm(unittest.TestCase):
                                          activation_function=Softmax(),
                                          isSoftmax=True)
 
-        train_loss1, train_acc1 = multi_layer_perceptron.fit(
+        train_loss1, _ = multi_layer_perceptron.fit(
             self.x_train[:, :100].reshape(784, -1),
             self.y_train[:, :100],
             num_epochs=150,
@@ -54,13 +54,12 @@ class TestBatchNorm(unittest.TestCase):
         predictions1 = multi_layer_perceptron.predict_multi_layer_perceptron(
             self.x_train[:, :100].reshape(784, -1))
         acc = accuracy(self.saved_y[:, :100].reshape(1, -1), predictions1)
-        print(train_loss1)
-        print(acc)
         self.assertLessEqual(train_loss1[-1], 0.09)
         self.assertEqual(acc, 1)
 
+    def test_overfit_small_batch2(self):
         multi_layer_perceptron2 = MultiLayerPerceptron(
-            typeSupervised="multiclass", numberInputFeatures=784)
+            type_supervised_learning="multiclass", numberInputFeatures=784)
 
         multi_layer_perceptron2.add_layer(num_neurons=100,
                                           activation_function=ReLU(),
@@ -69,7 +68,7 @@ class TestBatchNorm(unittest.TestCase):
                                           activation_function=Softmax(),
                                           isSoftmax=True)
 
-        train_loss2, train_acc2 = multi_layer_perceptron2.fit(
+        train_loss2, _ = multi_layer_perceptron2.fit(
             self.x_train[:, :100].reshape(784, -1),
             self.y_train[:, :100],
             num_epochs=150,
@@ -79,14 +78,12 @@ class TestBatchNorm(unittest.TestCase):
         predictions2 = multi_layer_perceptron2.predict_multi_layer_perceptron(
             self.x_train[:, :100].reshape(784, -1))
         acc2 = accuracy(self.saved_y[:, :100].reshape(1, -1), predictions2)
-        print(train_loss2)
-        print(acc2)
         self.assertLessEqual(train_loss2[-1], 0.09)
         self.assertEqual(acc2, 1)
 
     def test_bigger_batch_batchnorm(self):
         multi_layer_perceptron = MultiLayerPerceptron(
-            typeSupervised="multiclass",
+            type_supervised_learning="multiclass",
             numberInputFeatures=784,
             regularization="L2",
             reg_parameter=0.01)
@@ -120,7 +117,7 @@ class TestBatchNorm(unittest.TestCase):
 
     def test_bigger_batch_normal(self):
         multi_layer_perceptron = MultiLayerPerceptron(
-            typeSupervised="multiclass", numberInputFeatures=784)
+            type_supervised_learning="multiclass", numberInputFeatures=784)
 
         multi_layer_perceptron.add_layer(num_neurons=100,
                                          activation_function=ReLU())
