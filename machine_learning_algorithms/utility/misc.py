@@ -31,6 +31,10 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     return output_matrix.T
 
 
+def rel_error(a: np.ndarray, b: np.ndarray) -> np.float64:
+    return np.float64(abs(a - b) / abs(a + b))
+
+
 def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
     """ This functions purpose is to create a one hot encoded vector
     of shape (n, 1) where n is the num_feature argument, and the value

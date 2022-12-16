@@ -3,6 +3,7 @@ functions used inside of neural networks """
 import numpy as np
 import random
 from typing import Union
+from machine_learning_algorithms.utility.misc import rel_error
 
 
 class BaseActivationFunction:
@@ -48,9 +49,8 @@ class BaseActivationFunction:
             grad_numeric = (activ_higher - activ_lower) / (2 * eps)
             print(grad_analytic)
             print(grad_numeric)
-            rel_error = abs(grad_analytic - grad_numeric) / abs(grad_analytic +
-                                                                grad_numeric)
-            print('rel error is %s' % (rel_error))
+            relative_erro = rel_error(grad_analytic, grad_numeric)
+            print('rel error is %s' % (relative_error))
 
 
 class Sigmoid(BaseActivationFunction):
@@ -172,11 +172,9 @@ class Softmax(BaseActivationFunction):
             numerical_gradient_all_outputs = (output_xupeps -
                                               output_xdowneps) / (2 * eps)
 
-            rel_error = abs(analytical_gradient_wrt_idx_checking -
-                            numerical_gradient_all_outputs) / abs(
-                                numerical_gradient_all_outputs +
-                                analytical_gradient_wrt_idx_checking)
-            output_array[i, :] = rel_error.reshape(1, -1)
+            rel_error_curr = rel_error(analytical_gradient_wrt_idx_checking,
+                                       numerical_gradient_all_outputs)
+            output_array[i, :] = rel_error_curr.reshape(1, -1)
         return output_array
 
 
