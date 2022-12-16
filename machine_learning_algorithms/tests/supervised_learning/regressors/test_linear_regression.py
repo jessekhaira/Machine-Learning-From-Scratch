@@ -39,19 +39,26 @@ class TestLinearRegression(unittest.TestCase):
 
     def test1(self) -> None:
         lr_obj = LinearRegression(degree=1)
-        sklearn_lr_obj = skl_lr(penalty=None)
         lr_obj.fit_iterative_optimizer(xtrain=self.x_train,
                                        ytrain=self.y_train,
                                        num_epochs=500,
                                        ret_train_loss=True,
                                        learn_rate=0.01)
-        sklearn_lr_obj.fit(self.x_train.T, self.y_train.T)
         preds = lr_obj.predict_linear_regression(self.x_test)
-        preds_skl = sklearn_lr_obj.predict(self.x_test.T)
-
         r_squared_val = r_squared(self.y_test, preds)
+
+        sklearn_lr_obj = skl_lr(penalty=None)
+        sklearn_lr_obj.fit(self.x_train.T, self.y_train.T)
+        preds_skl = sklearn_lr_obj.predict(self.x_test.T)
         r_squared_val_skl = r_squared(self.y_test, preds_skl.T)
         self.assertTrue(abs(r_squared_val - r_squared_val_skl) <= 1e-2)
+
+    def test_poly_features(self) -> None:
+        poly = preprocessing.PolynomialFeatures(degree=3, include_bias=False)
+        lr_obj = LinearRegression(3)
+        x_poly_train = poly.fit_transform(self.x_train.T)
+        lr_data_poly = lr_obj._get_polynomial_features(self.x_train)
+        self.assertEqual(x_poly_train.T.shape, lr_data_poly.shape)
 
 
 if __name__ == "__main__":
