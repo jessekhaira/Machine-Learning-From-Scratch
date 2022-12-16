@@ -60,9 +60,16 @@ class TestLinearRegression(unittest.TestCase):
 
         self.assertTrue(r_squared_val >= r_squared_val_skl)
 
-    def test_poly_features(self) -> None:
+    def test_poly_features1(self) -> None:
         poly = preprocessing.PolynomialFeatures(degree=2, include_bias=False)
         lr_obj = LinearRegression(2)
+        x_poly_train = poly.fit_transform(self.x_train.T)
+        lr_data_poly = lr_obj._get_polynomial_features(self.x_train)
+        self.assertEqual(x_poly_train.T.shape, lr_data_poly.shape)
+
+    def test_poly_features2(self) -> None:
+        poly = preprocessing.PolynomialFeatures(degree=4, include_bias=False)
+        lr_obj = LinearRegression(4)
         x_poly_train = poly.fit_transform(self.x_train.T)
         lr_data_poly = lr_obj._get_polynomial_features(self.x_train)
         self.assertEqual(x_poly_train.T.shape, lr_data_poly.shape)
