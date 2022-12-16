@@ -51,7 +51,7 @@ class TestLinearRegression(unittest.TestCase):
 
         r_squared_val = r_squared(self.y_test, preds)
         r_squared_val_skl = r_squared(self.y_test, preds_skl.T)
-        self.assertTrue(abs(r_squared_val - r_squared_val_skl) <= 0.09)
+        self.assertTrue(abs(r_squared_val - r_squared_val_skl) <= 1e-2)
 
 
 if __name__ == "__main__":
