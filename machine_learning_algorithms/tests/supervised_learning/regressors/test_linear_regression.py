@@ -1,5 +1,6 @@
 """ This module contains unit tests for the linear regression
 algorithm """
+import numpy as np
 import unittest
 import sklearn.datasets
 import sklearn.metrics
@@ -11,6 +12,7 @@ from sklearn import preprocessing
 from machine_learning_algorithms.supervised_learning.regression.linear_regression import (
     LinearRegression, LassoRegression, RidgeRegression)
 from machine_learning_algorithms.utility.score_functions import r_squared
+from machine_learning_algorithms.utility.misc import rel_error
 
 
 class TestLinearRegression(unittest.TestCase):
@@ -24,6 +26,7 @@ class TestLinearRegression(unittest.TestCase):
             x, y, test_size=0.10, random_state=42)
 
         self.x_train = preprocessing.scale(self.x_train)
+        print(self.x_train.shape)
         self.x_test = preprocessing.scale(self.x_test).T
         self.y_test = self.y_test.T.reshape(1, -1)
         self.x_train, self.x_valid, self.y_train, self.y_valid = (
@@ -54,8 +57,8 @@ class TestLinearRegression(unittest.TestCase):
         self.assertTrue(abs(r_squared_val - r_squared_val_skl) <= 1e-2)
 
     def test_poly_features(self) -> None:
-        poly = preprocessing.PolynomialFeatures(degree=3, include_bias=False)
-        lr_obj = LinearRegression(3)
+        poly = preprocessing.PolynomialFeatures(degree=2, include_bias=False)
+        lr_obj = LinearRegression(2)
         x_poly_train = poly.fit_transform(self.x_train.T)
         lr_data_poly = lr_obj._get_polynomial_features(self.x_train)
         self.assertEqual(x_poly_train.T.shape, lr_data_poly.shape)
