@@ -215,6 +215,29 @@ class TestLassoRegression(unittest.TestCase):
         print(r_squared_val, r_squared_val_skl, 'lasso obj 2')
         self.assertTrue(r_squared_val >= r_squared_val_skl)
 
+    def test3(self) -> None:
+        lasso_obj = LassoRegression(1, 100)
+        lasso_obj.fit_iterative_optimizer(xtrain=self.x_train,
+                                          ytrain=self.y_train,
+                                          num_epochs=700,
+                                          ret_train_loss=True,
+                                          learn_rate=0.1)
+        preds = lasso_obj.predict_linear_regression(self.x_test)
+        r_squared_val = r_squared(self.y_test, preds)
+
+        sklearn_lr_obj = skl_lr(penalty='l1',
+                                learning_rate='constant',
+                                eta0=0.1,
+                                alpha=100,
+                                max_iter=700,
+                                random_state=30)
+        sklearn_lr_obj.fit(self.x_train_sklearn, self.y_train_sklearn)
+        preds_skl = sklearn_lr_obj.predict(self.x_test_sklearn).reshape(1, -1)
+        assert preds_skl.shape == self.y_test.shape
+        r_squared_val_skl = r_squared(self.y_test, preds_skl)
+        print(r_squared_val, r_squared_val_skl, 'lasso obj 2')
+        self.assertTrue(r_squared_val >= r_squared_val_skl)
+
 
 if __name__ == "__main__":
     unittest.main()
