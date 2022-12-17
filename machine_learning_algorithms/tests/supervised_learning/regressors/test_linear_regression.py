@@ -134,5 +134,31 @@ class TestLinearRegression(unittest.TestCase):
         self.assertTrue(r_squared_val >= r_squared_val_skl)
 
 
+class TestLassoRegression(unittest.TestCase):
+    """This class tests the implementation of the lasso regression algorithm"""
+
+    def setUp(self) -> None:
+        x, y = sklearn.datasets.load_diabetes(return_X_y=True)
+
+        self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
+            x, y, test_size=0.10, random_state=42)
+
+        std_scaler = StandardScaler()
+
+        self.x_train = std_scaler.fit_transform(self.x_train)
+        self.x_test = std_scaler.fit_transform(self.x_test).T
+        self.y_test = self.y_test.T.reshape(1, -1)
+        self.x_train, self.x_valid, self.y_train, self.y_valid = (
+            train_test_split(self.x_train,
+                             self.y_train,
+                             test_size=0.10,
+                             random_state=42))
+        self.x_train = self.x_train.T
+        self.x_valid = self.x_valid.T
+        self.y_train = self.y_train.T.reshape(1, -1)
+        self.y_valid = self.y_valid.T.reshape(1, -1)
+        return super().setUp()
+
+
 if __name__ == "__main__":
     unittest.main()
