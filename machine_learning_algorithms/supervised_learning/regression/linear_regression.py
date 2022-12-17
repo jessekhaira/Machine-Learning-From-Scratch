@@ -95,9 +95,9 @@ class BaseLinearRegression(NeuralNetworkBase):
         # the fit method is basically the same as the neural net base, other
         # than the transformation of the features that needs to take place
         # before fitting
-        xtrain = self._get_polynomial_features(xtrain)
+        xtrain = self.gen_polynomial_features(xtrain)
         if xvalid is not None:
-            xvalid = self._get_polynomial_features(xvalid)
+            xvalid = self.gen_polynomial_features(xvalid)
         # Number of features is on the rows, so num_input == len(X_poly)
         self.num_input = len(xtrain)
         # Linear regression models have one layer with one neuron using an
@@ -122,10 +122,10 @@ class BaseLinearRegression(NeuralNetworkBase):
         # the predict method is basically the same as the neural net base,
         # other than the transformation of the features to the polynomial
         # features that needs to take place before fitting
-        x_poly = self._get_polynomial_features(x)
+        x_poly = self.gen_polynomial_features(x)
         return self.predict(x_poly)
 
-    def _get_polynomial_features(self, dataset: np.ndarray) -> np.ndarray:
+    def gen_polynomial_features(self, dataset: np.ndarray) -> np.ndarray:
         # Features on rows, examples on columns
         if self.degree == 1:
             return dataset
@@ -146,7 +146,7 @@ class BaseLinearRegression(NeuralNetworkBase):
             new_x[feature_idx, :] = np.prod(dataset[combo_features, :], axis=0)
         # Preprocess your new dataset after you've made all the features
         # that you want to use
-        new_x = preprocessing.scale(new_x.T)
+        new_x = preprocessing.StandardScaler().fit_transform(new_x.T)
         return new_x.T
 
     def _get_combos(self, num_features: int, degree: int):
