@@ -212,7 +212,6 @@ class TestLassoRegression(unittest.TestCase):
         preds_skl = sklearn_lr_obj.predict(self.x_test_sklearn).reshape(1, -1)
         assert preds_skl.shape == self.y_test.shape
         r_squared_val_skl = r_squared(self.y_test, preds_skl)
-        print(r_squared_val, r_squared_val_skl, 'lasso obj 2')
         self.assertTrue(r_squared_val >= r_squared_val_skl)
 
     def test3(self) -> None:
@@ -235,8 +234,27 @@ class TestLassoRegression(unittest.TestCase):
         preds_skl = sklearn_lr_obj.predict(self.x_test_sklearn).reshape(1, -1)
         assert preds_skl.shape == self.y_test.shape
         r_squared_val_skl = r_squared(self.y_test, preds_skl)
-        print(r_squared_val, r_squared_val_skl, 'lasso obj 2')
         self.assertTrue(r_squared_val >= r_squared_val_skl)
+
+    def test4(self) -> None:
+        # using aggressive regularization should make parameters small
+        lasso_obj1 = LassoRegression(1, 0.5)
+        lasso_obj1.fit_iterative_optimizer(xtrain=self.x_train,
+                                           ytrain=self.y_train,
+                                           num_epochs=700,
+                                           ret_train_loss=True,
+                                           learn_rate=0.3)
+
+        param_vector1 = lasso_obj1.layers[0].W
+        lasso_obj2 = LassoRegression(1, 5)
+        lasso_obj2.fit_iterative_optimizer(xtrain=self.x_train,
+                                           ytrain=self.y_train,
+                                           num_epochs=700,
+                                           ret_train_loss=True,
+                                           learn_rate=0.3)
+        param_vector2 = lasso_obj2.layers[0].W
+        self.assertGreater(np.linalg.norm(param_vector1, 1),
+                           np.linalg.norm(param_vector2, 1))
 
 
 if __name__ == "__main__":
