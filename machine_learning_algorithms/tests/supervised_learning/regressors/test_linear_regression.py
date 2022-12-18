@@ -276,6 +276,35 @@ class TestLassoRegression(unittest.TestCase):
         self.assertGreater(np.linalg.norm(param_vector1, 1),
                            np.linalg.norm(param_vector2, 1))
 
+    def test1_polynominal(self) -> None:
+        lr_obj = LassoRegression(2, 0.1)
+        lr_obj.fit_iterative_optimizer(xtrain=self.x_train,
+                                       ytrain=self.y_train,
+                                       num_epochs=500,
+                                       ret_train_loss=True,
+                                       learn_rate=0.01)
+        preds = lr_obj.predict_linear_regression(self.x_test)
+        r_squared_val = r_squared(self.y_test, preds)
+
+        std_scaler = StandardScaler()
+        poly = preprocessing.PolynomialFeatures(degree=2, include_bias=False)
+        x_poly_trskl = std_scaler.fit_transform(
+            poly.fit_transform(self.x_train_sklearn))
+        x_poly_teskl = std_scaler.fit_transform(
+            poly.fit_transform(self.x_test_sklearn))
+        sklearn_lr_obj = skl_lr(penalty='l1',
+                                learning_rate='constant',
+                                eta0=0.01,
+                                alpha=0.1,
+                                max_iter=500,
+                                random_state=10)
+        sklearn_lr_obj.fit(x_poly_trskl, self.y_train_sklearn)
+        preds_skl = sklearn_lr_obj.predict(x_poly_teskl).reshape(1, -1)
+        assert self.y_test.shape == preds_skl.shape
+        r_squared_val_skl = r_squared(self.y_test, preds_skl)
+        print(r_squared_val_skl, r_squared_val)
+        self.assertTrue(r_squared_val >= r_squared_val_skl)
+
 
 if __name__ == "__main__":
     unittest.main()
