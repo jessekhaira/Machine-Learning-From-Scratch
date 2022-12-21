@@ -58,6 +58,21 @@ class TestSoftmaxActivation(unittest.TestCase):
                    TestSoftmaxActivation.softmax.get_derivative_wrt_input(a)))
 
 
+class TestSigmoid(unittest.TestCase):
+    """ This class tests the forward and backward pass for the sigmoid
+    activation function"""
+
+    @classmethod
+    def setUpClass(cls):
+        # completely stateless so we can initialize
+        # them inside the class and reuse them among tests
+        cls.Sigmoid = Sigmoid()
+        cls.rs = np.random.RandomState(32)
+
+    def test_forward1(self):
+        pass
+
+
 class TestGradientChecking(unittest.TestCase):
     """ This class tests the gradient checking method for some activation
     functions"""
@@ -103,21 +118,6 @@ class TestGradientChecking(unittest.TestCase):
         output_arr = TestGradientChecking.sigmoid.gradient_checking(
             x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
-
-
-class TestSigmoid(unittest.TestCase):
-    """ This class tests the forward and backward pass for the sigmoid
-    activation function"""
-
-    @classmethod
-    def setUpClass(cls):
-        # completely stateless so we can initialize
-        # them inside the class and reuse them among tests
-        cls.Sigmoid = Sigmoid()
-        cls.rs = np.random.RandomState(32)
-
-    def test_forward1(self):
-        pass
 
 
 if __name__ == "__main__":
