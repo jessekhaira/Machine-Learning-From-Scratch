@@ -92,6 +92,12 @@ class TestGradientChecking(unittest.TestCase):
             x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
+    def test_sigmoid2(self):
+        x = TestGradientChecking.rs.randn(30, 1)
+        output_arr = TestGradientChecking.sigmoid.gradient_checking(
+            x, num_checks=5)
+        self.assertTrue(np.all(output_arr <= 1e-10))
+
 
 class TestSigmoid(unittest.TestCase):
     """ This class tests the forward and backward pass for the sigmoid
