@@ -66,6 +66,7 @@ class TestGradientChecking(unittest.TestCase):
     def setUpClass(cls):
         cls.softmax = Softmax()
         cls.rs = np.random.RandomState(40)
+        cls.sigmoid = Sigmoid()
 
     def test_softmax1(self):
         x = TestGradientChecking.rs.randn(3, 1)
@@ -84,6 +85,12 @@ class TestGradientChecking(unittest.TestCase):
         output_arr = TestGradientChecking.softmax.gradient_checking(
             x, num_checks=50)
         self.assertTrue(np.all(output_arr <= 1e-7))
+
+    def test_sigmoid1(self):
+        x = TestGradientChecking.rs.randn(3, 1)
+        output_arr = TestGradientChecking.sigmoid.gradient_checking(
+            x, num_checks=5)
+        self.assertTrue(np.all(output_arr <= 1e-10))
 
 
 class TestSigmoid(unittest.TestCase):

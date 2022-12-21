@@ -26,13 +26,15 @@ class BaseActivationFunction:
     def get_derivative_wrt_input(self, x: np.ndarray):
         raise NotImplementedError
 
-    def gradient_checking(self, x: np.ndarray, num_checks: int = 10) -> None:
+    def gradient_checking(self,
+                          x: np.ndarray,
+                          num_checks: int = 10) -> np.ndarray:
         """ This method does a quick gradient check to ensure the
         da/dz for a given activation function is indeed correct.
 
         Args:
             x:
-                Numpy array of shape (m,1) 
+                Numpy array of shape (m,1)
 
             num_checks:
                 Integer representing the number of times to check the
@@ -40,17 +42,17 @@ class BaseActivationFunction:
         """
         eps = 1e-5
         random.seed(21)
-        for _ in range(num_checks):
+        output_array = np.zeros((num_checks, x.shape[0]))
+        for i in range(num_checks):
             x_upeps = x + eps
             activ_higher = self.compute_output(x_upeps)
             x_downeps = x - eps
             activ_lower = self.compute_output(x_downeps)
             grad_analytic = self.get_derivative_wrt_input(x)
             grad_numeric = (activ_higher - activ_lower) / (2 * eps)
-            print(grad_analytic)
-            print(grad_numeric)
-            relative_erro = rel_error(grad_analytic, grad_numeric)
-            print('rel error is %s' % (relative_error))
+            relative_error = rel_error(grad_analytic, grad_numeric)
+            output_array[i, :] = relative_error.T
+        return output_array
 
 
 class Sigmoid(BaseActivationFunction):
