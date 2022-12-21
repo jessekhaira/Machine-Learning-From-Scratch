@@ -59,7 +59,8 @@ class TestSoftmaxActivation(unittest.TestCase):
 
 
 class TestGradientChecking(unittest.TestCase):
-    """ This class tests the gradient checking method for some activation functions"""
+    """ This class tests the gradient checking method for some activation
+    functions"""
 
     @classmethod
     def setUpClass(cls):
