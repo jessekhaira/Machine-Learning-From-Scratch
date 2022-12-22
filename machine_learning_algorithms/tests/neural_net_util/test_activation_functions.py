@@ -66,11 +66,13 @@ class TestSigmoid(unittest.TestCase):
     def setUpClass(cls):
         # completely stateless so we can initialize
         # them inside the class and reuse them among tests
-        cls.Sigmoid = Sigmoid()
+        cls.sigmoid = Sigmoid()
         cls.rs = np.random.RandomState(32)
 
     def test_forward1(self):
-        pass
+        x = TestSigmoid.rs.randn(1, 10)
+        output = TestSigmoid.sigmoid.compute_output(x)
+        self.assertTrue(np.all((output >= 0) & (output <= 1)))
 
 
 class TestGradientChecking(unittest.TestCase):
@@ -136,7 +138,6 @@ class TestGradientChecking(unittest.TestCase):
         x = TestGradientChecking.rs.randn(350, 1)
         output_arr = TestGradientChecking.tanh.gradient_checking(x,
                                                                  num_checks=5)
-        print(output_arr)
         self.assertTrue(np.all(output_arr <= 1e-9))
 
 
