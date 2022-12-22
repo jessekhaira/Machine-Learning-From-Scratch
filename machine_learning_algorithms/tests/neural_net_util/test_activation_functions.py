@@ -103,6 +103,13 @@ class TestLeakyReLU(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.leaky_relu = LeakyReLU()
+        cls.rs = np.random.RandomState(32)
+
+    def test_forward1(self):
+        x = TestLeakyReLU.rs.randn(1, 10)
+        output = TestLeakyReLU.leaky_relu.compute_output(x)
+        self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
+        self.assertTrue(np.all((output[x < 0] - x[x < 0] * 0.01) == 0))
 
 
 class TestGradientChecking(unittest.TestCase):
