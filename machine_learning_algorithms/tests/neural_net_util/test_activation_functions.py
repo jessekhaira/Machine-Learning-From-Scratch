@@ -74,6 +74,11 @@ class TestSigmoid(unittest.TestCase):
         output = TestSigmoid.sigmoid.compute_output(x)
         self.assertTrue(np.all((output >= 0) & (output <= 1)))
 
+    def test_forward2(self):
+        x = TestSigmoid.rs.randn(5, 50)
+        output = TestSigmoid.sigmoid.compute_output(x)
+        self.assertTrue(np.all((output >= 0) & (output <= 1)))
+
 
 class TestGradientChecking(unittest.TestCase):
     """ This class tests the gradient checking method for some activation
