@@ -132,6 +132,13 @@ class TestGradientChecking(unittest.TestCase):
                                                                  num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
+    def test_tanh3(self):
+        x = TestGradientChecking.rs.randn(350, 1)
+        output_arr = TestGradientChecking.tanh.gradient_checking(x,
+                                                                 num_checks=5)
+        print(output_arr)
+        self.assertTrue(np.all(output_arr <= 1e-9))
+
 
 if __name__ == "__main__":
     unittest.main()
