@@ -217,6 +217,22 @@ class ReLU(BaseActivationFunction):
         return (x > 0) * 1
 
 
+class LeakyReLU(BaseActivationFunction):
+    """ This class represents the LeakyReLU activation function"""
+
+    def compute_output(self, x: np.ndarray, negative_slope=0.01):
+        self.negative_slope = negative_slope
+        return np.maximum(negative_slope * x, x)
+
+    def get_derivative_wrt_input(
+            self, x: Union[int, float,
+                           np.ndarray]) -> Union[int, float, np.ndarray]:
+        output_arr = np.zeros_like(x)
+        output_arr[x < 0] = self.negative_slope
+        output_arr[x > 0] = 1
+        return output_arr
+
+
 class TanH(BaseActivationFunction):
     """ This class represents the TanH function. The input can be a scalar,
     vector, or matrix, as TanH applies activations elementwise.
