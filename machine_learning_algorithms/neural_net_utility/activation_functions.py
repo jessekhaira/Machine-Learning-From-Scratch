@@ -218,7 +218,9 @@ class ReLU(BaseActivationFunction):
 
 
 class LeakyReLU(BaseActivationFunction):
-    """ This class represents the LeakyReLU activation function"""
+    """ This class represents the LeakyReLU activation function. The input
+    can be a scalar, vector, or matrix, as LeakyReLU applies
+    activations elementwise."""
 
     def compute_output(self, x: np.ndarray, negative_slope=0.01):
         self.negative_slope = negative_slope
