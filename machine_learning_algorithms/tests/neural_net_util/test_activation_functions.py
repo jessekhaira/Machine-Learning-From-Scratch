@@ -79,21 +79,18 @@ class TestSigmoid(unittest.TestCase):
         self.assertTrue(np.all((output >= 0) & (output <= 1)))
 
     def test_backward1(self):
-        x = TestGradientChecking.rs.randn(3, 1)
-        output_arr = TestGradientChecking.sigmoid.gradient_checking(
-            x, num_checks=5)
+        x = TestSigmoid.rs.randn(3, 1)
+        output_arr = TestSigmoid.sigmoid.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
     def test_backward2(self):
-        x = TestGradientChecking.rs.randn(30, 1)
-        output_arr = TestGradientChecking.sigmoid.gradient_checking(
-            x, num_checks=5)
+        x = TestSigmoid.rs.randn(30, 1)
+        output_arr = TestSigmoid.sigmoid.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
     def test_backward3(self):
-        x = TestGradientChecking.rs.randn(350, 1)
-        output_arr = TestGradientChecking.sigmoid.gradient_checking(
-            x, num_checks=5)
+        x = TestSigmoid.rs.randn(350, 1)
+        output_arr = TestSigmoid.sigmoid.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
 
@@ -110,6 +107,11 @@ class TestLeakyReLU(unittest.TestCase):
         output = TestLeakyReLU.leaky_relu.compute_output(x)
         self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
         self.assertTrue(np.all((output[x < 0] - x[x < 0] * 0.01) == 0))
+
+    def test_backward1(self):
+        x = TestLeakyReLU.rs.randn(3, 1)
+        output_arr = TestLeakyReLU.leaky_relu.gradient_checking(x, num_checks=5)
+        self.assertTrue(np.all(output_arr <= 1e-11))
 
 
 class TestGradientChecking(unittest.TestCase):
