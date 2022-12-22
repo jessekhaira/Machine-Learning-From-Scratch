@@ -3,7 +3,7 @@ activation functions """
 import numpy as np
 import unittest
 from machine_learning_algorithms.neural_net_utility.activation_functions import (
-    Softmax, Sigmoid, TanH, ReLU, IdentityActivation)
+    Softmax, Sigmoid, TanH, ReLU, LeakyReLU, IdentityActivation)
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_dz_softmax
 
@@ -95,6 +95,14 @@ class TestSigmoid(unittest.TestCase):
         output_arr = TestGradientChecking.sigmoid.gradient_checking(
             x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
+
+
+class TestLeakyReLU(unittest.TestCase):
+    """ This class tests the Leaky ReLU activation function"""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.leaky_relu = LeakyReLU()
 
 
 class TestGradientChecking(unittest.TestCase):
