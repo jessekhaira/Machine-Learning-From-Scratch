@@ -82,6 +82,7 @@ class TestGradientChecking(unittest.TestCase):
         cls.softmax = Softmax()
         cls.rs = np.random.RandomState(40)
         cls.sigmoid = Sigmoid()
+        cls.tanh = TanH()
 
     def test_softmax1(self):
         x = TestGradientChecking.rs.randn(3, 1)
@@ -117,6 +118,12 @@ class TestGradientChecking(unittest.TestCase):
         x = TestGradientChecking.rs.randn(350, 1)
         output_arr = TestGradientChecking.sigmoid.gradient_checking(
             x, num_checks=5)
+        self.assertTrue(np.all(output_arr <= 1e-10))
+
+    def test_tanh1(self):
+        x = TestGradientChecking.rs.randn(3, 1)
+        output_arr = TestGradientChecking.tanh.gradient_checking(x,
+                                                                 num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
 
