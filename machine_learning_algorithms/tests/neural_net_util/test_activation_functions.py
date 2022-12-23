@@ -160,6 +160,11 @@ class TestTanH(unittest.TestCase):
         cls.rs = np.random.RandomState(40)
         cls.tanh = TanH()
 
+    def test_forward1(self):
+        x = TestTanH.rs.randn(1, 10)
+        output = cast(np.ndarray, TestTanH.tanh.compute_output(x))
+        self.assertTrue(np.all((output >= -1) & (output <= 1)))
+
     def test_backward1(self):
         x = TestTanH.rs.randn(3, 1)
         output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
