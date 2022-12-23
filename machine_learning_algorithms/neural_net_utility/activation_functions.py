@@ -97,7 +97,7 @@ class IdentityActivation(BaseActivationFunction):
             function elementwise to the input
     """
 
-    def compute_output(self, x: np.ndarray):
+    def compute_output(self, x: Union[int, float, np.ndarray]):
         return x
 
     def get_derivative_wrt_input(self, x: np.ndarray):
