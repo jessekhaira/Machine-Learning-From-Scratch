@@ -225,10 +225,10 @@ class LeakyReLU(BaseActivationFunction):
     can be a scalar, vector, or matrix, as LeakyReLU applies
     activations elementwise."""
 
-    def compute_output(
-            self,
-            x: Union[int, float, np.ndarray],
-            negative_slope: float = 0.01) -> Union[int, float, np.ndarray]:
+    def compute_output(self,
+                       x: Union[int, float, np.ndarray],
+                       negative_slope: float = 0.01
+                      ) -> Union[np.int64, np.float64, np.ndarray]:
         self.negative_slope = negative_slope
         return np.maximum(negative_slope * x, x)
 

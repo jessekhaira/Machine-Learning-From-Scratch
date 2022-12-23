@@ -2,6 +2,7 @@
 activation functions """
 import numpy as np
 import unittest
+from typing import cast
 from machine_learning_algorithms.neural_net_utility.activation_functions import (
     Softmax, Sigmoid, TanH, ReLU, LeakyReLU, IdentityActivation)
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
@@ -104,7 +105,7 @@ class TestLeakyReLU(unittest.TestCase):
 
     def test_forward1(self):
         x = TestLeakyReLU.rs.randn(1, 10)
-        output = TestLeakyReLU.leaky_relu.compute_output(x)
+        output = cast(np.ndarray, TestLeakyReLU.leaky_relu.compute_output(x))
         self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
         self.assertTrue(np.all((output[x < 0] - x[x < 0] * 0.01) == 0))
 
@@ -112,6 +113,11 @@ class TestLeakyReLU(unittest.TestCase):
         x = 5
         output = TestLeakyReLU.leaky_relu.compute_output(x)
         self.assertEqual(output, 5)
+
+    def test_forward3(self):
+        x = 5.1231
+        output = TestLeakyReLU.leaky_relu.compute_output(x)
+        self.assertEqual(output, 5.1231)
 
     def test_backward1(self):
         x = TestLeakyReLU.rs.randn(3, 1)
