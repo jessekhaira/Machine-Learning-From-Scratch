@@ -152,6 +152,10 @@ class TestLeakyReLU(unittest.TestCase):
         self.assertTrue(np.all(output <= 1e-9))
 
 
+class TestTanH(unittest.TestCase):
+    """ This class tests the TanH activation function"""
+
+
 class TestGradientChecking(unittest.TestCase):
     """ This class tests the gradient checking method for some activation
     functions"""
