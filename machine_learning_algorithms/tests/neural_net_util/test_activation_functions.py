@@ -129,6 +129,11 @@ class TestLeakyReLU(unittest.TestCase):
         output = TestLeakyReLU.leaky_relu.gradient_checking(x, num_checks=25)
         self.assertTrue(np.all(output <= 1e-10))
 
+    def test_backward5(self):
+        x = TestLeakyReLU.rs.randn(100, 1000)
+        output = TestLeakyReLU.leaky_relu.gradient_checking(x, num_checks=25)
+        self.assertTrue(np.all(output <= 1e-9))
+
 
 class TestGradientChecking(unittest.TestCase):
     """ This class tests the gradient checking method for some activation

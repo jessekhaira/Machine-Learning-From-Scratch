@@ -43,7 +43,7 @@ class BaseActivationFunction:
         eps = 1e-5
         random.seed(21)
         if isinstance(x, np.ndarray):
-            output_array = np.zeros((num_checks, x.shape[0]))
+            output_array = np.zeros((num_checks, *x.shape))
         else:
             output_array = np.zeros((num_checks, 1))
         for i in range(num_checks):
@@ -54,7 +54,7 @@ class BaseActivationFunction:
             grad_analytic = self.get_derivative_wrt_input(x)
             grad_numeric = (activ_higher - activ_lower) / (2 * eps)
             relative_error = rel_error(grad_analytic, grad_numeric)
-            output_array[i, :] = relative_error.T
+            output_array[i] = relative_error
         return output_array
 
 
