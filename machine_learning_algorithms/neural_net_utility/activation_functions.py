@@ -42,7 +42,10 @@ class BaseActivationFunction:
         """
         eps = 1e-5
         random.seed(21)
-        output_array = np.zeros((num_checks, x.shape[0]))
+        if isinstance(x, np.ndarray):
+            output_array = np.zeros((num_checks, x.shape[0]))
+        else:
+            output_array = np.zeros((num_checks, 1))
         for i in range(num_checks):
             x_upeps = x + eps
             activ_higher = self.compute_output(x_upeps)
@@ -229,10 +232,7 @@ class LeakyReLU(BaseActivationFunction):
     def get_derivative_wrt_input(
             self, x: Union[int, float,
                            np.ndarray]) -> Union[int, float, np.ndarray]:
-        output_arr = np.zeros_like(x)
-        output_arr[x < 0] = self.negative_slope
-        output_arr[x > 0] = 1
-        return output_arr
+        return (x > 0) * 1 + (x < 0) * self.negative_slope
 
 
 class TanH(BaseActivationFunction):
