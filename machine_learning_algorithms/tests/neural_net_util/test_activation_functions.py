@@ -35,20 +35,20 @@ class TestSoftmaxActivation(unittest.TestCase):
         self.assertTrue(np.all(np.isclose(np.sum(a, axis=0, keepdims=True), 1)))
 
     def test_backward1(self):
-        x = TestGradientChecking.rs.randn(3, 1)
-        output_arr = TestGradientChecking.softmax.gradient_checking(
+        x = TestSoftmaxActivation.rs.randn(3, 1)
+        output_arr = TestSoftmaxActivation.softmax.gradient_checking(
             x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
     def test_backward2(self):
-        x = TestGradientChecking.rs.randn(30, 1)
-        output_arr = TestGradientChecking.softmax.gradient_checking(
+        x = TestSoftmaxActivation.rs.randn(30, 1)
+        output_arr = TestSoftmaxActivation.softmax.gradient_checking(
             x, num_checks=21)
         self.assertTrue(np.all(output_arr <= 1e-8))
 
     def test_backward3(self):
-        x = TestGradientChecking.rs.randn(350, 1)
-        output_arr = TestGradientChecking.softmax.gradient_checking(
+        x = TestSoftmaxActivation.rs.randn(350, 1)
+        output_arr = TestSoftmaxActivation.softmax.gradient_checking(
             x, num_checks=50)
         self.assertTrue(np.all(output_arr <= 1e-7))
 
@@ -155,34 +155,24 @@ class TestLeakyReLU(unittest.TestCase):
 class TestTanH(unittest.TestCase):
     """ This class tests the TanH activation function"""
 
-
-class TestGradientChecking(unittest.TestCase):
-    """ This class tests the gradient checking method for some activation
-    functions"""
-
     @classmethod
     def setUpClass(cls):
-        cls.softmax = Softmax()
         cls.rs = np.random.RandomState(40)
-        cls.sigmoid = Sigmoid()
         cls.tanh = TanH()
 
-    def test_tanh1(self):
-        x = TestGradientChecking.rs.randn(3, 1)
-        output_arr = TestGradientChecking.tanh.gradient_checking(x,
-                                                                 num_checks=5)
+    def test_backward1(self):
+        x = TestTanH.rs.randn(3, 1)
+        output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
-    def test_tanh2(self):
-        x = TestGradientChecking.rs.randn(30, 1)
-        output_arr = TestGradientChecking.tanh.gradient_checking(x,
-                                                                 num_checks=5)
+    def test_backward2(self):
+        x = TestTanH.rs.randn(30, 1)
+        output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
-    def test_tanh3(self):
-        x = TestGradientChecking.rs.randn(350, 1)
-        output_arr = TestGradientChecking.tanh.gradient_checking(x,
-                                                                 num_checks=5)
+    def test_backward3(self):
+        x = TestTanH.rs.randn(350, 1)
+        output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-9))
 
 
