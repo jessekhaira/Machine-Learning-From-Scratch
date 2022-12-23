@@ -108,6 +108,11 @@ class TestLeakyReLU(unittest.TestCase):
         self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
         self.assertTrue(np.all((output[x < 0] - x[x < 0] * 0.01) == 0))
 
+    def test_forward2(self):
+        x = 5
+        output = TestLeakyReLU.leaky_relu.compute_output(x)
+        self.assertEqual(output, 5)
+
     def test_backward1(self):
         x = TestLeakyReLU.rs.randn(3, 1)
         output_arr = TestLeakyReLU.leaky_relu.gradient_checking(x, num_checks=5)
