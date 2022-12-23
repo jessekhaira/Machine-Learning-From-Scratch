@@ -175,6 +175,11 @@ class TestTanH(unittest.TestCase):
         output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-9))
 
+    def test_backward4(self):
+        x = TestTanH.rs.randn(1, 1)
+        output_arr = TestTanH.tanh.gradient_checking(x, num_checks=50)
+        self.assertTrue(np.all(output_arr <= 1e-10))
+
 
 if __name__ == "__main__":
     unittest.main()
