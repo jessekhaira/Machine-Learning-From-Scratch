@@ -165,6 +165,11 @@ class TestTanH(unittest.TestCase):
         output = cast(np.ndarray, TestTanH.tanh.compute_output(x))
         self.assertTrue(np.all((output >= -1) & (output <= 1)))
 
+    def test_forward2(self):
+        x = 5
+        output = TestTanH.tanh.compute_output(x)
+        self.assertTrue((output - 1.0000908) <= 1e-8)
+
     def test_backward1(self):
         x = TestTanH.rs.randn(3, 1)
         output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
