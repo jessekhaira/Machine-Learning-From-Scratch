@@ -210,10 +210,10 @@ class TestReLU(unittest.TestCase):
         self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
         self.assertTrue(np.all((output[x < 0]) == 0))
 
-    # def test_backward1(self):
-    #     x = TestTanH.rs.randn(3, 1)
-    #     output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
-    #     self.assertTrue(np.all(output_arr <= 1e-10))
+    def test_backward1(self):
+        x = TestReLU.rs.randn(3, 1)
+        output_arr = TestReLU.ReLU.gradient_checking(x, num_checks=10)
+        self.assertTrue(np.all(output_arr <= 1e-10))
 
 
 if __name__ == "__main__":
