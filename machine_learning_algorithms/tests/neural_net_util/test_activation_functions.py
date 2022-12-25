@@ -196,5 +196,25 @@ class TestTanH(unittest.TestCase):
         self.assertTrue(np.all(output_arr <= 1e-10))
 
 
+class TestReLU(unittest.TestCase):
+    """ This class tests the TanH activation function"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rs = np.random.RandomState(40)
+        cls.ReLU = ReLU()
+
+    def test_forward1(self):
+        x = TestReLU.rs.randn(1, 10)
+        output = cast(np.ndarray, TestReLU.ReLU.compute_output(x))
+        self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
+        self.assertTrue(np.all((output[x < 0]) == 0))
+
+    # def test_backward1(self):
+    #     x = TestTanH.rs.randn(3, 1)
+    #     output_arr = TestTanH.tanh.gradient_checking(x, num_checks=5)
+    #     self.assertTrue(np.all(output_arr <= 1e-10))
+
+
 if __name__ == "__main__":
     unittest.main()
