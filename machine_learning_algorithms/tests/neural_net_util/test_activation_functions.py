@@ -218,8 +218,13 @@ class TestReLU(unittest.TestCase):
 
     def test_forward3(self):
         x = 12
-        output = cast(np.ndarray, TestReLU.ReLU.compute_output(x))
+        output = TestReLU.ReLU.compute_output(x)
         self.assertTrue(output, 12)
+
+    def test_forward4(self):
+        x = -15213.5123
+        output = TestReLU.ReLU.compute_output(x)
+        self.assertEqual(output, 0)
 
     def test_backward1(self):
         x = TestReLU.rs.randn(3, 1)
