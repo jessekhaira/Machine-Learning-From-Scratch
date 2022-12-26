@@ -216,6 +216,11 @@ class TestReLU(unittest.TestCase):
         self.assertTrue(np.all((output[x > 0] - x[x > 0]) == 0))
         self.assertTrue(np.all((output[x < 0]) == 0))
 
+    def test_forward3(self):
+        x = 12
+        output = cast(np.ndarray, TestReLU.ReLU.compute_output(x))
+        self.assertTrue(output, 12)
+
     def test_backward1(self):
         x = TestReLU.rs.randn(3, 1)
         output_arr = TestReLU.ReLU.gradient_checking(x, num_checks=10)
