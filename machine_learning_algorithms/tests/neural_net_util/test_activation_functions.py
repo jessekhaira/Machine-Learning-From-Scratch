@@ -9,7 +9,7 @@ from machine_learning_algorithms.neural_net_utility.loss_functions import CrossE
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import dl_dz_softmax
 
 
-class TestSoftmaxActivation(unittest.TestCase):
+class TestSoftmax(unittest.TestCase):
     """ This class contains tests for the softmax activation function"""
 
     @classmethod
