@@ -22,34 +22,31 @@ class TestSoftmax(unittest.TestCase):
 
     def test_forward1(self):
         # logits represent 4 classes, 5 examples
-        z = TestSoftmaxActivation.rs.randn(4, 5)
-        a = TestSoftmaxActivation.softmax.compute_output(z)
+        z = TestSoftmax.rs.randn(4, 5)
+        a = TestSoftmax.softmax.compute_output(z)
         self.assertTrue(isinstance(a, np.ndarray))
         # sum of every examples activated values should sum up to 1
         # according to softmax
         self.assertTrue(np.all(np.isclose(np.sum(a, axis=0, keepdims=True), 1)))
 
     def test_forward2(self):
-        z = TestSoftmaxActivation.rs.randn(55, 128)
-        a = TestSoftmaxActivation.softmax.compute_output(z)
+        z = TestSoftmax.rs.randn(55, 128)
+        a = TestSoftmax.softmax.compute_output(z)
         self.assertTrue(np.all(np.isclose(np.sum(a, axis=0, keepdims=True), 1)))
 
     def test_backward1(self):
-        x = TestSoftmaxActivation.rs.randn(3, 1)
-        output_arr = TestSoftmaxActivation.softmax.gradient_checking(
-            x, num_checks=5)
+        x = TestSoftmax.rs.randn(3, 1)
+        output_arr = TestSoftmax.softmax.gradient_checking(x, num_checks=5)
         self.assertTrue(np.all(output_arr <= 1e-10))
 
     def test_backward2(self):
-        x = TestSoftmaxActivation.rs.randn(30, 1)
-        output_arr = TestSoftmaxActivation.softmax.gradient_checking(
-            x, num_checks=21)
+        x = TestSoftmax.rs.randn(30, 1)
+        output_arr = TestSoftmax.softmax.gradient_checking(x, num_checks=21)
         self.assertTrue(np.all(output_arr <= 1e-8))
 
     def test_backward3(self):
-        x = TestSoftmaxActivation.rs.randn(350, 1)
-        output_arr = TestSoftmaxActivation.softmax.gradient_checking(
-            x, num_checks=50)
+        x = TestSoftmax.rs.randn(350, 1)
+        output_arr = TestSoftmax.softmax.gradient_checking(x, num_checks=50)
         self.assertTrue(np.all(output_arr <= 1e-7))
 
 
@@ -236,6 +233,11 @@ class TestReLU(unittest.TestCase):
         x = TestReLU.rs.randn(3, 1)
         output_arr = TestReLU.ReLU.gradient_checking(x, num_checks=10)
         self.assertTrue(np.all(output_arr <= 1e-10))
+
+    def test_backward2(self):
+        x = TestReLU.rs.randn(1, 1)
+        output_arr = TestReLU.ReLU.gradient_checking(x, num_checks=15)
+        self.assertTrue(np.all(output_arr <= 1e-11))
 
 
 if __name__ == "__main__":
