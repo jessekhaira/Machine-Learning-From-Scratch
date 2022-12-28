@@ -194,7 +194,7 @@ class TestTanH(unittest.TestCase):
 
 
 class TestReLU(unittest.TestCase):
-    """ This class tests the TanH activation function"""
+    """ This class tests the ReLU activation function"""
 
     @classmethod
     def setUpClass(cls):
@@ -253,6 +253,15 @@ class TestReLU(unittest.TestCase):
         x = TestReLU.rs.randn(50, 70)
         output = TestReLU.ReLU.gradient_checking(x, num_checks=25)
         self.assertTrue(np.all(output <= 1e-9))
+
+
+class TestIdentity(unittest.TestCase):
+    """ This class tests the Identity activation function"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.rs = np.random.RandomState(40)
+        cls.identity = IdentityActivation()
 
 
 if __name__ == "__main__":
