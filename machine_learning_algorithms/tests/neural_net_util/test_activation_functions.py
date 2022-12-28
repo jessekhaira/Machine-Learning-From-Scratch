@@ -249,6 +249,11 @@ class TestReLU(unittest.TestCase):
         output = TestReLU.ReLU.gradient_checking(x, num_checks=25)
         self.assertTrue(np.all(output <= 1e-10))
 
+    def test_backward5(self):
+        x = TestReLU.rs.randn(50, 70)
+        output = TestReLU.ReLU.gradient_checking(x, num_checks=25)
+        self.assertTrue(np.all(output <= 1e-9))
+
 
 if __name__ == "__main__":
     unittest.main()

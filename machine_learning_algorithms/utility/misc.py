@@ -33,7 +33,7 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
 
 def rel_error(a: np.ndarray, b: np.ndarray) -> np.float64:
     # you have to avoid divison by zero!
-    if np.all(abs(a + b) == 0):
+    if np.any(abs(a + b) == 0):
         return np.float64(abs(a - b))
     return np.float64(abs(a - b) / abs(a + b))
 
