@@ -283,6 +283,11 @@ class TestIdentity(unittest.TestCase):
         output = cast(np.ndarray, TestIdentity.identity.compute_output(x))
         self.assertTrue(np.all(x == output))
 
+    def test_backward1(self):
+        x = 5
+        output = TestIdentity.identity.gradient_checking(x)
+        self.assertTrue(np.all(output <= 1e-10))
+
 
 if __name__ == "__main__":
     unittest.main()
