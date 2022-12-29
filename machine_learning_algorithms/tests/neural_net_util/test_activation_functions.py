@@ -268,6 +268,11 @@ class TestIdentity(unittest.TestCase):
         output = cast(np.ndarray, TestIdentity.identity.compute_output(x))
         self.assertTrue(np.all(x == output))
 
+    def test_forward2(self):
+        x = TestIdentity.rs.randn(55, 80)
+        output = cast(np.ndarray, TestIdentity.identity.compute_output(x))
+        self.assertTrue(np.all(x == output))
+
 
 if __name__ == "__main__":
     unittest.main()
