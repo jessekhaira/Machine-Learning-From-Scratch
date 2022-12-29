@@ -278,6 +278,11 @@ class TestIdentity(unittest.TestCase):
         output = cast(np.ndarray, TestIdentity.identity.compute_output(x))
         self.assertTrue(np.all(x == output))
 
+    def test_forward4(self):
+        x = 15.12312
+        output = cast(np.ndarray, TestIdentity.identity.compute_output(x))
+        self.assertTrue(np.all(x == output))
+
 
 if __name__ == "__main__":
     unittest.main()
