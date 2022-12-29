@@ -293,6 +293,11 @@ class TestIdentity(unittest.TestCase):
         output = TestIdentity.identity.gradient_checking(x, num_checks=20)
         self.assertTrue(np.all(output <= 1e-10))
 
+    def test_backward3(self):
+        x = TestIdentity.rs.randn(50, 70)
+        output = TestIdentity.identity.gradient_checking(x, num_checks=20)
+        self.assertTrue(np.all(output <= 1e-10))
+
 
 if __name__ == "__main__":
     unittest.main()
