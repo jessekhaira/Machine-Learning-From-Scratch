@@ -263,6 +263,11 @@ class TestIdentity(unittest.TestCase):
         cls.rs = np.random.RandomState(40)
         cls.identity = IdentityActivation()
 
+    def test_forward1(self):
+        x = TestIdentity.rs.randn(1, 10)
+        output = cast(np.ndarray, TestIdentity.identity.compute_output(x))
+        self.assertTrue(np.all(x == output))
+
 
 if __name__ == "__main__":
     unittest.main()
