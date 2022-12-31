@@ -102,7 +102,7 @@ class LossFunction:
                                                grad_numeric)
                 output[i, j] = rel_error_computed
                 if i == 0:
-                    grad_computed[i, j] = grad_numeric
+                    grad_computed[j, i] = grad_numeric
         return output
 
 

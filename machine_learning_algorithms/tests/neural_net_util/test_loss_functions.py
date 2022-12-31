@@ -49,8 +49,10 @@ class TestCrossEntropy(unittest.TestCase):
     def test_backward1(self):
         y = np.array([1500, 2500, 49000, 5012]).reshape(-1, 1)
         yhat = np.array([2, 5, 1, 9], dtype=np.float64).reshape(-1, 1)
-        output = TestCrossEntropy.cross_entropy_object.gradient_checking(
+        rel_error_grad_array = TestCrossEntropy.cross_entropy_object.gradient_checking(
             y, yhat, num_checks=2)
+
+        self.assertTrue(np.all(rel_error_grad_array <= 1e-8))
 
 
 if __name__ == "__main__":
