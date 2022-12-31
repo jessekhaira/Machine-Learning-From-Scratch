@@ -55,7 +55,6 @@ class TestCrossEntropy(unittest.TestCase):
             TestCrossEntropy.cross_entropy_object.gradient_checking(
                 y, yhat, num_checks=2))
 
-        print(rel_error_computed_vectors)
         self.assertTrue(np.all(rel_error_grad_array <= 1e-8))
         self.assertTrue(np.all(rel_error_computed_vectors <= 1e-8))
 

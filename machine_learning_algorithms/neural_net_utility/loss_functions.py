@@ -1,7 +1,7 @@
 """ This module contains a variety of objective functions """
 import numpy as np
 import random
-from typing import Union, Literal, List, Any, Tuple
+from typing import Union, Literal, List, Any, Tuple, cast
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import rel_error
 
@@ -105,10 +105,12 @@ class LossFunction:
                 output[i, j] = rel_error_computed
 
                 # so we can compare vector to vector at the end
-                grad_computed[j, i] = grad_numeric
+                if i == 0:
+                    grad_computed[j, i] = grad_numeric
 
-        rel_error_analytic_numeric_vectors = rel_error(grad_analytic,
-                                                       grad_computed)
+        # Shape (C, m)
+        rel_error_analytic_numeric_vectors = cast(
+            np.ndarray, rel_error(grad_analytic, grad_computed))
         return output, rel_error_analytic_numeric_vectors
 
 

@@ -1,6 +1,7 @@
 """ This module contains miscellaneous utility functions used
 throughout the package"""
 import numpy as np
+from typing import Union
 
 
 def one_hot_encode(y: np.ndarray) -> np.ndarray:
@@ -31,7 +32,7 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     return output_matrix.T
 
 
-def rel_error(a: np.ndarray, b: np.ndarray) -> np.float64:
+def rel_error(a: np.ndarray, b: np.ndarray) -> Union[np.ndarray, np.float64]:
     # you have to avoid divison by zero!
     if np.any(abs(a + b) == 0):
         return np.float64(abs(a - b))
