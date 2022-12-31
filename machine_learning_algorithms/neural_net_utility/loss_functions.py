@@ -105,7 +105,7 @@ class LossFunction:
                 output[i, j] = rel_error_computed
 
                 # so we can compare vector to vector at the end
-                if i == 0:
+                if i < grad_computed.shape[1]:
                     grad_computed[j, i] = grad_numeric
 
         # Shape (C, m)
