@@ -90,7 +90,8 @@ class LossFunction:
         for i in range(num_checks):
             # multivariable scalar valued func -- hold all values constant
             # except one, which will be modified by a very small value eps,
-            # in order to compute dJ/da_j, to get numerical gradient
+            # in order to compute dJ/da_j, to get numerical gradient which can be
+            # compared to corresponding analytic gradient computed above
             for j in range(predictions.shape[0]):
                 p_upeps = np.copy(predictions)
                 p_upeps[j, 0] += eps
