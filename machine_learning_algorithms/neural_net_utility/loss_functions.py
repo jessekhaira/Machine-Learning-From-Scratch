@@ -65,11 +65,11 @@ class LossFunction:
 
         Args:
             labels:
-                Numpy array of shape (m,1), representing the labels
+                Numpy array of shape (C, m), representing the labels
                 for all input examples
 
             predictions:
-                Numpy array of shape (m,1), representing the predictions
+                Numpy array of shape (C,m), representing the predictions
                 for m examples
 
             num_checks:
@@ -104,7 +104,7 @@ class LossFunction:
                 if i == 0:
                     grad_computed[j, i] = grad_numeric
 
-        return output
+        return output,
 
 
 class NegativeLogLoss(LossFunction):
