@@ -1,7 +1,7 @@
 """ This module contains a variety of objective functions """
 import numpy as np
 import random
-from typing import Union, Literal, List, Any
+from typing import Union, Literal, List, Any, Tuple
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
 from machine_learning_algorithms.utility.misc import rel_error
 
@@ -56,10 +56,11 @@ class LossFunction:
                 reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
         return np.mean(data_loss + self.reg_parameter * reg_loss)
 
-    def gradient_checking(self,
-                          labels: np.ndarray,
-                          predictions: np.ndarray,
-                          num_checks: int = 10) -> np.ndarray:
+    def gradient_checking(
+            self,
+            labels: np.ndarray,
+            predictions: np.ndarray,
+            num_checks: int = 10) -> Tuple[np.ndarray, np.ndarray]:
         """ This method does a quick gradient check to ensure the
         dL/dA is indeed correct.
 
@@ -101,10 +102,13 @@ class LossFunction:
                 rel_error_computed = rel_error(grad_analytic[j, 0],
                                                grad_numeric)
                 output[i, j] = rel_error_computed
-                if i == 0:
-                    grad_computed[j, i] = grad_numeric
 
-        return output,
+                # so we can compare vector to vector at the end
+                grad_computed[j, i] = grad_numeric
+
+        rel_error_analytic_numeric_vectors = rel_error(grad_analytic,
+                                                       grad_computed)
+        return output, rel_error_analytic_numeric_vectors
 
 
 class NegativeLogLoss(LossFunction):

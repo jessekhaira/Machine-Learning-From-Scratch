@@ -51,11 +51,13 @@ class TestCrossEntropy(unittest.TestCase):
         # with 4 classes
         y = np.array([1500, 2500, 49000, 5012]).reshape(-1, 1)
         yhat = np.array([2, 5, 1, 9], dtype=np.float64).reshape(-1, 1)
-        rel_error_grad_array = (
+        rel_error_grad_array, rel_error_computed_vectors = (
             TestCrossEntropy.cross_entropy_object.gradient_checking(
                 y, yhat, num_checks=2))
 
+        print(rel_error_computed_vectors)
         self.assertTrue(np.all(rel_error_grad_array <= 1e-8))
+        self.assertTrue(np.all(rel_error_computed_vectors <= 1e-8))
 
 
 if __name__ == "__main__":
