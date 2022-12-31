@@ -103,6 +103,7 @@ class LossFunction:
                 output[i, j] = rel_error_computed
                 if i == 0:
                     grad_computed[j, i] = grad_numeric
+
         return output
 
 
@@ -304,7 +305,8 @@ class CrossEntropy(LossFunction):
         assert labels.shape == predictions.shape, (
             "Somethings wrong, your labels have to be the same shape as" +
             "the predictions!")
-        # -1/m dont forget in gradient!
+        # -1/m dont forget in gradient for minibatch gradient descent, averaging
+        # gradients over m examples
         dl_da = -(1 / labels.shape[1]) * (labels / predictions)
         return dl_da
 
