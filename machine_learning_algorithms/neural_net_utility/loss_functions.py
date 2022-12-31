@@ -3,13 +3,14 @@ import numpy as np
 import random
 from typing import Union, Literal, List, Any
 from machine_learning_algorithms.neural_net_utility.neural_net_layers import BaseNeuralNetworkLayer
+from machine_learning_algorithms.utility.misc import rel_error
 
 
 class LossFunction:
     """ This is the base class which all loss functions will inherit from.
 
     Every loss function will have a method of get_loss,
-    get_gradient_pred, and _gradient_checking, therefore it made
+    get_gradient_pred, and gradient_checking, therefore it made
     sense to make an abstract class from which all these related classes will
     inherit from.
 
@@ -29,8 +30,10 @@ class LossFunction:
         self.regularization = regularization
         self.reg_parameter = reg_parameter
 
-    def get_loss(self, labels: np.ndarray, predictions: np.ndarray,
-                 layers_of_weights: np.ndarray):
+    def get_loss(self,
+                 labels: np.ndarray,
+                 predictions: np.ndarray,
+                 layers_of_weights: Union[np.ndarray, None] = None):
         raise NotImplementedError
 
     def get_gradient_pred(self, labels: np.ndarray, predictions: np.ndarray):
@@ -53,23 +56,12 @@ class LossFunction:
                 reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
         return np.mean(data_loss + self.reg_parameter * reg_loss)
 
-    def _gradient_checking(self,
-                           labels: np.ndarray,
-                           predictions: np.ndarray,
-                           num_checks: int = 10) -> None:
+    def gradient_checking(self,
+                          labels: np.ndarray,
+                          predictions: np.ndarray,
+                          num_checks: int = 10) -> np.ndarray:
         """ This method does a quick gradient check to ensure the
         dL/dA is indeed correct.
-
-        Theoretically, we should be able to compute the loss with
-        respect to every single example at one time. It turns out
-        that you lose precision when you do it that way, so you
-        don't get appropriate results for when you compute the
-        gradient.
-
-        Specifically, np.log seems to not perform well in terms
-        of precise accuracy when applied to an entire vector. Thus,
-        we just compute, our loss with a single example at a time
-        as this seems to preserve accuracy much better.
 
         Args:
             labels:
@@ -85,25 +77,33 @@ class LossFunction:
                 gradient implentation
         """
         eps = 1e-7
-        random.seed(561)
-        for _ in range(num_checks):
-            if labels.shape[0] > 1:
-                # Reshape multiclass labels to be easier to work with
-                labels = labels.reshape(1, -1)
-                predictions = predictions.reshape(1, -1)
-            change_idx = np.random.randint(0, labels.shape[1])
-            y = labels[:, change_idx].reshape(1, 1)
-            p = predictions[:, change_idx].reshape(1, 1)
-            p_upeps = p + eps
-            loss_higher = self.get_loss(y, p_upeps, None)
-            p_downeps = p - eps
-            loss_lower = self.get_loss(y, p_downeps, None)
-            grad_analytic = self.get_gradient_pred(y, p)
-            grad_numeric = (loss_higher - loss_lower) / (2 * eps)
-            rel_error = abs(grad_analytic -
-                            grad_numeric) / abs(grad_analytic + grad_numeric +
-                                                eps)
-            print(f"rel error is {rel_error}")
+        output = np.zeros((num_checks, predictions.shape[0]))
+        np.random.seed(32)
+        # grad_analytic computes dJ/dpredictions for every single
+        # prediction in vectorized fashion -- we are going to specifically
+        # modify prediction @ every idx one at a time by upeps and downeps to
+        # compute dJ/dPred_i and we can slice out of grad analytic
+        # to compare them
+        grad_analytic = self.get_gradient_pred(labels, predictions)
+        grad_computed = np.zeros_like(grad_analytic)
+        for i in range(num_checks):
+            # multivariable scalar valued func -- hold all values constant
+            # except one, which will be modified by a very small value eps,
+            # in order to compute dJ/da_j, to get numerical gradient
+            for j in range(predictions.shape[0]):
+                p_upeps = np.copy(predictions)
+                p_upeps[j, 0] += eps
+                p_downeps = np.copy(predictions)
+                p_downeps[j, 0] -= eps
+                loss_upeps = self.get_loss(labels, p_upeps)
+                loss_downeps = self.get_loss(labels, p_downeps)
+                grad_numeric = (loss_upeps - loss_downeps) / (2 * eps)
+                rel_error_computed = rel_error(grad_analytic[j, 0],
+                                               grad_numeric)
+                output[i, j] = rel_error_computed
+                if i == 0:
+                    grad_computed[i, j] = grad_numeric
+        return output
 
 
 class NegativeLogLoss(LossFunction):
@@ -116,8 +116,7 @@ class NegativeLogLoss(LossFunction):
             self,
             labels: np.ndarray,
             predictions: np.ndarray,
-            layers_of_weights: Union[np.ndarray, Any,
-                                     None] = None) -> np.float32:
+            layers_of_weights: Union[np.ndarray, None] = None) -> np.float32:
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 
@@ -273,7 +272,7 @@ class CrossEntropy(LossFunction):
         """
         # Numerical stability issues -> we never want to take the log of 0
         # so we clip our predictions at a lowest val of 1e-10
-        predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
+        predictions = np.clip(predictions, 1e-10, None)
         data_loss = -(labels * np.log(predictions))
         if self.regularization and layers_of_weights:
             return self.data_loss_with_regularization(data_loss,

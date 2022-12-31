@@ -8,8 +8,10 @@ class TestCrossEntropy(unittest.TestCase):
     """ This class contains unit tests for the cross entropy
     function """
 
-    def setUp(self):
-        self.cross_entropy_object = CrossEntropy()
+    @classmethod
+    def setUpClass(cls):
+        cls.cross_entropy_object = CrossEntropy()
+        cls.rs = np.random.RandomState(32)
 
     def test_cross_entropy_loss1(self):
         y = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1]]).T
@@ -43,6 +45,12 @@ class TestCrossEntropy(unittest.TestCase):
         gradient = self.cross_entropy_object.get_gradient_pred(
             y.reshape(-1, 1), yhat.reshape(-1, 1))
         self.assertAlmostEqual(np.allclose(gradient, jacobian_matrix), True)
+
+    def test_backward1(self):
+        y = np.array([1500, 2500, 49000, 5012]).reshape(-1, 1)
+        yhat = np.array([2, 5, 1, 9], dtype=np.float64).reshape(-1, 1)
+        output = TestCrossEntropy.cross_entropy_object.gradient_checking(
+            y, yhat, num_checks=2)
 
 
 if __name__ == "__main__":
