@@ -55,8 +55,8 @@ class TestCrossEntropy(unittest.TestCase):
             TestCrossEntropy.cross_entropy_object.gradient_checking(
                 y, yhat, num_checks=2))
 
-        self.assertTrue(np.all(rel_error_grad_array <= 1e-8))
-        self.assertTrue(np.all(rel_error_computed_vectors <= 1e-8))
+        self.assertTrue(np.all(rel_error_grad_array <= 8e-9))
+        self.assertTrue(np.all(rel_error_computed_vectors <= 8e-9))
 
     def test_backward2(self):
         # shape (C, m) where m is number of examples ==  in this case
