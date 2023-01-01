@@ -25,7 +25,7 @@ class TestCrossEntropy(unittest.TestCase):
             rel_error(TestCrossEntropy.cross_entropy_object.get_loss(y, yhat),
                       np.float64(0.571599476)))
 
-        self.assertLessEqual(float(rel_error_val), 1e-09)
+        self.assertLessEqual(float(rel_error_val), 1e-9)
 
     def test_cross_entropy_gradient1(self):
         y = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1]]).T
