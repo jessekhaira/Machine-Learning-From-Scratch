@@ -91,25 +91,24 @@ class LossFunction:
             # except one, which will be modified by a very small value eps,
             # in order to compute dJ/da_j, to get numerical gradient which
             # can be compared to corresponding analytic gradient computed above
+            it = np.nditer(predictions, flags=["multi_index"])
+            while not it.finished:
+                i, j = it.multi_index
+                it.iternext()
+                p_upeps = np.copy(predictions)
+                p_upeps[i, j] += eps
+                p_downeps = np.copy(predictions)
+                p_downeps[i, j] -= eps
+                loss_upeps = self.get_loss(labels, p_upeps)
+                loss_downeps = self.get_loss(labels, p_downeps)
+                grad_numeric = (loss_upeps - loss_downeps) / (2 * eps)
+                rel_error_computed = rel_error(grad_analytic[i, j],
+                                               grad_numeric)
+                output[l, i, j] = rel_error_computed
 
-            # loop over m examples
-            for i in range(predictions.shape[1]):
-                # loop over C classes for each example
-                for j in range(predictions.shape[0]):
-                    p_upeps = np.copy(predictions)
-                    p_upeps[j, i] += eps
-                    p_downeps = np.copy(predictions)
-                    p_downeps[j, i] -= eps
-                    loss_upeps = self.get_loss(labels, p_upeps)
-                    loss_downeps = self.get_loss(labels, p_downeps)
-                    grad_numeric = (loss_upeps - loss_downeps) / (2 * eps)
-                    rel_error_computed = rel_error(grad_analytic[j, i],
-                                                   grad_numeric)
-                    output[l, j, i] = rel_error_computed
-
-                    # so we can compare vector to vector at the end
-                    if l == 0:
-                        grad_computed[j, i] = grad_numeric
+                # so we can compare vector to vector at the end
+                if l == 0:
+                    grad_computed[i, j] = grad_numeric
 
         # Shape (C, m)
         rel_error_analytic_numeric_vectors = cast(
