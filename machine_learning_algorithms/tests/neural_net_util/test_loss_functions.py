@@ -35,8 +35,9 @@ class TestCrossEntropy(unittest.TestCase):
                                     [0, 0, 0], [0, 0, -0.37037037]])
 
         self.assertEqual(
-            np.allclose(self.cross_entropy_object.get_gradient_pred(y, yhat),
-                        jacobian_matrix), True)
+            np.allclose(
+                TestCrossEntropy.cross_entropy_object.get_gradient_pred(
+                    y, yhat), jacobian_matrix), True)
 
     def test_cross_entropy_loss_2(self):
         y1 = np.array([0, 0, 1, 0]).T
