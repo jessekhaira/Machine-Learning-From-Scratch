@@ -15,7 +15,7 @@ class TestCrossEntropy(unittest.TestCase):
         cls.cross_entropy_object = CrossEntropy()
         cls.rs = np.random.RandomState(32)
 
-    def test_cross_entropy_loss1(self):
+    def test_forward1(self):
         y = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1]]).T
         yhat = np.array([[0.2, 0.4, 0.2, 0.2], [0.5, 0.2, 0.2, 0.1],
                          [0.4, 0.1, 0.2, 0.9]]).T
@@ -39,7 +39,7 @@ class TestCrossEntropy(unittest.TestCase):
                 TestCrossEntropy.cross_entropy_object.get_gradient_pred(
                     y, yhat), jacobian_matrix), True)
 
-    def test_cross_entropy_loss_2(self):
+    def test_forward2(self):
         y1 = np.array([0, 0, 1, 0]).T
         yhat1 = np.array([0.32574286, 0.081362, 0.0352241, 0.55767104]).T
         self.assertAlmostEqual(
