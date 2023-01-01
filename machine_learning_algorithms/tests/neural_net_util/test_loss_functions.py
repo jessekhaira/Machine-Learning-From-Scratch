@@ -22,7 +22,7 @@ class TestCrossEntropy(unittest.TestCase):
 
         rel_error_val = cast(
             np.float64,
-            rel_error(self.cross_entropy_object.get_loss(y, yhat),
+            rel_error(TestCrossEntropy.cross_entropy_object.get_loss(y, yhat),
                       np.float64(0.571599476)))
 
         self.assertLessEqual(float(rel_error_val), 1e-09)
