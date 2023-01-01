@@ -103,6 +103,20 @@ class TestCrossEntropy(unittest.TestCase):
         self.assertTrue(np.all(rel_error_grad_array <= 1e-4))
         self.assertTrue(np.all(rel_error_computed_vectors <= 1e-4))
 
+    def test_backward4(self):
+        y = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1], [0, 1, 0, 0],
+                      [0, 0, 1, 0]]).reshape(4, -1)
+        yhat = np.array([[0.2, 0.4, 0.2, 0.2], [0.5, 0.2, 0.2, 0.1],
+                         [0.4, 0.1, 0.2, 0.9], [0.33, 0.33, 0.1, 0.24],
+                         [0.5, 0.2, 0.2, 0.1]]).reshape(4, -1)
+
+        rel_error_grad_array, rel_error_computed_vectors = (
+            TestCrossEntropy.cross_entropy_object.gradient_checking(
+                y, yhat, num_checks=2))
+
+        self.assertTrue(np.all(rel_error_grad_array <= 1e-8))
+        self.assertTrue(np.all(rel_error_computed_vectors <= 1e-8))
+
 
 if __name__ == "__main__":
     unittest.main()
