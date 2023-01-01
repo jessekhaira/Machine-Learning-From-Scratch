@@ -42,8 +42,9 @@ class TestCrossEntropy(unittest.TestCase):
     def test_cross_entropy_loss_2(self):
         y1 = np.array([0, 0, 1, 0]).T
         yhat1 = np.array([0.32574286, 0.081362, 0.0352241, 0.55767104]).T
-        self.assertAlmostEqual(self.cross_entropy_object.get_loss(y1, yhat1),
-                               3.346024771559287)
+        self.assertAlmostEqual(
+            TestCrossEntropy.cross_entropy_object.get_loss(y1, yhat1),
+            3.346024771559287)
 
     def test_cross_entropy_gradient2(self):
         y = np.array([0, 0, 1, 0]).T
