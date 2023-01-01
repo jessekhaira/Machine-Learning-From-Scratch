@@ -42,7 +42,7 @@ class LossFunction:
     def data_loss_with_regularization(
         self, data_loss: np.ndarray,
         layers_of_weights: Union[np.ndarray, List[BaseNeuralNetworkLayer]]
-    ) -> np.float32:
+    ) -> np.float64:
         assert self.reg_parameter is not None, (
             "The regularization parameter must be specified" +
             "to get a regularized loss")
@@ -267,7 +267,7 @@ class CrossEntropy(LossFunction):
             labels: np.ndarray,
             predictions: np.ndarray,
             layers_of_weights: Union[np.ndarray, Any,
-                                     None] = None) -> np.float32:
+                                     None] = None) -> np.float64:
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 

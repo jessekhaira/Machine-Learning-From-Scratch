@@ -2,6 +2,8 @@
 import numpy as np
 import unittest
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
+from machine_learning_algorithms.utility.misc import rel_error
+from typing import cast
 
 
 class TestCrossEntropy(unittest.TestCase):
@@ -18,8 +20,12 @@ class TestCrossEntropy(unittest.TestCase):
         yhat = np.array([[0.2, 0.4, 0.2, 0.2], [0.5, 0.2, 0.2, 0.1],
                          [0.4, 0.1, 0.2, 0.9]]).T
 
-        self.assertAlmostEqual(self.cross_entropy_object.get_loss(y, yhat),
-                               0.5715994760306422)
+        rel_error_val = cast(
+            np.float64,
+            rel_error(self.cross_entropy_object.get_loss(y, yhat),
+                      np.float64(0.571599476)))
+
+        self.assertLessEqual(float(rel_error_val), 1e-09)
 
     def test_cross_entropy_gradient1(self):
         y = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 1]]).T
