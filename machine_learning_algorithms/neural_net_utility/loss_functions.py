@@ -56,11 +56,10 @@ class LossFunction:
                 reg_loss += np.linalg.norm(layers_of_weights[i].W, ord=1)
         return np.mean(data_loss + self.reg_parameter * reg_loss)
 
-    def gradient_checking(
-            self,
-            labels: np.ndarray,
-            predictions: np.ndarray,
-            num_checks: int = 10) -> Tuple[np.ndarray, np.ndarray]:
+    def gradient_checking(self,
+                          labels: np.ndarray,
+                          predictions: np.ndarray,
+                          num_checks: int = 4) -> Tuple[np.ndarray, np.ndarray]:
         """ This method does a quick gradient check to ensure the
         dL/dA is indeed correct.
 
@@ -78,7 +77,7 @@ class LossFunction:
                 gradient implentation
         """
         eps = 1e-7
-        output = np.zeros((num_checks, predictions.shape[0]))
+        output = np.zeros((num_checks, *predictions.shape))
         np.random.seed(32)
         # grad_analytic computes dJ/dpredictions for every single
         # prediction in vectorized fashion -- we are going to specifically
@@ -87,26 +86,30 @@ class LossFunction:
         # to compare them
         grad_analytic = self.get_gradient_pred(labels, predictions)
         grad_computed = np.zeros_like(grad_analytic)
-        for i in range(num_checks):
+        for l in range(num_checks):
             # multivariable scalar valued func -- hold all values constant
             # except one, which will be modified by a very small value eps,
-            # in order to compute dJ/da_j, to get numerical gradient which can be
-            # compared to corresponding analytic gradient computed above
-            for j in range(predictions.shape[0]):
-                p_upeps = np.copy(predictions)
-                p_upeps[j, 0] += eps
-                p_downeps = np.copy(predictions)
-                p_downeps[j, 0] -= eps
-                loss_upeps = self.get_loss(labels, p_upeps)
-                loss_downeps = self.get_loss(labels, p_downeps)
-                grad_numeric = (loss_upeps - loss_downeps) / (2 * eps)
-                rel_error_computed = rel_error(grad_analytic[j, 0],
-                                               grad_numeric)
-                output[i, j] = rel_error_computed
+            # in order to compute dJ/da_j, to get numerical gradient which
+            # can be compared to corresponding analytic gradient computed above
 
-                # so we can compare vector to vector at the end
-                if i < grad_computed.shape[1]:
-                    grad_computed[j, i] = grad_numeric
+            # loop over m examples
+            for i in range(predictions.shape[1]):
+                # loop over C classes for each example
+                for j in range(predictions.shape[0]):
+                    p_upeps = np.copy(predictions)
+                    p_upeps[j, i] += eps
+                    p_downeps = np.copy(predictions)
+                    p_downeps[j, i] -= eps
+                    loss_upeps = self.get_loss(labels, p_upeps)
+                    loss_downeps = self.get_loss(labels, p_downeps)
+                    grad_numeric = (loss_upeps - loss_downeps) / (2 * eps)
+                    rel_error_computed = rel_error(grad_analytic[j, i],
+                                                   grad_numeric)
+                    output[l, j, i] = rel_error_computed
+
+                    # so we can compare vector to vector at the end
+                    if l == 0:
+                        grad_computed[j, i] = grad_numeric
 
         # Shape (C, m)
         rel_error_analytic_numeric_vectors = cast(
