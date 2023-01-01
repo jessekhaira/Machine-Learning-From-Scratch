@@ -32,6 +32,11 @@ def one_hot_encode(y: np.ndarray) -> np.ndarray:
     return output_matrix.T
 
 
+def get_unique_counts_array(a: np.ndarray):
+    unique, counts = np.unique(a, return_counts=True)
+    return dict(zip(unique, counts))
+
+
 def rel_error(
         a: Union[np.float64, np.ndarray],
         b: Union[np.float64, np.ndarray]) -> Union[np.ndarray, np.float64]:
