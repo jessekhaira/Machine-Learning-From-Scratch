@@ -89,7 +89,7 @@ class LossFunction:
         for l in range(num_checks):
             # multivariable scalar valued func -- hold all values constant
             # except one, which will be modified by a very small value eps,
-            # in order to compute dJ/da_j, to get numerical gradient which
+            # in order to compute dJ/da_ij, to get numerical gradient which
             # can be compared to corresponding analytic gradient computed above
             it = np.nditer(predictions, flags=["multi_index"])
             while not it.finished:
