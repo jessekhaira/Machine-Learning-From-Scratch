@@ -93,22 +93,24 @@ class LossFunction:
             # can be compared to corresponding analytic gradient computed above
             it = np.nditer(predictions, flags=["multi_index"])
             while not it.finished:
-                i, j = it.multi_index
+                pred_i, example_j = it.multi_index
                 it.iternext()
                 p_upeps = np.copy(predictions)
-                p_upeps[i, j] += eps
+                p_upeps[pred_i, example_j] += eps
                 p_downeps = np.copy(predictions)
-                p_downeps[i, j] -= eps
+                p_downeps[pred_i, example_j] -= eps
                 loss_upeps = self.get_loss(labels, p_upeps)
                 loss_downeps = self.get_loss(labels, p_downeps)
-                grad_numeric = (loss_upeps - loss_downeps) / (2 * eps)
-                rel_error_computed = rel_error(grad_analytic[i, j],
-                                               grad_numeric)
-                output[l, i, j] = rel_error_computed
+                grad_numeric_predi_examplej = (loss_upeps -
+                                               loss_downeps) / (2 * eps)
+                rel_error_computed = rel_error(grad_analytic[pred_i, example_j],
+                                               grad_numeric_predi_examplej)
+                output[l, pred_i, example_j] = rel_error_computed
 
                 # so we can compare vector to vector at the end
                 if l == 0:
-                    grad_computed[i, j] = grad_numeric
+                    grad_computed[pred_i,
+                                  example_j] = grad_numeric_predi_examplej
 
         # Shape (C, m)
         rel_error_analytic_numeric_vectors = cast(
