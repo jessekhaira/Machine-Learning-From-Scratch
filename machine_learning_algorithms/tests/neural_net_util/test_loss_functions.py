@@ -100,6 +100,9 @@ class TestCrossEntropy(unittest.TestCase):
         self.assertTrue(percent_error_lesseq_bound >= 0.92)
         self.assertTrue(percent_error_lesseq_bound_vectors >= 0.93)
 
+        self.assertTrue(np.all(rel_error_grad_array <= 1e-4))
+        self.assertTrue(np.all(rel_error_computed_vectors <= 1e-4))
+
 
 if __name__ == "__main__":
     unittest.main()
