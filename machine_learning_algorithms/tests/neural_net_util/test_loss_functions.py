@@ -59,7 +59,7 @@ class TestCrossEntropy(unittest.TestCase):
         self.assertTrue(np.all(rel_error_computed_vectors <= 8e-9))
 
     def test_backward2(self):
-        # shape (C, m) where m is number of examples ==  in this case
+        # shape (C, m) where m is number of examples == 15 in this case
         y = TestCrossEntropy.rs.rand(10, 15)
         yhat = TestCrossEntropy.rs.rand(10, 15)
 
