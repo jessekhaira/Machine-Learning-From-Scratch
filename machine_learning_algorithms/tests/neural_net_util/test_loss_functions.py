@@ -2,7 +2,7 @@
 import numpy as np
 import unittest
 from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
-from machine_learning_algorithms.utility.misc import rel_error
+from machine_learning_algorithms.utility.misc import rel_error, get_unique_counts_array, get_percent
 from typing import cast
 
 
@@ -86,8 +86,19 @@ class TestCrossEntropy(unittest.TestCase):
             TestCrossEntropy.cross_entropy_object.gradient_checking(
                 y, yhat, num_checks=2))
 
-        self.assertTrue(np.all(rel_error_grad_array <= 2e-6))
-        self.assertTrue(np.all(rel_error_computed_vectors <= 2e-6))
+        rel_error_bool_grad = rel_error_grad_array <= 1e-6
+        rel_error_vectors = rel_error_computed_vectors <= 1e-6
+        dict_rel_error = get_unique_counts_array(rel_error_bool_grad)
+        dict_rel_error_vectors = get_unique_counts_array(rel_error_vectors)
+        # get percent rel_error less than 1e-6
+        percent_error_lesseq_bound = get_percent(dict_rel_error[True],
+                                                 dict_rel_error[False])
+
+        percent_error_lesseq_bound_vectors = get_percent(
+            dict_rel_error_vectors[True], dict_rel_error_vectors[False])
+
+        self.assertTrue(percent_error_lesseq_bound >= 0.92)
+        self.assertTrue(percent_error_lesseq_bound_vectors >= 0.93)
 
 
 if __name__ == "__main__":

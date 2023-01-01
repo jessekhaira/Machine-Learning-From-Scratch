@@ -46,6 +46,10 @@ def rel_error(
     return np.float64(abs(a - b) / abs(a + b))
 
 
+def get_percent(a, b):
+    return np.float64(round((a) / (a + b), 3))
+
+
 def one_hot_encode_feature(num_features: int, idx_one: int) -> np.ndarray:
     """ This functions purpose is to create a one hot encoded vector
     of shape (n, 1) where n is the num_feature argument, and the value
