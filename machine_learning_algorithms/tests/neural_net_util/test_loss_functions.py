@@ -57,8 +57,7 @@ class TestCrossEntropy(unittest.TestCase):
         expected = np.mean(-np.sum(y * np.log(yhat), axis=0, keepdims=True))
 
         rel_error_val = cast(np.float64, rel_error(output, expected))
-        print(output)
-        self.assertLessEqual(rel_error_val, 1e-9)
+        self.assertTrue(rel_error_val <= 1e-9)
 
     def test_cross_entropy_gradient2(self):
         y = np.array([0, 0, 1, 0]).T
