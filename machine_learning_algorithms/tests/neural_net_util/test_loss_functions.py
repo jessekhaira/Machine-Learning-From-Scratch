@@ -49,6 +49,17 @@ class TestCrossEntropy(unittest.TestCase):
                       np.float64(3.34602477)))
         self.assertTrue(rel_error_val <= 1e-9)
 
+    def test_forward3(self):
+        y = np.random.rand(35, 50) * 95
+        yhat = np.random.rand(35, 50) * 85
+
+        output = TestCrossEntropy.cross_entropy_object.get_loss(y, yhat)
+        expected = np.mean(-np.sum(y * np.log(yhat), axis=0, keepdims=True))
+
+        rel_error_val = cast(np.float64, rel_error(output, expected))
+        print(output)
+        self.assertTrue(rel_error_val <= 1e-9)
+
     def test_cross_entropy_gradient2(self):
         y = np.array([0, 0, 1, 0]).T
         yhat = np.array([0.32574286, 0.081362, 0.0352241, 0.55767104]).T
