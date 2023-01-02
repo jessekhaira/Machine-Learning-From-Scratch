@@ -58,7 +58,7 @@ class TestCrossEntropy(unittest.TestCase):
 
         rel_error_val = cast(np.float64, rel_error(output, expected))
         print(output)
-        self.assertTrue(rel_error_val <= 1e-9)
+        self.assertLessEqual(rel_error_val, 1e-9)
 
     def test_cross_entropy_gradient2(self):
         y = np.array([0, 0, 1, 0]).T
@@ -66,7 +66,9 @@ class TestCrossEntropy(unittest.TestCase):
         jacobian_matrix = np.array([[0, 0, -28.38965367, 0]]).T
         gradient = TestCrossEntropy.cross_entropy_object.get_gradient_pred(
             y.reshape(-1, 1), yhat.reshape(-1, 1))
-        self.assertAlmostEqual(np.allclose(gradient, jacobian_matrix), True)
+
+        rel_error_arr = rel_error(jacobian_matrix, gradient)
+        self.assertTrue(np.all(rel_error_arr <= 1e-8))
 
     def test_backward1(self):
         # shape (C, m) where m is number of examples == 1 in this case
