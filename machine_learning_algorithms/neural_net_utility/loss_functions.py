@@ -288,7 +288,7 @@ class CrossEntropy(LossFunction):
         """
         # Numerical stability issues -> we never want to take the log of 0
         # so we clip our predictions at a lowest val of 1e-10
-        predictions = np.clip(predictions, 1e-10, None)
+        predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         data_loss = -(labels * np.log(predictions))
         if self.regularization and layers_of_weights:
             return self.data_loss_with_regularization(data_loss,
