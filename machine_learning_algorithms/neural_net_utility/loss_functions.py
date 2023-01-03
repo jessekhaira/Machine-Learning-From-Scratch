@@ -132,13 +132,15 @@ class NegativeLogLoss(LossFunction):
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 
+        m - number of examples
+ 
         Args:
             labels:
-                Numpy array of shape (C,m), representing the labels for
+                Numpy array of shape (1,m), representing the labels for
                 all of the inputs
 
             predictions:
-                Numpy array of shape (C,m) representing predictions
+                Numpy array of shape (1,m) representing predictions
 
         Returns:
             Floating point value representing the loss
@@ -148,7 +150,7 @@ class NegativeLogLoss(LossFunction):
             "shape as the predictions!")
         # Numerical stability issues -> we never want to take the log of 0
         # so we clip our predictions at a lowest val of 1e-10
-        predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
+        predictions = np.clip(predictions, 1e-10, None)
         data_loss = -(labels * np.log(predictions) +
                       (1 - labels) * np.log(1 - predictions))
         if self.regularization and layers_of_weights:
