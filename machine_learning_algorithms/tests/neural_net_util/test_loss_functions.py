@@ -162,6 +162,16 @@ class TestNegativeLogLoss(unittest.TestCase):
 
         self.assertTrue(rel_error_val <= 1e-11)
 
+    def test_forward3(self):
+        y = np.array([1, 1, 1, 0]).reshape(1, -1)
+        yhat = np.array([0.33, 1, 1, 0]).reshape(1, -1)
+
+        computed_loss = TestNegativeLogLoss.negative_log_loss.get_loss(y, yhat)
+
+        rel_error_val = rel_error(computed_loss, np.float64(0.2771656562054028))
+
+        self.assertTrue(rel_error_val <= 1e-11)
+
 
 if __name__ == "__main__":
     unittest.main()

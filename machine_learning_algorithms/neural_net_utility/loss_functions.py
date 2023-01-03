@@ -149,8 +149,10 @@ class NegativeLogLoss(LossFunction):
             "Somethings wrong, your labels have to be the same " +
             "shape as the predictions!")
         # Numerical stability issues -> we never want to take the log of 0
-        # so we clip our predictions at a lowest val of 1e-10
-        predictions = np.clip(predictions, 1e-10, None)
+        # so we clip our predictions at a lowest val of 1e-10. Having preds
+        # exactly equal to 1 will also lead to nans (IE: log of 0), so we
+        # clip max val as well
+        predictions = np.clip(predictions, 1e-10, 1 - 1e-10)
         data_loss = -(labels * np.log(predictions) +
                       (1 - labels) * np.log(1 - predictions))
         if self.regularization and layers_of_weights:
