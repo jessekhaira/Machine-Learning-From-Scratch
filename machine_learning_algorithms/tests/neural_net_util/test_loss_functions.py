@@ -1,7 +1,7 @@
 """ This module contains tests for objective functions """
 import numpy as np
 import unittest
-from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy
+from machine_learning_algorithms.neural_net_utility.loss_functions import CrossEntropy, NegativeLogLoss
 from machine_learning_algorithms.utility.misc import rel_error, get_unique_counts_array, get_percent
 from typing import cast
 
@@ -131,6 +131,16 @@ class TestCrossEntropy(unittest.TestCase):
 
         self.assertTrue(np.all(rel_error_grad_array <= 1e-8))
         self.assertTrue(np.all(rel_error_computed_vectors <= 1e-8))
+
+
+class TestNegativeLogLoss(unittest.TestCase):
+    """ This class contains unit tests for the negative log loss
+    function """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.cross_entropy_object = NegativeLogLoss()
+        cls.rs = np.random.RandomState(32)
 
 
 if __name__ == "__main__":
