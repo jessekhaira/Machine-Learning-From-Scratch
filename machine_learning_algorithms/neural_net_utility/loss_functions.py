@@ -128,12 +128,12 @@ class NegativeLogLoss(LossFunction):
             self,
             labels: np.ndarray,
             predictions: np.ndarray,
-            layers_of_weights: Union[np.ndarray, None] = None) -> np.float32:
+            layers_of_weights: Union[np.ndarray, None] = None) -> np.float64:
         """ This method computes the loss for the predictions over the
         given labels, and adds a regularization loss as well if needed.
 
         m - number of examples
- 
+
         Args:
             labels:
                 Numpy array of shape (1,m), representing the labels for

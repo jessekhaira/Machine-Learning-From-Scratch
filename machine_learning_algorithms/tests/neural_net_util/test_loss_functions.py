@@ -139,8 +139,18 @@ class TestNegativeLogLoss(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.cross_entropy_object = NegativeLogLoss()
+        cls.negative_log_loss = NegativeLogLoss()
         cls.rs = np.random.RandomState(32)
+
+    def test_forward1(self):
+        y = np.array([0, 1, 0, 1, 0, 0, 1]).reshape(1, -1)
+        yhat = np.array([0.2, 0.8, 0.5, 0.3, 0.9, 0.9, 0.1]).reshape(1, -1)
+        computed_loss = TestNegativeLogLoss.negative_log_loss.get_loss(y, yhat)
+        expected_loss = np.mean(-(y * np.log(yhat) +
+                                  (1 - y) * np.log(1 - yhat)))
+
+        rel_error_val = rel_error(computed_loss, expected_loss)
+        self.assertTrue(rel_error_val <= 1e-9)
 
 
 if __name__ == "__main__":
