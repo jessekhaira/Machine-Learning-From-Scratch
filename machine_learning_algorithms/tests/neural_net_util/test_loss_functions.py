@@ -150,7 +150,17 @@ class TestNegativeLogLoss(unittest.TestCase):
                                   (1 - y) * np.log(1 - yhat)))
 
         rel_error_val = rel_error(computed_loss, expected_loss)
-        self.assertTrue(rel_error_val <= 1e-9)
+        self.assertTrue(rel_error_val <= 1e-11)
+
+    def test_forwad2(self):
+        y = np.array([0, 1, 0]).reshape(1, -1)
+        yhat = np.array([0.5, 0.2, 0.5]).reshape(1, -1)
+
+        computed_loss = TestNegativeLogLoss.negative_log_loss.get_loss(y, yhat)
+
+        rel_error_val = rel_error(computed_loss, np.float64(0.9985774245179969))
+
+        self.assertTrue(rel_error_val <= 1e-11)
 
 
 if __name__ == "__main__":
