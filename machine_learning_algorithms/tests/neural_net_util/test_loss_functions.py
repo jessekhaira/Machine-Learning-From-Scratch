@@ -185,6 +185,17 @@ class TestNegativeLogLoss(unittest.TestCase):
         self.assertTrue(np.all(rel_error_grad_array <= 1e-7))
         self.assertTrue(np.all(rel_error_computed_vectors <= 1e-7))
 
+    def test_backward2(self):
+        y = np.array([1500, 2500, 49000, 5012]).reshape(1, -1)
+        yhat = np.array([0.33, 0.33, 0.33, 0.01],
+                        dtype=np.float64).reshape(1, -1)
+        rel_error_grad_array, rel_error_computed_vectors = (
+            TestNegativeLogLoss.negative_log_loss.gradient_checking(
+                y, yhat, num_checks=2))
+
+        self.assertTrue(np.all(rel_error_grad_array <= 1e-7))
+        self.assertTrue(np.all(rel_error_computed_vectors <= 1e-7))
+
 
 if __name__ == "__main__":
     unittest.main()
